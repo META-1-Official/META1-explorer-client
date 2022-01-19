@@ -1,0 +1,8 @@
+.MuiPaginationItem-root {
+  color: $color-primary !important;
+}
+
+.MuiPaginationItem-root.Mui-selected {
+  color: $color-dark !important;
+  background-color: $background-color-accent !important;
+}

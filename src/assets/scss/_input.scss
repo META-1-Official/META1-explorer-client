@@ -1,0 +1,15 @@
+.MuiInputBase-root {
+  background-color: $background-color-light !important;
+
+  .MuiSvgIcon-root {
+    color: $color-secondary !important;
+  }
+
+  .MuiInputBase-input {
+    color: $color-primary !important;
+
+    ::placeholder {
+      color: $color-primary !important;
+    }
+  }
+}

@@ -1,0 +1,67 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 54px;
+  margin: 0;
+  padding: 0;
+  background-color: $background-color-primary;
+  list-style-type: none;
+  border-bottom: 1px solid $color-warn;
+
+  img {
+    width: 90px;
+    height: 30px;
+    padding: 0 1em;
+  }
+
+  .navbar-item {
+    display: flex;
+    align-items: center;
+    padding: 0 0.5em;
+    color: white;
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: $font-poppins;
+    text-decoration: none;
+    color: $color-primary;
+
+    &.active {
+      color: $color-secondary;
+    }
+
+    &:hover {
+      color: $color-secondary;
+    }
+  }
+
+  .navbar-dropdown {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding: 0 0.5em;
+
+    .MuiInputBase-root {
+      height: 36px !important;
+      color: $color-primary;
+      background-color: $background-color-primary;
+    }
+
+    .MuiSelect-icon {
+      color: $color-primary;
+    }
+  }
+
+  .navbar-help {
+    display: flex;
+    align-items: center;
+    color: $color-primary;
+    padding: 0 0.5em;
+    border-left: 1px solid $color-primary;
+    border-right: 1px solid $color-primary;
+
+    span {
+      margin-left: 0.5em;
+    }
+  }
+}
