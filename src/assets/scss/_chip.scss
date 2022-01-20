@@ -1,8 +1,10 @@
 .chip {
   text-transform: uppercase;
   border-radius: 5px;
-  font-size: 0.75rem;
-  font-weight: 400;
+  font-weight: normal;
+  font-size: 13px;
+  color: $color-white;
+  line-height: 51px;
   font-family: $font-poppins;
-  padding: 0.5em 1em;
+  padding: 8px 12px;
 }

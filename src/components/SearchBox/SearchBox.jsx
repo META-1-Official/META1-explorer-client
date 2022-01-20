@@ -13,7 +13,7 @@ export const SearchBox = ({placeholder, defaultValue, value, onChange}) => {
       InputProps={{
         endAdornment: (
           <IconButton>
-            <SearchIcon />
+            <SearchIcon sx={{width: '18px', height: '18px'}} />
           </IconButton>
         ),
       }}

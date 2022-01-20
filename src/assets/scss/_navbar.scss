@@ -2,12 +2,13 @@
   display: flex;
   align-items: center;
   width: 100%;
-  height: 54px;
+  height: 60px;
   margin: 0;
   padding: 0;
   background-color: $background-color-primary;
   list-style-type: none;
-  border-bottom: 1px solid $color-warn;
+  border: 1px solid $border-color;
+  box-sizing: border-box;
 
   img {
     width: 90px;
@@ -27,11 +28,11 @@
     color: $color-primary;
 
     &.active {
-      color: $color-secondary;
+      color: $color-accent;
     }
 
     &:hover {
-      color: $color-secondary;
+      color: $color-accent;
     }
   }
 
