@@ -1,0 +1,66 @@
+.card {
+  display: inline-flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.card-line-chart {
+  width: 275px;
+  height: 194px;
+  background-color: $background-color-warm;
+  border: 1px solid $border-color;
+  border-radius: 0.625em;
+  background: linear-gradient(
+    $background-color-warm,
+    $background-color-secondary
+  );
+
+  .card-body {
+    height: 118px;
+    padding: 1em;
+
+    .card-content {
+      display: flex;
+      padding: 0.25em;
+
+      .card-icon {
+        width: 52px;
+        height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: $background-color-primary;
+      }
+
+      .card-title {
+        display: flex;
+        flex-direction: column;
+        margin-left: 0.75em;
+
+        span {
+          color: $color-primary;
+          font-family: $font-poppins;
+          font-style: normal;
+
+          &:first-child {
+            font-size: 1rem;
+            font-weight: normal;
+            line-height: 1.75em;
+            text-transform: uppercase;
+          }
+
+          &:last-child {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.5em;
+          }
+        }
+      }
+    }
+  }
+
+  .card-action {
+    height: 76px;
+  }
+}
