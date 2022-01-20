@@ -1,6 +1,10 @@
 import WidgetsIcon from '@mui/icons-material/Widgets';
 
-import {LineChartCard, SearchCard} from '../../components/Card';
+import {
+  FilledLineChartCard,
+  LineChartCard,
+  SearchCard,
+} from '../../components/Card';
 
 export default function Dashboard() {
   return (
@@ -17,6 +21,7 @@ export default function Dashboard() {
         searchInputLabel="Block number"
         searchInputPlaceholder="Enter block number"
       />
+      <FilledLineChartCard />
     </div>
   );
 }

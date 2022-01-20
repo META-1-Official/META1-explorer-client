@@ -123,3 +123,36 @@
     }
   }
 }
+
+.card-filled-line-chart {
+  width: 408px;
+  height: 400px;
+  background: linear-gradient(
+    180deg,
+    $background-color-primary 0%,
+    $background-color-secondary 100%
+  );
+  border: 1px solid $color-accent;
+  box-sizing: border-box;
+  border-radius: 0.625em;
+
+  .card-body {
+    height: 138px;
+    display: flex;
+    padding: 2em;
+
+    span {
+      font-family: $font-poppins;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 1.25rem;
+      line-height: 1.75em;
+      color: $color-accent;
+    }
+  }
+
+  .card-action {
+    height: 262px;
+    display: flex;
+  }
+}
