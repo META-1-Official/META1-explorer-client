@@ -1,6 +1,7 @@
 import {useState} from 'react';
 
 import {Tab} from '../../components/Tab';
+import {Table} from '../../components/Table';
 
 const tabs = [
   {
@@ -23,6 +24,7 @@ export default function Dashboard() {
   return (
     <div className="page" style={{padding: '2em'}}>
       <Tab tabs={tabs} activeTab={activeTab} onChangeTab={setActiveTab} />
+      <Table />
       {/* <LineChartCard
         title="Block Number"
         number={8275717}
