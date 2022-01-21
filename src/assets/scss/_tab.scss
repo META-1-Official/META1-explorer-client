@@ -1,0 +1,23 @@
+.MuiTabs-root {
+  .MuiTabs-flexContainer {
+    .MuiTab-root {
+      height: 32px !important;
+      font-size: 0.875rem !important;
+      line-height: 2.125em !important;
+      color: $color-primary !important;
+      font-weight: 500 !important;
+      font-family: $font-poppins !important;
+      text-transform: capitalize !important;
+
+      &.Mui-selected {
+        color: $color-tab !important;
+        background-color: $background-color-accent !important;
+        border-radius: 3px;
+      }
+    }
+  }
+
+  .MuiTabs-indicator {
+    display: none !important;
+  }
+}
