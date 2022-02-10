@@ -38,11 +38,16 @@
     .MuiInputBase-root {
       height: 36px !important;
       color: $color-primary;
-      background-color: $background-color-primary;
+      background-color: $background-color-primary !important;
+
+      fieldset {
+        display: none !important;
+      }
     }
 
     .MuiSelect-icon {
-      color: $color-primary;
+      fill: $color-primary !important;
+      top: calc(50% - 0.6em) !important;
     }
 
     span {

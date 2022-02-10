@@ -10,6 +10,7 @@ import {Divider} from '../Divider';
 import logo from '../../assets/images/meta-logo.png';
 import dayNightImg from '../../assets/images/day-night.png';
 import helpImg from '../../assets/images/help.png';
+import flagImg from '../../assets/images/flag.png';
 
 export default function AppHeader() {
   const [language, setLanguage] = useState('en');
@@ -49,8 +50,12 @@ export default function AppHeader() {
           value={language}
           onChange={(event) => setLanguage(event.target.value)}
         >
-          <MenuItem value="en">EN</MenuItem>
-          <MenuItem value="cn">CN</MenuItem>
+          <MenuItem value="en">
+            <img alt="Flag" src={flagImg} className="img img-21" />
+          </MenuItem>
+          <MenuItem value="cn">
+            <img alt="Flag" src={flagImg} className="img img-21" />
+          </MenuItem>
         </Select>
       </div>
       <Divider style={{height: '38px'}} />
