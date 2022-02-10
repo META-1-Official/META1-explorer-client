@@ -2,6 +2,7 @@ import {call, put, takeEvery, takeLatest} from 'redux-saga/effects';
 import {ActionTypes} from './actions';
 
 function* fetchTransactions(action) {
+  console.log('action: ', action);
   try {
     //  const user = yield call(Api.fetchUser, action.payload.userId);
     yield put({

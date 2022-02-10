@@ -2,19 +2,21 @@ import {useState} from 'react';
 import {Link} from 'react-router-dom';
 
 import IconButton from '@mui/material/IconButton';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
-import logo from '../../assets/images/logo.png';
+import {Divider} from '../Divider';
+
+import logo from '../../assets/images/meta-logo.png';
+import dayNightImg from '../../assets/images/day-night.png';
+import helpImg from '../../assets/images/help.png';
 
 export default function AppHeader() {
   const [language, setLanguage] = useState('en');
 
   return (
     <nav className="navbar">
-      <img alt="logo" src={logo} />
+      <img alt="logo" src={logo} className="img img-logo" />
       <Link to="/" className="navbar-item active">
         Dashboard
       </Link>
@@ -39,7 +41,7 @@ export default function AppHeader() {
       <Link to="/" className="navbar-item">
         Governance
       </Link>
-      <div className="navbar-dropdown">
+      <div className="navbar-item">
         <Select
           labelId="language-select"
           id="language-select"
@@ -47,16 +49,18 @@ export default function AppHeader() {
           value={language}
           onChange={(event) => setLanguage(event.target.value)}
         >
-          <MenuItem value="en">En</MenuItem>
-          <MenuItem value="cn">Cn</MenuItem>
+          <MenuItem value="en">EN</MenuItem>
+          <MenuItem value="cn">CN</MenuItem>
         </Select>
       </div>
-      <div className="navbar-help">
-        <HelpOutlineIcon sx={{color: '#ffc000'}} />
-        <span>Get Help</span>
+      <Divider style={{height: '38px'}} />
+      <div className="navbar-item">
+        <img alt="Help" src={helpImg} className="img img-23" />
+        <span role="button">Get Help</span>
       </div>
+      <Divider style={{height: '38px'}} />
       <IconButton className="navbar-item">
-        <DarkModeOutlinedIcon sx={{color: '#ffc000'}} />
+        <img alt="Toggle Theme" src={dayNightImg} className="img img-21" />
       </IconButton>
     </nav>
   );

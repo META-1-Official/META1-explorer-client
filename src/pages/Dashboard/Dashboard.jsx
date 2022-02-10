@@ -1,43 +1,25 @@
-import {useState} from 'react';
+import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
-import {Tab} from '../../components/Tab';
-import {Table} from '../../components/Table';
+import {SearchBox} from '../../components/SearchBox';
 
-const tabs = [
-  {
-    value: 'operations',
-    label: 'Operations',
-  },
-  {
-    value: 'markets',
-    label: 'Markets',
-  },
-  {
-    value: 'holders',
-    label: 'Holders',
-  },
-];
+import * as commonSelectors from '../../store/common/selectors';
+import {ActionTypes} from '../../store/transactions/actions';
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState('operations');
+  useSelector(commonSelectors.isLoading);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({type: ActionTypes.FETCH_TRANSACTIONS, payload: 'aaa'});
+  }, [dispatch]);
 
   return (
     <div className="page" style={{padding: '2em'}}>
-      <Tab tabs={tabs} activeTab={activeTab} onChangeTab={setActiveTab} />
-      <Table />
-      {/* <LineChartCard
-        title="Block Number"
-        number={8275717}
-        icon={<WidgetsIcon sx={{color: '#ffc000'}} />}
+      <SearchBox
+        placeholder="Search for Amount"
+        onSearch={(ev) => console.log('search: ', ev)}
       />
-      <SearchCard
-        title="Search Block"
-        description="Search by block by inserting block number. No commas, no dots, just pure numbers."
-        searchInputSample="194"
-        searchInputLabel="Block number"
-        searchInputPlaceholder="Enter block number"
-      />
-      <FilledLineChartCard /> */}
     </div>
   );
 }
