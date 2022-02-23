@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
+import { HelmetProvider, Helmet } from 'react-helmet-async';
 
 import store from './store';
 import App from './App';
@@ -11,7 +12,12 @@ import './index.scss';
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <HelmetProvider>
+        <Helmet>
+          <title>Meta1</title>
+        </Helmet>
+        <App store={store} />
+      </HelmetProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),

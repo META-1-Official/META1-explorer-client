@@ -1,10 +1,12 @@
 import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
+import recycleState from 'redux-recycle'
 import createSagaMiddleware from 'redux-saga';
 import {createLogger} from 'redux-logger';
+import { loadState, saveState } from './localStorage'
 
 import * as reducers from './reducer';
 
-import {transactionsSaga} from './saga';
+import rootSaga from './saga';
 
 const initialState = {};
 const enhancers = [];
@@ -25,8 +27,16 @@ const composedEnhancers = compose(applyMiddleware(...middleware), ...enhancers);
 
 const reducer = combineReducers({...reducers});
 
-const store = createStore(reducer, initialState, composedEnhancers);
+const store = createStore(reducer, window.__PRELOADED_STATE__ || loadState(), composedEnhancers);
 
-sagaMiddleware.run(transactionsSaga);
+const createSaveState = (storeState) => {
+  return {}
+}
+
+store.subscribe(() => {
+  saveState(createSaveState(store.getState()))
+})
+
+sagaMiddleware.run(rootSaga);
 
 export default store;

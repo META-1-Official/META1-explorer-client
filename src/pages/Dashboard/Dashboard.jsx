@@ -6,7 +6,7 @@ import {SearchBox} from '../../components/SearchBox';
 import * as commonSelectors from '../../store/common/selectors';
 import {ActionTypes} from '../../store/transactions/actions';
 
-export default function Dashboard() {
+const Dashboard = () => {
   useSelector(commonSelectors.isLoading);
   const dispatch = useDispatch();
 
@@ -23,3 +23,5 @@ export default function Dashboard() {
     </div>
   );
 }
+
+export default Dashboard;
