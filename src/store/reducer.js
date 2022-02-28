@@ -1,11 +1,5 @@
-import {combineReducers} from 'redux';
+import common from './common/reducer';
+import transactions from './transactions/reducer';
+import explorer from './explorer/reducer';
 
-import commonReducer from './common/reducer';
-import transactionsReducer from './transactions/reducer';
-import explorerReducer from './explorer/reducer';
-
-export default combineReducers({
-  common: commonReducer,
-  transactions: transactionsReducer,
-  explorer: explorerReducer
-});
+export { common, transactions, explorer};

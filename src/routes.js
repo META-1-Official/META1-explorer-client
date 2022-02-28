@@ -9,7 +9,7 @@ export const routes = [
     component: Dashboard,
   },
   {
-    path: 'search',
+    path: '/search',
     component: Search,
   },
 ];

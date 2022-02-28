@@ -12,37 +12,46 @@ import dayNightImg from '../../assets/images/day-night.png';
 import helpImg from '../../assets/images/help.png';
 import flagImg from '../../assets/images/flag.png';
 
-export default function AppHeader() {
+const AppHeader = () => {
   const [language, setLanguage] = useState('en');
+  const [selected, setSelected] = useState('dashboard');
+
+  const handleClick = (route) => {
+    setSelected(route);
+  }
+
+  const routeStatus = (route) => {
+    return selected === route ? 'active' : '';
+  }
 
   return (
     <nav className="navbar">
       <img alt="logo" src={logo} className="img img-logo" />
-      <Link to="/" className="navbar-item active">
+      <Link to="/" className={`navbar-item ${routeStatus('dashboard')}`} onClick={()=>handleClick('dashboard')}>
         Dashboard
       </Link>
-      <Link to="/" className="navbar-item">
+      <Link to="/search" className={`navbar-item ${routeStatus('search')}`} onClick={()=>handleClick('search')}>
         Search
       </Link>
-      <Link to="/" className="navbar-item">
+      <Link to="/" className={`navbar-item ${routeStatus('transactions')}`} onClick={()=>handleClick('transactions')}>
         Transactions
       </Link>
-      <Link to="/" className="navbar-item">
+      <Link to="/" className={`navbar-item ${routeStatus('assets')}`} onClick={()=>handleClick('assets')}>
         Assets
       </Link>
-      <Link to="/" className="navbar-item">
+      <Link to="/" className={`navbar-item ${routeStatus('markets')}`} onClick={()=>handleClick('markets')}>
         Markets
       </Link>
-      <Link to="/" className="navbar-item">
+      <Link to="/" className={`navbar-item ${routeStatus('accounts')}`} onClick={()=>handleClick('accounts')}>
         Accounts
       </Link>
-      <Link to="/" className="navbar-item">
+      <Link to="/" className={`navbar-item ${routeStatus('fees')}`} onClick={()=>handleClick('fees')}>
         Fees
       </Link>
-      <Link to="/" className="navbar-item">
+      <Link to="/" className={`navbar-item ${routeStatus('governance')}`} onClick={()=>handleClick('governance')}>
         Governance
       </Link>
-      <div className="navbar-item">
+      <div className="navbar-item" style={{marginTop: '7px'}}>
         <Select
           labelId="language-select"
           id="language-select"
@@ -70,3 +79,5 @@ export default function AppHeader() {
     </nav>
   );
 }
+
+export default AppHeader;
