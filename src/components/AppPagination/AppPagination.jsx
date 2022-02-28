@@ -1,18 +1,14 @@
-import {useState} from 'react';
-
 import Pagination from '@mui/material/Pagination';
 
-export const AppPagination = () => {
-  const [pageNumber, setPageNumber] = useState(1);
-
+export const AppPagination = ({page, onChange}) => {
   const onPageChange = (_, newPageNumber) => {
-    setPageNumber(newPageNumber);
+    onChange(newPageNumber);
   };
 
   return (
     <Pagination
       count={10}
-      page={pageNumber}
+      page={page}
       shape="rounded"
       onChange={onPageChange}
     />
