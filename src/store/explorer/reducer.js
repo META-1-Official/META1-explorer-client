@@ -34,7 +34,7 @@ const explorerReducer = (state = initialState, action) => {
           isFetchingLastOperations: false
         }
       }
-      case types.HEADER_FETCH:
+    case types.HEADER_FETCH:
       return {
         ...state,
         header: {
@@ -58,6 +58,84 @@ const explorerReducer = (state = initialState, action) => {
           ...state.header,
           message: 'HEADER FETCHING ERROR',
           isFetchingHeader: false
+        }
+      }
+    case types.LAST_BLOCK_NUMBER_FETCH:
+      return {
+        ...state,
+        block: {
+          ...state.block,
+          isFetchingBlockNumber: true
+        }
+      }
+    case types.LAST_BLOCK_NUMBER_FETCH_SUCCESS:
+      return {
+        ...state,
+        block: {
+          ...state.block,
+          last_block_number: action.payload,
+          isFetchingBlockNumber: false
+        }
+      }
+    case types.LAST_BLOCK_NUMBER_FETCH_FAILURE:
+      return {
+        ...state,
+        block: {
+          ...state.block,
+          message: 'FETCHING ERROR',
+          isFetchingBlockNumber: false
+        }
+      }
+    case types.LOOKUP_ACCOUNTS_FETCH:
+      return {
+        ...state,
+        accounts: {
+          ...state.accounts,
+          isFetchingLookupAccounts: true
+        }
+      }
+    case types.LOOKUP_ACCOUNTS_FETCH_SUCCESS:
+      return {
+        ...state,
+        accounts: {
+          ...state.accounts,
+          lookup_accounts: action.payload,
+          isFetchingLookupAccounts: false
+        }
+      }
+    case types.LOOKUP_ACCOUNTS_FETCH_FAILURE:
+      return {
+        ...state,
+        accounts: {
+          ...state.accounts,
+          message: 'FETCHING ERROR',
+          isFetchingLookupAccounts: false
+        }
+      }
+    case types.LOOKUP_ASSETS_FETCH:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          isFetchingLookupAssets: true
+        }
+      }
+    case types.LOOKUP_ASSETS_FETCH_SUCCESS:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          lookup_accounts: action.payload,
+          isFetchingLookupAssets: false
+        }
+      }
+    case types.LOOKUP_ASSETS_FETCH_FAILURE:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          message: 'FETCHING ERROR',
+          isFetchingLookupAssets: false
         }
       }
     case types.UNSET:

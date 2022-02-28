@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 // import components
 import {LineChartCard} from '../../components/Card';
 import {Table} from '../../components/Table';
+import Loader from '../../components/Loader/Loader';
 
 // import icons
 import blockNumImg from '../../assets/images/block-num.png';
@@ -19,7 +20,6 @@ import committeeImg from '../../assets/images/committee.png';
 // import redux
 import actions from '../../store/actions';
 import selectors from '../../store/selectors';
-import Loader from '../../components/Loader/Loader';
 
 // import api
 import {opText} from '../../store/apis/explorer';
@@ -27,8 +27,13 @@ import {opText} from '../../store/apis/explorer';
 // import constants
 import {OPS_TYPE_LABELS} from '../../constants';
 
-const {getLastOperations, getHeader} = actions;
-const {getOperationData, isFetchingLastOperations, getHeaderData, isFetchingHeader} = selectors;
+const {fetchLastOperations, fetchHeader} = actions;
+const {
+  getOperations,
+  isFetchingLastOperations,
+  getHeader,
+  isFetchingHeader,
+} = selectors;
 
 const mock_chart_data = [
   {uv: 100},
@@ -84,7 +89,8 @@ const ButtonGroup = styled.div`
 
 const StyledButton = styled(Button)`
   color: white;
-  &:hover, &.on{
+  &:hover,
+  &.on {
     background: ${(props) => props.theme.palette.primary.main};
     color: black;
   }
@@ -160,14 +166,13 @@ const Dashboard = React.memo(() => {
   const dispatch = useDispatch();
 
   const fetchLastOps = (search_after) =>
-    dispatch(getLastOperations(search_after));
-    const fetchHeader = () =>
-    dispatch(getHeader());
+    dispatch(fetchLastOperations(search_after));
+  const fetchHeader = () => dispatch(getHeader());
 
   // selectors
-  const getHeadData = useSelector(getHeaderData);
+  const getHeadData = useSelector(getHeader);
   const isFetchingHead = useSelector(isFetchingHeader);
-  const getOpsData = useSelector(getOperationData);
+  const getOpsData = useSelector(getOperations);
   const isFetchingOps = useSelector(isFetchingLastOperations);
 
   // const vars
@@ -175,39 +180,38 @@ const Dashboard = React.memo(() => {
   const totalPages = getOpsData?.length === 0 ? 1 : getOpsData?.length / 20; // total number of pages = all ops / opsPerPage (=20)
   const headers = ['Operation', 'ID', 'Date and time', 'Block', 'Type']; // table headers
 
-  const buildOpTextPromises = (curPageOps) => curPageOps.map((op) => opText(
-    op.operation_type,
-    op.operation_history.op_object,
-  ));
+  const buildOpTextPromises = (curPageOps) =>
+    curPageOps.map((op) =>
+      opText(op.operation_type, op.operation_history.op_object),
+    );
 
   const getRows = () => {
     return curPageOps
-    ? Promise.all(buildOpTextPromises (curPageOps))
-      .then(opTxts => {
-        return opTxts.map((opTxt, index) => {
-          const op = curPageOps[index];
-          return {
-            Operation: [opTxt, 'html'],
-            ID: [op.account_history.operation_id, 'coloredText'],
-            'Date and time': [op.block_data.block_time, 'plainText'],
-            Block: [op.block_data.block_num, 'coloredText'],
-            Type: [op.operation_type, 'label'],
-          };
+      ? Promise.all(buildOpTextPromises(curPageOps)).then((opTxts) => {
+          return opTxts.map((opTxt, index) => {
+            const op = curPageOps[index];
+            return {
+              Operation: [opTxt, 'html'],
+              ID: [op.account_history.operation_id, 'coloredText'],
+              'Date and time': [op.block_data.block_time, 'plainText'],
+              Block: [op.block_data.block_num, 'coloredText'],
+              Type: [op.operation_type, 'label'],
+            };
+          });
         })
-      }) 
-    : Promise.resolve([])};
-
+      : Promise.resolve([]);
+  };
 
   useEffect(() => {
     fetchHeader(); // fetch header
     fetchLastOps(undefined); // first fetch with no search_after
   }, []);
 
-  const [v, setV] = useState(false); // the flag var for fethcing for change
+  const [v, setV] = useState(false); // the flag var for fethcing for only change
   useEffect(() => {
     if (curPageOps && !v) {
       setV(true);
-      getRows().then(rws => setRows(rws));
+      getRows().then((rws) => setRows(rws));
     }
   }, [curPageOps]);
 
@@ -268,7 +272,7 @@ const Dashboard = React.memo(() => {
         </LineChartsWrapper>
         <PieChartWrapper>
           <ButtonGroup>
-            <StyledButton className='on'>Operations</StyledButton>
+            <StyledButton className="on">Operations</StyledButton>
             <StyledButton>Markets</StyledButton>
             <StyledButton>Holders</StyledButton>
           </ButtonGroup>

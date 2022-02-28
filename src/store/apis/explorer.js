@@ -588,3 +588,27 @@ export const opText = (operation_type, operation) => {
     return operation_text;
   }
 }
+
+export const fetchLastBlockNumber = () => {
+  return axios.get(BASE_URL + '/last_block_number', {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}
+
+export const fetchLookupAssets = ({start}) => {  
+  return axios.get(BASE_URL + "/lookup_assets?start=" + start.toUpperCase(), {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}
+
+export const fetchLookupAccounts = ({start}) => {  
+  return axios.get(BASE_URL + "/lookup_accounts?start=" + start, {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}

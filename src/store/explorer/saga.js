@@ -26,6 +26,27 @@ export default function* watcherSaga() {
         generateFetchWorker,
         api.fetchHeader
       )
+    ),
+    takeLatest(
+      ...takeAllBundler(
+        types.LAST_BLOCK_NUMBER_FETCH,
+        generateFetchWorker,
+        api.fetchLastBlockNumber
+      )
+    ),
+    takeLatest(
+      ...takeAllBundler(
+        types.LOOKUP_ACCOUNTS_FETCH,
+        generateFetchWorker,
+        api.fetchLookupAccounts
+      )
+    ),
+    takeLatest(
+      ...takeAllBundler(
+        types.LOOKUP_ASSETS_FETCH,
+        generateFetchWorker,
+        api.fetchLookupAssets
+      )
     )
   ])
 }
