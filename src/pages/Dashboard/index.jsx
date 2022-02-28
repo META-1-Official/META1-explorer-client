@@ -167,7 +167,7 @@ const Dashboard = React.memo(() => {
 
   const fetchLastOps = (search_after) =>
     dispatch(fetchLastOperations(search_after));
-  const fetchHeader = () => dispatch(getHeader());
+  const fetchHeaderData = () => dispatch(fetchHeader());
 
   // selectors
   const getHeadData = useSelector(getHeader);
@@ -203,7 +203,7 @@ const Dashboard = React.memo(() => {
   };
 
   useEffect(() => {
-    fetchHeader(); // fetch header
+    fetchHeaderData(); // fetch header
     fetchLastOps(undefined); // first fetch with no search_after
   }, []);
 

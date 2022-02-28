@@ -23,7 +23,7 @@ const PageWrapper = styled.div`
   display: flex;
 `;
 
-const StyledChartContainer = styled.div`
+const StyledContainer = styled.div`
   padding-top: 87px;
   padding-left: 270px;
   padding-bottom: 38px;
@@ -120,7 +120,7 @@ const Search = React.memo(() => {
 
   return (
     <PageWrapper>
-      <StyledChartContainer>
+      <StyledContainer>
         <SearchCard
           title="Search Block"
           description="Search by block by inserting block number. No commas, no dots, just pure numbers."
@@ -168,7 +168,7 @@ const Search = React.memo(() => {
           searchInputLabel="Transaction ID"
           searchInputPlaceholder="Enter tx hash"
         />
-      </StyledChartContainer>
+      </StyledContainer>
     </PageWrapper>
   );
 });
