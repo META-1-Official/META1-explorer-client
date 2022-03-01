@@ -1,7 +1,6 @@
 import { all, call, put, select } from 'redux-saga/effects';
 
 // import commonSaga from './common/saga';
-import transactionsSaga from './transactions/saga';
 import explorerSaga from './explorer/saga';
 
 const allSagas = [explorerSaga];
@@ -33,4 +32,4 @@ export const takeAllBundler = (type, factory, ...args) => [
     factory(type, ...args)
 ]
 
-export { allSagas as all, transactionsSaga }
+export { allSagas as all }

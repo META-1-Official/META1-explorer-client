@@ -32,3 +32,8 @@ export const fetchLookupAccounts = (start) => ({
   type: types.LOOKUP_ACCOUNTS_FETCH,
   payload: {start}
 })
+
+export const fetchBigTransactions = () => ({
+  type: types.BIG_TRANSACTIONS_FETCH,
+  payload: {}
+})

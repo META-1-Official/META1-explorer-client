@@ -47,6 +47,13 @@ export default function* watcherSaga() {
         generateFetchWorker,
         api.fetchLookupAssets
       )
+    ),
+    takeLatest(
+      ...takeAllBundler(
+        types.BIG_TRANSACTIONS_FETCH,
+        generateFetchWorker,
+        api.fetchBigTransactions
+      )
     )
   ])
 }

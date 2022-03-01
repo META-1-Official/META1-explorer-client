@@ -26,6 +26,7 @@ const StyledMuiTableHeaderCell = styled(MuiTableCell)`
   line-height: 21px;
   text-transform: uppercase;
   color: white;
+  border-bottom: none;
 `;
 
 const Html = styled.div`
@@ -60,10 +61,9 @@ const Label = styled.div`
 `;
 
 export const Table = ({headers, rows}) => {
-
-  const renderRow = (row) => {
-    var content = row[0];
-    var contentType = row[1];
+  const renderCell = (cell) => {
+    var content = cell[0];
+    var contentType = cell[1];
     switch (contentType) {
       case 'html':
         return <Html dangerouslySetInnerHTML={{__html: content}} />;
@@ -98,7 +98,7 @@ export const Table = ({headers, rows}) => {
           {rows.map((row, index) => (
             <MuiTableRow key={index}>
               {headers.map((header) => (
-                <StyledMuiTableCell align="left">{renderRow(row[header])}</StyledMuiTableCell>))}
+                <StyledMuiTableCell align="left">{renderCell(row[header])}</StyledMuiTableCell>))}
             </MuiTableRow>
           ))}
         </MuiTableBody>

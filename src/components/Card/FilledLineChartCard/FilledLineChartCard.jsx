@@ -24,6 +24,7 @@ export const FilledLineChartCard = () => {
               dataKey="uv"
               stroke="#9D7807"
               fill="#9D7807"
+              dot={true}
             />
           </AreaChart>
         </ResponsiveContainer>

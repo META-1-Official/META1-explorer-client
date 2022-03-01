@@ -2,20 +2,17 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import Pagination from '@mui/material/Pagination';
-import Button from '@mui/material/Button';
 
 // import components
-import {LineChartCard} from '../../components/Card';
+import {LineChartCard, FilledLineChartCard} from '../../components/Card';
 import {Table} from '../../components/Table';
 import Loader from '../../components/Loader/Loader';
+import {SearchBox} from '../../components/SearchBox';
 
 // import icons
-import blockNumImg from '../../assets/images/block-num.png';
-import newUserImg from '../../assets/images/new-user.png';
-import marketCapImg from '../../assets/images/market-cap1.png';
-import btcVolumeImg from '../../assets/images/btc-volume.png';
-import witnessImg from '../../assets/images/witness.png';
-import committeeImg from '../../assets/images/committee.png';
+import coinMeta1Img from '../../assets/images/coin-meta1.png';
+import coinUsdtImg from '../../assets/images/coin-usdt.png';
+import coinBtcImg from '../../assets/images/coin-btc.png';
 
 // import redux
 import actions from '../../store/actions';
@@ -23,9 +20,6 @@ import selectors from '../../store/selectors';
 
 // import api
 import {opText} from '../../store/apis/explorer';
-
-// import constants
-import {OPS_TYPE_LABELS} from '../../constants';
 
 const {fetchLastOperations, fetchHeader} = actions;
 const {
@@ -67,66 +61,8 @@ const LineChartsWrapper = styled.div`
   gap: 17px;
 `;
 
-const PieChartWrapper = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
-  width: 100%;
-  max-width: 410px;
-  border: 1px solid ${(props) => props.theme.palette.border.darkGrey};
-  border-radius: 0.625em;
+const FilledLineChartWrapper = styled.div`
   margin-left: 17px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  gap: 10px;
-`;
-
-const StyledButton = styled(Button)`
-  color: white;
-  &:hover,
-  &.on {
-    background: ${(props) => props.theme.palette.primary.main};
-    color: black;
-  }
-`;
-
-const OpsTypeLabels = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-`;
-
-const OpsTypeLabelWrapper = styled.div`
-  width: 40%;
-  display: flex;
-  align-items: center;
-  margin-left: 8px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 70%;
-  }
-`;
-
-const OpsTypeLabel = styled.div`
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 28px;
-  color: ${(props) => props.theme.palette.text.third};
-`;
-
-const Dot = styled.div`
-  width: 15px;
-  height: 15px;
-  background: ${(props) => props.color};
-  border-radius: 8px;
-  margin-right: 8px;
 `;
 
 const StyledTableContainer = styled.div`
@@ -145,6 +81,9 @@ const Label = styled.div`
   font-size: 20px;
   line-height: 30px;
   color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const StyledPaginationContainer = styled.div`
@@ -157,7 +96,7 @@ const StyledPaginationContainer = styled.div`
   justify-content: flex-end;
 `;
 
-const Dashboard = React.memo(() => {
+const Assets = React.memo(() => {
   // state vars
   const [page, setPage] = useState(1);
   const [rows, setRows] = useState([]);
@@ -178,28 +117,10 @@ const Dashboard = React.memo(() => {
   // vars
   const curPageOps = getOpsData?.slice((page - 1) * 20, page * 20); // current page operations - 20 ops per page
   const totalPages = getOpsData?.length === 0 ? 1 : getOpsData?.length / 20; // total number of pages = all ops / opsPerPage (=20)
-  const headers = ['Operation', 'ID', 'Date and time', 'Block', 'Type']; // table headers
-
-  const buildOpTextPromises = (curPageOps) =>
-    curPageOps.map((op) =>
-      opText(op.operation_type, op.operation_history.op_object),
-    );
+  const headers = ['Name', 'Price', '24H Volume', 'Market Cap', 'Supply', 'Holders']; // table headers
 
   const getRows = () => {
-    return curPageOps
-      ? Promise.all(buildOpTextPromises(curPageOps)).then((opTxts) => {
-          return opTxts.map((opTxt, index) => {
-            const op = curPageOps[index];
-            return {
-              Operation: [opTxt, 'html'],
-              ID: [op.account_history.operation_id, 'coloredText'],
-              'Date and time': [op.block_data.block_time, 'plainText'],
-              Block: [op.block_data.block_num, 'coloredText'],
-              Type: [op.operation_type, 'label'],
-            };
-          });
-        })
-      : Promise.resolve([]);
+    return null;
   };
 
   useEffect(() => {
@@ -211,7 +132,7 @@ const Dashboard = React.memo(() => {
   useEffect(() => {
     if (curPageOps && !v) {
       setV(true);
-      getRows().then((rws) => setRows(rws));
+      // getRows().then((rws) => setRows(rws));
     }
   }, [curPageOps]);
 
@@ -229,76 +150,56 @@ const Dashboard = React.memo(() => {
         <LineChartsWrapper>
           <LineChartCard
             data={mock_chart_data}
-            title="Block Number"
+            title="24h VOLUME IN META1"
             number={getHeadData?.head_block_number}
-            icon={blockNumImg}
+            icon={coinMeta1Img}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             data={mock_chart_data}
-            title="New Users"
+            title="24h VOLUME IN USDT"
             number={getHeadData?.accounts_registered_this_interval}
-            icon={newUserImg}
+            icon={coinUsdtImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             data={mock_chart_data}
-            title="META1 Market Cap"
+            title="24h VOLUME IN BTC"
             number={getHeadData?.bts_market_cap}
-            icon={marketCapImg}
+            icon={coinBtcImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             data={mock_chart_data}
-            title="META1/BTC Volume"
+            title="24h MARKET CAP IN META1"
             number={getHeadData?.quote_volume}
-            icon={btcVolumeImg}
+            icon={coinMeta1Img}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             data={mock_chart_data}
-            title="Witness"
+            title="24h MARKET CAP IN USDT"
             number={getHeadData?.witness_count}
-            icon={witnessImg}
+            icon={coinUsdtImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             data={mock_chart_data}
-            title="Committee"
+            title="24h MARKET CAP IN BTC"
             number={getHeadData?.committee_count}
-            icon={committeeImg}
+            icon={coinBtcImg}
             isLoading={isFetchingHead}
           />
         </LineChartsWrapper>
-        <PieChartWrapper>
-          <ButtonGroup>
-            <StyledButton className="on">Operations</StyledButton>
-            <StyledButton>Markets</StyledButton>
-            <StyledButton>Holders</StyledButton>
-          </ButtonGroup>
-          {/* <PieChart></PieChart> */}
-          <Label
-            style={{
-              textAlign: 'center',
-              fontWeight: 'normal',
-              fontSize: '18px',
-            }}
-          >
-            Asset Price Publish
-          </Label>
-          <OpsTypeLabels>
-            {OPS_TYPE_LABELS.map((label) => (
-              <OpsTypeLabelWrapper key={label.type}>
-                <Dot color={label.color} />
-                <OpsTypeLabel key={label.type}>{label.text}</OpsTypeLabel>
-              </OpsTypeLabelWrapper>
-            ))}
-          </OpsTypeLabels>
-        </PieChartWrapper>
+        <FilledLineChartWrapper>
+          <FilledLineChartCard/>
+        </FilledLineChartWrapper>
       </StyledChartContainer>
       <StyledTableContainer>
-        <Label>Recent activity</Label>
-        <Table headers={headers} rows={rows}></Table>
+        <Label>Assets
+          <SearchBox placeholder='Search for Amount'/>
+        </Label>
+        <Table headers={headers} rows={[]}></Table>
         {(isFetchingOps || rows.length === 0) && <Loader />}
       </StyledTableContainer>
       <StyledPaginationContainer>
@@ -313,4 +214,4 @@ const Dashboard = React.memo(() => {
   );
 });
 
-export default Dashboard;
+export default Assets;

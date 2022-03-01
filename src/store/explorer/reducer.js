@@ -138,6 +138,32 @@ const explorerReducer = (state = initialState, action) => {
           isFetchingLookupAssets: false
         }
       }
+      case types.BIG_TRANSACTIONS_FETCH:
+      return {
+        ...state,
+        transactions: {
+          ...state.transactions,
+          isFetchingBigTransactions: true
+        }
+      }
+    case types.BIG_TRANSACTIONS_FETCH_SUCCESS:
+      return {
+        ...state,
+        transactions: {
+          ...state.transactions,
+          big_transactions: action.payload,
+          isFetchingBigTransactions: false
+        }
+      }
+    case types.BIG_TRANSACTIONS_FETCH_FAILURE:
+      return {
+        ...state,
+        transactions: {
+          ...state.transactions,
+          message: 'FETCHING ERROR',
+          isFetchingBigTransactions: false
+        }
+      }
     case types.UNSET:
       return null
     case types.INITIALIZE:

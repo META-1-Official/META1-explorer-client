@@ -1,5 +1,5 @@
-import {useState} from 'react';
-import {Link} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {Link, useLocation} from 'react-router-dom';
 
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,8 +13,9 @@ import helpImg from '../../assets/images/help.png';
 import flagImg from '../../assets/images/flag.png';
 
 const AppHeader = () => {
+  const location = useLocation();
   const [language, setLanguage] = useState('en');
-  const [selected, setSelected] = useState('dashboard');
+  const [selected, setSelected] = useState(location.pathname);
 
   const handleClick = (route) => {
     setSelected(route);
@@ -27,28 +28,28 @@ const AppHeader = () => {
   return (
     <nav className="navbar">
       <img alt="logo" src={logo} className="img img-logo" />
-      <Link to="/" className={`navbar-item ${routeStatus('dashboard')}`} onClick={()=>handleClick('dashboard')}>
+      <Link to="/" className={`navbar-item ${routeStatus('/')}`} onClick={()=>handleClick('/')}>
         Dashboard
       </Link>
-      <Link to="/search" className={`navbar-item ${routeStatus('search')}`} onClick={()=>handleClick('search')}>
+      <Link to="/search" className={`navbar-item ${routeStatus('/search')}`} onClick={()=>handleClick('/search')}>
         Search
       </Link>
-      <Link to="/" className={`navbar-item ${routeStatus('transactions')}`} onClick={()=>handleClick('transactions')}>
+      <Link to="/txs" className={`navbar-item ${routeStatus('/txs')}`} onClick={()=>handleClick('/txs')}>
         Transactions
       </Link>
-      <Link to="/" className={`navbar-item ${routeStatus('assets')}`} onClick={()=>handleClick('assets')}>
+      <Link to="/assets" className={`navbar-item ${routeStatus('/assets')}`} onClick={()=>handleClick('/assets')}>
         Assets
       </Link>
-      <Link to="/" className={`navbar-item ${routeStatus('markets')}`} onClick={()=>handleClick('markets')}>
+      <Link to="/" className={`navbar-item ${routeStatus('/markets')}`} onClick={()=>handleClick('/markets')}>
         Markets
       </Link>
-      <Link to="/" className={`navbar-item ${routeStatus('accounts')}`} onClick={()=>handleClick('accounts')}>
+      <Link to="/" className={`navbar-item ${routeStatus('/accounts')}`} onClick={()=>handleClick('/accounts')}>
         Accounts
       </Link>
-      <Link to="/" className={`navbar-item ${routeStatus('fees')}`} onClick={()=>handleClick('fees')}>
+      <Link to="/" className={`navbar-item ${routeStatus('/fees')}`} onClick={()=>handleClick('/fees')}>
         Fees
       </Link>
-      <Link to="/" className={`navbar-item ${routeStatus('governance')}`} onClick={()=>handleClick('governance')}>
+      <Link to="/" className={`navbar-item ${routeStatus('/governance')}`} onClick={()=>handleClick('/governance')}>
         Governance
       </Link>
       <div className="navbar-item" style={{marginTop: '7px'}}>

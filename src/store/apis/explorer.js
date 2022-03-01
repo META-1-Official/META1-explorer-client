@@ -3,6 +3,7 @@ import { formatNumber } from '../../helpers/utility';
 
 const BASE_URL = 'http://127.0.0.1:5000';
 
+// operations
 export const fetchLastOperations = ({ search_after }) => {
   let req_url = BASE_URL +
     "/es/account_history?size=10000&from_date=now-1d&sort_by=-operation_id_num";
@@ -607,6 +608,64 @@ export const fetchLookupAssets = ({start}) => {
 
 export const fetchLookupAccounts = ({start}) => {  
   return axios.get(BASE_URL + "/lookup_accounts?start=" + start, {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}
+
+// transactions
+export const fetchBigTransactions = () => {  
+  return axios.get(BASE_URL + "/es/account_history?from_date=now-1h&to_date=now&type=aggs&agg_field=block_data.trx_id.keyword&size=20", {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}
+
+// assets
+export const fetchActiveAssets = () => {
+  return axios.get(BASE_URL + "/assets", {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}
+
+export const fetchDexVolume = () => {  
+  return axios.get(BASE_URL + "/dex_total_volume", {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}
+
+export const fetchAssetFull = (asset_id) => {
+  return axios.get(BASE_URL + "/asset_and_volume?asset_id=" + asset_id, {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}
+
+export const fetchAssetHolders = (asset_id) => {
+  return axios.get(BASE_URL + "/asset_holders?asset_id=" + asset_id, {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}
+
+export const fetchAssetHoldersCount = (asset_id) => {
+  return axios.get(BASE_URL + "/asset_holders_count?asset_id=" + asset_id, {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}
+
+export const fetchAssetNameAndPrecision = (asset_id) => {
+  return axios.get(BASE_URL + "/asset?asset_id=" + asset_id, {
     headers: {
       'Content-Type': 'application/json-patch+json'
     }
