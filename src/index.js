@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import {StylesProvider} from '@mui/styles';
+import { theme } from './styles/mui';
 
 import store from './store';
 import App from './App';
@@ -11,9 +15,15 @@ import './index.scss';
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+    <StylesProvider injectFirst>
+      <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+            <App />
+        </ ThemeProvider>
+      </MuiThemeProvider>
+      </StylesProvider>
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode >,
   document.getElementById('root'),
 );
 
