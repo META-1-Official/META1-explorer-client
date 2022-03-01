@@ -4,7 +4,7 @@ import {createLogger} from 'redux-logger';
 
 import * as reducers from './reducer';
 
-import {transactionsSaga, accountsSaga} from './saga';
+import {commonSaga, accountsSaga, transactionsSaga} from './saga';
 
 const initialState = {};
 const enhancers = [];
@@ -27,7 +27,8 @@ const reducer = combineReducers({...reducers});
 
 const store = createStore(reducer, initialState, composedEnhancers);
 
-sagaMiddleware.run(transactionsSaga);
+sagaMiddleware.run(commonSaga);
 sagaMiddleware.run(accountsSaga);
+sagaMiddleware.run(transactionsSaga);
 
 export default store;

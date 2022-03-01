@@ -1,1 +1,1 @@
-export const isLoading = (state) => state.default.common.isLoading;
+export const loadingStatusSelector = (state) => state.default.common.isLoading;
