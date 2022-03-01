@@ -8,7 +8,6 @@ import {accountsHelpers} from '../../helpers';
 
 import {AccountActionTypes} from '../../store/accounts/actions';
 import {accountsSelector} from '../../store/accounts/selectors';
-import {loadingStatusSelector} from '../../store/common/selectors';
 
 import {AppPagination, Table} from '../../components';
 
@@ -41,7 +40,6 @@ export default function Accounts() {
   }, [dispatch, pageIndex]);
 
   const rawAccounts = useSelector(accountsSelector);
-  const isLoading = useSelector(loadingStatusSelector);
 
   useEffect(() => {
     if (rawAccounts.length) {
