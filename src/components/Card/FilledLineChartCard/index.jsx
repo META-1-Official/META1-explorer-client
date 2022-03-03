@@ -1,15 +1,6 @@
-import {XAxis, AreaChart, Area, ResponsiveContainer} from 'recharts';
+import {XAxis, AreaChart, Area, ResponsiveContainer, Tooltip} from 'recharts';
 
-const data = [
-  {uv: 100, date: 'Sep 8'},
-  {uv: 400, date: 'Sep 9'},
-  {uv: 200, date: 'Sep 10'},
-  {uv: 500, date: 'Sep 11'},
-  {uv: 300, date: 'Sep 12'},
-  {uv: 400, date: 'Sep 13'},
-];
-
-export const FilledLineChartCard = () => {
+export const FilledLineChartCard = ({data}) => {
   return (
     <div className="card card-filled-line-chart">
       <div className="card-body">
@@ -18,10 +9,11 @@ export const FilledLineChartCard = () => {
       <div className="card-action">
         <ResponsiveContainer width="100%" height={262}>
           <AreaChart width={408} height={262} data={data} syncId="anyId">
-            <XAxis dataKey="date" />
+            {/* <XAxis dataKey="date" /> */}
+            <Tooltip />
             <Area
               type="monotone"
-              dataKey="uv"
+              dataKey="volume"
               stroke="#9D7807"
               fill="#9D7807"
               dot={true}

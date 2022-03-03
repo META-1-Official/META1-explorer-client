@@ -25,17 +25,24 @@ const StyledMuiTableHeaderCell = styled(MuiTableCell)`
   font-size: 14px;
   line-height: 21px;
   text-transform: uppercase;
-  color: white;
-  border-bottom: none;
+  color: white !important;
+  border-bottom: none !important;
 `;
 
 const Html = styled.div`
   color: ${props => props.theme.palette.text.third};
   font-weight: 300;
+  align-items: center;
+  display: flex;
 
   a {
     color: white;
     font-weight: 600;
+  }
+
+  img {
+    width: 25px;
+    margin-right: 14px;
   }
 `;
 

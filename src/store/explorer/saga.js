@@ -54,6 +54,41 @@ export default function* watcherSaga() {
         generateFetchWorker,
         api.fetchBigTransactions
       )
+    ),
+    takeLatest(
+      ...takeAllBundler(
+        types.ACTIVE_ASSETS_FETCH,
+        generateFetchWorker,
+        api.fetchActiveAssets
+      )
+    ),
+    takeLatest(
+      ...takeAllBundler(
+        types.DEX_VOLUME_FETCH,
+        generateFetchWorker,
+        api.fetchDexVolume
+      )
+    ),
+    takeLatest(
+      ...takeAllBundler(
+        types.DAILY_DEX_CHART_FETCH,
+        generateFetchWorker,
+        api.fetchDailyDEXChart
+      )
+    ),
+    takeLatest(
+      ...takeAllBundler(
+        types.ACTIVE_MARKETS_FETCH,
+        generateFetchWorker,
+        api.fetchActiveMarkets
+      )
+    ),
+    takeLatest(
+      ...takeAllBundler(
+        types.FEES_FETCH,
+        generateFetchWorker,
+        api.fetchFees
+      )
     )
   ])
 }
