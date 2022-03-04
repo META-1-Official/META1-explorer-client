@@ -17,6 +17,9 @@ const Market = lazy(() => import('./pages/Markets/Market'));
 // fees
 const Fees = lazy(() => import('./pages/Fees'));
 
+// committee
+const Committee = lazy(() => import('./pages/Committee'));
+
 export const routes = [
   {
     path: '/',
@@ -49,5 +52,9 @@ export const routes = [
   {
     path: '/fees',
     component: Fees,
+  },
+  {
+    path: '/committee',
+    component: Committee,
   },
 ];
