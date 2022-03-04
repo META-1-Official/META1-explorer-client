@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 
-// operations
+// last operations
 export const getOperations = (state) => get(state, ['explorer', 'operations', 'op_data']);
 export const isFetchingLastOperations = (state) => get(state, ['explorer', 'operations', 'isFetchingLastOperations']);
 
@@ -8,11 +8,11 @@ export const isFetchingLastOperations = (state) => get(state, ['explorer', 'oper
 export const getHeader = (state) => get(state, ['explorer', 'header', 'header_data']);
 export const isFetchingHeader = (state) => get(state, ['explorer', 'header', 'isFetchingHeader']);
 
-// blocks
+// last blocks
 export const getLastBlockNumber = (state) => get(state, ['explorer', 'block', 'last_block_number']);
 export const isFetchingLastBlockNumber = (state) => get(state, ['explorer', 'block', 'isFetchingLastBlockNumber']);
 
-// assets
+// lookup assets
 export const getLookupAssets = (state) => get(state, ['explorer', 'assets', 'lookup_assets']);
 export const isFetchingLookupAssets = (state) => get(state, ['explorer', 'assets', 'isFetchingLookupAssets']);
 
@@ -20,6 +20,26 @@ export const isFetchingLookupAssets = (state) => get(state, ['explorer', 'assets
 export const getLookupAccounts = (state) => get(state, ['explorer', 'accounts', 'lookup_accounts']);
 export const isFetchingLookupAccounts = (state) => get(state, ['explorer', 'accounts', 'isFetchingLookupAccounts']);
 
-// transactions
+// big transactions
 export const getBigTransactions = (state) => get(state, ['explorer', 'transactions', 'big_transactions']);
 export const isFetchingBigTransactions = (state) => get(state, ['explorer', 'transactions', 'isFetchingBigTransactions']);
+
+// active assets
+export const getActiveAssets = (state) => get(state, ['explorer', 'assets', 'active_assets']);
+export const isFetchingActiveAssets = (state) => get(state, ['explorer', 'assets', 'isFetchingActiveAssets']);
+
+// dex volumes
+export const getDexVolume = (state) => get(state, ['explorer', 'dex', 'dex_volume']);
+export const isFetchingDexVolume = (state) => get(state, ['explorer', 'dex', 'isFetchingDexVolume']);
+
+// daily dex chart
+export const getDailyDexChart = (state) => get(state, ['explorer', 'dex', 'daily_dex_chart']);
+export const isFetchingDailyDexChart = (state) => get(state, ['explorer', 'dex', 'isFetchingDailyDexChart']);
+
+// active markets
+export const getActiveMarkets = (state) => get(state, ['explorer', 'markets', 'active_markets']);
+export const isFetchingActiveMarkets = (state) => get(state, ['explorer', 'markets', 'isFetchingActiveMarkets']);
+
+// fees
+export const getFees = (state) => get(state, ['explorer', 'fees', 'fees']);
+export const isFetchingFees = (state) => get(state, ['explorer', 'fees', 'isFetchingFees']);

@@ -1,6 +1,9 @@
 .MuiInputBase-root {
   background-color: $background-color-light !important;
 
+  width: 312px !important;
+  height: 37px !important;
+
   .MuiSvgIcon-root {
     color: $color-accent !important;
   }
@@ -10,9 +13,8 @@
 
     ::placeholder {
       font-family: $font-poppins !important;
-      font-style: normal !important;
-      font-weight: normal !important;
-      font-size: 0.875rem !important;
+      font-weight: 300 !important;
+      font-size: 14px !important;
       line-height: 1.5em !important;
       color: $color-primary !important;
     }
