@@ -28,12 +28,8 @@ import {opText} from '../../store/apis/explorer';
 import {OPS_TYPE_LABELS} from '../../constants';
 
 const {fetchLastOperations, fetchHeader} = actions;
-const {
-  getOperations,
-  isFetchingLastOperations,
-  getHeader,
-  isFetchingHeader,
-} = selectors;
+const {getOperations, isFetchingLastOperations, getHeader, isFetchingHeader} =
+  selectors;
 
 const mock_chart_data = [
   {uv: 100},
@@ -303,7 +299,7 @@ const Dashboard = React.memo(() => {
       </StyledTableContainer>
       <StyledPaginationContainer>
         <Pagination
-          count={totalPages}
+          count={totalPages ?? 0}
           page={page}
           shape="rounded"
           onChange={onPageChange}

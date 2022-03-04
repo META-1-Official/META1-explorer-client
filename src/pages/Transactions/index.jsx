@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
@@ -51,7 +51,7 @@ const Transactions = () => {
   const rows = getBigTrxsData?.map((trx) => {
     return {
       'Transaction ID': [`<a href="/txs/${trx.key}">${trx.key}</a>`, 'html'],
-      'Operations': [trx.doc_count, 'plainText'],
+      Operations: [trx.doc_count, 'plainText'],
     };
   });
 

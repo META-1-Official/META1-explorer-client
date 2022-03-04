@@ -22,12 +22,8 @@ import selectors from '../../store/selectors';
 import {opText} from '../../store/apis/explorer';
 
 const {fetchLastOperations, fetchHeader} = actions;
-const {
-  getOperations,
-  isFetchingLastOperations,
-  getHeader,
-  isFetchingHeader,
-} = selectors;
+const {getOperations, isFetchingLastOperations, getHeader, isFetchingHeader} =
+  selectors;
 
 const mock_chart_data = [
   {uv: 100},
@@ -116,8 +112,15 @@ const Assets = React.memo(() => {
 
   // vars
   const curPageOps = getOpsData?.slice((page - 1) * 20, page * 20); // current page operations - 20 ops per page
-  const totalPages = getOpsData?.length === 0 ? 1 : getOpsData?.length / 20; // total number of pages = all ops / opsPerPage (=20)
-  const headers = ['Name', 'Price', '24H Volume', 'Market Cap', 'Supply', 'Holders']; // table headers
+  const totalPages = getOpsData?.length === 0 ? 1 : getOpsData.length / 20; // total number of pages = all ops / opsPerPage (=20)
+  const headers = [
+    'Name',
+    'Price',
+    '24H Volume',
+    'Market Cap',
+    'Supply',
+    'Holders',
+  ]; // table headers
 
   const getRows = () => {
     return null;
@@ -192,12 +195,13 @@ const Assets = React.memo(() => {
           />
         </LineChartsWrapper>
         <FilledLineChartWrapper>
-          <FilledLineChartCard/>
+          <FilledLineChartCard />
         </FilledLineChartWrapper>
       </StyledChartContainer>
       <StyledTableContainer>
-        <Label>Assets
-          <SearchBox placeholder='Search for Amount'/>
+        <Label>
+          Assets
+          <SearchBox placeholder="Search for Amount" />
         </Label>
         <Table headers={headers} rows={[]}></Table>
         {(isFetchingOps || rows.length === 0) && <Loader />}

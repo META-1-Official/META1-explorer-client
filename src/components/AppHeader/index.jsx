@@ -19,37 +19,69 @@ const AppHeader = () => {
 
   const handleClick = (route) => {
     setSelected(route);
-  }
+  };
 
   const routeStatus = (route) => {
     return selected === route ? 'active' : '';
-  }
+  };
 
   return (
     <nav className="navbar">
       <img alt="logo" src={logo} className="img img-logo" />
-      <Link to="/" className={`navbar-item ${routeStatus('/')}`} onClick={()=>handleClick('/')}>
+      <Link
+        to="/"
+        className={`navbar-item ${routeStatus('/')}`}
+        onClick={() => handleClick('/')}
+      >
         Dashboard
       </Link>
-      <Link to="/search" className={`navbar-item ${routeStatus('/search')}`} onClick={()=>handleClick('/search')}>
+      <Link
+        to="/search"
+        className={`navbar-item ${routeStatus('/search')}`}
+        onClick={() => handleClick('/search')}
+      >
         Search
       </Link>
-      <Link to="/txs" className={`navbar-item ${routeStatus('/txs')}`} onClick={()=>handleClick('/txs')}>
+      <Link
+        to="/txs"
+        className={`navbar-item ${routeStatus('/txs')}`}
+        onClick={() => handleClick('/txs')}
+      >
         Transactions
       </Link>
-      <Link to="/assets" className={`navbar-item ${routeStatus('/assets')}`} onClick={()=>handleClick('/assets')}>
+      <Link
+        to="/assets"
+        className={`navbar-item ${routeStatus('/assets')}`}
+        onClick={() => handleClick('/assets')}
+      >
         Assets
       </Link>
-      <Link to="/" className={`navbar-item ${routeStatus('/markets')}`} onClick={()=>handleClick('/markets')}>
+      <Link
+        to="/"
+        className={`navbar-item ${routeStatus('/markets')}`}
+        onClick={() => handleClick('/markets')}
+      >
         Markets
       </Link>
-      <Link to="/" className={`navbar-item ${routeStatus('/accounts')}`} onClick={()=>handleClick('/accounts')}>
+      <Link
+        to="/accounts"
+        className={`navbar-item ${routeStatus('/accounts')}`}
+        onClick={() => handleClick('/accounts')}
+      >
         Accounts
       </Link>
-      <Link to="/" className={`navbar-item ${routeStatus('/fees')}`} onClick={()=>handleClick('/fees')}>
+      <Link
+        to="/"
+        className={`navbar-item ${routeStatus('/fees')}`}
+        onClick={() => handleClick('/fees')}
+      >
         Fees
       </Link>
-      <Link to="/" className={`navbar-item ${routeStatus('/governance')}`} onClick={()=>handleClick('/governance')}>
+      <Link
+        to="/"
+        className={`navbar-item ${routeStatus('/governance')}`}
+        onClick={() => handleClick('/governance')}
+      >
         Governance
       </Link>
       <div className="navbar-item" style={{marginTop: '7px'}}>
@@ -79,6 +111,6 @@ const AppHeader = () => {
       </IconButton>
     </nav>
   );
-}
+};
 
 export default AppHeader;

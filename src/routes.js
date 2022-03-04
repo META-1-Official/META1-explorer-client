@@ -9,6 +9,7 @@ const Transaction = lazy(() => import('./pages/Transactions/Transaction'));
 
 // assets
 const Assets = lazy(() => import('./pages/Assets'));
+const Accounts = lazy(() => import('./pages/Accounts'));
 
 export const routes = [
   {
@@ -30,5 +31,9 @@ export const routes = [
   {
     path: '/assets',
     component: Assets,
+  },
+  {
+    path: '/accounts',
+    component: Accounts,
   },
 ];
