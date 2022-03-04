@@ -11,7 +11,6 @@ export default function* rootSaga() {
 
 export const generateFetchWorker = (type, fetch) =>
   function* workerSaga(action) {
-    console.log('action: ', action);
     try {
       const response = yield call(fetch, action.payload);
       yield put({type: `${type}_SUCCESS`, payload: response.data});

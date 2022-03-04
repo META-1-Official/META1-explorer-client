@@ -9,6 +9,7 @@ const OPS_TYPE_LABELS = [
 
 const constants = {
   API_URL: 'https://explorer.meta1.io:5000',
+  API_LIMIT: 20,
   OPS_TYPE_LABELS: [
     {text: 'Asset Price Publish', color: '#FF2A55', type: 58},
     {text: 'Limit Order Create', color: '#6BBCD7', type: 1},
