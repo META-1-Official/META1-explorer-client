@@ -148,7 +148,7 @@ const AppHeader = () => {
           Markets
         </Link>
         <Link
-          to="/"
+          to="/accounts"
           className={`navbar-item ${routeStatus('/accounts')}`}
           onClick={() => handleClick('/accounts')}
         >
@@ -169,17 +169,16 @@ const AppHeader = () => {
           onChange={(event) => setMenuItem(event.target.value)}
         >
           <MenuItem value="governance">
-            <Link
-              to="/"
+            <div
               className={`navbar-item ${routeStatus('/governance')}`}
               onClick={() => handleClick('/governance')}
             >
               Governance
-            </Link>
+            </div>
           </MenuItem>
           <MenuItem value="committee">
             <Link
-              to="/"
+              to="/committee"
               className={`navbar-item ${routeStatus('/committee')}`}
               onClick={() => handleClick('/committee')}
             >

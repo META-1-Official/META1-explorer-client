@@ -3,7 +3,7 @@ import {Routes, Route} from 'react-router-dom';
 
 import AppHeader from '../AppHeader';
 import {AppFooter} from '../AppFooter';
-import {ErrorBoundary} from '../ErrorBoundary';
+import ErrorBoundary from '../ErrorBoundary';
 
 export const PrimaryRoutes = ({routes}) => {
   return (

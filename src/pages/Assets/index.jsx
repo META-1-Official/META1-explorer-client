@@ -44,14 +44,14 @@ const mock_chart_data = [
 // styled components
 const PageWrapper = styled.div`
   display: flex;
+  width: 100%;
+  max-width: 1315px;
+  padding-top: 80px;
+  padding-bottom: 40px;
   flex-direction: column;
 `;
 
 const StyledChartContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.main};
-  padding-top: 118px;
-  padding-left: 270px;
-  padding-bottom: 38px;
   display: flex;
 `;
 
@@ -74,11 +74,7 @@ const FilledLineChartWrapper = styled.div`
 `;
 
 const StyledTableContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
   padding-top: 38px;
-  padding-left: 270px;
-  padding-bottom: 38px;
-  padding-right: 270px;
   display: flex;
   flex-direction: column;
 `;
@@ -97,9 +93,6 @@ const Label = styled.div`
 const StyledPaginationContainer = styled.div`
   background: ${(props) => props.theme.palette.background.nearBlack};
   padding-top: 38px;
-  padding-left: 270px;
-  padding-bottom: 68px;
-  padding-right: 270px;
   display: flex;
   justify-content: flex-end;
 `;
@@ -129,6 +122,7 @@ const Assets = React.memo(() => {
   const curPageOps = filteredData?.slice((page - 1) * 20, page * 20); // current page assets - 20 assets per page
   const totalPages =
   filteredData?.length === 0 ? 1 : Math.floor(filteredData?.length / 20) + 1; // total number of pages = all assets / assetsPerPage (=20)
+  
   const headers = [
     'Name',
     'Price',

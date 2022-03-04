@@ -28,12 +28,8 @@ import {opText} from '../../store/apis/explorer';
 import {OPS_TYPE_LABELS} from '../../constants';
 
 const {fetchLastOperations, fetchHeader} = actions;
-const {
-  getOperations,
-  isFetchingLastOperations,
-  getHeader,
-  isFetchingHeader,
-} = selectors;
+const {getOperations, isFetchingLastOperations, getHeader, isFetchingHeader} =
+  selectors;
 
 const mock_chart_data = [
   {uv: 100},
@@ -47,20 +43,19 @@ const mock_chart_data = [
 // styled components
 const PageWrapper = styled.div`
   display: flex;
+  width: 100%;
+  max-width: 1315px;
+  padding-top: 80px;
+  padding-bottom: 40px;
   flex-direction: column;
 `;
 
 const StyledChartContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.main};
-  padding-top: 118px;
-  padding-left: 270px;
-  padding-bottom: 38px;
   display: flex;
 `;
 
 const LineChartsWrapper = styled.div`
   width: 100%;
-  background: ${(props) => props.theme.palette.background.main};
   display: flex;
   max-width: 860px;
   flex-wrap: wrap;
@@ -68,7 +63,6 @@ const LineChartsWrapper = styled.div`
 `;
 
 const PieChartWrapper = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
   width: 100%;
   max-width: 410px;
   border: 1px solid ${(props) => props.theme.palette.border.darkGrey};
@@ -131,10 +125,7 @@ const Dot = styled.div`
 
 const StyledTableContainer = styled.div`
   background: ${(props) => props.theme.palette.background.nearBlack};
-  padding-top: 38px;
-  padding-left: 270px;
-  padding-bottom: 38px;
-  padding-right: 270px;
+  margin-top: 38px;
   display: flex;
   flex-direction: column;
 `;
@@ -148,11 +139,7 @@ const Label = styled.div`
 `;
 
 const StyledPaginationContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
   padding-top: 38px;
-  padding-left: 270px;
-  padding-bottom: 68px;
-  padding-right: 270px;
   display: flex;
   justify-content: flex-end;
 `;
@@ -303,7 +290,7 @@ const Dashboard = React.memo(() => {
       </StyledTableContainer>
       <StyledPaginationContainer>
         <Pagination
-          count={totalPages}
+          count={totalPages ?? 0}
           page={page}
           shape="rounded"
           onChange={onPageChange}

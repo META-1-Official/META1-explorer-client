@@ -8,6 +8,13 @@
 
     .MuiTableHead-root {
       background: #15171b !important;
+
+      th.MuiTableCell-root {
+        &:last-child {
+          text-align: right !important;
+          max-width: 50px;
+        }
+      }
     }
 
     .MuiTableBody-root {
@@ -17,6 +24,13 @@
         .MuiTableCell-root {
           color: white !important;
           border: none !important;
+        }
+
+        td.MuiTableCell-root {
+          &:last-child {
+            text-align: right !important;
+            max-width: 50px;
+          }
         }
       }
     }

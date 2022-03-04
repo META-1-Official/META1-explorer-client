@@ -14,25 +14,22 @@ import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 
 // import helper
-import {
-  formatBalance,
-  operationType,
-} from '../../helpers/utility';
+import {formatBalance, operationType} from '../../helpers/utility';
 
 const {fetchFees} = actions;
 const {getFees, isFetchingFees} = selectors;
 
 const PageWrapper = styled.div`
   display: flex;
+  width: 100%;
+  max-width: 1315px;
+  padding-top: 80px;
+  padding-bottom: 40px;
   flex-direction: column;
 `;
 
 const StyledContainer = styled.div`
   background: ${(props) => props.theme.palette.background.nearBlack};
-  padding-top: 38px;
-  padding-left: 270px;
-  padding-bottom: 38px;
-  padding-right: 270px;
   display: flex;
   flex-direction: column;
 `;
@@ -40,9 +37,6 @@ const StyledContainer = styled.div`
 const StyledPaginationContainer = styled.div`
   background: ${(props) => props.theme.palette.background.nearBlack};
   padding-top: 38px;
-  padding-left: 270px;
-  padding-bottom: 68px;
-  padding-right: 270px;
   display: flex;
   justify-content: flex-end;
 `;
@@ -89,9 +83,17 @@ const Fees = () => {
           identifier: fee_params[i][0],
           operation: op_type[0],
           type: fee_params[i][0],
-          basic_fee: isNaN(formatBalance(basic_fee, 5)) ? '' : formatBalance(basic_fee, 5),
-          premium_fee: isNaN(formatBalance(fee_params[i][1].premium_fee, 5)) ? '' : formatBalance(fee_params[i][1].premium_fee, 5),
-          price_per_kbyte: isNaN(formatBalance(fee_params[i][1].price_per_kbyte, 5)) ? '' : formatBalance(fee_params[i][1].price_per_kbyte, 5)
+          basic_fee: isNaN(formatBalance(basic_fee, 5))
+            ? ''
+            : formatBalance(basic_fee, 5),
+          premium_fee: isNaN(formatBalance(fee_params[i][1].premium_fee, 5))
+            ? ''
+            : formatBalance(fee_params[i][1].premium_fee, 5),
+          price_per_kbyte: isNaN(
+            formatBalance(fee_params[i][1].price_per_kbyte, 5),
+          )
+            ? ''
+            : formatBalance(fee_params[i][1].price_per_kbyte, 5),
         };
         fees.push(fee);
       }
@@ -112,7 +114,7 @@ const Fees = () => {
   const headers = ['ID', 'Operation', 'Basic', 'Premium', 'Amount']; // table headers
   const rows = curPageOps?.map((fee) => {
     return {
-      ID: [fee.identifier,'plainText'],
+      ID: [fee.identifier, 'plainText'],
       Operation: [fee.type, 'label'],
       Basic: [fee.basic_fee, 'plainText'],
       Premium: [fee.premium_fee, 'plainText'],

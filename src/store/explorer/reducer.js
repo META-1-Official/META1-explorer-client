@@ -297,6 +297,33 @@ const explorerReducer = (state = initialState, action) => {
           isFetchingFees: false
         }
       }
+      case types.COMMITTEE_MEMBERS_FETCH:
+      return {
+        ...state,
+        committee: {
+          ...state.fees,
+          isFetchingCommittee: true
+        }
+      }
+    case types.COMMITTEE_MEMBERS_FETCH_SUCCESS: {
+      return {
+        ...state,
+        committee: {
+          ...state.committee,
+          members: action.payload,
+          isFetchingCommittee: false
+        }
+      }
+    }
+    case types.COMMITTEE_MEMBERS_FETCH_FAILURE:
+      return {
+        ...state,
+        committee: {
+          ...state.committee,
+          message: 'FETCHING ERROR',
+          isFetchingCommittee: false
+        }
+      }
     case types.UNSET:
       return null
     case types.INITIALIZE:

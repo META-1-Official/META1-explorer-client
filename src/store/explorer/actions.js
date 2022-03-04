@@ -74,3 +74,9 @@ export const fetchFees = () => ({
   type: types.FEES_FETCH,
   payload: {}
 })
+
+// committee
+export const fetchCommittee = () => ({
+  type: types.COMMITTEE_MEMBERS_FETCH,
+  payload: {}
+})

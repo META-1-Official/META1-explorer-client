@@ -1,7 +1,7 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { routes } from './routes';
-import { PrimaryRoutes } from './components/Route';
+import {PrimaryRoutes} from './components/PrimaryRoutes';
 
 import { createGlobalStyle } from 'styled-components';
 
@@ -14,6 +14,10 @@ const GlobalStyle = createGlobalStyle`
         color: white;
         text-decoration: none;
       }
+      div {
+        color: white;
+        text-decoration: none;
+      }
       &.Mui-selected {
         background: #FFC000 !important;
       }
@@ -23,7 +27,6 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 `;
-
 
 function App() {
   return (

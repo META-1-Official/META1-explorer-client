@@ -89,6 +89,13 @@ export default function* watcherSaga() {
         generateFetchWorker,
         api.fetchFees
       )
+    ),
+    takeLatest(
+      ...takeAllBundler(
+        types.COMMITTEE_MEMBERS_FETCH,
+        generateFetchWorker,
+        api.fetchCommitteeMembers
+      )
     )
   ])
 }

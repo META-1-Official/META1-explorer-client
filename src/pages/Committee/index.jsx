@@ -2,8 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import Pagination from '@mui/material/Pagination';
-
 // import components
 import {Table} from '../../components/Table';
 import Loader from '../../components/Loader/Loader';
@@ -13,32 +11,25 @@ import {SearchBox} from '../../components/SearchBox';
 import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 
-const {fetchCommittee} = actions;
-const {getCommittee, isFetchingCommittee} = selectors;
+// import helper
+import {localizeNumber} from '../../helpers/utility';
+
+const {fetchCommittee, fetchHeader} = actions;
+const {getCommittee, isFetchingCommittee, getHeader, isFetchingHeader} =
+  selectors;
 
 const PageWrapper = styled.div`
   display: flex;
+  width: 100%;
+  max-width: 1315px;
+  padding-top: 80px;
+  padding-bottom: 40px;
   flex-direction: column;
 `;
 
 const StyledContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
-  padding-top: 38px;
-  padding-left: 270px;
-  padding-bottom: 38px;
-  padding-right: 270px;
   display: flex;
   flex-direction: column;
-`;
-
-const StyledPaginationContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
-  padding-top: 38px;
-  padding-left: 270px;
-  padding-bottom: 68px;
-  padding-right: 270px;
-  display: flex;
-  justify-content: flex-end;
 `;
 
 const Label = styled.div`
@@ -60,35 +51,73 @@ const Committee = () => {
   const dispatch = useDispatch();
 
   const fetchCommitteeData = () => dispatch(fetchCommittee());
+  const fetchHeaderData = () => dispatch(fetchHeader());
 
   // selectors
   const getCommitteeData = useSelector(getCommittee);
+  const getHeadData = useSelector(getHeader);
   const isFetchingCommitteeData = useSelector(isFetchingCommittee);
+  const isFetchingHead = useSelector(isFetchingHeader);
 
   // vars
-  const filteredActiveCommitteeData = getCommitteeData.filter((data) =>
-    data.operation.includes(queryForActive.toUpperCase()),
-  );
+  const committee_count = getHeadData?.committee_count;
+  const filteredActiveCommitteeData =
+    committee_count &&
+    getCommitteeData
+      ?.map((data, index) => {
+        data[0]['position'] = index + 1;
+        return data;
+      })
+      .filter(
+        (data, index) =>
+          index < committee_count &&
+          data[0].committee_member_account_name.includes(
+            queryForActive.toLowerCase(),
+          ), // first (committee_count)th = active
+      );
 
-  const filteredStandByCommitteeData = getCommitteeData.filter((data) =>
-    data.operation.includes(queryForStandby.toUpperCase()),
-  );
+  const filteredStandByCommitteeData =
+    committee_count &&
+    getCommitteeData?.filter(
+      (data, index) =>
+        committee_count <= index &&
+        data[0].committee_member_account_name.includes(
+          queryForStandby.toLowerCase(),
+        ), // remain = standby
+    );
 
-  const headers = ['ID', 'Operation', 'Basic', 'Premium', 'Amount']; // table headers
+  const headers = ['Poistion', 'ID', 'Account', 'URL', 'Total Votes']; // table headers
   const getRows = (type) => {
-    let rowData = type === 'active'
-    filteredActiveCommitteeData?.map((committee) => {
+    let filteredData =
+      type === 'active'
+        ? filteredActiveCommitteeData
+        : filteredStandByCommitteeData;
+
+    let sortedData = filteredData?.sort((c1, c2) => {
+      return (
+        parseInt(c1[0].id.split('.')[2]) - parseInt(c2[0].id.split('.')[2])
+      );
+    });
+
+    return sortedData?.map((committee) => {
       return {
-        Postion: ['', 'html'],
-        ID: ['', 'html'],
-        Account: ['', 'html'],
-        URL: ['', 'html'],
-        'Total Votes': ['', 'plainText'],
+        Poistion: [committee[0].position, 'plainText'],
+        ID: [
+          `<a href="/objects/${committee[0].id}">${committee[0].id}</a>`,
+          'html',
+        ],
+        Account: [
+          `<a href="/objects/${committee[0].committee_member_account_name}">${committee[0].committee_member_account_name}</a>`,
+          'html',
+        ],
+        URL: [committee[0].url, 'urlLink'],
+        'Total Votes': [localizeNumber(committee[0].total_votes), 'plainText'],
       };
     });
   };
 
   useEffect(() => {
+    fetchHeaderData();
     fetchCommitteeData(); // fetch data
   }, []);
 
@@ -110,13 +139,13 @@ const Committee = () => {
             onSearch={onSearchForActiveCommittee}
           />
         </Label>
-        {!isFetchingCommitteeData && getRows('active') ? (
+        {!isFetchingCommitteeData && !isFetchingHead && getRows('active') ? (
           <Table headers={headers} rows={getRows('active')}></Table>
         ) : (
           <Loader />
         )}
       </StyledContainer>
-      <StyledContainer>
+      <StyledContainer style={{marginTop: '42px'}}>
         <Label>
           Standby committee members
           <SearchBox
@@ -124,7 +153,7 @@ const Committee = () => {
             onSearch={onSearchForStandbyCommittee}
           />
         </Label>
-        {!isFetchingCommitteeData && getRows('standby') ? (
+        {!isFetchingCommitteeData && !isFetchingHead && getRows('standby') ? (
           <Table headers={headers} rows={getRows('standby')}></Table>
         ) : (
           <Loader />

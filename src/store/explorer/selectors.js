@@ -43,3 +43,7 @@ export const isFetchingActiveMarkets = (state) => get(state, ['explorer', 'marke
 // fees
 export const getFees = (state) => get(state, ['explorer', 'fees', 'fees']);
 export const isFetchingFees = (state) => get(state, ['explorer', 'fees', 'isFetchingFees']);
+
+// committee members
+export const getCommittee = (state) => get(state, ['explorer', 'committee', 'members']);
+export const isFetchingCommittee = (state) => get(state, ['explorer', 'committee', 'isFetchingCommittee']);
