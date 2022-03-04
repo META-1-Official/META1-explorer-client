@@ -1,4 +1,11 @@
 import common from './common/reducer';
 import explorer from './explorer/reducer';
+import accountsReducer from './accounts/reducer';
 
-export { common, explorer};
+const reducer = {
+  common,
+  explorer,
+  accounts: accountsReducer,
+};
+
+export default reducer;

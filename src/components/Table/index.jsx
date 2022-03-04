@@ -16,7 +16,7 @@ const StyledMuiTableCell = styled(MuiTableCell)`
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
-  line-height: 21px;  
+  line-height: 21px;
 `;
 
 const StyledMuiTableHeaderCell = styled(MuiTableCell)`
@@ -30,7 +30,7 @@ const StyledMuiTableHeaderCell = styled(MuiTableCell)`
 `;
 
 const Html = styled.div`
-  color: ${props => props.theme.palette.text.third};
+  color: ${(props) => props.theme.palette.text.third};
   font-weight: 300;
   align-items: center;
   display: flex;
@@ -67,45 +67,48 @@ const Label = styled.div`
   font-size: 12px;
 `;
 
-export const Table = ({headers, rows}) => {
-  const renderCell = (cell) => {
-    var content = cell[0];
-    var contentType = cell[1];
-    switch (contentType) {
-      case 'html':
-        return <Html dangerouslySetInnerHTML={{__html: content}} />;
-      case 'coloredText':
-        return <Text type="colored">{content}</Text>;
-      case 'label':
-        return (
-          <Label color={operationType(content)[1]}>
-            {operationType(content)[0]}
-          </Label>
-        );
-      case 'plainText':
-        return <Text type="plain">{content}</Text>;
-      default:
-        return <Text type="plain">{content}</Text>;
-    }
-  };
+const TableCell = ({cell}) => {
+  const [content, contentType] = cell;
 
+  switch (contentType) {
+    case 'html':
+      return <Html dangerouslySetInnerHTML={{__html: content}} />;
+    case 'coloredText':
+      return <Text type="colored">{content}</Text>;
+    case 'label':
+      return (
+        <Label color={operationType(content)[1]}>
+          {operationType(content)[0]}
+        </Label>
+      );
+    case 'plainText':
+      return <Text type="plain">{content}</Text>;
+    default:
+      return <Text type="plain">{content}</Text>;
+  }
+};
+
+export const Table = ({headers, rows}) => {
   return (
     <MuiTableContainer>
       <MuiTable sx={{minWidth: 650}} aria-label="simple table">
         <MuiTableHead>
           <MuiTableRow>
             {headers.map((header) => (
-              <StyledMuiTableHeaderCell align="left">
+              <StyledMuiTableHeaderCell key={`header-${header}`} align="left">
                 {header}
               </StyledMuiTableHeaderCell>
             ))}
           </MuiTableRow>
         </MuiTableHead>
         <MuiTableBody>
-          {rows.map((row, index) => (
-            <MuiTableRow key={index}>
+          {rows.map((row, rawIndex) => (
+            <MuiTableRow key={`raw-${rawIndex}`}>
               {headers.map((header) => (
-                <StyledMuiTableCell align="left">{renderCell(row[header])}</StyledMuiTableCell>))}
+                <StyledMuiTableCell key={`row-${header}`} align="left">
+                  <TableCell cell={row[header]} />
+                </StyledMuiTableCell>
+              ))}
             </MuiTableRow>
           ))}
         </MuiTableBody>

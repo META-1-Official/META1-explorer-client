@@ -129,6 +129,7 @@ const Assets = React.memo(() => {
   const curPageOps = filteredData?.slice((page - 1) * 20, page * 20); // current page assets - 20 assets per page
   const totalPages =
   filteredData?.length === 0 ? 1 : Math.floor(filteredData?.length / 20) + 1; // total number of pages = all assets / assetsPerPage (=20)
+  
   const headers = [
     'Name',
     'Price',
