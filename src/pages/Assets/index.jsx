@@ -18,15 +18,18 @@ import coinBtcImg from '../../assets/images/coin-btc.png';
 import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 
-// import api
-import {opText} from '../../store/apis/explorer';
+// import helper
+import { localizeNumber } from '../../helpers/utility';
+import images from '../../helpers/images';
 
-const {fetchLastOperations, fetchHeader} = actions;
+const {fetchActiveAssets, fetchDexVolume, fetchDailyDexChart} = actions;
 const {
-  getOperations,
-  isFetchingLastOperations,
-  getHeader,
-  isFetchingHeader,
+  getActiveAssets,
+  getDexVolume,
+  getDailyDexChart,
+  isFetchingActiveAssets,
+  isFetchingDexVolume,
+  isFetchingDailyDexChart,
 } = selectors;
 
 const mock_chart_data = [
@@ -63,6 +66,11 @@ const LineChartsWrapper = styled.div`
 
 const FilledLineChartWrapper = styled.div`
   margin-left: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 408px;
 `;
 
 const StyledTableContainer = styled.div`
@@ -99,50 +107,76 @@ const StyledPaginationContainer = styled.div`
 const Assets = React.memo(() => {
   // state vars
   const [page, setPage] = useState(1);
-  const [rows, setRows] = useState([]);
+  const [query, setQuery] = useState('');
 
   // dispatch
   const dispatch = useDispatch();
 
-  const fetchLastOps = (search_after) =>
-    dispatch(fetchLastOperations(search_after));
-  const fetchHeaderData = () => dispatch(fetchHeader());
+  const fetchActiveAssetsData = () => dispatch(fetchActiveAssets());
+  const fetchDexVolumeData = () => dispatch(fetchDexVolume());
+  const fetchDailyDexChartData = () => dispatch(fetchDailyDexChart());
 
   // selectors
-  const getHeadData = useSelector(getHeader);
-  const isFetchingHead = useSelector(isFetchingHeader);
-  const getOpsData = useSelector(getOperations);
-  const isFetchingOps = useSelector(isFetchingLastOperations);
+  const getActiveAssetsData = useSelector(getActiveAssets);
+  const getDexVolumeData = useSelector(getDexVolume);
+  const getDailyDexChartData = useSelector(getDailyDexChart);
+  const isFetchingAssets = useSelector(isFetchingActiveAssets);
+  const isFetchingVolume = useSelector(isFetchingDexVolume);
+  const isFetchingChart = useSelector(isFetchingDailyDexChart);
 
   // vars
-  const curPageOps = getOpsData?.slice((page - 1) * 20, page * 20); // current page operations - 20 ops per page
-  const totalPages = getOpsData?.length === 0 ? 1 : getOpsData?.length / 20; // total number of pages = all ops / opsPerPage (=20)
-  const headers = ['Name', 'Price', '24H Volume', 'Market Cap', 'Supply', 'Holders']; // table headers
+  const filteredData = getActiveAssetsData?.filter(data => data.asset_name.includes(query.toUpperCase()))
+  const curPageOps = filteredData?.slice((page - 1) * 20, page * 20); // current page assets - 20 assets per page
+  const totalPages =
+  filteredData?.length === 0 ? 1 : Math.floor(filteredData?.length / 20) + 1; // total number of pages = all assets / assetsPerPage (=20)
+  const headers = [
+    'Name',
+    'Price',
+    '24H Volume',
+    'Market Cap',
+    'Supply',
+    'Holders',
+  ]; // table headers
+  const chartData =
+    getDailyDexChartData &&
+    Object.keys(getDailyDexChartData).map((key) => {
+      return {
+        date: key,
+        volume: getDailyDexChartData[key],
+      };
+    });
 
-  const getRows = () => {
-    return null;
-  };
+  const rows = curPageOps
+    ? curPageOps.map((value) => {
+        var precision = 100000;
+        if (value.precision) {
+          precision = Math.pow(10, value.precision);
+        }
+        return {
+          Name: [`<img src='${images[`coin-${value.asset_name.toLowerCase()}`]}'><a href='#'>${value.asset_name}</a>`, 'html'],
+          Price: [`${value.latest_price} META1`, 'plainText'],
+          '24H Volume': [`${Math.round(value['24h_volume'])} META1`, 'plainText'],
+          'Market Cap': [`${localizeNumber(Math.round(value.market_cap / 100000))} META1`, 'plainText'],
+          Supply: [localizeNumber(Math.round(value.current_supply / precision)), 'plainText'],
+          Holders: [localizeNumber(value.holders_count), 'plainText'],
+        };
+      })
+    : [];
 
   useEffect(() => {
-    fetchHeaderData(); // fetch header
-    fetchLastOps(undefined); // first fetch with no search_after
+    fetchDexVolumeData();
+    fetchDailyDexChartData();
+    fetchActiveAssetsData();
   }, []);
-
-  const [v, setV] = useState(false); // the flag var for fethcing for only change
-  useEffect(() => {
-    if (curPageOps && !v) {
-      setV(true);
-      // getRows().then((rws) => setRows(rws));
-    }
-  }, [curPageOps]);
 
   // handlers
   const onPageChange = (_, newPageNumber) => {
     setPage(newPageNumber);
-    setV(false);
-    newPageNumber === totalPages &&
-      fetchLastOps(getOpsData[getOpsData.length - 1].operation_id_num); // fetch with search_after whenever current page reach out the maximum ES fetch count
   };
+
+  const onSearch = (query) => {
+    setQuery(query);
+  }
 
   return (
     <PageWrapper>
@@ -151,56 +185,61 @@ const Assets = React.memo(() => {
           <LineChartCard
             data={mock_chart_data}
             title="24h VOLUME IN META1"
-            number={getHeadData?.head_block_number}
+            number={getDexVolumeData?.volume_bts}
             icon={coinMeta1Img}
-            isLoading={isFetchingHead}
+            isLoading={isFetchingVolume}
           />
           <LineChartCard
             data={mock_chart_data}
             title="24h VOLUME IN USDT"
-            number={getHeadData?.accounts_registered_this_interval}
+            number={getDexVolumeData?.volume_usd}
             icon={coinUsdtImg}
-            isLoading={isFetchingHead}
+            isLoading={isFetchingVolume}
           />
           <LineChartCard
             data={mock_chart_data}
             title="24h VOLUME IN BTC"
-            number={getHeadData?.bts_market_cap}
+            number={getDexVolumeData?.volume_cny}
             icon={coinBtcImg}
-            isLoading={isFetchingHead}
+            isLoading={isFetchingVolume}
           />
           <LineChartCard
             data={mock_chart_data}
             title="24h MARKET CAP IN META1"
-            number={getHeadData?.quote_volume}
+            number={getDexVolumeData?.market_cap_bts.toString().slice(0, -12)}
             icon={coinMeta1Img}
-            isLoading={isFetchingHead}
+            isLoading={isFetchingVolume}
           />
           <LineChartCard
             data={mock_chart_data}
             title="24h MARKET CAP IN USDT"
-            number={getHeadData?.witness_count}
+            number={getDexVolumeData?.market_cap_usd.toString().slice(0, -12)}
             icon={coinUsdtImg}
-            isLoading={isFetchingHead}
+            isLoading={isFetchingVolume}
           />
           <LineChartCard
             data={mock_chart_data}
             title="24h MARKET CAP IN BTC"
-            number={getHeadData?.committee_count}
+            number={getDexVolumeData?.market_cap_cny.toString().slice(0, -12)}
             icon={coinBtcImg}
-            isLoading={isFetchingHead}
+            isLoading={isFetchingVolume}
           />
         </LineChartsWrapper>
         <FilledLineChartWrapper>
-          <FilledLineChartCard/>
+          {isFetchingChart ? (
+            <Loader />
+          ) : (
+            <FilledLineChartCard data={chartData} />
+          )}
         </FilledLineChartWrapper>
       </StyledChartContainer>
       <StyledTableContainer>
-        <Label>Assets
-          <SearchBox placeholder='Search for Amount'/>
+        <Label>
+          Assets
+          <SearchBox placeholder="Search for Amount" onSearch={onSearch} />
         </Label>
-        <Table headers={headers} rows={[]}></Table>
-        {(isFetchingOps || rows.length === 0) && <Loader />}
+        <Table headers={headers} rows={rows}></Table>
+        {isFetchingAssets && <Loader />}
       </StyledTableContainer>
       <StyledPaginationContainer>
         <Pagination

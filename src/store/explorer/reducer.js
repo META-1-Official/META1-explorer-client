@@ -138,7 +138,7 @@ const explorerReducer = (state = initialState, action) => {
           isFetchingLookupAssets: false
         }
       }
-      case types.BIG_TRANSACTIONS_FETCH:
+    case types.BIG_TRANSACTIONS_FETCH:
       return {
         ...state,
         transactions: {
@@ -162,6 +162,139 @@ const explorerReducer = (state = initialState, action) => {
           ...state.transactions,
           message: 'FETCHING ERROR',
           isFetchingBigTransactions: false
+        }
+      }
+    case types.ACTIVE_ASSETS_FETCH:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          isFetchingActiveAssets: true
+        }
+      }
+    case types.ACTIVE_ASSETS_FETCH_SUCCESS:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          active_assets: action.payload,
+          isFetchingActiveAssets: false
+        }
+      }
+    case types.ACTIVE_ASSETS_FETCH_FAILURE:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          message: 'FETCHING ERROR',
+          isFetchingActiveAssets: false
+        }
+      }
+    case types.DEX_VOLUME_FETCH:
+      return {
+        ...state,
+        dex: {
+          ...state.dex,
+          isFetchingDexVolume: true
+        }
+      }
+    case types.DEX_VOLUME_FETCH_SUCCESS:
+      return {
+        ...state,
+        dex: {
+          ...state.dex,
+          dex_volume: action.payload,
+          isFetchingDexVolume: false
+        }
+      }
+    case types.DEX_VOLUME_FETCH_FAILURE:
+      return {
+        ...state,
+        dex: {
+          ...state.dex,
+          message: 'FETCHING ERROR',
+          isFetchingDexVolume: false
+        }
+      }
+    case types.DAILY_DEX_CHART_FETCH:
+      return {
+        ...state,
+        dex: {
+          ...state.dex,
+          isFetchingDailyDexChart: true
+        }
+      }
+    case types.DAILY_DEX_CHART_FETCH_SUCCESS: {
+      return {
+        ...state,
+        dex: {
+          ...state.dex,
+          daily_dex_chart: action.payload,
+          isFetchingDailyDexChart: false
+        }
+      }
+    }
+    case types.DAILY_DEX_CHART_FETCH_FAILURE:
+      return {
+        ...state,
+        dex: {
+          ...state.dex,
+          message: 'FETCHING ERROR',
+          isFetchingDailyDexChart: false
+        }
+      }
+    case types.ACTIVE_MARKETS_FETCH:
+      return {
+        ...state,
+        markets: {
+          ...state.markets,
+          isFetchingDailyDexChart: true
+        }
+      }
+    case types.ACTIVE_MARKETS_FETCH_SUCCESS: {
+      return {
+        ...state,
+        markets: {
+          ...state.markets,
+          active_markets: action.payload,
+          isFetchingActiveMarkets: false
+        }
+      }
+    }
+    case types.ACTIVE_MARKETS_FETCH_FAILURE:
+      return {
+        ...state,
+        markets: {
+          ...state.markets,
+          message: 'FETCHING ERROR',
+          isFetchingActiveMarkets: false
+        }
+      }
+    case types.FEES_FETCH:
+      return {
+        ...state,
+        fees: {
+          ...state.fees,
+          isFetchingFees: true
+        }
+      }
+    case types.FEES_FETCH_SUCCESS: {
+      return {
+        ...state,
+        fees: {
+          ...state.fees,
+          fees: action.payload,
+          isFetchingFees: false
+        }
+      }
+    }
+    case types.FEES_FETCH_FAILURE:
+      return {
+        ...state,
+        fees: {
+          ...state.fees,
+          message: 'FETCHING ERROR',
+          isFetchingFees: false
         }
       }
     case types.UNSET:

@@ -83,6 +83,13 @@ const LoaderWrapper = styled.div`
   top: -32px;
 `;
 
+
+const StyledTextField = styled(TextField)`  
+  .MuiInputBase-root {
+    height: 51px !important;
+  }
+`;
+
 const StyledButton = styled(Button)`
   font-weight: 600;
   font-size: 16px;
@@ -131,7 +138,7 @@ const SearchCard = ({
             options={options ? options : []}
             sx={{width: 300}}
             renderInput={(params) => (
-              <TextField
+              <StyledTextField
                 {...params}
                 id={`${title}-search`}
                 variant="outlined"
@@ -139,6 +146,7 @@ const SearchCard = ({
                 sx={{width: '100%'}}
                 onChange={onChange}
                 value={value}
+                className="search-card"
               />
             )}
           />

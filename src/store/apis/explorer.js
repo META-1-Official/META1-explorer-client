@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { formatNumber } from '../../helpers/utility';
 
-const BASE_URL = 'http://127.0.0.1:5000';
+// const BASE_URL = 'http://127.0.0.1:5000';
+const BASE_URL = 'https://explorer.meta1.io:5000';
 
+/* DASHBOARD SERVICE */
 // operations
 export const fetchLastOperations = ({ search_after }) => {
   let req_url = BASE_URL +
@@ -590,6 +592,8 @@ export const opText = (operation_type, operation) => {
   }
 }
 
+/* SEARCH SERVICE */
+
 export const fetchLastBlockNumber = () => {
   return axios.get(BASE_URL + '/last_block_number', {
     headers: {
@@ -614,6 +618,7 @@ export const fetchLookupAccounts = ({start}) => {
   });
 }
 
+/* TRANSACTION SERVICE */
 // transactions
 export const fetchBigTransactions = () => {  
   return axios.get(BASE_URL + "/es/account_history?from_date=now-1h&to_date=now&type=aggs&agg_field=block_data.trx_id.keyword&size=20", {
@@ -623,6 +628,7 @@ export const fetchBigTransactions = () => {
   });
 }
 
+/* ASSET SERVICE */
 // assets
 export const fetchActiveAssets = () => {
   return axios.get(BASE_URL + "/assets", {
@@ -632,6 +638,7 @@ export const fetchActiveAssets = () => {
   });
 }
 
+// dex volume
 export const fetchDexVolume = () => {  
   return axios.get(BASE_URL + "/dex_total_volume", {
     headers: {
@@ -640,6 +647,16 @@ export const fetchDexVolume = () => {
   });
 }
 
+// daily dex chart
+export const fetchDailyDEXChart = () => {  
+  return axios.get(BASE_URL + "/daily_volume_dex_data", {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}
+
+// asset detail
 export const fetchAssetFull = (asset_id) => {
   return axios.get(BASE_URL + "/asset_and_volume?asset_id=" + asset_id, {
     headers: {
@@ -648,6 +665,7 @@ export const fetchAssetFull = (asset_id) => {
   });
 }
 
+// asset holders
 export const fetchAssetHolders = (asset_id) => {
   return axios.get(BASE_URL + "/asset_holders?asset_id=" + asset_id, {
     headers: {
@@ -656,6 +674,7 @@ export const fetchAssetHolders = (asset_id) => {
   });
 }
 
+// asset holders count
 export const fetchAssetHoldersCount = (asset_id) => {
   return axios.get(BASE_URL + "/asset_holders_count?asset_id=" + asset_id, {
     headers: {
@@ -664,6 +683,7 @@ export const fetchAssetHoldersCount = (asset_id) => {
   });
 }
 
+// asset name & precision
 export const fetchAssetNameAndPrecision = (asset_id) => {
   return axios.get(BASE_URL + "/asset?asset_id=" + asset_id, {
     headers: {
@@ -671,3 +691,23 @@ export const fetchAssetNameAndPrecision = (asset_id) => {
     }
   });
 }
+
+/* MARKET SERVICE */
+// most active markets
+export const fetchActiveMarkets = () => {
+  return axios.get(BASE_URL + "/most_active_markets", {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}
+
+/* FEE SERVICE */
+// fees
+export const fetchFees = () => {
+  return axios.get(BASE_URL + "/fees", {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+} 
