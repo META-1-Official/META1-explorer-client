@@ -21,25 +21,20 @@ const {getActiveMarkets, isFetchingActiveMarkets} = selectors;
 
 const PageWrapper = styled.div`
   display: flex;
+  width: 100%;
+  max-width: 1315px;
+  padding-top: 80px;
+  padding-bottom: 40px;
   flex-direction: column;
 `;
 
 const StyledContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
-  padding-top: 38px;
-  padding-left: 270px;
-  padding-bottom: 38px;
-  padding-right: 270px;
   display: flex;
   flex-direction: column;
 `;
 
 const StyledPaginationContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
   padding-top: 38px;
-  padding-left: 270px;
-  padding-bottom: 68px;
-  padding-right: 270px;
   display: flex;
   justify-content: flex-end;
 `;

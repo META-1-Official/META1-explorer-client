@@ -21,15 +21,17 @@ const {
 
 const PageWrapper = styled.div`
   display: flex;
+  width: 100%;
+  max-width: 1315px;
+  padding-top: 80px;
+  padding-bottom: 40px;
 `;
 
 const StyledContainer = styled.div`
-  padding-top: 87px;
-  padding-left: 270px;
-  padding-bottom: 38px;
   display: flex;
   flex-wrap: wrap;
   gap: 25px;
+  justify-content: center;
 `;
 
 const Search = React.memo(() => {

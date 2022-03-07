@@ -15,14 +15,14 @@ const {getBigTransactions, isFetchingBigTransactions} = selectors;
 
 const PageWrapper = styled.div`
   display: flex;
+  width: 100%;
+  max-width: 1315px;
+  padding-top: 80px;
+  padding-bottom: 38px;
 `;
 
 const StyledContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
-  padding-top: 38px;
-  padding-left: 270px;
-  padding-bottom: 38px;
-  padding-right: 270px;
+  background: ${(props) => props.theme.palette.background.nearBlack};  
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -34,6 +34,8 @@ const Label = styled.div`
   font-size: 20px;
   line-height: 30px;
   color: white;
+  margin-bottom: 10px;
+  margin-top: 10px;
 `;
 
 const Transactions = () => {

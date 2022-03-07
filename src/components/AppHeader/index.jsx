@@ -1,5 +1,7 @@
 import {useState} from 'react';
 import {Link, useLocation} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import {changeLanguage} from 'i18next';
 
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
@@ -96,6 +98,7 @@ const Img = styled.img`
 
 const AppHeader = () => {
   const location = useLocation();
+  const { t, i18n } = useTranslation();
   const [language, setLanguage] = useState('en');
   const [menuItem, setMenuItem] = useState('governance');
   const [selected, setSelected] = useState(location.pathname);
@@ -108,6 +111,11 @@ const AppHeader = () => {
     return selected === route ? 'active' : '';
   };
 
+  const handleChange = (val) => {
+    setLanguage(val);
+    changeLanguage(val);
+  }
+
   return (
     <NavBar>
       <Tabs>
@@ -117,49 +125,56 @@ const AppHeader = () => {
           className={`navbar-item ${routeStatus('/')}`}
           onClick={() => handleClick('/')}
         >
-          Dashboard
+          {t('Dashboard')}
         </Link>
         <Link
           to="/search"
           className={`navbar-item ${routeStatus('/search')}`}
           onClick={() => handleClick('/search')}
         >
-          Search
+          {t('Search')}
+        </Link>
+        <Link
+          to="/blocks"
+          className={`navbar-item ${routeStatus('/blocks')}`}
+          onClick={() => handleClick('/blocks')}
+        >
+          {t('Blocks')}
         </Link>
         <Link
           to="/txs"
           className={`navbar-item ${routeStatus('/txs')}`}
           onClick={() => handleClick('/txs')}
         >
-          Transactions
+          {t('Transactions')}
         </Link>
         <Link
           to="/assets"
           className={`navbar-item ${routeStatus('/assets')}`}
           onClick={() => handleClick('/assets')}
         >
-          Assets
+          {t('Assets')}
         </Link>
         <Link
           to="/markets"
           className={`navbar-item ${routeStatus('/markets')}`}
           onClick={() => handleClick('/markets')}
         >
-          Markets
+          {t('Markets')}
         </Link>
         <Link
-          to="/"
+          to="/accounts"
           className={`navbar-item ${routeStatus('/accounts')}`}
           onClick={() => handleClick('/accounts')}
         >
-          Accounts
+          {t('Accounts')}
         </Link>
         <Link
           to="/fees"
           className={`navbar-item ${routeStatus('/fees')}`}
           onClick={() => handleClick('/fees')}
         >
-          Fees
+          {t('Fees')}
         </Link>
         <StyledSelect
           labelId="governance"
@@ -169,33 +184,32 @@ const AppHeader = () => {
           onChange={(event) => setMenuItem(event.target.value)}
         >
           <MenuItem value="governance">
-            <Link
-              to="/"
+            <div
               className={`navbar-item ${routeStatus('/governance')}`}
               onClick={() => handleClick('/governance')}
             >
-              Governance
-            </Link>
+              {t('Governance')}
+            </div>
           </MenuItem>
           <MenuItem value="committee">
             <Link
-              to="/"
+              to="/committee"
               className={`navbar-item ${routeStatus('/committee')}`}
               onClick={() => handleClick('/committee')}
             >
-              Committee
+              {t('Committee')}
             </Link>
           </MenuItem>
           <MenuItem value="witnesses">
             <Link
-              to="/"
+              to="/witnesses"
               className={`navbar-item ${routeStatus('/witnesses')}`}
               onClick={() => handleClick('/witnesses')}
             >
-              Witnesses
+              {t('Witnesses')}
             </Link>
           </MenuItem>
-          <MenuItem value="workers">
+          {/* <MenuItem value="workers">
             <Link
               to="/"
               className={`navbar-item ${routeStatus('/workers')}`}
@@ -221,7 +235,7 @@ const AppHeader = () => {
             >
               Proxies
             </Link>
-          </MenuItem>
+          </MenuItem> */}
         </StyledSelect>
       </Tabs>
       <Settings>
@@ -230,7 +244,7 @@ const AppHeader = () => {
           id="language-select"
           autoWidth
           value={language}
-          onChange={(event) => setLanguage(event.target.value)}
+          onChange={(event) => handleChange(event.target.value)}
         >
           <MenuItem value="en">
             <Img alt="Flag" src={enImg} className="lang" />
@@ -242,7 +256,7 @@ const AppHeader = () => {
         <Divider style={{height: '38px'}} />
         <div className="navbar-item">
           <Img alt="Help" src={helpImg} className="setting" />
-          <span role="button">Get Help</span>
+          <span role="button">{t('Get Help')}</span>
         </div>
         <Divider style={{height: '38px'}} />
         <IconButton className="navbar-item">

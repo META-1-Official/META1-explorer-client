@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import styled from 'styled-components';
 
 import Pagination from '@mui/material/Pagination';
 
@@ -14,7 +15,37 @@ import AccountsActionTypes from '../../store/accounts/actions';
 
 import constants from '../../constants';
 
-const TableHeaders = ['Name', 'Amount'];
+const PageWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  max-width: 1315px;
+  padding-top: 80px;
+  padding-bottom: 38px;
+  flex-direction: column;
+`;
+
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledPaginationContainer = styled.div`
+  padding-top: 38px;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const Label = styled.div`
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 30px;
+  color: white;
+  margin-bottom: 10px;
+  margin-top: 10px;
+`;
+
+const headers = ['Name', 'Amount'];
 const AccountsLimit = constants.API_LIMIT;
 
 const accountRawMapper = (account) => {
@@ -52,17 +83,13 @@ export default function Accounts() {
   };
 
   return (
-    <div className="page">
-      <p className="page-title">Accounts</p>
-      <div className="page-row">
-        <Table headers={TableHeaders} rows={accountRaws} />
-        {isFetchingAccounts && (
-          <div className="loader-container">
-            <Loader />
-          </div>
-        )}
-      </div>
-      <div className="page-row">
+    <PageWrapper>
+      <StyledContainer>
+        <Label>Accounts</Label>
+        <Table headers={headers} rows={accountRaws} />
+        {isFetchingAccounts && <Loader />}
+      </StyledContainer>
+      <StyledPaginationContainer>
         <Pagination
           count={10}
           page={pageNumber}
@@ -70,7 +97,7 @@ export default function Accounts() {
           onChange={onPageChange}
           sx={{marginLeft: 'auto'}}
         />
-      </div>
-    </div>
+      </StyledPaginationContainer>
+    </PageWrapper>
   );
 }

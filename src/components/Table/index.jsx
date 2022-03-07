@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
 import MuiTable from '@mui/material/Table';
 import MuiTableContainer from '@mui/material/TableContainer';
@@ -9,7 +8,9 @@ import MuiTableHead from '@mui/material/TableHead';
 import MuiTableRow from '@mui/material/TableRow';
 
 import styled from 'styled-components';
+import {toast} from 'react-toastify';
 
+import urlLinkImg from '../../assets/images/url-icon.png';
 import {operationType} from '../../helpers/utility';
 
 const StyledMuiTableCell = styled(MuiTableCell)`
@@ -67,6 +68,22 @@ const Label = styled.div`
   font-size: 12px;
 `;
 
+const LinkWrapper = styled.div`
+  width: 32px;
+  height: 32px;
+  background: ${(props) => props.theme.palette.primary.main};
+  display: flex;
+  justify-content: center;
+  border-radius: 16px;
+  cursor: pointer;
+`;
+
+const Img = styled.img`
+  width: 17px;
+  height: 17px;
+  margin-top: 7px;
+`;
+
 const TableCell = ({cell}) => {
   const [content, contentType] = cell;
 
@@ -83,8 +100,23 @@ const TableCell = ({cell}) => {
       );
     case 'plainText':
       return <Text type="plain">{content}</Text>;
+    case 'urlLink':
+      return (
+        <LinkWrapper onClick={() => handleUrlLinkClick(content)}>
+          <Img src={urlLinkImg} />
+        </LinkWrapper>
+      );
     default:
       return <Text type="plain">{content}</Text>;
+  }
+};
+
+const handleUrlLinkClick = (url) => {
+  if (url === '') {
+    toast('No url to copy to clipboard');
+  } else {
+    toast(`'${url}' copied to clipboard!`);
+    navigator.clipboard.writeText(url);
   }
 };
 

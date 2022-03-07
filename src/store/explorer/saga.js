@@ -50,6 +50,13 @@ export default function* watcherSaga() {
     ),
     takeLatest(
       ...takeAllBundler(
+        types.BIG_BLOCKS_FETCH,
+        generateFetchWorker,
+        api.fetchBigBlocks
+      )
+    ),
+    takeLatest(
+      ...takeAllBundler(
         types.BIG_TRANSACTIONS_FETCH,
         generateFetchWorker,
         api.fetchBigTransactions
@@ -88,6 +95,20 @@ export default function* watcherSaga() {
         types.FEES_FETCH,
         generateFetchWorker,
         api.fetchFees
+      )
+    ),
+    takeLatest(
+      ...takeAllBundler(
+        types.COMMITTEE_MEMBERS_FETCH,
+        generateFetchWorker,
+        api.fetchCommitteeMembers
+      )
+    ),
+    takeLatest(
+      ...takeAllBundler(
+        types.WITNESSES_FETCH,
+        generateFetchWorker,
+        api.fetchWitnesses
       )
     )
   ])

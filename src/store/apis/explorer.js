@@ -1,11 +1,11 @@
 import axios from 'axios';
-import {formatNumber} from '../../helpers/utility';
+import { formatNumber } from '../../helpers/utility';
 
 const BASE_URL = 'https://explorer.meta1.io:5000';
 
 /* DASHBOARD SERVICE */
 // operations
-export const fetchLastOperations = ({search_after}) => {
+export const fetchLastOperations = ({ search_after }) => {
   let req_url =
     BASE_URL +
     '/es/account_history?size=10000&from_date=now-1d&sort_by=-operation_id_num';
@@ -806,7 +806,6 @@ export const opText = (operation_type, operation) => {
 };
 
 /* SEARCH SERVICE */
-
 export const fetchLastBlockNumber = () => {
   return axios.get(BASE_URL + '/last_block_number', {
     headers: {
@@ -815,7 +814,7 @@ export const fetchLastBlockNumber = () => {
   });
 };
 
-export const fetchLookupAssets = ({start}) => {
+export const fetchLookupAssets = ({ start }) => {
   return axios.get(BASE_URL + '/lookup_assets?start=' + start.toUpperCase(), {
     headers: {
       'Content-Type': 'application/json-patch+json',
@@ -823,7 +822,7 @@ export const fetchLookupAssets = ({start}) => {
   });
 };
 
-export const fetchLookupAccounts = ({start}) => {
+export const fetchLookupAccounts = ({ start }) => {
   return axios.get(BASE_URL + '/lookup_accounts?start=' + start, {
     headers: {
       'Content-Type': 'application/json-patch+json',
@@ -831,12 +830,39 @@ export const fetchLookupAccounts = ({start}) => {
   });
 };
 
+/* BLOCKS SERVICE */
+// big blocks (first 20 big blocks by order)
+export const fetchBigBlocks = () => {
+  return axios.get(
+    BASE_URL +
+    '/es/account_history?from_date=now-1w&to_date=now&type=aggs&agg_field=block_data.block_num&size=20',
+    {
+      headers: {
+        'Content-Type': 'application/json-patch+json',
+      },
+    },
+  );
+};
+
+// block by id
+export const fetchBlock = (block_num) => {
+  return axios.get(
+    BASE_URL +
+    '/block?block_num=' + block_num,
+    {
+      headers: {
+        'Content-Type': 'application/json-patch+json',
+      },
+    },
+  );
+};
+
 /* TRANSACTION SERVICE */
-// transactions
+// big transactions (first 20 big transactions by order)
 export const fetchBigTransactions = () => {
   return axios.get(
     BASE_URL +
-      '/es/account_history?from_date=now-1h&to_date=now&type=aggs&agg_field=block_data.trx_id.keyword&size=20',
+    '/es/account_history?from_date=now-1h&to_date=now&type=aggs&agg_field=block_data.trx_id.keyword&size=20',
     {
       headers: {
         'Content-Type': 'application/json-patch+json',
@@ -855,7 +881,7 @@ export const fetchActiveAssets = () => {
   });
 };
 
-export const fetchDexVolume = () => {  
+export const fetchDexVolume = () => {
   return axios.get(BASE_URL + "/dex_total_volume", {
     headers: {
       'Content-Type': 'application/json-patch+json',
@@ -864,7 +890,7 @@ export const fetchDexVolume = () => {
 };
 
 // daily dex chart
-export const fetchDailyDEXChart = () => {  
+export const fetchDailyDEXChart = () => {
   return axios.get(BASE_URL + "/daily_volume_dex_data", {
     headers: {
       'Content-Type': 'application/json-patch+json'
@@ -926,4 +952,23 @@ export const fetchFees = () => {
       'Content-Type': 'application/json-patch+json'
     }
   });
-} 
+}
+
+/* GOVERNANCE SERVICE */
+// committee members
+export const fetchCommitteeMembers = () => {
+  return axios.get(BASE_URL + "/committee_members", {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}
+
+// witness
+export const fetchWitnesses = () => {
+  return axios.get(BASE_URL + "/witnesses", {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}

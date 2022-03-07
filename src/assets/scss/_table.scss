@@ -10,6 +10,7 @@
       background: #15171b !important;
 
       th.MuiTableCell-root {
+        width: 120px;
         &:last-child {
           text-align: right !important;
         }
@@ -26,6 +27,7 @@
         }
 
         td.MuiTableCell-root {
+          width: 120px;
           &:last-child {
             text-align: right !important;
           }
