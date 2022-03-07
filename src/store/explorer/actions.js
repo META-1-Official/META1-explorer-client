@@ -39,6 +39,12 @@ export const fetchLookupAccounts = (start) => ({
   payload: {start}
 })
 
+// big blocks
+export const fetchBigBlocks = () => ({
+  type: types.BIG_BLOCKS_FETCH,
+  payload: {}
+})
+
 // big transactions
 export const fetchBigTransactions = () => ({
   type: types.BIG_TRANSACTIONS_FETCH,
@@ -78,5 +84,11 @@ export const fetchFees = () => ({
 // committee
 export const fetchCommittee = () => ({
   type: types.COMMITTEE_MEMBERS_FETCH,
+  payload: {}
+})
+
+// witness
+export const fetchWitnesses = () => ({
+  type: types.WITNESSES_FETCH,
   payload: {}
 })

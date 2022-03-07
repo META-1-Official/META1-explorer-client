@@ -3,6 +3,10 @@ import {lazy} from 'react';
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Search = lazy(() => import('./pages/Search'));
 
+// blocks
+const Blocks = lazy(() => import('./pages/Blocks'));
+const Block = lazy(() => import('./pages/Blocks/Block'));
+
 // transactions
 const Transactions = lazy(() => import('./pages/Transactions'));
 const Transaction = lazy(() => import('./pages/Transactions/Transaction'));
@@ -21,6 +25,9 @@ const Fees = lazy(() => import('./pages/Fees'));
 // committee
 const Committee = lazy(() => import('./pages/Committee'));
 
+// witness
+const Witnesses = lazy(() => import('./pages/Witnesses'));
+
 export const routes = [
   {
     path: '/',
@@ -29,6 +36,14 @@ export const routes = [
   {
     path: '/search',
     component: Search,
+  },
+  {
+    path: '/blocks',
+    component: Blocks,
+  },
+  {
+    path: '/blocks/:num',
+    component: Block,
   },
   {
     path: '/txs',
@@ -61,5 +76,9 @@ export const routes = [
   {
     path: '/committee',
     component: Committee,
+  },
+  {
+    path: '/witnesses',
+    component: Witnesses
   },
 ];

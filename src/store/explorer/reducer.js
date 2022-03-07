@@ -63,16 +63,16 @@ const explorerReducer = (state = initialState, action) => {
     case types.LAST_BLOCK_NUMBER_FETCH:
       return {
         ...state,
-        block: {
-          ...state.block,
+        blocks: {
+          ...state.blocks,
           isFetchingBlockNumber: true
         }
       }
     case types.LAST_BLOCK_NUMBER_FETCH_SUCCESS:
       return {
         ...state,
-        block: {
-          ...state.block,
+        blocks: {
+          ...state.blocks,
           last_block_number: action.payload,
           isFetchingBlockNumber: false
         }
@@ -80,10 +80,36 @@ const explorerReducer = (state = initialState, action) => {
     case types.LAST_BLOCK_NUMBER_FETCH_FAILURE:
       return {
         ...state,
-        block: {
-          ...state.block,
+        blocks: {
+          ...state.blocks,
           message: 'FETCHING ERROR',
           isFetchingBlockNumber: false
+        }
+      }
+    case types.BIG_BLOCKS_FETCH:
+      return {
+        ...state,
+        blocks: {
+          ...state.blocks,
+          isFetchingBigBlocks: true
+        }
+      }
+    case types.BIG_BLOCKS_FETCH_SUCCESS:
+      return {
+        ...state,
+        blocks: {
+          ...state.blocks,
+          big_blocks: action.payload,
+          isFetchingBigBlocks: false
+        }
+      }
+    case types.BIG_BLOCKS_FETCH_FAILURE:
+      return {
+        ...state,
+        blocks: {
+          ...state.blocks,
+          message: 'FETCHING ERROR',
+          isFetchingBigBlocks: false
         }
       }
     case types.LOOKUP_ACCOUNTS_FETCH:
@@ -297,7 +323,7 @@ const explorerReducer = (state = initialState, action) => {
           isFetchingFees: false
         }
       }
-      case types.COMMITTEE_MEMBERS_FETCH:
+    case types.COMMITTEE_MEMBERS_FETCH:
       return {
         ...state,
         committee: {
@@ -322,6 +348,33 @@ const explorerReducer = (state = initialState, action) => {
           ...state.committee,
           message: 'FETCHING ERROR',
           isFetchingCommittee: false
+        }
+      }
+    case types.WITNESSES_FETCH:
+      return {
+        ...state,
+        witnesses: {
+          ...state.witnesses,
+          isFetchingWitness: true
+        }
+      }
+    case types.WITNESSES_FETCH_SUCCESS: {
+      return {
+        ...state,
+        witnesses: {
+          ...state.witnesses,
+          witnesses: action.payload,
+          isFetchingWitness: false
+        }
+      }
+    }
+    case types.WITNESSES_FETCH_FAILURE:
+      return {
+        ...state,
+        witnesses: {
+          ...state.witnesses,
+          message: 'FETCHING ERROR',
+          isFetchingWitnesses: false
         }
       }
     case types.UNSET:

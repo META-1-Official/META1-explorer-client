@@ -18,7 +18,6 @@ export const generateFetchWorker = (type, fetch) =>
     } catch (error) {
       const errorData = {...error.toJSON(), response: error.response};
       yield put({type: `${type}_FAILURE`, error: errorData});
-      // TODO failing action like authentication fail, etc
       return error;
     }
   };

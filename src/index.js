@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import store from './store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import i18n from './i18n';
 
 import './index.scss';
 
