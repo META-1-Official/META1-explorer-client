@@ -28,6 +28,10 @@ export const isFetchingBigBlocks = (state) => get(state, ['explorer', 'blocks', 
 export const getBigTransactions = (state) => get(state, ['explorer', 'transactions', 'big_transactions']);
 export const isFetchingBigTransactions = (state) => get(state, ['explorer', 'transactions', 'isFetchingBigTransactions']);
 
+// transaction metadata
+export const getTransaction = (state) => get(state, ['explorer', 'transactions', 'transaction']);
+export const isFetchingTransaction = (state) => get(state, ['explorer', 'transactions', 'isFetchingTransaction']);
+
 // active assets
 export const getActiveAssets = (state) => get(state, ['explorer', 'assets', 'active_assets']);
 export const isFetchingActiveAssets = (state) => get(state, ['explorer', 'assets', 'isFetchingActiveAssets']);

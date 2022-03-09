@@ -64,6 +64,13 @@ export default function* watcherSaga() {
     ),
     takeLatest(
       ...takeAllBundler(
+        types.TRANSACTION_FETCH,
+        generateFetchWorker,
+        api.fetchTransaction
+      )
+    ),
+    takeLatest(
+      ...takeAllBundler(
         types.ACTIVE_ASSETS_FETCH,
         generateFetchWorker,
         api.fetchActiveAssets

@@ -51,6 +51,12 @@ export const fetchBigTransactions = () => ({
   payload: {}
 })
 
+// transaction metadata
+export const fetchTransaction = (trx) => ({
+  type: types.TRANSACTION_FETCH,
+  payload: {trx}
+})
+
 // active assets
 export const fetchActiveAssets = () => ({
   type: types.ACTIVE_ASSETS_FETCH,

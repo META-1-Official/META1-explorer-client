@@ -137,6 +137,9 @@ const SearchCard = ({
             id={title}
             options={options ? options : []}
             sx={{width: 300}}
+            onInputChange={onChange}
+            inputValue={value}
+            clearOnBlur={false}
             renderInput={(params) => (
               <StyledTextField
                 {...params}
@@ -144,14 +147,12 @@ const SearchCard = ({
                 variant="outlined"
                 placeholder={searchInputPlaceholder}
                 sx={{width: '100%'}}
-                onChange={onChange}
-                value={value}
                 className="search-card"
               />
             )}
           />
         </div>
-        <StyledButton variant="contained">Search</StyledButton>
+        <StyledButton variant="contained" onClick={onClick}>Search</StyledButton>
       </CardBody>
     </CardWrapper>
   );

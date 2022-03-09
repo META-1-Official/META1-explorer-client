@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { PropTypes } from 'prop-types';
+
 import MuiTable from '@mui/material/Table';
 import MuiTableContainer from '@mui/material/TableContainer';
 import MuiTableBody from '@mui/material/TableBody';
@@ -12,6 +14,51 @@ import {toast} from 'react-toastify';
 
 import urlLinkImg from '../../assets/images/url-icon.png';
 import {operationType} from '../../helpers/utility';
+
+const StyledMuiTableContainer = styled(MuiTableContainer)`
+  border-radius: 0.625em;
+  overflow: scroll;
+  overflow-x: hidden;
+
+  ::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
+  max-height: 700px;
+
+  .MuiTable-root {
+    background: #0a0b0d;
+    border: 1px solid #1c1f27;
+    box-sizing: border-box;
+
+    .MuiTableHead-root {
+      background: #15171b;
+
+      th.MuiTableCell-root {
+        &:last-child {
+          text-align: ${props => props.lastcellaligned === false ? 'left' : 'right'};
+        }
+      }
+    }
+
+    .MuiTableBody-root {
+      .MuiTableRow-root {
+        border: 1px solid rgba(194, 213, 225, 0.08);
+
+        .MuiTableCell-root {
+          color: white;
+          border: none;
+        }
+
+        td.MuiTableCell-root {
+          &:last-child {
+            text-align: ${props => props.lastcellaligned === false ? 'left' : 'right'};
+          }
+        }
+      }
+    }
+  }
+`;
 
 const StyledMuiTableCell = styled(MuiTableCell)`
   font-style: normal;
@@ -120,9 +167,9 @@ const handleUrlLinkClick = (url) => {
   }
 };
 
-export const Table = ({headers, rows}) => {
+export const Table = ({headers, rows, lastcellaligned}) => {
   return (
-    <MuiTableContainer>
+    <StyledMuiTableContainer lastcellaligned={lastcellaligned}>
       <MuiTable sx={{minWidth: 650}} aria-label="simple table">
         <MuiTableHead>
           <MuiTableRow>
@@ -145,8 +192,10 @@ export const Table = ({headers, rows}) => {
           ))}
         </MuiTableBody>
       </MuiTable>
-    </MuiTableContainer>
+    </StyledMuiTableContainer>
   );
 };
 
-Table.propTypes = {};
+Table.propTypes = {
+  lastcellaligned: PropTypes.bool
+};

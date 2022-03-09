@@ -155,7 +155,7 @@ const Witnesses = () => {
           />
         </Label>
         {!isFetchingWitnessesData && !isFetchingHead && getRows('active') ? (
-          <Table headers={headers} rows={getRows('active')}></Table>
+          <Table headers={headers} rows={getRows('active')} lastCellAligned={false}></Table>
         ) : (
           <Loader />
         )}
@@ -169,7 +169,7 @@ const Witnesses = () => {
           />
         </Label>
         {!isFetchingWitnessesData && !isFetchingHead && getRows('standby') ? (
-          <Table headers={headers} rows={getRows('standby')}></Table>
+          <Table headers={headers} rows={getRows('standby')} lastCellAligned={false}></Table>
         ) : (
           <Loader />
         )}
