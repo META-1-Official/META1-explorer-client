@@ -285,7 +285,7 @@ const Dashboard = React.memo(() => {
       </StyledChartContainer>
       <StyledTableContainer>
         <Label>Recent activity</Label>
-        <Table headers={headers} rows={rows}></Table>
+        <Table headers={headers} rows={rows} lastcellaligned={false}></Table>
         {(isFetchingOps || rows.length === 0) && <Loader />}
       </StyledTableContainer>
       <StyledPaginationContainer>

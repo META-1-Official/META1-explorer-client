@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import _ from 'lodash';
 
 // import components
 import {SearchCard} from '../../components/Card';
@@ -36,12 +38,15 @@ const StyledContainer = styled.div`
 
 const Search = React.memo(() => {
   // state vars
-  const [block, setBlock] = useState(0);
+  const [block, setBlock] = useState('');
   const [blocks, setBlocks] = useState([]);
   const [account, setAccount] = useState('');
   const [accounts, setAccounts] = useState([]);
   const [asset, setAsset] = useState('');
   const [assets, setAssets] = useState([]);
+
+  // hooks
+  let navigate = useNavigate();
 
   // dispatch
   const dispatch = useDispatch();
@@ -60,7 +65,7 @@ const Search = React.memo(() => {
   const isFetchingLookupAccountsData = useSelector(isFetchingLookupAccounts);
   const isFetchingLookupAssetsData = useSelector(isFetchingLookupAssets);
 
-  // const vars, funcs
+  // vars, funcs
   const getBlockData = () => {
     let number = parseInt(block);
     let block_data = [];
@@ -89,21 +94,8 @@ const Search = React.memo(() => {
     return account_data;
   };
 
-  useEffect(() => {
-    console.log('blocks', blocks);
-  }, [blocks]);
-
-  useEffect(() => {
-    console.log('assets', assets);
-  }, [assets]);
-
-  useEffect(() => {
-    console.log('accounts', accounts);
-  }, [accounts]);
-
   // handlers
   const handleChange = (e, param) => {
-    console.log('param', e.target.value);
     if (param === 'block') {
       setBlock(e.target.value);
       fetchLastBlockNumberData();
@@ -116,7 +108,28 @@ const Search = React.memo(() => {
       setAccount(e.target.value);
       fetchLookupAccountsData(e.target.value);
       setAccounts(getAccountsData());
-    } else if (param === 'tx') {
+    }
+  };
+
+  const handleClick = (param) => {
+    let ele = document.getElementById(`Search ${_.capitalize(param)}`);
+    switch (param) {
+      case 'block':
+        navigate(`/blocks/${ele.value}`); 
+        break;
+      case 'asset':
+        navigate(`/assets/${ele.value}`);
+        break;
+      case 'account':
+        navigate(`/accounts/${ele.value}`);
+        break;
+      case 'transaction':
+        navigate(`/txs/${ele.value}`);
+        break;
+      case 'object':
+        navigate(`/objects/${ele.value}`);
+        break;
+      default:
     }
   };
 
@@ -129,10 +142,10 @@ const Search = React.memo(() => {
           searchInputSample="194"
           searchInputLabel="Block number"
           searchInputPlaceholder="Enter Block number"
-          value={block}
           onChange={(e) => handleChange(e, 'block')}
           isLoading={isFetchingBlockNumberData}
           options={[...new Set(blocks.slice(0, 8))]}
+          onClick={() => handleClick('block')}
         />
         <SearchCard
           title="Search Account"
@@ -140,10 +153,10 @@ const Search = React.memo(() => {
           searchInputSample="meta1"
           searchInputLabel="Account name or ID"
           searchInputPlaceholder="Enter account name or id number"
-          value={account}
           onChange={(e) => handleChange(e, 'account')}
           isLoading={isFetchingLookupAccountsData}
           options={[...new Set(accounts.slice(0, 8))]}
+          onClick={() => handleClick('account')}
         />
         <SearchCard
           title="Search Object"
@@ -151,6 +164,7 @@ const Search = React.memo(() => {
           searchInputSample="1.3.0"
           searchInputLabel="Object ID"
           searchInputPlaceholder="Enter account name or id number"
+          onClick={() => handleClick('object')}
         />
         <SearchCard
           title="Search Asset"
@@ -158,17 +172,18 @@ const Search = React.memo(() => {
           searchInputSample="USDT"
           searchInputLabel="Asset name or id"
           searchInputPlaceholder="Enter asset name or id"
-          value={asset}
           onChange={(e) => handleChange(e, 'asset')}
           isLoading={isFetchingLookupAssetsData}
           options={[...new Set(assets.slice(0, 8))]}
+          onClick={() => handleClick('asset')}
         />
         <SearchCard
-          title="Search Transaction Hash"
+          title="Search Transaction"
           description="If you have a transaction hash, please paste it here to get transaction information."
           searchInputSample="cb4a306cb75.....6bb37bbcd29"
           searchInputLabel="Transaction ID"
           searchInputPlaceholder="Enter tx hash"
+          onClick={() => handleClick('transaction')}
         />
       </StyledContainer>
     </PageWrapper>

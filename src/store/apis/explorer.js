@@ -871,6 +871,18 @@ export const fetchBigTransactions = () => {
   );
 };
 
+// get transaction meta data
+export const fetchTransaction = ({trx}) => {
+  return axios.get(BASE_URL + "/es/trx?trx=" + trx +
+    "&size=100&sort=-operation_history.sequence",
+    {
+      headers: {
+        'Content-Type': 'application/json-patch+json',
+      },
+    }
+  );
+}
+
 /* ASSET SERVICE */
 // assets
 export const fetchActiveAssets = () => {
