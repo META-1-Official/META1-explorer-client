@@ -242,6 +242,84 @@ const explorerReducer = (state = initialState, action) => {
           isFetchingActiveAssets: false
         }
       }
+    case types.ASSET_FULL_FETCH:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          isFetchingAssetFull: true
+        }
+      }
+    case types.ASSET_FULL_FETCH_SUCCESS:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          asset_full: action.payload,
+          isFetchingAssetFull: false
+        }
+      }
+    case types.ASSET_FULL_FETCH_FAILURE:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          message: 'FETCHING ERROR',
+          isFetchingAssetFull: false
+        }
+      }
+    case types.ASSET_HOLDERS_FETCH:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          isFetchingAssetHolders: true
+        }
+      }
+    case types.ASSET_HOLDERS_FETCH_SUCCESS:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          asset_holders: action.payload,
+          isFetchingAssetHolders: false
+        }
+      }
+    case types.ASSET_HOLDERS_FETCH_FAILURE:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          message: 'FETCHING ERROR',
+          isFetchingAssetHolders: false
+        }
+      }
+    case types.ASSET_HOLDERS_COUNT_FETCH:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          isFetchingAssetHoldersCount: true
+        }
+      }
+    case types.ASSET_HOLDERS_COUNT_FETCH_SUCCESS:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          asset_holders_count: action.payload,
+          isFetchingAssetHoldersCount: false
+        }
+      }
+    case types.ASSET_HOLDERS_COUNT_FETCH_FAILURE:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          message: 'FETCHING ERROR',
+          isFetchingAssetHoldersCount: false
+        }
+      }
     case types.DEX_VOLUME_FETCH:
       return {
         ...state,
@@ -293,6 +371,33 @@ const explorerReducer = (state = initialState, action) => {
           ...state.dex,
           message: 'FETCHING ERROR',
           isFetchingDailyDexChart: false
+        }
+      }
+    case types.ASSET_MARKETS_FETCH:
+      return {
+        ...state,
+        markets: {
+          ...state.markets,
+          isFetchingAssetMarkets: true
+        }
+      }
+    case types.ASSET_MARKETS_FETCH_SUCCESS: {
+      return {
+        ...state,
+        markets: {
+          ...state.markets,
+          asset_markets: action.payload,
+          isFetchingAssetMarkets: false
+        }
+      }
+    }
+    case types.ASSET_MARKETS_FETCH_FAILURE:
+      return {
+        ...state,
+        markets: {
+          ...state.markets,
+          message: 'FETCHING ERROR',
+          isFetchingAssetMarkets: false
         }
       }
     case types.ACTIVE_MARKETS_FETCH:

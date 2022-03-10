@@ -78,6 +78,27 @@ export default function* watcherSaga() {
     ),
     takeLatest(
       ...takeAllBundler(
+        types.ASSET_FULL_FETCH,
+        generateFetchWorker,
+        api.fetchAssetFull
+      )
+    ),
+    takeLatest(
+      ...takeAllBundler(
+        types.ASSET_HOLDERS_FETCH,
+        generateFetchWorker,
+        api.fetchAssetHolders
+      )
+    ),
+    takeLatest(
+      ...takeAllBundler(
+        types.ASSET_HOLDERS_COUNT_FETCH,
+        generateFetchWorker,
+        api.fetchAssetHoldersCount
+      )
+    ),
+    takeLatest(
+      ...takeAllBundler(
         types.DEX_VOLUME_FETCH,
         generateFetchWorker,
         api.fetchDexVolume
@@ -88,6 +109,13 @@ export default function* watcherSaga() {
         types.DAILY_DEX_CHART_FETCH,
         generateFetchWorker,
         api.fetchDailyDEXChart
+      )
+    ),
+    takeLatest(
+      ...takeAllBundler(
+        types.ASSET_MARKETS_FETCH,
+        generateFetchWorker,
+        api.fetchAssetMarkets
       )
     ),
     takeLatest(

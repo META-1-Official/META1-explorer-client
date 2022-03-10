@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Link, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 
 import {Table} from '../../../components/Table';
@@ -9,6 +9,9 @@ import Loader from '../../../components/Loader/Loader';
 // import api
 import {opText} from '../../../store/apis/explorer';
 
+// import helpers
+import { buildCustomKVTableDto } from '../../../helpers/utility';
+
 // import redux
 import actions from '../../../store/actions';
 import selectors from '../../../store/selectors';
@@ -16,7 +19,7 @@ import selectors from '../../../store/selectors';
 const {fetchTransaction} = actions;
 const {getTransaction, isFetchingTransaction} = selectors;
 
-const TwoColumnPageWrapper = styled.div`
+const PageWrapper = styled.div`
   display: flex;
   width: 100%;
   max-width: 1315px;
@@ -88,23 +91,12 @@ const Transaction = () => {
   };
 
   const getMetadataRows = () => {
-    let tmp = [{Hash: 'trx_id'}, {Block: 'block_num'}, {Date: 'block_time'}];
+    let headerM = [{Hash: 'trx_id', type: 'plainText'}, {Block: 'block_num', type: 'coloredText'}, {Date: 'block_time', type: 'plainText'}];
 
-    let rows = metadata
-      ? tmp.map((item, index) => {
-          let key = Object.keys(item)[0];
-          return {
-            Key: [key + ':', 'plainText'],
-            Value: [
-              metadata[item[key]],
-              index !== 1 ? 'plainText' : 'coloredText',
-            ],
-          };
-        })
-      : [];
+    let rows = buildCustomKVTableDto(metadata, headerM);
 
     rows.push({
-      Key: ['Operations in transaction:', 'plainText'],
+      Key: ['Operations:', 'plainText'],
       Value: [getTrx ? getTrx.length : 0, 'plainText'],
     });
 
@@ -112,7 +104,7 @@ const Transaction = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchTransaction(addr));
+    fetchTrx(addr);
   }, []);
 
   const [v, setV] = useState(false); // the flag var for fethcing for only change
@@ -124,7 +116,7 @@ const Transaction = () => {
   }, [getTrx]);
 
   return (
-    <TwoColumnPageWrapper>
+    <PageWrapper>
       <StyledTableContainer>
         <Label>Operations In Transaction</Label>
         <Table headers={headers} rows={rows} lastcellaligned={false}></Table>
@@ -139,7 +131,7 @@ const Transaction = () => {
         ></Table>
         {isFetchingTrx && <Loader />}
       </StyledMetaDataContainer>
-    </TwoColumnPageWrapper>
+    </PageWrapper>
   );
 };
 
