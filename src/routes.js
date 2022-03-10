@@ -13,6 +13,9 @@ const Transaction = lazy(() => import('./pages/Transactions/Transaction'));
 
 // assets
 const Assets = lazy(() => import('./pages/Assets'));
+const Asset = lazy(() => import('./pages/Assets/Asset'));
+
+// accounts
 const Accounts = lazy(() => import('./pages/Accounts'));
 
 // markets
@@ -56,6 +59,10 @@ export const routes = [
   {
     path: '/assets',
     component: Assets,
+  },
+  {
+    path: '/assets/:id',
+    component: Asset,
   },
   {
     path: '/accounts',

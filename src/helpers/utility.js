@@ -280,3 +280,27 @@ export const operationType = (opType) => {
 
     return results;
 };
+
+const isInteger = (value) => {
+    return /^\d+$/.test(value);
+}
+
+export const buildCustomKVTableDto = (data, headerM) => {
+    let rows = data
+      ? headerM.map((item) => {
+          let key = Object.keys(item)[0];
+          let tmp = item[key].split('.');
+          let val_data = tmp.length !== 1 ? data[tmp[0]][tmp[1]] : data[tmp[0]];
+          let formattedVal = isInteger(val_data) ? localizeNumber(parseInt(val_data)) : val_data;
+          return {
+            Key: [key + ':', 'plainText'],
+            Value: [
+                item.type === 'html' ? `<a href='${item.link}'>${formattedVal}</a>` : formattedVal, // in case of html, build <a> tag html code
+                item.type
+            ],
+          };
+        })
+      : [];
+
+    return rows;
+}

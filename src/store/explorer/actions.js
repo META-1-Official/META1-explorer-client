@@ -75,6 +75,30 @@ export const fetchDailyDexChart = () => ({
   payload: {}
 })
 
+// asset full
+export const fetchAssetFull = (asset_id) => ({
+  type: types.ASSET_FULL_FETCH,
+  payload: {asset_id}
+})
+
+// asset holders
+export const fetchAssetHolders = (asset_id) => ({
+  type: types.ASSET_HOLDERS_FETCH,
+  payload: {asset_id}
+})
+
+// asset holders count
+export const fetchAssetHoldersCount = (asset_id) => ({
+  type: types.ASSET_HOLDERS_COUNT_FETCH,
+  payload: {asset_id}
+})
+
+// asset markets
+export const fetchAssetMarkets = (asset_id) => ({
+  type: types.ASSET_MARKETS_FETCH,
+  payload: {asset_id}
+})
+
 // most active markets
 export const fetchActiveMarkets = () => ({
   type: types.ACTIVE_MARKETS_FETCH,

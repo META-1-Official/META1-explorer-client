@@ -38,6 +38,8 @@ const StyledMuiTableContainer = styled(MuiTableContainer)`
         &:last-child {
           text-align: ${props => props.lastcellaligned === false ? 'left' : 'right'};
         }
+        padding-top: ${props => props.cellHeight ?? '16px'};
+        padding-bottom: ${props => props.cellHeight ?? '16px'};
       }
     }
 
@@ -54,6 +56,8 @@ const StyledMuiTableContainer = styled(MuiTableContainer)`
           &:last-child {
             text-align: ${props => props.lastcellaligned === false ? 'left' : 'right'};
           }
+          padding-top: ${props => props.cellHeight ?? '16px'};
+          padding-bottom: ${props => props.cellHeight ?? '16px'};
         }
       }
     }
@@ -167,10 +171,10 @@ const handleUrlLinkClick = (url) => {
   }
 };
 
-export const Table = ({headers, rows, lastcellaligned}) => {
+export const Table = ({headers, rows, lastcellaligned, cellHeight}) => {
   return (
-    <StyledMuiTableContainer lastcellaligned={lastcellaligned}>
-      <MuiTable sx={{minWidth: 650}} aria-label="simple table">
+    <StyledMuiTableContainer lastcellaligned={lastcellaligned} cellHeight={cellHeight}>
+      <MuiTable aria-label="simple table">
         <MuiTableHead>
           <MuiTableRow>
             {headers.map((header) => (
