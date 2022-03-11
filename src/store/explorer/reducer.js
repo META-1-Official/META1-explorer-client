@@ -427,6 +427,34 @@ const explorerReducer = (state = initialState, action) => {
           isFetchingActiveMarkets: false
         }
       }
+
+    case types.TICKER_FETCH:
+      return {
+        ...state,
+        markets: {
+          ...state.markets,
+          isFetchingTicker: true
+        }
+      }
+    case types.TICKER_FETCH_SUCCESS: {
+      return {
+        ...state,
+        markets: {
+          ...state.markets,
+          ticker: action.payload,
+          isFetchingTicker: false
+        }
+      }
+    }
+    case types.TICKER_FETCH_FAILURE:
+      return {
+        ...state,
+        markets: {
+          ...state.markets,
+          message: 'FETCHING ERROR',
+          isFetchingTicker: false
+        }
+      }
     case types.FEES_FETCH:
       return {
         ...state,

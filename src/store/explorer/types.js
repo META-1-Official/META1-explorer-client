@@ -82,6 +82,11 @@ export const ACTIVE_MARKETS_FETCH = 'explorer/ACTIVE_MARKETS_FETCH'
 export const ACTIVE_MARKETS_FETCH_SUCCESS = 'explorer/ACTIVE_MARKETS_FETCH_SUCCESS'
 export const ACTIVE_MARKETS_FETCH_FAILURE = 'explorer/ACTIVE_MARKETS_FETCH_FAILURE'
 
+// Ticker
+export const TICKER_FETCH = 'explorer/TICKER_FETCH'
+export const TICKER_FETCH_SUCCESS = 'explorer/TICKER_FETCH_SUCCESS'
+export const TICKER_FETCH_FAILURE = 'explorer/TICKER_FETCH_FAILURE'
+
 // Fees
 export const FEES_FETCH = 'explorer/FEES_FETCH'
 export const FEES_FETCH_SUCCESS = 'explorer/FEES_FETCH_SUCCESS'

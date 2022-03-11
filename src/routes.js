@@ -73,7 +73,7 @@ export const routes = [
     component: Markets,
   },
   {
-    path: '/markets/:market',
+    path: '/markets/:m1/:m2',
     component: Market,
   },
   {

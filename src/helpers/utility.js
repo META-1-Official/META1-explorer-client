@@ -304,3 +304,16 @@ export const buildCustomKVTableDto = (data, headerM) => {
 
     return rows;
 }
+
+// added total field as last feild (total = sum of first value in each element)
+export const addTotalFieldToJsonArry = (arry) => {
+    if (Object.keys(arry[0]).includes('total')) return arry;
+    let total = 0;
+    return arry.map(ele => {
+        let keys = Object.keys(ele);
+        console.log('KEYS', keys)
+        total += Number(ele[keys[0]]);
+        ele['total'] = total;
+        return ele;
+    });
+}

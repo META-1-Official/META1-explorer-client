@@ -31,15 +31,6 @@ const {fetchLastOperations, fetchHeader} = actions;
 const {getOperations, isFetchingLastOperations, getHeader, isFetchingHeader} =
   selectors;
 
-const mock_chart_data = [
-  {uv: 100},
-  {uv: 400},
-  {uv: 200},
-  {uv: 500},
-  {uv: 300},
-  {uv: 400},
-];
-
 // styled components
 const PageWrapper = styled.div`
   display: flex;
@@ -215,42 +206,36 @@ const Dashboard = React.memo(() => {
       <StyledChartContainer>
         <LineChartsWrapper>
           <LineChartCard
-            data={mock_chart_data}
             title="Block Number"
             number={getHeadData?.head_block_number}
             icon={blockNumImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
-            data={mock_chart_data}
             title="New Users"
             number={getHeadData?.accounts_registered_this_interval}
             icon={newUserImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
-            data={mock_chart_data}
             title="META1 Market Cap"
             number={getHeadData?.bts_market_cap}
             icon={marketCapImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
-            data={mock_chart_data}
             title="META1/BTC Volume"
             number={getHeadData?.quote_volume}
             icon={btcVolumeImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
-            data={mock_chart_data}
             title="Witness"
             number={getHeadData?.witness_count}
             icon={witnessImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
-            data={mock_chart_data}
             title="Committee"
             number={getHeadData?.committee_count}
             icon={committeeImg}

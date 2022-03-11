@@ -105,6 +105,12 @@ export const fetchActiveMarkets = () => ({
   payload: {}
 })
 
+// market ticker
+export const fetchTicker = (base, quote) => ({
+  type: types.TICKER_FETCH,
+  payload: {base, quote}
+})
+
 // fees
 export const fetchFees = () => ({
   type: types.FEES_FETCH,

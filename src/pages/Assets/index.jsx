@@ -32,15 +32,6 @@ const {
   isFetchingDailyDexChart,
 } = selectors;
 
-const mock_chart_data = [
-  {uv: 100},
-  {uv: 400},
-  {uv: 200},
-  {uv: 500},
-  {uv: 300},
-  {uv: 400},
-];
-
 // styled components
 const PageWrapper = styled.div`
   display: flex;
@@ -177,42 +168,36 @@ const Assets = React.memo(() => {
       <StyledChartContainer>
         <LineChartsWrapper>
           <LineChartCard
-            data={mock_chart_data}
             title="24h VOLUME IN META1"
             number={getDexVolumeData?.volume_bts}
             icon={coinMeta1Img}
             isLoading={isFetchingVolume}
           />
           <LineChartCard
-            data={mock_chart_data}
             title="24h VOLUME IN USDT"
             number={getDexVolumeData?.volume_usd}
             icon={coinUsdtImg}
             isLoading={isFetchingVolume}
           />
           <LineChartCard
-            data={mock_chart_data}
             title="24h VOLUME IN BTC"
             number={getDexVolumeData?.volume_cny}
             icon={coinBtcImg}
             isLoading={isFetchingVolume}
           />
           <LineChartCard
-            data={mock_chart_data}
             title="24h MARKET CAP IN META1"
             number={getDexVolumeData?.market_cap_bts.toString().slice(0, -12)}
             icon={coinMeta1Img}
             isLoading={isFetchingVolume}
           />
           <LineChartCard
-            data={mock_chart_data}
             title="24h MARKET CAP IN USDT"
             number={getDexVolumeData?.market_cap_usd.toString().slice(0, -12)}
             icon={coinUsdtImg}
             isLoading={isFetchingVolume}
           />
           <LineChartCard
-            data={mock_chart_data}
             title="24h MARKET CAP IN BTC"
             number={getDexVolumeData?.market_cap_cny.toString().slice(0, -12)}
             icon={coinBtcImg}
