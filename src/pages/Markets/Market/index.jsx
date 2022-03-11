@@ -10,7 +10,10 @@ import Loader from '../../../components/Loader/Loader';
 
 // import helpers
 import images from '../../../helpers/images';
-import { addTotalFieldToJsonArry, localizeNumber } from '../../../helpers/utility';
+import {
+  addTotalFieldToJsonArry,
+  parseGroupOrdersBook,
+} from '../../../helpers/utility';
 
 // import api
 import {
@@ -100,19 +103,21 @@ const Market = React.memo(() => {
   const isFetchingTickerData = useSelector(isFetchingTicker);
 
   // vars
-  const m1 = location.pathname.split('/')[2];
-  const m2 = location.pathname.split('/')[3];
-  const sellOrdersHeader = ['Price', getTickerData?.base, getTickerData?.quote, `Total(${getTickerData?.quote})`];
-  const buyOrdersHeader = ['Price', getTickerData?.quote, getTickerData?.base, `Total(${getTickerData?.quote})`];
+  const m2 = location.pathname.split('/')[2];
+  const m1 = location.pathname.split('/')[3];
+  const sellOrdersHeader = [
+    'Price',
+    getTickerData?.base,
+    getTickerData?.quote,
+    `Total(${getTickerData?.quote})`,
+  ];
+  const buyOrdersHeader = [
+    'Price',
+    getTickerData?.quote,
+    getTickerData?.base,
+    `Total(${getTickerData?.quote})`,
+  ];
   const groupOrdersHeader = ['Min', 'Max', `Total(${getTickerData?.quote})`];
-  const sellOrderRows = orderBook ? addTotalFieldToJsonArry(orderBook.asks).map(order => {
-    return {
-      'Price': [order.price, 'plainText'],
-      [getTickerData?.base]: [order.base, 'plainText'],
-      [getTickerData?.quote]: [order.quote, 'plainText'],
-      [`Total(${getTickerData?.quote})`]: [order.total, 'plainText'],
-    }
-  }) : []  
 
   useEffect(() => {
     setAssetsData();
@@ -122,9 +127,64 @@ const Market = React.memo(() => {
     fetchTickerData(m1, m2);
   }, []);
 
-  useEffect(() => {    
-    orderBook && console.log('BBBB', addTotalFieldToJsonArry(orderBook?.asks))
-  }, [precision, orderBook]);
+  const getOrderRows = (type) => {
+    if (orderBook) {
+      const orders = type === 'sell' ? orderBook.asks : orderBook.bids;
+      return addTotalFieldToJsonArry(orders)
+        .map((order) => {
+          return {
+            Price: [Number(order.price).toFixed(precision?.base), 'plainText'],
+            [getTickerData?.base]: [
+              Number(order.base).toFixed(precision?.base),
+              'plainText',
+            ],
+            [getTickerData?.quote]: [
+              Number(order.quote).toFixed(precision?.quote),
+              'plainText',
+            ],
+            [`Total(${getTickerData?.quote})`]: [
+              Number(order.total).toFixed(precision?.base),
+              'plainText',
+            ],
+          };
+        })
+        .sort((o1, o2) => {
+          return (
+            o2[`Total(${getTickerData?.quote})`][0] -
+            o1[`Total(${getTickerData?.quote})`][0]
+          );
+        });
+    } else return [];
+  };
+
+  const getGroupOrderRows = (type) => {
+    const orders = type === 'sell' ? sellGroupedOrderBook : buyGroupedOrderBook;
+    if (orders) {
+      return parseGroupOrdersBook(orders, precision?.quote, precision?.base)
+        .map((order) => {
+          return {
+            Min: [
+              Number(order.min_price).toFixed(precision?.base),
+              'plainText',
+            ],
+            Max: [
+              Number(order.max_price).toFixed(precision?.base),
+              'plainText',
+            ],
+            [`Total(${getTickerData?.quote})`]: [
+              Number(order.total_for_sale).toFixed(precision?.base),
+              'plainText',
+            ],
+          };
+        })
+        .sort((o1, o2) => {
+          return (
+            o2[`Total(${getTickerData?.quote})`][0] -
+            o1[`Total(${getTickerData?.quote})`][0]
+          );
+        });
+    } else return [];
+  };
 
   const setAssetsData = async () => {
     const base = await fetchAsset(m1);
@@ -139,17 +199,17 @@ const Market = React.memo(() => {
 
   const setOrderBookData = async () => {
     const orderBook = await fetchOrderBook({base: m1, quote: m2});
-    setOrderBook(orderBook.data)
+    setOrderBook(orderBook.data);
   };
 
   const setSellGroupedOrderBookData = async () => {
     const orderSellBook = await fetchGroupedOrderBook({base: m1, quote: m2});
-    console.log('ORDERGROUP_SELL', orderSellBook);
+    setSellGroupedOrderBook(orderSellBook.data);
   };
 
   const setBuyGroupedOrderBookData = async () => {
     const orderBuyBook = await fetchGroupedOrderBook({base: m2, quote: m1});
-    console.log('ORDERGROUP_BUY', orderBuyBook);
+    setBuyGroupedOrderBook(orderBuyBook.data);
   };
 
   return (
@@ -198,12 +258,19 @@ const Market = React.memo(() => {
       <StyledContainer>
         <BlockWrapper>
           <Label>Sell Orders</Label>
-          <Table headers={sellOrdersHeader} rows={sellOrderRows}></Table>
+          {getTickerData && (
+            <Table
+              headers={sellOrdersHeader}
+              rows={getOrderRows('sell')}
+            ></Table>
+          )}
           {!orderBook && <Loader />}
         </BlockWrapper>
         <BlockWrapper>
           <Label>Buy Orders</Label>
-          <Table headers={buyOrdersHeader} rows={[]}></Table>
+          {getTickerData && (
+            <Table headers={buyOrdersHeader} rows={getOrderRows('buy')}></Table>
+          )}
           {!orderBook && <Loader />}
         </BlockWrapper>
       </StyledContainer>
@@ -213,12 +280,22 @@ const Market = React.memo(() => {
       <StyledContainer>
         <BlockWrapper>
           <Label>Sell Orders Groups</Label>
-          <Table headers={groupOrdersHeader} rows={[]}></Table>
+          {getTickerData && sellGroupedOrderBook && precision && (
+            <Table
+              headers={groupOrdersHeader}
+              rows={getGroupOrderRows('sell')}
+            ></Table>
+          )}
           {!sellGroupedOrderBook && <Loader />}
         </BlockWrapper>
         <BlockWrapper>
           <Label>Buy Orders Groups</Label>
-          <Table headers={groupOrdersHeader} rows={[]}></Table>
+          {getTickerData && buyGroupedOrderBook && precision && (
+            <Table
+              headers={groupOrdersHeader}
+              rows={getGroupOrderRows('buy')}
+            ></Table>
+          )}
           {!buyGroupedOrderBook && <Loader />}
         </BlockWrapper>
       </StyledContainer>

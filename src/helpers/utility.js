@@ -21,7 +21,7 @@ export const formatNumber = x => {
 };
 
 export const formatBalance = (number, presicion) => {
-    var divideby =  Math.pow(10, presicion);
+    var divideby = Math.pow(10, presicion);
     return Number(number / divideby);
 };
 
@@ -287,20 +287,20 @@ const isInteger = (value) => {
 
 export const buildCustomKVTableDto = (data, headerM) => {
     let rows = data
-      ? headerM.map((item) => {
-          let key = Object.keys(item)[0];
-          let tmp = item[key].split('.');
-          let val_data = tmp.length !== 1 ? data[tmp[0]][tmp[1]] : data[tmp[0]];
-          let formattedVal = isInteger(val_data) ? localizeNumber(parseInt(val_data)) : val_data;
-          return {
-            Key: [key + ':', 'plainText'],
-            Value: [
-                item.type === 'html' ? `<a href='${item.link}'>${formattedVal}</a>` : formattedVal, // in case of html, build <a> tag html code
-                item.type
-            ],
-          };
+        ? headerM.map((item) => {
+            let key = Object.keys(item)[0];
+            let tmp = item[key].split('.');
+            let val_data = tmp.length !== 1 ? data[tmp[0]][tmp[1]] : data[tmp[0]];
+            let formattedVal = isInteger(val_data) ? localizeNumber(parseInt(val_data)) : val_data;
+            return {
+                Key: [key + ':', 'plainText'],
+                Value: [
+                    item.type === 'html' ? `<a href='${item.link}'>${formattedVal}</a>` : formattedVal, // in case of html, build <a> tag html code
+                    item.type
+                ],
+            };
         })
-      : [];
+        : [];
 
     return rows;
 }
@@ -311,9 +311,56 @@ export const addTotalFieldToJsonArry = (arry) => {
     let total = 0;
     return arry.map(ele => {
         let keys = Object.keys(ele);
-        console.log('KEYS', keys)
         total += Number(ele[keys[0]]);
         ele['total'] = total;
         return ele;
+    });
+}
+
+// 
+export const parseGroupOrdersBook = (data, quote_precision, base_precision) => {
+    return data.map(value => {
+        let total_for_sale = value.total_for_sale;
+        const max_base_amount = parseInt(value.max_price.base.amount);
+        const max_quote_amount = parseInt(value.max_price.quote.amount);
+        const min_base_amount = parseInt(value.min_price.base.amount);
+        const min_quote_amount = parseInt(value.min_price.quote.amount);
+
+        const base_id = value.max_price.base.asset_id;
+        const quote_id = value.max_price.quote.asset_id;
+
+        const base_array = base_id.split(".");
+        const quote_array = quote_id.split(".");
+        let divide = 0;
+
+        if (base_array[2] > quote_array[2]) {
+            divide = 1;
+        }
+        const qp = Math.pow(10, parseInt(quote_precision));
+        const bp = Math.pow(10, parseInt(base_precision));
+
+        let max_price;
+        let min_price;
+        let min;
+        let max;
+        if (divide) {
+            max = (max_quote_amount / qp) / (max_base_amount / bp);
+            max_price = 1 / max;
+            min = (min_quote_amount / qp) / (min_base_amount / bp);
+            min_price = 1 / min;
+        }
+        else {
+            max_price = parseFloat(max_base_amount / bp) / parseFloat(max_quote_amount / qp);
+            min_price = parseFloat(min_base_amount / bp) / parseFloat(min_quote_amount / qp);
+        }
+        total_for_sale = Number(total_for_sale / bp);
+
+        return {
+            max_price: max_price,
+            min_price: min_price,
+            total_for_sale: total_for_sale,
+            base_precision: base_precision,
+            quote_precision: quote_precision
+        };
     });
 }
