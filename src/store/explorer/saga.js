@@ -127,6 +127,13 @@ export default function* watcherSaga() {
     ),
     takeLatest(
       ...takeAllBundler(
+        types.TICKER_FETCH,
+        generateFetchWorker,
+        api.fetchTicker
+      )
+    ),
+    takeLatest(
+      ...takeAllBundler(
         types.FEES_FETCH,
         generateFetchWorker,
         api.fetchFees

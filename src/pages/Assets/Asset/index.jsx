@@ -40,19 +40,16 @@ const PageWrapper = styled.div`
 `;
 
 const StyledContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
   display: flex;
 `;
 
 const StyledColumnContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
   display: flex;
   flex-direction: column;
   padding: 30px;
 `;
 
 const BlockWrapper = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
   margin-top: 38px;
   display: flex;
   width: ${(props) => props.width ?? '100%'};
@@ -84,6 +81,7 @@ const Asset = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
+  // actions
   const fetchAssetFullData = (id) => dispatch(fetchAssetFull(id));
   const fetchAssetHoldersData = (id) => dispatch(fetchAssetHolders(id));
   const fetchAssetHoldersCountData = (id) =>

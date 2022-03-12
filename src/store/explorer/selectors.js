@@ -44,7 +44,7 @@ export const isFetchingDexVolume = (state) => get(state, ['explorer', 'dex', 'is
 export const getDailyDexChart = (state) => get(state, ['explorer', 'dex', 'daily_dex_chart']);
 export const isFetchingDailyDexChart = (state) => get(state, ['explorer', 'dex', 'isFetchingDailyDexChart']);
 
-// active assets
+// full detail of the asset
 export const getAssetFull = (state) => get(state, ['explorer', 'assets', 'asset_full']);
 export const isFetchingAssetFull = (state) => get(state, ['explorer', 'assets', 'isFetchingAssetFull']);
 
@@ -63,6 +63,10 @@ export const isFetchingAssetMarkets = (state) => get(state, ['explorer', 'market
 // active markets
 export const getActiveMarkets = (state) => get(state, ['explorer', 'markets', 'active_markets']);
 export const isFetchingActiveMarkets = (state) => get(state, ['explorer', 'markets', 'isFetchingActiveMarkets']);
+
+// market ticker
+export const getTicker = (state) => get(state, ['explorer', 'markets', 'ticker']);
+export const isFetchingTicker = (state) => get(state, ['explorer', 'markets', 'isFetchingTicker']);
 
 // fees
 export const getFees = (state) => get(state, ['explorer', 'fees', 'fees']);

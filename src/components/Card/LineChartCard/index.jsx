@@ -3,7 +3,16 @@ import {LineChart, Line} from 'recharts';
 import {localizeNumber} from '../../../helpers/utility';
 import Loader from '../../../components/Loader/Loader';
 
-export const LineChartCard = ({title, number, icon, data, isLoading}) => {
+const mock_chart_data = [
+  {uv: 100},
+  {uv: 400},
+  {uv: 200},
+  {uv: 500},
+  {uv: 300},
+  {uv: 400},
+];
+
+export const LineChartCard = ({title, number, icon, isLoading}) => {
   return (
     <div className="card card-line-chart">
       <div className="card-body">
@@ -19,7 +28,7 @@ export const LineChartCard = ({title, number, icon, data, isLoading}) => {
       </div>
       <div className="card-action">
         {!isLoading && (
-          <LineChart width={275} height={76} data={data}>
+          <LineChart width={275} height={76} data={mock_chart_data}>
             <Line type="natural" dataKey="uv" stroke="#ffc000" dot={false} />
           </LineChart>
         )}

@@ -872,7 +872,7 @@ export const fetchBigTransactions = () => {
 };
 
 // get transaction meta data
-export const fetchTransaction = ({trx}) => {
+export const fetchTransaction = ({ trx }) => {
   return axios.get(BASE_URL + "/es/trx?trx=" + trx +
     "&size=100&sort=-operation_history.sequence",
     {
@@ -911,7 +911,7 @@ export const fetchDailyDEXChart = () => {
 }
 
 // asset detail
-export const fetchAssetFull = ({asset_id}) => {
+export const fetchAssetFull = ({ asset_id }) => {
   return axios.get(BASE_URL + '/asset_and_volume?asset_id=' + asset_id, {
     headers: {
       'Content-Type': 'application/json-patch+json',
@@ -920,7 +920,7 @@ export const fetchAssetFull = ({asset_id}) => {
 };
 
 // asset holders
-export const fetchAssetHolders = ({asset_id}) => {
+export const fetchAssetHolders = ({ asset_id }) => {
   return axios.get(BASE_URL + '/asset_holders?asset_id=' + asset_id, {
     headers: {
       'Content-Type': 'application/json-patch+json',
@@ -929,7 +929,7 @@ export const fetchAssetHolders = ({asset_id}) => {
 };
 
 // asset holders count
-export const fetchAssetHoldersCount = ({asset_id}) => {
+export const fetchAssetHoldersCount = ({ asset_id }) => {
   return axios.get(BASE_URL + '/asset_holders_count?asset_id=' + asset_id, {
     headers: {
       'Content-Type': 'application/json-patch+json',
@@ -937,8 +937,8 @@ export const fetchAssetHoldersCount = ({asset_id}) => {
   });
 };
 
-// asset name & precision
-export const fetchAssetNameAndPrecision = ({asset_id}) => {
+// asset by asset id
+export const fetchAsset = (asset_id) => {
   return axios.get(BASE_URL + '/asset?asset_id=' + asset_id, {
     headers: {
       'Content-Type': 'application/json-patch+json',
@@ -948,8 +948,8 @@ export const fetchAssetNameAndPrecision = ({asset_id}) => {
 
 /* MARKET SERVICE */
 // asset markets
-export const fetchAssetMarkets = ({asset_id}) => {
-  return axios.get(BASE_URL + "//markets?asset_id=" + asset_id, {
+export const fetchAssetMarkets = ({ asset_id }) => {
+  return axios.get(BASE_URL + "/markets?asset_id=" + asset_id, {
     headers: {
       'Content-Type': 'application/json-patch+json'
     }
@@ -959,6 +959,34 @@ export const fetchAssetMarkets = ({asset_id}) => {
 // most active markets
 export const fetchActiveMarkets = () => {
   return axios.get(BASE_URL + "/most_active_markets", {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}
+
+// get ticker
+export const fetchTicker = ({ base, quote }) => {
+  return axios.get(BASE_URL + "/ticker?base=" + base + "&quote=" + quote, {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}
+
+// order book
+export const fetchOrderBook = ({ base, quote }) => {
+  return axios.get(BASE_URL + "/order_book?base=" + base + "&quote=" + quote + "&limit=10", {
+    headers: {
+      'Content-Type': 'application/json-patch+json'
+    }
+  });
+}
+
+// grouped order book
+export const fetchGroupedOrderBook = ({ base, quote }) => {
+  return axios.get(BASE_URL + "/grouped_limit_orders?base=" + base + "&quote=" +
+    quote + "&group=10&limit=10", {
     headers: {
       'Content-Type': 'application/json-patch+json'
     }
