@@ -49,10 +49,10 @@ const headers = ['Name', 'Amount'];
 const AccountsLimit = constants.API_LIMIT;
 
 const accountRawMapper = (account) => {
-  const {amount, name} = account;
+  const {amount, name, account_id} = account;
   return {
     Amount: [Number(amount).toLocaleString(), 'plainText'],
-    Name: [name, 'plainText'],
+    Name: [`<a href='/accounts/${account_id}'>${name}</a>`, 'html'],
   };
 };
 
