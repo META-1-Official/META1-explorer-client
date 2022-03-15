@@ -1,19 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import { StylesProvider } from '@mui/styles';
+import { theme } from './styles/mui';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import store from './store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import i18n from './i18n';
 
 import './index.scss';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <StylesProvider injectFirst>
+        <MuiThemeProvider theme={theme}>
+          <ThemeProvider theme={theme}>
+            <App />
+          </ ThemeProvider>
+        </MuiThemeProvider>
+      </StylesProvider>
+      <ToastContainer
+        autoClose={2000}
+      />
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode >,
   document.getElementById('root'),
 );
 

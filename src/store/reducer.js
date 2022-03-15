@@ -1,9 +1,9 @@
-import {combineReducers} from 'redux';
+import explorer from './explorer/reducer';
+import accountsReducer from './accounts/reducer';
 
-import commonReducer from './common/reducer';
-import transactionsReducer from './transactions/reducer';
+const reducer = {
+  explorer,
+  accounts: accountsReducer,
+};
 
-export default combineReducers({
-  common: commonReducer,
-  transactions: transactionsReducer,
-});
+export default reducer;
