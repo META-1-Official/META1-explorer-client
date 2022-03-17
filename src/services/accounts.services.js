@@ -56,6 +56,44 @@ const getBalanceData = async (fullAccount) => {
     return retVal;
 }
 
-const accountsService = { getAccountFullData, getBalanceData };
+const getKeysAndAccountsData = async (fullAccount) => {
+    const owner_keys = await api.parseAuth(fullAccount.account.owner.key_auths, "key");
+    const owner_accounts = await api.parseAuth(fullAccount.account.owner.account_auths, "account");
+    const active_keys = await api.parseAuth(fullAccount.account.active.key_auths, "key");
+    const active_accounts = await api.parseAuth(fullAccount.account.active.account_auths, "account");
+    const memo_keys = [fullAccount.account.options.memo_key];
+    let retVal = {
+        keys: {
+            owner: owner_keys?.data,
+            active: active_keys?.data,
+            memo: memo_keys
+        },
+        accounts: {
+            owner: owner_accounts?.data,
+            active: active_accounts?.data
+        }
+    }
+    return retVal;
+}
+
+const getCreatedAssetsData = async (fullAccount) => {
+    const user_issued_assets = await api.parseUIAs(fullAccount.assets);
+    return { user_issued_assets: user_issued_assets?.data };
+}
+
+const getVotesData = async (fullAccount) => {
+    const votes = await api.parseVotes(fullAccount.votes);
+    return votes?.data;
+}
+
+const getAccountHistoryData = async (fullAccount, page_ops) => {
+    const page = page_ops - 1;
+    const start = fullAccount.total_ops - (page * 20) + 1;
+    const limit = 20;
+    const history = await api.getAccountHistory(fullAccount.account.id, start, limit);
+    return history?.data;
+}
+
+const accountsService = { getAccountFullData, getBalanceData, getKeysAndAccountsData, getCreatedAssetsData, getVotesData, getAccountHistoryData };
 
 export default accountsService;

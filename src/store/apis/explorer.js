@@ -350,7 +350,6 @@ export const opText = (operation_type, operation) => {
                 return axios
                     .get(BASE_URL + '/asset?asset_id=' + asset_to_issue_asset_id)
                     .then((response_asset) => {
-                        var asset_name = response_asset.data.symbol;
                         var asset_precision = response_asset.data.precision;
 
                         var divideby = Math.pow(10, asset_precision);
@@ -484,8 +483,8 @@ export const opText = (operation_type, operation) => {
     } else if (operation_type === 33) {
         operation_account = operation.owner_;
 
-        var amount_amount = operation.amount_.amount;
-        var amount_asset_id = operation.amount_.asset_id;
+        amount_amount = operation.amount_.amount;
+        amount_asset_id = operation.amount_.asset_id;
 
         return axios
             .get(BASE_URL + '/account_name?account_id=' + operation_account)
@@ -603,9 +602,9 @@ export const opText = (operation_type, operation) => {
         operation_account = operation.from;
 
         var amount_ = operation.amount_.amount;
-        var asset_id = operation.amount_.asset_id;
+        asset_id = operation.amount_.asset_id;
 
-        var to = operation.to;
+        to = operation.to;
 
         return axios
             .get(BASE_URL + '/account_name?account_id=' + operation_account)
@@ -644,7 +643,6 @@ export const opText = (operation_type, operation) => {
     } else if (operation_type === 50) {
         // HTLC REDEEM
         operation_account = operation.redeemer;
-        var htlc_id = operation.htlc_id;
 
         return axios
             .get(BASE_URL + '/account_name?account_id=' + operation_account)
@@ -660,7 +658,6 @@ export const opText = (operation_type, operation) => {
     } else if (operation_type === 51) {
         // HTLC REDEEMED
         operation_account = operation.from;
-        var htlc_id = operation.htlc_id;
 
         return axios
             .get(BASE_URL + '/account_name?account_id=' + operation_account)
@@ -676,7 +673,6 @@ export const opText = (operation_type, operation) => {
     } else if (operation_type === 52) {
         // HTLC EXTEND
         operation_account = operation.update_issuer;
-        var htlc_id = operation.htlc_id;
 
         return axios
             .get(BASE_URL + '/account_name?account_id=' + operation_account)
@@ -692,7 +688,6 @@ export const opText = (operation_type, operation) => {
     } else if (operation_type === 53) {
         // HTLC REFUND
         operation_account = operation.to;
-        var htlc_id = operation.htlc_id;
 
         return axios
             .get(BASE_URL + '/account_name?account_id=' + operation_account)
@@ -846,16 +841,26 @@ export const fetchBigBlocks = () => {
 };
 
 // block by id
-export const fetchBlock = (block_num) => {
-    return axios.get(
-        BASE_URL +
-        '/block?block_num=' + block_num,
-        {
-            headers: {
-                'Content-Type': 'application/json-patch+json',
-            },
-        },
-    );
+export const fetchBlock = async (block_num) => {
+    const response = await axios.get(BASE_URL + "/block?block_num=" + block_num);
+    let operations_count = 0;
+    for (var i = 0; i < response.data.transactions.length; i++) {
+        operations_count = operations_count + response.data.transactions[i].operations.length;
+    }
+    let block = {
+        transactions: response.data.transactions,
+        block_num: block_num,
+        previous: response.data.previous,
+        timestamp: response.data.timestamp,
+        witness: response.data.witness,
+        witness_signature: response.data.witness_signature,
+        transaction_merkle_root: response.data.transaction_merkle_root,
+        transactions_count: response.data.transactions.length,
+        operations_count: operations_count,
+        next: parseInt(block_num) + 1,
+        prev: parseInt(block_num) - 1
+    };
+    return { data: block }
 };
 
 /* TRANSACTION SERVICE */
@@ -1212,13 +1217,13 @@ export const parseAuth = async (auth, type) => {
 
 export const parseBalance = async (limit_orders, call_orders, balance, precision, symbol) => {
     var limit_orders_counter = 0;
-    await limit_orders.map(value => {
+    await limit_orders.map(async value => {
         if (value.sell_price.quote.asset_id === balance.asset_type) {
             limit_orders_counter++;
         }
     });
     var call_orders_counter = 0;
-    await call_orders.map(value => {
+    await call_orders.map(async value => {
         if (value.call_price.quote.asset_id === balance.asset_type) {
             call_orders_counter++;
         }
@@ -1235,8 +1240,7 @@ export const parseBalance = async (limit_orders, call_orders, balance, precision
 }
 
 export const parseVotes = async (votes) => {
-    var results = [];
-    await votes.map(async value => {
+    var results = await votes.map(async value => {
         var type = "";
         var account;
         var votable_object_name = "";
@@ -1262,7 +1266,7 @@ export const parseVotes = async (votes) => {
             account = "No name";
         }
         const response = await axios.get(BASE_URL + "/account_name?account_id=" + account);
-        var parsed = {
+        return {
             id: value.id,
             type: type,
             account: account,
@@ -1270,9 +1274,9 @@ export const parseVotes = async (votes) => {
             votable_object_name: votable_object_name,
             votes_for: votes_for
         };
-        results.push(parsed);
     });
-    return { data: results }
+    let retVal = Promise.all(results);
+    return { data: retVal }
 }
 
 export const getAssetNameAndPrecision = async (asset_id) => {
@@ -1299,7 +1303,7 @@ export const parseUIAs = async (assets) => {
 
 export const parseProposals = async (proposals) => {
     var results = [];
-    await proposals.map(value => {
+    await proposals.map(async value => {
         var proposal = {
             id: value
         };
@@ -1312,7 +1316,7 @@ export const parseProposals = async (proposals) => {
 export const parseVesting = async (vesting_balances) => {
     var results = [];
     if (vesting_balances.length > 0) {
-        vesting_balances(async value => {
+        vesting_balances.map(async value => {
             const retData = await getAssetNameAndPrecision(value.balance.asset_id);
             var vesting = {
                 id: value.id,
@@ -1324,13 +1328,13 @@ export const parseVesting = async (vesting_balances) => {
         });
         return { data: results };
     }
+    return { data: [] }
 }
 
 export const getAccountHistory = async (account_id, start, limit) => {
     const response = axios.get(BASE_URL + "es/account_history?account_id=" +
         account_id + "&search_after=" + start + "&size=" + limit + "&sort_by=-account_history.sequence");
-    var results = [];
-    await response.data.map(async value => {
+    const history = response.data.map(async value => {
         var timestamp;
         var witness;
         var op = operationType(value.operation_type);
@@ -1350,7 +1354,8 @@ export const getAccountHistory = async (account_id, start, limit) => {
         };
         const op_text = await opText(value.operation_type, parsed_op);
         operation.operation_text = op_text;
-        results.push(operation);
+        return operation;
     });
-    return { data: results };
+    let retVal = Promise.all(history);
+    return { data: retVal };
 }
