@@ -2,7 +2,7 @@ import {all, takeLatest} from 'redux-saga/effects';
 
 import AccountActionTypes from './actions';
 import {generateFetchWorker, takeAllBundler} from '../saga';
-import accountsService from '../../services/accounts.services';
+import api from '../apis';
 
 export default function* accountsSaga() {
   yield all([
@@ -10,7 +10,7 @@ export default function* accountsSaga() {
       ...takeAllBundler(
         AccountActionTypes.FETCH_ACCOUNTS,
         generateFetchWorker,
-        accountsService.fetchAccounts,
+        api.fetchAccounts,
       ),
     ),
   ]);
