@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { result } from 'lodash';
-import { formatNumber, formatBalance, operationType } from '../../helpers/utility';
+import { formatNumber, formatBalance, operationType, objectType } from '../../helpers/utility';
 
 const BASE_URL = 'https://explorer.meta1.io:5000';
 
@@ -27,6 +27,29 @@ export const fetchHeader = () => {
             'Content-Type': 'application/json-patch+json',
         },
     });
+};
+
+export const getOperation = async (op_id) => {
+    const response = await axios.get(BASE_URL + "/operation?operation_id=" + op_id);
+    const raw_obj = response.data.op;
+
+    const op_text = await opText(response.data.op_type, raw_obj);
+    let op = {
+        name: op_id,
+        fee: 2,
+        block_num: response.data.block_num,
+        virtual_op: response.data.virtual_op,
+        trx_in_block: response.data.trx_in_block,
+        op_in_trx: response.data.op_in_trx,
+        result: response.data.result,
+        type: response.data.op_type,
+        raw: raw_obj,
+        operation_text: op_text,
+        block_time: response.data.block_time,
+        trx_id: response.data.trx_id
+    };
+
+    return { data: op };
 };
 
 export const opText = (operation_type, operation) => {
@@ -1007,6 +1030,22 @@ export const fetchFees = () => {
             'Content-Type': 'application/json-patch+json'
         }
     });
+}
+
+/* OBJECT SERVICE */
+// object
+export const getObject = async (obj_id) => {
+    const obj = await axios.get(BASE_URL + "/object?object=" + obj_id);
+    const object_id = obj.data.id;
+    const object_type = objectType(object_id);
+
+    let object = {
+        raw: obj.data,
+        name: object_id,
+        type: object_type
+    };
+
+    return { data: object };
 }
 
 /* GOVERNANCE SERVICE */

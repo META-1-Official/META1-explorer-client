@@ -138,10 +138,11 @@ const Img = styled.img`
 
 const TableCell = ({cell}) => {
   const [content, contentType] = cell;
+  // console.log('content', content.replace('/#', ''))
 
   switch (contentType) {
     case 'html':
-      return <Html dangerouslySetInnerHTML={{__html: content}} />;
+      return <Html dangerouslySetInnerHTML={{__html: content.toString().replaceAll('/#', '')}} />;
     case 'coloredText':
       return <Text type="colored">{content}</Text>;
     case 'label':
