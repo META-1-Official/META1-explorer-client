@@ -38,6 +38,10 @@ const Label = styled.div`
   color: white;
   margin-bottom: 10px;
   margin-top: 10px;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    text-align: center;
+  }
 `;
 
 const Blocks = () => {

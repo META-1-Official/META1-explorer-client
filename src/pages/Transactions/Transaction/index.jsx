@@ -25,6 +25,11 @@ const PageWrapper = styled.div`
   max-width: 1315px;
   padding-top: 80px;
   padding-bottom: 40px;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    flex-direction: column;
+    padding-top: 50px;
+  }
 `;
 
 const StyledTableContainer = styled.div`
@@ -33,6 +38,10 @@ const StyledTableContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 65%;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    width: 100%;
+  }
 `;
 
 const StyledMetaDataContainer = styled.div`
@@ -42,6 +51,11 @@ const StyledMetaDataContainer = styled.div`
   flex-direction: column;
   width: 40%;
   margin-left: 26px;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    width: 100%;
+    margin-left: 0;
+  }
 `;
 
 const Label = styled.div`
@@ -50,6 +64,10 @@ const Label = styled.div`
   font-size: 20px;
   line-height: 30px;
   color: white;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    text-align: center;
+  }
 `;
 
 const Transaction = () => {

@@ -43,19 +43,35 @@ const PageWrapper = styled.div`
 
 const StyledChartContainer = styled.div`
   display: flex;
+  justify-content: center;
+
+  @media only screen and (max-width: 1020px)  {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 `;
 
 const LineChartsWrapper = styled.div`
   width: 100%;
   display: flex;
-  max-width: 860px;
   flex-wrap: wrap;
   gap: 17px;
+  justify-content: center;
+
+  @media only screen and (max-width: 1315px)  {
+    max-width: 600px;
+  }
 `;
 
 const PieChartWrapper = styled.div`
-  width: 100%;
+  width: 100%;  
   max-width: 410px;
+  height: 385px;
   border: 1px solid ${(props) => props.theme.palette.border.darkGrey};
   border-radius: 0.625em;
   margin-left: 17px;
@@ -63,6 +79,16 @@ const PieChartWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media only screen and (max-width: 1020px)  {
+    margin-top: 30px;
+  }
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    max-width: unset;
+    width: unset;
+    margin-left: 0;
+  }
 `;
 
 const ButtonGroup = styled.div`
@@ -127,12 +153,20 @@ const Label = styled.div`
   font-size: 20px;
   line-height: 30px;
   color: white;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    text-align: center;
+  }
 `;
 
 const StyledPaginationContainer = styled.div`
   padding-top: 38px;
   display: flex;
   justify-content: flex-end;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    justify-content: center;
+  }
 `;
 
 const Dashboard = React.memo(() => {
@@ -248,7 +282,6 @@ const Dashboard = React.memo(() => {
             <StyledButton>Markets</StyledButton>
             <StyledButton>Holders</StyledButton>
           </ButtonGroup>
-          {/* <PieChart></PieChart> */}
           <Label
             style={{
               textAlign: 'center',

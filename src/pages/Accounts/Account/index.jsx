@@ -27,6 +27,10 @@ const PageWrapper = styled.div`
   width: 100%;
   padding-bottom: 38px;
   flex-direction: column;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    padding-top: 80px;
+  }
 `;
 
 const StyledContainer = styled.div`
@@ -34,10 +38,25 @@ const StyledContainer = styled.div`
   flex-direction: column;
 `;
 
+const StyledHsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  padding: 15px;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    padding: 0;
+  }
+`;
+
 const StyledPaginationContainer = styled.div`
   padding-top: 38px;
   display: flex;
   justify-content: flex-end;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    justify-content: center;
+  }
 `;
 
 const Label = styled.div`
@@ -49,6 +68,10 @@ const Label = styled.div`
   margin-bottom: 10px;
   margin-top: 10px;
   margin-left: 15px;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    text-align: center;
+  }
 `;
 
 const Account = () => {
@@ -160,18 +183,17 @@ const Account = () => {
           {account && <Votes accountFullData={account?.data} />}
         </TabPanel>
       </StyledContainer>
-      <StyledContainer style={{marginTop: '50px', padding: '15px'}}>
+      <StyledHsContainer >
         <Label>Full Account History</Label>
         <Table headers={headers} rows={history_rows} />
         {history_rows && <Loader />}
-      </StyledContainer>
+      </StyledHsContainer>
       <StyledPaginationContainer>
         <Pagination
           count={account?.data.total_ops}
           page={pageNumber}
           shape="rounded"
           onChange={onPageChange}
-          sx={{marginLeft: 'auto'}}
         />
       </StyledPaginationContainer>
     </PageWrapper>

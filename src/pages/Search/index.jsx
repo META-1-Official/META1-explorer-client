@@ -34,6 +34,10 @@ const StyledContainer = styled.div`
   flex-wrap: wrap;
   gap: 25px;
   justify-content: center;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    padding: 0 16px;
+  }
 `;
 
 const Search = React.memo(() => {

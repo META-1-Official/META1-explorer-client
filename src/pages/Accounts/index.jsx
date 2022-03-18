@@ -33,6 +33,10 @@ const StyledPaginationContainer = styled.div`
   padding-top: 38px;
   display: flex;
   justify-content: flex-end;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    justify-content: center;
+  }
 `;
 
 const Label = styled.div`
@@ -43,6 +47,11 @@ const Label = styled.div`
   color: white;
   margin-bottom: 10px;
   margin-top: 10px;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const headers = ['Name', 'Amount'];
@@ -95,7 +104,6 @@ export default function Accounts() {
           page={pageNumber}
           shape="rounded"
           onChange={onPageChange}
-          sx={{marginLeft: 'auto'}}
         />
       </StyledPaginationContainer>
     </PageWrapper>

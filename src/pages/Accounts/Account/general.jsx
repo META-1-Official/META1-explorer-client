@@ -14,6 +14,10 @@ const PageWrapper = styled.div`
 
 const StyledContainer = styled.div`
   display: flex;
+
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 const BlockWrapper = styled.div`
@@ -23,6 +27,29 @@ const BlockWrapper = styled.div`
   flex-direction: column;
   margin-left: 15px;
   margin-right: 15px;
+
+  &.stat {
+    @media only screen and (max-width: 950px) {
+      display: none;
+    }
+  }
+
+  &.stat_d {
+    display: none;
+    @media only screen and (max-width: 950px) {
+      display: flex;
+    }
+  }
+
+  @media only screen and (max-width: 950px) {
+    width: 100%;
+  }
+
+  @media only screen and (max-width: 600px) {
+    margin-left: 0;
+    margin-right: 0;
+    align-items: center;
+  }
 `;
 
 const StyledIdenticon = styled(Identicon)`
@@ -55,7 +82,7 @@ const General = ({accountFullData}) => {
         setParsedAccount(parsed);
       })();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // vars
@@ -107,29 +134,50 @@ const General = ({accountFullData}) => {
         </BlockWrapper>
         <BlockWrapper>
           <Label>Account Information</Label>
-          {parsedAccount && infoRows? (
-            <Table
-              headers={['Key', 'Value']}
-              rows={infoRows}
-              lastcellaligned={false}
-              cellHeight="10px"
-            ></Table>
-          ) : (
-            <Loader />
-          )}
+          <div style={{width: '100%'}}>
+            {parsedAccount && infoRows ? (
+              <Table
+                headers={['Key', 'Value']}
+                rows={infoRows}
+                lastcellaligned={false}
+                cellHeight="10px"
+              ></Table>
+            ) : (
+              <Loader />
+            )}
+          </div>
         </BlockWrapper>
-        <BlockWrapper>
+        <BlockWrapper className="stat">
           <Label>Account statistics</Label>
-          {parsedAccount && statsRows? (
-            <Table
-              headers={['Key', 'Value']}
-              rows={statsRows}
-              lastcellaligned={false}
-              cellHeight="10px"
-            ></Table>
-          ) : (
-            <Loader />
-          )}
+          <div style={{width: '100%'}}>
+            {parsedAccount && statsRows ? (
+              <Table
+                headers={['Key', 'Value']}
+                rows={statsRows}
+                lastcellaligned={false}
+                cellHeight="10px"
+              ></Table>
+            ) : (
+              <Loader />
+            )}
+          </div>
+        </BlockWrapper>
+      </StyledContainer>
+      <StyledContainer>
+        <BlockWrapper className="stat_d">
+          <Label>Account statistics</Label>
+          <div style={{width: '100%'}}>
+            {parsedAccount && statsRows ? (
+              <Table
+                headers={['Key', 'Value']}
+                rows={statsRows}
+                lastcellaligned={false}
+                cellHeight="10px"
+              ></Table>
+            ) : (
+              <Loader />
+            )}
+          </div>
         </BlockWrapper>
       </StyledContainer>
     </PageWrapper>

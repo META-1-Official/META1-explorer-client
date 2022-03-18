@@ -1,4 +1,4 @@
-import { defaultTheme, overrides } from '.'
+import { defaultTheme, overrides, customBreakpoints } from '.'
 
 /**
  * After the defaultTheme is created, we
@@ -7,6 +7,7 @@ import { defaultTheme, overrides } from '.'
  */
 const theme = {
   ...defaultTheme,
+  bkps: customBreakpoints,
   components: overrides,
 }
 

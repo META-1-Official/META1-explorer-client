@@ -6,7 +6,8 @@ import styled from 'styled-components';
 import Loader from '../../Loader/Loader';
 
 const CardWrapper = styled.div`
-  width: 410px;
+  width: 100%;
+  max-width: 410px;
   height: 430px;
   border: 1px solid ${(props) => props.theme.palette.border.darkGrey};
   border-radius: 0.625em;

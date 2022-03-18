@@ -9,14 +9,13 @@ import { typography, zIndex, customPalette } from '.'
 const defaultTheme = createTheme({
   palette: customPalette,
   typography: typography,
-  zIndex: zIndex,
+  zIndex: zIndex
 })
 
 /**
  * We extract these properties as our component overrides will need them
  */
 export const {
-  breakpoints,
   palette,
   typography: { pxToRem },
 } = defaultTheme

@@ -15,6 +15,13 @@ import priceImg from '../assets/images/price.png';
 import volumImg from '../assets/images/btc-volume.png';
 import changeImg from '../assets/images/market-cap1.png';
 
+// header images
+import logo from '../assets/images/meta-logo.png';
+import dayNightImg from '../assets/images/day-night.png';
+import helpImg from '../assets/images/help.png';
+import enImg from '../assets/images/en.png';
+import cnImg from '../assets/images/cn.png';
+
 const images = {
   'coin-btc': coinBtcImg,
   'coin-bnb': coinBnbImg,
@@ -29,7 +36,13 @@ const images = {
   'last-bid': lastBidImg,
   'price': priceImg,
   'volume': volumImg,
-  'change-%': changeImg 
+  'change-%': changeImg,
+  
+  'logo': logo,
+  'theme-toggle': dayNightImg,
+  'help-mark': helpImg,
+  'lang-en': enImg,
+  'lang-cn': cnImg,
 };
 
 export default images;
