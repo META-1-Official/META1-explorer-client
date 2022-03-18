@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { PropTypes } from 'prop-types';
 
@@ -86,6 +86,7 @@ const Html = styled.div`
   font-weight: 300;
   align-items: center;
   display: flex;
+  width: 100%;
 
   a {
     color: white;

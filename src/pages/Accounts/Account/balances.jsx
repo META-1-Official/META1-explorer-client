@@ -53,6 +53,7 @@ const Balances = ({accountFullData}) => {
         setParsedVestingBalances(parsed?.vesting);
       })();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // vars

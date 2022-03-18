@@ -55,6 +55,7 @@ const General = ({accountFullData}) => {
         setParsedAccount(parsed);
       })();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // vars
@@ -106,7 +107,7 @@ const General = ({accountFullData}) => {
         </BlockWrapper>
         <BlockWrapper>
           <Label>Account Information</Label>
-          {parsedAccount ? (
+          {parsedAccount && infoRows? (
             <Table
               headers={['Key', 'Value']}
               rows={infoRows}
@@ -119,7 +120,7 @@ const General = ({accountFullData}) => {
         </BlockWrapper>
         <BlockWrapper>
           <Label>Account statistics</Label>
-          {parsedAccount ? (
+          {parsedAccount && statsRows? (
             <Table
               headers={['Key', 'Value']}
               rows={statsRows}
