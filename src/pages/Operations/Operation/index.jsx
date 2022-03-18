@@ -12,6 +12,7 @@ import Loader from '../../../components/Loader/Loader';
 // import utils
 import {buildCustomKVTableDto} from '../../../helpers/utility';
 import icons from '../../../helpers/icons';
+import useWidth from '../../../helpers/getWidth';
 
 // import api
 import api from '../../../store/apis';
@@ -20,10 +21,18 @@ const PageWrapper = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
+
+  @media only screen and (max-width: 1140px) {
+    padding-top: 50px;
+  }
 `;
 
 const StyledContainer = styled.div`
   display: flex;
+
+  @media only screen and (max-width: 980px) {
+    flex-direction: column;
+  }
 `;
 
 const Html = styled.div`
@@ -49,6 +58,11 @@ const Label = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const BlockWrapper = styled.div`
@@ -58,6 +72,11 @@ const BlockWrapper = styled.div`
   flex-direction: column;
   margin-left: 15px;
   margin-right: 15px;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    margin-left: 0;
+    margin-right: 0;
+  }
 `;
 
 const JsonInputWrapper = styled.div`
@@ -65,8 +84,11 @@ const JsonInputWrapper = styled.div`
   width: ${(props) => props.width ?? '100%'};
   flex-direction: column;
   padding-bottom: 50px;
-
+  
   #opt-outer-box {
+    @media ${(props) => props.theme.bkps.device.mobile} {
+      padding-left: 16px;
+    }
     #opt-container {
       border: 1px solid rgba(194, 213, 225, 0.08);
       border-radius: 5px;
@@ -83,6 +105,7 @@ const Votes = () => {
 
   // hooks
   const location = useLocation();
+  const width = useWidth();
 
   // vars
   const id = location.pathname.split('/')[2];
@@ -160,7 +183,7 @@ const Votes = () => {
               }
               locale={locale}
               theme="dark_vscode_tribute"
-              width="100%"
+              width={width - 32}
               viewOnly={true}
               confirmGood={false}
             />

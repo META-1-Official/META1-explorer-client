@@ -1,20 +1,16 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {Link, useLocation} from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import {changeLanguage} from 'i18next';
 
-import IconButton from '@mui/material/IconButton';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+// import UI packs
+import {Drawer, IconButton, Select, Divider, MenuItem} from '@mui/material';
 import styled from 'styled-components';
 
-import {Divider} from '../Divider';
+import images from '../../helpers/images';
+import icons from '../../helpers/icons';
 
-import logo from '../../assets/images/meta-logo.png';
-import dayNightImg from '../../assets/images/day-night.png';
-import helpImg from '../../assets/images/help.png';
-import enImg from '../../assets/images/en.png';
-import cnImg from '../../assets/images/cn.png';
+import useWidth from '../../helpers/getWidth';
 
 const StyledSelect = styled(Select)`
   width: fit-content !important;
@@ -25,7 +21,7 @@ const StyledSelect = styled(Select)`
     height: 24px !important;
     padding-left: 0px;
     padding-right: 0px;
-    border: none;    
+    border: none;
   }
 
   .MuiSvgIcon-root {
@@ -41,28 +37,17 @@ const NavBar = styled.nav`
   background-color: ${(props) => props.theme.palette.background.nearBlack};
   border: 1px solid ${(props) => props.theme.palette.border.darkGrey};
   justify-content: space-between;
-
-  .navbar-item {
-    display: flex;
-    align-items: center;
-    padding: 0 0.5em;
-    color: white;
-    font-size: 1rem;
-    font-weight: 400;
-    text-decoration: none;
-
-    &.active {
-      color: ${(props) => props.theme.palette.primary.main};
-    }
-
-    &:hover {
-      color: ${(props) => props.theme.palette.primary.main};
-    }
-  }
 `;
 
 const Tabs = styled.div`
   display: flex;
+  flex-direction: ${(props) => (props.isOpen ? 'column' : 'row')};
+`;
+
+const SettingWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
 `;
 
 const Settings = styled.div`
@@ -90,21 +75,54 @@ const Img = styled.img`
   width: 90px;
   margin-right: 45px;
 
-  &.lang, &.setting {
+  &.lang,
+  &.setting {
     width: 23px;
     margin-right: 10px;
   }
 `;
 
+const MobileHeader = styled.div`
+  display: flex;
+  position: fixed;
+  justify-content: space-between;
+  height: 60px;
+  padding-left: 10px;
+  padding-right: 10px;
+  align-items: center;
+  background: black;
+  width: 100%;
+  z-index: 10;
+`;
+
+const DrawerHeader = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  justify-content: flex-end;
+  width: 100%;
+`;
+
+const Flex = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const AppHeader = () => {
   const location = useLocation();
-  const { t, i18n } = useTranslation();
+  const width = useWidth();
+  const {t} = useTranslation();
   const [language, setLanguage] = useState('en');
   const [menuItem, setMenuItem] = useState('governance');
   const [selected, setSelected] = useState(location.pathname);
+  const [isOpen, setIsOpen] = useState();
 
+  // handlers
   const handleClick = (route) => {
     setSelected(route);
+    setIsOpen(false);
   };
 
   const routeStatus = (route) => {
@@ -114,12 +132,91 @@ const AppHeader = () => {
   const handleChange = (val) => {
     setLanguage(val);
     changeLanguage(val);
-  }
+  };
 
-  return (
-    <NavBar>
-      <Tabs>
-        <Img alt="logo" src={logo} />
+  const handleDrawerClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleDrawerOpen = () => {
+    setIsOpen(true);
+  };
+
+  // renderers
+  const renderSettings = () => {
+    return (
+      <Settings>
+        <StyledLangSelect
+          labelId="language-select"
+          id="language-select"
+          autoWidth
+          value={language}
+          onChange={(event) => handleChange(event.target.value)}
+        >
+          <MenuItem value="en">
+            <Img alt="Flag" src={images['lang-en']} className="lang" />
+          </MenuItem>
+          <MenuItem value="cn">
+            <Img alt="Flag" src={images['lang-cn']} className="lang" />
+          </MenuItem>
+        </StyledLangSelect>
+        <Divider style={{height: '38px'}} />
+        <IconButton className="navbar-item">
+          <Img
+            alt="Help"
+            src={images['help-mark']}
+            className="setting"
+            style={{width: '23px', height: '23px', alignSelf: 'center'}}
+          />
+        </IconButton>
+        <Divider style={{height: '38px'}} />
+        <IconButton className="navbar-item">
+          <Img
+            alt="Toggle Theme"
+            src={images['theme-toggle']}
+            className="setting"
+          />
+        </IconButton>
+      </Settings>
+    );
+  };
+
+  const renderDrawer = () => {
+    return (
+      <Drawer
+        sx={{
+          width: width > 420 ? 420 : width,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: width > 420 ? 420 : width,
+            background: '#0A0B0D',
+          },
+        }}
+        variant="persistent"
+        anchor="right"
+        open={isOpen}
+      >
+        <Flex>
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {icons['close']}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          {renderTabs()}
+        </Flex>
+      </Drawer>
+    );
+  };
+
+  const renderTabs = () => {
+    return (
+      <Tabs isOpen={width > 1140 ? false : true}>
+        <Img
+          alt="logo"
+          src={images['logo']}
+          style={{display: width < 1140 ? 'none' : 'unset'}}
+        />
         <Link
           to="/"
           className={`navbar-item ${routeStatus('/')}`}
@@ -185,7 +282,7 @@ const AppHeader = () => {
         >
           <MenuItem value="governance">
             <div
-              className={`navbar-item ${routeStatus('/governance')}`}
+              className={`sel-item ${routeStatus('/governance')}`}
               onClick={() => handleClick('/governance')}
             >
               {t('Governance')}
@@ -194,7 +291,7 @@ const AppHeader = () => {
           <MenuItem value="committee">
             <Link
               to="/committee"
-              className={`navbar-item ${routeStatus('/committee')}`}
+              className={`sel-item ${routeStatus('/committee')}`}
               onClick={() => handleClick('/committee')}
             >
               {t('Committee')}
@@ -203,68 +300,81 @@ const AppHeader = () => {
           <MenuItem value="witnesses">
             <Link
               to="/witnesses"
-              className={`navbar-item ${routeStatus('/witnesses')}`}
+              className={`sel-item ${routeStatus('/witnesses')}`}
               onClick={() => handleClick('/witnesses')}
             >
               {t('Witnesses')}
             </Link>
           </MenuItem>
           {/* <MenuItem value="workers">
-            <Link
-              to="/"
-              className={`navbar-item ${routeStatus('/workers')}`}
-              onClick={() => handleClick('/workers')}
-            >
-              Workers
-            </Link>
-          </MenuItem>
-          <MenuItem value="voting">
-            <Link
-              to="/"
-              className={`navbar-item ${routeStatus('/voting')}`}
-              onClick={() => handleClick('/voting')}
-            >
-              Voting
-            </Link>
-          </MenuItem>
-          <MenuItem value="proxies">
-            <Link
-              to="/"
-              className={`navbar-item ${routeStatus('/proxies')}`}
-              onClick={() => handleClick('/proxies')}
-            >
-              Proxies
-            </Link>
-          </MenuItem> */}
+          <Link
+            to="/"
+            className={`sel-item ${routeStatus('/workers')}`}
+            onClick={() => handleClick('/workers')}
+          >
+            Workers
+          </Link>
+        </MenuItem>
+        <MenuItem value="voting">
+          <Link
+            to="/"
+            className={`sel-item ${routeStatus('/voting')}`}
+            onClick={() => handleClick('/voting')}
+          >
+            Voting
+          </Link>
+        </MenuItem>
+        <MenuItem value="proxies">
+          <Link
+            to="/"
+            className={`sel-item ${routeStatus('/proxies')}`}
+            onClick={() => handleClick('/proxies')}
+          >
+            Proxies
+          </Link>
+        </MenuItem> */}
         </StyledSelect>
       </Tabs>
-      <Settings>
-        <StyledLangSelect
-          labelId="language-select"
-          id="language-select"
-          autoWidth
-          value={language}
-          onChange={(event) => handleChange(event.target.value)}
-        >
-          <MenuItem value="en">
-            <Img alt="Flag" src={enImg} className="lang" />
-          </MenuItem>
-          <MenuItem value="cn">
-            <Img alt="Flag" src={cnImg} className="lang" />
-          </MenuItem>
-        </StyledLangSelect>
-        <Divider style={{height: '38px'}} />
-        <div className="navbar-item">
-          <Img alt="Help" src={helpImg} className="setting" />
-          <span role="button">{t('Get Help')}</span>
-        </div>
-        <Divider style={{height: '38px'}} />
-        <IconButton className="navbar-item">
-          <Img alt="Toggle Theme" src={dayNightImg} className="setting" />
-        </IconButton>
-      </Settings>
-    </NavBar>
-  );
+    );
+  };
+
+  const renderDesktopHeader = () => {
+    return (
+      <NavBar>
+        {renderTabs()}
+        {renderSettings()}
+      </NavBar>
+    );
+  };
+
+  const renderMobileHeader = () => {
+    return (
+      <>
+        <MobileHeader>
+          <Img
+            alt="logo"
+            src={images['logo']}
+            style={{width: '80px', height: '30px'}}
+          />
+          <SettingWrapper>
+            {renderSettings()}
+            <IconButton
+              aria-label="open drawer"
+              edge="end"
+              onClick={handleDrawerOpen}
+              sx={{...(isOpen && {display: 'none'})}}
+              style={{color: '#FFC000'}}
+            >
+              {icons['menu']}
+            </IconButton>
+          </SettingWrapper>
+        </MobileHeader>
+        {renderDrawer()}
+      </>
+    );
+  };
+
+  return <>{width > 1140 ? renderDesktopHeader() : renderMobileHeader()}</>;
 };
 
 export default AppHeader;

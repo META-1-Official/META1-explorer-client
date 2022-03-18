@@ -35,6 +35,10 @@ const PageWrapper = styled.div`
   padding-top: 20px;
   padding-bottom: 40px;
   flex-direction: column;
+  
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    padding-top: 80px;
+  }
 `;
 
 const StyledContainer = styled.div`
@@ -71,6 +75,11 @@ const ContainerHeader = styled.div`
   margin-left: 15px;
   margin-right: 15px;
   margin-bottom: 15px;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const Label = styled.div`
@@ -82,6 +91,11 @@ const Label = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const Market = React.memo(() => {

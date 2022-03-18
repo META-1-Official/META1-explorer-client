@@ -30,6 +30,11 @@ const Label = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const BlockWrapper = styled.div`
@@ -39,6 +44,11 @@ const BlockWrapper = styled.div`
   flex-direction: column;
   margin-left: 15px;
   margin-right: 15px;
+
+  @media only screen and (max-width: 600px) {
+    margin-left: 0;
+    margin-right: 0;
+  }
 `;
 
 const Votes = ({accountFullData}) => {

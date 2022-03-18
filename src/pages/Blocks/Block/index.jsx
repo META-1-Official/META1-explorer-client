@@ -12,6 +12,7 @@ import Loader from '../../../components/Loader/Loader';
 // import utils
 import {buildCustomKVTableDto} from '../../../helpers/utility';
 import icons from '../../../helpers/icons';
+import useWidth from '../../../helpers/getWidth';
 
 // import api
 import api from '../../../store/apis';
@@ -20,6 +21,10 @@ const PageWrapper = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    margin-top: 50px;
+  }
 `;
 
 const StyledContainer = styled.div`
@@ -37,9 +42,11 @@ const Label = styled.div`
   line-height: 30px;
   font-size: 20px;
   color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const BlockWrapper = styled.div`
@@ -49,6 +56,11 @@ const BlockWrapper = styled.div`
   flex-direction: column;
   margin-left: 15px;
   margin-right: 15px;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    margin-left: 0;
+    margin-right: 0;
+  }
 `;
 
 const JsonInputWrapper = styled.div`
@@ -58,6 +70,9 @@ const JsonInputWrapper = styled.div`
   padding-bottom: 50px;
 
   #trd-outer-box {
+    @media ${(props) => props.theme.bkps.device.mobile} {
+      padding-left: 16px;
+    }
     #trd-container {
       border: 1px solid rgba(194, 213, 225, 0.08);
       border-radius: 5px;
@@ -74,6 +89,7 @@ const Votes = () => {
 
   // hooks
   const location = useLocation();
+  const width = useWidth();
 
   // vars
   const block_num = location.pathname.split('/')[2];
@@ -154,9 +170,10 @@ const Votes = () => {
               }
               locale={locale}
               theme="dark_vscode_tribute"
-              width="100%"
+              width={width - 32}
               viewOnly={true}
               confirmGood={false}
+              reset={true}
             />
           </JsonInputWrapper>
         </BlockWrapper>

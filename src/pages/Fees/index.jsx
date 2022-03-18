@@ -39,6 +39,10 @@ const StyledPaginationContainer = styled.div`
   padding-top: 38px;
   display: flex;
   justify-content: flex-end;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    justify-content: center;
+  }
 `;
 
 const Label = styled.div`
@@ -50,6 +54,11 @@ const Label = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const Fees = () => {

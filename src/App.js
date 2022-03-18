@@ -26,6 +26,48 @@ const GlobalStyle = createGlobalStyle`
       }
     }
   }
+
+  .MuiOutlinedInput-notchedOutline {
+    border: none !important;
+  }
+
+  .navbar-item {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 0 10px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 400;
+    text-decoration: none;
+  
+    &.active {
+      color: #FFC000
+    }
+  
+    &:hover {
+      color: #FFC000
+    }
+  }
+
+  .sel-item {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 400;
+    text-decoration: none;
+  
+    &.active {
+      color: #FFC000
+    }
+  
+    &:hover {
+      color: #FFC000
+    }
+  }
 `;
 
 function App() {

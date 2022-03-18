@@ -43,16 +43,30 @@ const PageWrapper = styled.div`
 `;
 
 const StyledChartContainer = styled.div`
-  display: flex;
+display: flex;
+justify-content: center;
+
+@media only screen and (max-width: 1020px)  {
+  flex-direction: column;
+  align-items: center;
+}
+
+@media ${props => props.theme.bkps.device.mobile} {
+  padding-left: 10px;
+  padding-right: 10px;
+}
 `;
 
 const LineChartsWrapper = styled.div`
-  width: 100%;
-  background: ${(props) => props.theme.palette.background.main};
-  display: flex;
-  max-width: 860px;
-  flex-wrap: wrap;
-  gap: 17px;
+width: 100%;
+display: flex;
+flex-wrap: wrap;
+gap: 17px;
+justify-content: center;
+
+@media only screen and (max-width: 1315px)  {
+  max-width: 600px;
+}
 `;
 
 const FilledLineChartWrapper = styled.div`
@@ -62,6 +76,15 @@ const FilledLineChartWrapper = styled.div`
   justify-content: center;
   width: 100%;
   max-width: 408px;
+
+  @media only screen and (max-width: 1020px)  {
+    margin-top: 30px;
+  }
+  
+  @media ${props => props.theme.bkps.device.mobile} {
+    max-width: unset;
+    margin-left: 0;
+  }
 `;
 
 const StyledTableContainer = styled.div`
@@ -79,6 +102,11 @@ const Label = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
+  @media ${props => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const StyledPaginationContainer = styled.div`
@@ -86,6 +114,10 @@ const StyledPaginationContainer = styled.div`
   padding-top: 38px;
   display: flex;
   justify-content: flex-end;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    justify-content: center;
+  }
 `;
 
 const Assets = React.memo(() => {

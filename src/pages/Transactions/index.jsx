@@ -19,6 +19,10 @@ const PageWrapper = styled.div`
   max-width: 1315px;
   padding-top: 80px;
   padding-bottom: 38px;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    padding-top: 50px;
+  }
 `;
 
 const StyledContainer = styled.div`
@@ -36,6 +40,10 @@ const Label = styled.div`
   color: white;
   margin-bottom: 10px;
   margin-top: 10px;
+
+  @media ${props => props.theme.bkps.device.mobile} {
+    text-align: center;
+  }
 `;
 
 const Transactions = () => {
