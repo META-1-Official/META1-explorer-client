@@ -7,6 +7,12 @@ const Search = lazy(() => import('./pages/Search'));
 const Blocks = lazy(() => import('./pages/Blocks'));
 const Block = lazy(() => import('./pages/Blocks/Block'));
 
+// object
+const Object = lazy(() => import('./pages/Objects/Object'));
+
+// operation
+const Operation = lazy(() => import('./pages/Operations/Operation'));
+
 // transactions
 const Transactions = lazy(() => import('./pages/Transactions'));
 const Transaction = lazy(() => import('./pages/Transactions/Transaction'));
@@ -48,6 +54,14 @@ export const routes = [
   {
     path: '/blocks/:num',
     component: Block,
+  },
+  {
+    path: '/objects/:id',
+    component: Object,
+  },
+  {
+    path: '/operations/:id',
+    component: Operation,
   },
   {
     path: '/txs',
