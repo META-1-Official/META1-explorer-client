@@ -5,7 +5,12 @@
     {
       "src": "meta1.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/png"
+    },
+    {
+      "src": "meta1.png",
+      "type": "image/png",
+      "sizes": "140x140"
     },
     {
       "src": "meta1.png",
