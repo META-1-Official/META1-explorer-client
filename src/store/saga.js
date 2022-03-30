@@ -1,9 +1,8 @@
 import {all, call, put} from 'redux-saga/effects';
 
 import explorerSaga from './explorer/saga';
-import accountsSaga from './accounts/saga';
 
-const allSagas = [explorerSaga, accountsSaga];
+const allSagas = [explorerSaga];
 
 export default function* rootSaga() {
   yield all(allSagas.map((saga) => saga()));

@@ -28,7 +28,7 @@ const PageWrapper = styled.div`
   padding-bottom: 38px;
   flex-direction: column;
 
-  @media ${props => props.theme.bkps.device.mobile} {
+  @media ${(props) => props.theme.bkps.device.mobile} {
     padding-top: 80px;
   }
 `;
@@ -44,7 +44,7 @@ const StyledHsContainer = styled.div`
   margin-top: 50px;
   padding: 15px;
 
-  @media ${props => props.theme.bkps.device.mobile} {
+  @media ${(props) => props.theme.bkps.device.mobile} {
     padding: 0;
   }
 `;
@@ -54,7 +54,7 @@ const StyledPaginationContainer = styled.div`
   display: flex;
   justify-content: flex-end;
 
-  @media ${props => props.theme.bkps.device.mobile} {
+  @media ${(props) => props.theme.bkps.device.mobile} {
     justify-content: center;
   }
 `;
@@ -69,7 +69,7 @@ const Label = styled.div`
   margin-top: 10px;
   margin-left: 15px;
 
-  @media ${props => props.theme.bkps.device.mobile} {
+  @media ${(props) => props.theme.bkps.device.mobile} {
     text-align: center;
   }
 `;
@@ -78,7 +78,7 @@ const Account = () => {
   const [tabValue, setTabValue] = useState(0);
   const [account, setAccount] = useState();
   const [pageNumber, setPageNumber] = useState(1);
-  const [history, setHistory] = useState(null);
+  const [history, setHistory] = useState([]);
 
   // hooks
   const location = useLocation();
@@ -87,15 +87,14 @@ const Account = () => {
   const id = location.pathname.split('/')[2];
   const headers = ['Operation', 'ID', 'Date and Time', 'Block', 'Type'];
   const history_rows = history
-    ? history.map((vote) => {
+    ? history.map((op) => {
+      console.log('OP', op)
         return {
-          Id: [`<a href="/objects/${vote.id}">${vote.id}</a>`, 'html'],
-          Type: [vote.type, 'plainText'],
-          Account: [
-            `<a href="/accounts/${vote.account}">${vote.account_name}</a>`,
-            'html',
-          ],
-          'Total Votes': [localizeNumber(vote.votes_for), 'plainText'],
+          Operation: [op.operation_text, 'html'],
+          ID: [op.operation_id, 'coloredText'],
+          'Date and Time': [op.time, 'plainText'],
+          Block: [op.block_num, 'coloredText'],
+          Type: [op.op_type, 'label'],
         };
       })
     : [];
@@ -104,7 +103,7 @@ const Account = () => {
     (async () => {
       await loadData();
     })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -112,6 +111,7 @@ const Account = () => {
       (async () => {
         const parsed = await accountsService.getAccountHistoryData(
           account?.data,
+          pageNumber,
         );
         setHistory(parsed);
       })();
@@ -166,7 +166,7 @@ const Account = () => {
           style={{marginLeft: '15px'}}
         >
           <Tab label="General" {...a11yProps(0)} />
-          <Tab label="Balences" {...a11yProps(1)} />
+          <Tab label="Balances" {...a11yProps(1)} />
           <Tab label="Authorities" {...a11yProps(2)} />
           <Tab label="Votes" {...a11yProps(3)} />
         </Tabs>
@@ -183,10 +183,10 @@ const Account = () => {
           {account && <Votes accountFullData={account?.data} />}
         </TabPanel>
       </StyledContainer>
-      <StyledHsContainer >
+      <StyledHsContainer>
         <Label>Full Account History</Label>
-        <Table headers={headers} rows={history_rows} />
-        {history_rows && <Loader />}
+        {history && <Table headers={headers} rows={history_rows} />}
+        {history_rows?.length === 0 && <Loader />}
       </StyledHsContainer>
       <StyledPaginationContainer>
         <Pagination

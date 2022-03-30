@@ -140,7 +140,7 @@ const Committee = () => {
         <Label>
           Current active committee members
           <SearchBox
-            placeholder="Search for Amount"
+            placeholder="Search for Committee"
             onSearch={onSearchForActiveCommittee}
           />
         </Label>
@@ -154,7 +154,7 @@ const Committee = () => {
         <Label>
           Standby committee members
           <SearchBox
-            placeholder="Search for Amount"
+            placeholder="Search for Committee"
             onSearch={onSearchForStandbyCommittee}
           />
         </Label>

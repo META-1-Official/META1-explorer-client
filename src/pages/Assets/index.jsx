@@ -247,7 +247,7 @@ const Assets = React.memo(() => {
       <StyledTableContainer>
         <Label>
           Assets
-          <SearchBox placeholder="Search for Amount" onSearch={onSearch} />
+          <SearchBox placeholder="Search for Assets" onSearch={onSearch} />
         </Label>
         <Table headers={headers} rows={rows}></Table>
         {isFetchingAssets && <Loader />}

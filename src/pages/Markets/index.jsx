@@ -107,7 +107,7 @@ const Markets = () => {
       <StyledContainer>
         <Label>
           Markets
-          <SearchBox placeholder="Search for Amount" onSearch={onSearch} />
+          <SearchBox placeholder="Search for markets" onSearch={onSearch} />
         </Label>
         {!isFetchingMostActiveMarkets && rows ? (
           <Table headers={headers} rows={rows}></Table>

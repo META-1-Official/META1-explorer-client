@@ -1069,22 +1069,6 @@ export const fetchWitnesses = () => {
 
 /* ACCOUNT SERVICE */
 // fetch accounts list
-export const fetchRichList = () => {
-    return axios.get(BASE_URL + "/accounts", {
-        headers: {
-            'Content-Type': 'application/json-patch+json'
-        }
-    });
-}
-
-export const fetchAccounts = ({ start = 0, limit = 20 }) => {
-    return axios.get(BASE_URL + "/accounts", {
-        headers: {
-            'Content-Type': 'application/json-patch+json'
-        }
-    });
-};
-
 export const getRichList = async () => {
     const response = await axios.get(BASE_URL + "/accounts")
     var richs = [];
@@ -1371,8 +1355,11 @@ export const parseVesting = async (vesting_balances) => {
 }
 
 export const getAccountHistory = async (account_id, start, limit) => {
-    const response = axios.get(BASE_URL + "es/account_history?account_id=" +
-        account_id + "&search_after=" + start + "&size=" + limit + "&sort_by=-account_history.sequence");
+    // const response = await axios.get(BASE_URL + "/es/account_history?account_id=" +
+    //     account_id + "&search_after=" + start + "&size=" + limit + "&sort_by=-account_history.sequence");
+    const response = await axios.get(BASE_URL + "/es/account_history?account_id=" +
+        account_id);
+        
     const history = response.data.map(async value => {
         var timestamp;
         var witness;
@@ -1388,13 +1375,86 @@ export const getAccountHistory = async (account_id, start, limit) => {
             block_num: value.block_data.block_num,
             time: timestamp,
             witness: witness,
-            op_type: op_type,
+            op_type: value.operation_type,
             op_color: op_color
         };
         const op_text = await opText(value.operation_type, parsed_op);
         operation.operation_text = op_text;
         return operation;
     });
-    let retVal = Promise.all(history);
-    return { data: retVal };
+
+    return { data: history };
+}
+
+/* CHART SERVICE */
+export const topOperationsChart = async () => {
+    const response = await axios.get(BASE_URL + "/es/account_history?from_date=now-1d&to_date=now&type=aggs&agg_field=operation_type&size=10");
+    var data = [];
+    var c = 0;
+    for (var i = 0; i < response.data.length; i++) {
+        ++c;
+        if (c > 7) { break; }
+
+        var name = operationType(response.data[i].key)[0];
+        data.push({
+            value: response.data[i].doc_count,
+            name: name
+        });
+    }
+    return { data: { data } };
+}
+
+export const topProxiesChart = async () => {
+    const response = await axios.get(BASE_URL + "/top_proxies");
+    var data;
+    for (var i = 0; i < response.data.length; i++) {
+        data.push({ value: response.data[i]["bts_weight"], name: response.data[i].name })
+    }
+    return { data: { data } };
+}
+
+export const topMarketsChart = async () => {
+    const response = await axios.get(BASE_URL + "/top_markets");
+    const data = [
+        { value: response.data[0]["24h_volume"], name: response.data[0].pair },
+        { value: response.data[1]["24h_volume"], name: response.data[1].pair },
+        { value: response.data[2]["24h_volume"], name: response.data[2].pair },
+        { value: response.data[3]["24h_volume"], name: response.data[3].pair },
+        { value: response.data[4]["24h_volume"], name: response.data[4].pair },
+        { value: response.data[5]["24h_volume"], name: response.data[5].pair },
+        { value: response.data[6]["24h_volume"], name: response.data[6].pair }
+    ]
+    return { data: { data } };
+}
+
+export const topSmartCoinsChart = async () => {
+    const response = await axios.get(BASE_URL + "/top_smartcoins");
+    var data = [];
+    for (var i = 0; i < response.data.length; i++) {
+        data.push({ value: response.data[i]["24h_volume"], name: response.data[i].asset_name })
+    }
+    return { data: { data } };
+}
+
+export const topUIAsChart = async () => {
+    const response = await axios.get(BASE_URL + "/top_uias");
+    var data = [];
+    for (var i = 0; i < response.data.length; i++) {
+        data.push({ value: response.data[i]["24h_volume"], name: response.data[i].asset_name })
+    }
+    return { data: { data } };
+}
+
+export const topHoldersChart = async () => {
+    const response = await axios.get(BASE_URL + "/top_holders");
+    const data = [
+        { value: response.data[0].amount, name: response.data[0].account_name },
+        { value: response.data[1].amount, name: response.data[1].account_name },
+        { value: response.data[2].amount, name: response.data[2].account_name },
+        { value: response.data[3].amount, name: response.data[3].account_name },
+        { value: response.data[4].amount, name: response.data[4].account_name },
+        { value: response.data[5].amount, name: response.data[5].account_name },
+        { value: response.data[6].amount, name: response.data[6].account_name }
+    ]
+    return { data: { data } };
 }

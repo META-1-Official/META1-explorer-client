@@ -1,9 +1,7 @@
 import explorer from './explorer/reducer';
-import accountsReducer from './accounts/reducer';
 
 const reducer = {
-  explorer,
-  accounts: accountsReducer,
+  explorer
 };
 
 export default reducer;

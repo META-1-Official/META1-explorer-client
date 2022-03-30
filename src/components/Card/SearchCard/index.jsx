@@ -8,7 +8,7 @@ import Loader from '../../Loader/Loader';
 const CardWrapper = styled.div`
   width: 100%;
   max-width: 410px;
-  height: 430px;
+  height: 420px;
   border: 1px solid ${(props) => props.theme.palette.border.darkGrey};
   border-radius: 0.625em;
   box-sizing: border-box;
@@ -40,6 +40,7 @@ const CardBody = styled.div`
 
 const CardDescriptionWrapper = styled.div`
   margin-top: 5px;
+  min-height: 120px;
 `;
 
 const Description = styled.div`
@@ -119,11 +120,6 @@ const SearchCard = ({
       <CardBody>
         <CardDescriptionWrapper>
           <Description>{description}</Description>
-          <br />
-          <HtmlWrapper>
-            Sample Input:
-            <Html dangerouslySetInnerHTML={{__html: searchInputSample}} />
-          </HtmlWrapper>
         </CardDescriptionWrapper>
         <div>
           <LabelWrapper>
@@ -132,6 +128,10 @@ const SearchCard = ({
                 <Loader />
               </LoaderWrapper>
             )}
+          <HtmlWrapper>
+            Sample Input:
+            <Html dangerouslySetInnerHTML={{__html: searchInputSample}} />
+          </HtmlWrapper>
             <Label htmlFor={`${title}-search`}>{searchInputLabel}</Label>
           </LabelWrapper>
           <Autocomplete

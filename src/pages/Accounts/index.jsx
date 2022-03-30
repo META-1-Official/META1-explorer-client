@@ -1,5 +1,4 @@
 import {useState, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import Pagination from '@mui/material/Pagination';
@@ -7,13 +6,10 @@ import Pagination from '@mui/material/Pagination';
 import {Table} from '../../components/Table';
 import {Loader} from '../../components/Loader';
 
-import {
-  accountsSelector,
-  accountsFetchingStatusSelector,
-} from '../../store/accounts/selector';
-import AccountsActionTypes from '../../store/accounts/actions';
+import {SearchBox} from '../../components/SearchBox';
 
-import constants from '../../constants';
+// import api
+import api from '../../store/apis';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -34,7 +30,7 @@ const StyledPaginationContainer = styled.div`
   display: flex;
   justify-content: flex-end;
 
-  @media ${props => props.theme.bkps.device.mobile} {
+  @media ${(props) => props.theme.bkps.device.mobile} {
     justify-content: center;
   }
 `;
@@ -45,8 +41,9 @@ const Label = styled.div`
   font-size: 20px;
   line-height: 30px;
   color: white;
-  margin-bottom: 10px;
-  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   @media ${(props) => props.theme.bkps.device.mobile} {
     text-align: center;
@@ -54,58 +51,64 @@ const Label = styled.div`
   }
 `;
 
-const headers = ['Name', 'Amount'];
-const AccountsLimit = constants.API_LIMIT;
+const Accounts = () => {
+  const [page, setPage] = useState(1);
+  const [accounts, setAccounts] = useState([]);
+  const [query, setQuery] = useState('');
 
-const accountRawMapper = (account) => {
-  const {amount, name, account_id} = account;
-  return {
-    Amount: [Number(amount).toLocaleString(), 'plainText'],
-    Name: [`<a href='/accounts/${account_id}'>${name}</a>`, 'html'],
-  };
-};
-
-export default function Accounts() {
-  const [pageNumber, setPageNumber] = useState(1);
-  const [accountRaws, setAccountRaws] = useState([]);
-
-  const dispatch = useDispatch();
-  const accounts = useSelector(accountsSelector);
-  const isFetchingAccounts = useSelector(accountsFetchingStatusSelector);
-
-  useEffect(() => {
-    dispatch({
-      type: AccountsActionTypes.FETCH_ACCOUNTS,
-      payload: {start: (pageNumber - 1) * AccountsLimit, limit: AccountsLimit},
+  // vars
+  const headers = ['Name', 'Amount'];
+  const filteredAccounts = accounts?.filter((data) =>
+    data.name.includes(query),
+  );
+  const accountRows = filteredAccounts
+    ?.slice((page - 1) * 20, page * 20)
+    .map((account) => {
+      const {amount, name, id} = account;
+      return {
+        Amount: [Number(amount).toLocaleString(), 'plainText'],
+        Name: [`<a href='/accounts/${id}'>${name}</a>`, 'html'],
+      };
     });
-  }, [dispatch, pageNumber]);
+  const totalPages =
+    filteredAccounts?.length === 0 ? 1 : filteredAccounts?.length / 20;
 
   useEffect(() => {
-    if (accounts.length) {
-      const temp = accounts.map(accountRawMapper);
-      setAccountRaws(temp);
-    }
-  }, [accounts]);
+    (async () => {
+      const accounts = await api.getRichList();
+      setAccounts(accounts.data);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onPageChange = (_ignore, newPageNumber) => {
-    setPageNumber(newPageNumber);
+    setPage(newPageNumber);
+  };
+
+  const onSearch = (query) => {
+    setQuery(query);
   };
 
   return (
     <PageWrapper>
       <StyledContainer>
-        <Label>Accounts</Label>
-        <Table headers={headers} rows={accountRaws} />
-        {isFetchingAccounts && <Loader />}
+        <Label>
+          Accounts
+          <SearchBox placeholder="Search for Accounts" onSearch={onSearch} />
+        </Label>
+        <Table headers={headers} rows={accountRows} />
+        {accounts?.length === 0 && <Loader />}
       </StyledContainer>
       <StyledPaginationContainer>
         <Pagination
-          count={10}
-          page={pageNumber}
+          count={totalPages ?? 0}
+          page={page}
           shape="rounded"
           onChange={onPageChange}
         />
       </StyledPaginationContainer>
     </PageWrapper>
   );
-}
+};
+
+export default Accounts;

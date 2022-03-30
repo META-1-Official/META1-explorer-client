@@ -134,7 +134,7 @@ const Label = styled.div`
   text-align: center;
   width: fit-content;
   align-self: right;
-  opacity: 0.7;
+  // opacity: 0.7;
   font-style: normal;
   font-weight: normal;
   font-size: 12px;

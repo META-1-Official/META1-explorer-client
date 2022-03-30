@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import {Link, useLocation} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import {changeLanguage} from 'i18next';
+import ReactTooltip from 'react-tooltip';
 
 // import UI packs
 import {Drawer, IconButton, Select, Divider, MenuItem} from '@mui/material';
@@ -161,7 +162,7 @@ const AppHeader = () => {
           </MenuItem>
         </StyledLangSelect>
         <Divider style={{height: '38px'}} />
-        <IconButton className="navbar-item">
+        <IconButton className="navbar-item" data-tip data-for='help'>
           <Img
             alt="Help"
             src={images['help-mark']}
@@ -170,13 +171,13 @@ const AppHeader = () => {
           />
         </IconButton>
         <Divider style={{height: '38px'}} />
-        <IconButton className="navbar-item">
+        {/* <IconButton className="navbar-item">
           <Img
             alt="Toggle Theme"
             src={images['theme-toggle']}
             className="setting"
           />
-        </IconButton>
+        </IconButton> */}
       </Settings>
     );
   };
@@ -374,7 +375,18 @@ const AppHeader = () => {
     );
   };
 
-  return <>{width > 1140 ? renderDesktopHeader() : renderMobileHeader()}</>;
+  const renderToolTip = () => (
+    <ReactTooltip id="help" aria-haspopup="true" role="help" place="bottom" type="warning">
+      <p>Meta1 Explorer Client</p>
+    </ReactTooltip>
+  );
+
+  return (
+    <>
+      {width > 1140 ? renderDesktopHeader() : renderMobileHeader()}
+      {renderToolTip()}
+    </>
+  );
 };
 
 export default AppHeader;

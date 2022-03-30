@@ -88,10 +88,12 @@ const getVotesData = async (fullAccount) => {
 
 const getAccountHistoryData = async (fullAccount, page_ops) => {
     const page = page_ops - 1;
-    const start = fullAccount.total_ops - (page * 20) + 1;
+    const total_ops = await api.getTotalAccountOps(fullAccount.account.id);
+    const start = total_ops?.data - (page * 20) + 1;
     const limit = 20;
     const history = await api.getAccountHistory(fullAccount.account.id, start, limit);
-    return history?.data;
+    const val = await Promise.all(history?.data);
+    return val;
 }
 
 const accountsService = { getAccountFullData, getBalanceData, getKeysAndAccountsData, getCreatedAssetsData, getVotesData, getAccountHistoryData };

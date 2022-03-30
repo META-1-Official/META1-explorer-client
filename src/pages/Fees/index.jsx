@@ -149,7 +149,7 @@ const Fees = () => {
       <StyledContainer>
         <Label>
           Fees
-          <SearchBox placeholder="Search for Amount" onSearch={onSearch} />
+          <SearchBox placeholder="Search for Fees" onSearch={onSearch} />
         </Label>
         {!isFetchingFeesData && rows ? (
           <Table headers={headers} rows={rows}></Table>

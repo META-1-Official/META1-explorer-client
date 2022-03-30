@@ -155,7 +155,7 @@ const Witnesses = () => {
         <Label>
           Active Witness
           <SearchBox
-            placeholder="Search for Amount"
+            placeholder="Search for Witnesses"
             onSearch={onSearchForActiveWitnesses}
           />
         </Label>
@@ -169,7 +169,7 @@ const Witnesses = () => {
         <Label>
           Standby Witness
           <SearchBox
-            placeholder="Search for Amount"
+            placeholder="Search for Witnesses"
             onSearch={onSearchForStandbyWitnesses}
           />
         </Label>

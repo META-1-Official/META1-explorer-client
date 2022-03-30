@@ -10,6 +10,7 @@ import {SearchCard} from '../../components/Card';
 // import redux
 import actions from '../../store/actions';
 import selectors from '../../store/selectors';
+import { toast } from 'react-toastify';
 
 const {fetchLastBlockNumber, fetchLookupAccounts, fetchLookupAssets} = actions;
 const {
@@ -117,6 +118,7 @@ const Search = React.memo(() => {
 
   const handleClick = (param) => {
     let ele = document.getElementById(`Search ${_.capitalize(param)}`);
+    if(ele.value === '') {toast('search value is empty'); return;}
     switch (param) {
       case 'block':
         navigate(`/blocks/${ele.value}`); 
@@ -167,7 +169,7 @@ const Search = React.memo(() => {
           description="In order to search for an object you need to insert an ID with the correct META1 object format. More info and list can be found HERE."
           searchInputSample="1.3.0"
           searchInputLabel="Object ID"
-          searchInputPlaceholder="Enter account name or id number"
+          searchInputPlaceholder="Enter object id"
           onClick={() => handleClick('object')}
         />
         <SearchCard
@@ -186,7 +188,7 @@ const Search = React.memo(() => {
           description="If you have a transaction hash, please paste it here to get transaction information."
           searchInputSample="cb4a306cb75.....6bb37bbcd29"
           searchInputLabel="Transaction ID"
-          searchInputPlaceholder="Enter tx hash"
+          searchInputPlaceholder="Enter transaction hash"
           onClick={() => handleClick('transaction')}
         />
       </StyledContainer>
