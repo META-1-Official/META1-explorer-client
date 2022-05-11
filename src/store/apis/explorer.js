@@ -2,7 +2,7 @@ import axios from 'axios';
 import { result } from 'lodash';
 import { formatNumber, formatBalance, operationType, objectType } from '../../helpers/utility';
 
-const BASE_URL = 'https://explorer.meta1.io:5000';
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 /* DASHBOARD SERVICE */
 // operations
@@ -22,7 +22,7 @@ export const fetchLastOperations = ({ search_after }) => {
 };
 
 export const fetchHeader = () => {
-    return axios.get(BASE_URL + '/header', {
+    return axios.get(BASE_URL + '/explorer/header', {
         headers: {
             'Content-Type': 'application/json-patch+json',
         },
@@ -1359,7 +1359,7 @@ export const getAccountHistory = async (account_id, start, limit) => {
     //     account_id + "&search_after=" + start + "&size=" + limit + "&sort_by=-account_history.sequence");
     const response = await axios.get(BASE_URL + "/es/account_history?account_id=" +
         account_id);
-        
+
     const history = response.data.map(async value => {
         var timestamp;
         var witness;
