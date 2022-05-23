@@ -306,36 +306,42 @@ const Dashboard = React.memo(() => {
           <LineChartCard
             title="Block Number"
             number={getHeadData?.head_block_number}
+            chartData={getHeadData?.blocks_24h_history}
             icon={blockNumImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             title="New Users"
             number={getHeadData?.accounts_registered_this_interval}
+            chartData={getHeadData?.users_24h_history}
             icon={newUserImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             title="META1 Market Cap"
             number={getHeadData?.bts_market_cap}
+            chartData={getHeadData?.market_cap_24h_history}
             icon={marketCapImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             title="META1/BTC Volume"
             number={getHeadData?.quote_volume}
+            chartData={getHeadData?.meta1_volume_24h_history}
             icon={btcVolumeImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             title="Witness"
             number={getHeadData?.witness_count}
+            chartData={getHeadData?.witness_24h_history}
             icon={witnessImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             title="Committee"
             number={getHeadData?.committee_count}
+            chartData={getHeadData?.committee_24h_history}
             icon={committeeImg}
             isLoading={isFetchingHead}
           />
