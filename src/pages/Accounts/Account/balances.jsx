@@ -68,16 +68,15 @@ const Balances = ({accountFullData}) => {
         setParsedVestingBalances(parsed?.vesting);
       })();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // vars
   const filteredAssetData = parsedAssetBalances?.filter((balance) =>
-    balance.asset_name.includes(assetQuery.toUpperCase()),
+    balance.asset_name?.includes(assetQuery.toUpperCase()),
   );
 
   const filteredVestingData = parsedVestingBalances?.filter((balance) =>
-    balance.asset_name.includes(vestingQuery.toUpperCase()),
+    balance.asset_name?.includes(vestingQuery.toUpperCase()),
   );
 
   const headers = ['Id', 'Asset', 'Balance']; // table headers

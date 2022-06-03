@@ -30,7 +30,7 @@ import api from '../../store/apis';
 // import constants
 import {OPS_TYPE_LABELS, PIE_COLORS} from '../../constants';
 
-const {fetchLastOperations, fetchHeader} = actions;
+const {fetchLastOperations, fetchHeader, setPieData} = actions;
 const {getOperations, isFetchingLastOperations, getHeader, isFetchingHeader} =
   selectors;
 
@@ -195,8 +195,8 @@ const Dashboard = React.memo(() => {
 
   // vars
   const TabLabels = ['Operations', 'Markets', 'Holders'];
-  const curPageOps = getOpsData?.slice((page - 1) * 20, page * 20); // current page operations - 20 ops per page
-  const totalPages = getOpsData?.length === 0 ? 1 : getOpsData?.length / 20; // total number of pages = all ops / opsPerPage (=20)
+  const curPageOps = getOpsData?.slice((page - 1) * 10, page * 10); // current page operations - 20 ops per page
+  const totalPages = getOpsData?.length === 0 ? 1 : getOpsData?.length / 10; // total number of pages = all ops / opsPerPage (=20)
   const headers = ['Operation', 'ID', 'Date and time', 'Block', 'Type']; // table headers
 
   const buildOpTextPromises = (curPageOps) =>
@@ -246,12 +246,7 @@ const Dashboard = React.memo(() => {
   }, []);
 
   const loadPieData = async () => {
-    const operation = await api.topOperationsChart();
-    const proxies = await api.topProxiesChart();
-    const markets = await api.topMarketsChart();
-    const coins = await api.topSmartCoinsChart();
-    const uias = await api.topUIAsChart();
-    const holders = await api.topHoldersChart();
+    const [operation, proxies, markets, coins, uias, holders] = await Promise.all([api.topOperationsChart(), api.topProxiesChart(), api.topMarketsChart(), api.topSmartCoinsChart(), api.topUIAsChart(), api.topHoldersChart()])
     setPie([operation, markets, holders, coins, uias, proxies]);
   };
 

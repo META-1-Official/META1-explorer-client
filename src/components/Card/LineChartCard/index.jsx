@@ -38,7 +38,7 @@ export const LineChartCard = ({title, number, chartData, icon, isLoading}) => {
         </div>
       </div>
       <div className='card-action'>
-        {!isLoading && (
+        {!isLoading && chartData && (
           <LineChart width={275} height={76} data={memoizedChartData}>
             <Line type='natural' dataKey='uv' stroke='#ffc000' dot={false} />
           </LineChart>

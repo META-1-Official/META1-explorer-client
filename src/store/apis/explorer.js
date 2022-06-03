@@ -13,12 +13,15 @@ export const fetchLastOperations = ({search_after}) => {
     size: 10000,
     from_date: 'now-1d',
     sort_by: '-operation_id_num',
+    type: 'data',
+    from: 0,
+    to_date: 'now'
   };
   if (search_after !== undefined) {
     params.search_after = search_after;
   }
 
-  return axios.get(`${ES_WRAPPER_URL}/es/account_history`, {
+  return axios.get(`${ES_WRAPPER_URL}/account_history`, {
     headers: {
       'Content-Type': 'application/json-patch+json',
     },
