@@ -185,7 +185,7 @@ const Dashboard = React.memo(() => {
 
   const fetchLastOps = (search_after) =>
     dispatch(fetchLastOperations(search_after));
-  const fetchHeaderData = () => dispatch(fetchHeader());
+  const fetchHeaderData = (isLoading) => dispatch(fetchHeader(isLoading));
 
   // selectors
   const getHeadData = useSelector(getHeader);
@@ -239,14 +239,14 @@ const Dashboard = React.memo(() => {
 
   useEffect(() => {
     (async () => {
-      fetchHeaderData(); // fetch header
+      fetchHeaderData(true); // fetch header
       fetchLastOps(undefined); // first fetch with no search_after
       await loadPieData();
     })();
   }, []);
 
   useEffect(() => {
-    setInterval(fetchHeaderData, 1000 * 60);
+    setInterval(fetchHeaderData(false), 1000 * 60);
   }, []);
 
   const loadPieData = async () => {

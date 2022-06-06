@@ -58,12 +58,14 @@ const Transactions = () => {
 
   // vars
   const headers = ['Transaction ID', 'Operations']; // table headers
-  const rows = getBigTrxsData?.map((trx) => {
-    return {
-      'Transaction ID': [`<a href="/txs/${trx.key}">${trx.key}</a>`, 'html'],
-      Operations: [trx.doc_count, 'plainText'],
-    };
-  });
+  const rows = getBigTrxsData
+    ?.filter((trx) => !!trx.key)
+    .map((trx) => {
+      return {
+        'Transaction ID': [`<a href="/txs/${trx.key}">${trx.key}</a>`, 'html'],
+        Operations: [trx.doc_count, 'plainText'],
+      };
+    });
 
   useEffect(() => {
     fetchBigTrxs(); // fetch big trxs

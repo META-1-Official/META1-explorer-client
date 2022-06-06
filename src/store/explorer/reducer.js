@@ -42,7 +42,7 @@ const explorerReducer = (state = initialState, action) => {
         ...state,
         header: {
           ...state.header,
-          isFetchingHeader: true,
+          isFetchingHeader: action.payload,
         },
       };
     case types.HEADER_FETCH_SUCCESS:

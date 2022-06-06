@@ -14,9 +14,11 @@ export const clearOperations = () => ({
 });
 
 // operation header
-export const fetchHeader = () => ({
+export const fetchHeader = (isLoading) => ({
   type: types.HEADER_FETCH,
-  payload: {},
+  payload: {
+    isLoading,
+  },
 });
 
 // last bolck number

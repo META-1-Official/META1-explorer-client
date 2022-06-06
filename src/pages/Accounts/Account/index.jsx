@@ -88,7 +88,6 @@ const Account = () => {
   const headers = ['Operation', 'ID', 'Date and Time', 'Block', 'Type'];
   const history_rows = history
     ? history.map((op) => {
-        console.log('OP', op);
         return {
           Operation: [op.operation_text, 'html'],
           ID: [op.operation_id, 'coloredText'],
@@ -110,7 +109,7 @@ const Account = () => {
       (async () => {
         const parsed = await accountsService.getAccountHistoryData(
           account?.data,
-          pageNumber,
+          undefined,
         );
         setHistory(parsed);
       })();
@@ -118,12 +117,25 @@ const Account = () => {
   }, [account]);
 
   const loadData = async () => {
-    const account = await api.getFullAccount(id);
-    setAccount(account);
+    const [account, totalOps] = await Promise.all([
+      api.getFullAccount(id),
+      api.getTotalAccountOps(id),
+    ]);
+    setAccount({ ...account, totalOps });
   };
 
-  const onPageChange = (_ignore, newPageNumber) => {
+  const totalPages = Math.ceil(
+    account?.totalOps === 0 ? 1 : account?.totalOps.data / 10,
+  );
+
+  const onPageChange = async (_ignore, newPageNumber) => {
     setPageNumber(newPageNumber);
+    return accountsService
+      .getAccountHistoryData(
+        account?.data,
+        history[history.length - 1].operation_id_num,
+      )
+      .then((res) => setHistory(res));
   };
 
   // handlers
@@ -189,7 +201,7 @@ const Account = () => {
       </StyledHsContainer>
       <StyledPaginationContainer>
         <Pagination
-          count={account?.data.total_ops}
+          count={totalPages}
           page={pageNumber}
           shape="rounded"
           onChange={onPageChange}
