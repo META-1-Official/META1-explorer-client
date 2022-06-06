@@ -1418,12 +1418,40 @@ export const parseVesting = async (vesting_balances) => {
   return { data: [] };
 };
 
-export const getAccountHistory = async (account_id, start, limit) => {
-  // const response = await axios.get(BASE_URL + "/es/account_history?account_id=" +
-  //     account_id + "&search_after=" + start + "&size=" + limit + "&sort_by=-account_history.sequence");
-  const response = await axios.get(
-    BASE_URL + '/es/account_history?account_id=' + account_id,
-  );
+export const getAccountHistory = async (account_id, search_after) => {
+  const params = {
+    account_id,
+    from: 0,
+    size: 5,
+    type: 'data',
+    sort_by: '-account_history.sequence',
+  };
+  if (search_after && search_after !== 1) {
+    params.search_after = search_after;
+  }
+  // const response = await axios.get(
+  //   BASE_URL +
+  //     '/es/account_history' +
+  //     account_id +
+  //     '&search_after=' +
+  //     start +
+  //     '&size=' +
+  //     limit +
+  //     '&sort_by=-account_history.sequence' +
+  //     '&type=data',
+  // );
+  const response = await axios.get(BASE_URL + '/es/account_history', {
+    params,
+  });
+  // const response = await axios.get(
+  //   BASE_URL +
+  //     '/es/account_history?account_id=' +
+  //     account_id +
+  //     '&size=' +
+  //     limit +
+  //     '&from=' +
+  //     start,
+  // );
 
   const history = response.data.map(async (value) => {
     let timestamp;
@@ -1438,6 +1466,7 @@ export const getAccountHistory = async (account_id, start, limit) => {
     const operation = {
       operation_id: value.account_history.operation_id,
       block_num: value.block_data.block_num,
+      operation_id_num: value.operation_id_num,
       time: timestamp,
       witness: witness,
       op_type: value.operation_type,

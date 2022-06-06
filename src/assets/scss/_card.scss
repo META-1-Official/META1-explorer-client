@@ -10,6 +10,7 @@
   background-color: $background-color-warm;
   border: 1px solid $border-color;
   border-radius: 0.625em;
+  padding-bottom: 20px;
   background: linear-gradient(
     $background-color-warm,
     $background-color-secondary
@@ -65,7 +66,7 @@
   }
 
   .card-action {
-    height: 100px;
+    height: 70px;
   }
 }
 

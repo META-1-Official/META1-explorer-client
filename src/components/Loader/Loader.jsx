@@ -22,7 +22,7 @@ const Wrapper = styled.div`
     height: 100%;
     position: absolute;
     left: 0;
-    top: 0;
+    top: 30px;
   }
 
   .sk-fading-circle .sk-circle:before {
