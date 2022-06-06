@@ -34,7 +34,7 @@ const Wrapper = styled.div`
     border-radius: 100%;
     -webkit-animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
     animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
-    background: ${props => props.theme.palette.primary.main};
+    background: ${(props) => props.theme.palette.primary.main};
   }
   .sk-fading-circle .sk-circle2 {
     -webkit-transform: rotate(30deg);

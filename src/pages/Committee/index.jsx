@@ -1,21 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 // import components
-import {Table} from '../../components/Table';
+import { Table } from '../../components/Table';
 import Loader from '../../components/Loader/Loader';
-import {SearchBox} from '../../components/SearchBox';
+import { SearchBox } from '../../components/SearchBox';
 
 // import redux
 import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 
 // import helper
-import {localizeNumber} from '../../helpers/utility';
+import { localizeNumber } from '../../helpers/utility';
 
-const {fetchCommittee, fetchHeader} = actions;
-const {getCommittee, isFetchingCommittee, getHeader, isFetchingHeader} =
+const { fetchCommittee, fetchHeader } = actions;
+const { getCommittee, isFetchingCommittee, getHeader, isFetchingHeader } =
   selectors;
 
 const PageWrapper = styled.div`
@@ -41,6 +41,11 @@ const Label = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const Committee = () => {
@@ -135,7 +140,7 @@ const Committee = () => {
         <Label>
           Current active committee members
           <SearchBox
-            placeholder="Search for Amount"
+            placeholder="Search for Committee"
             onSearch={onSearchForActiveCommittee}
           />
         </Label>
@@ -145,11 +150,11 @@ const Committee = () => {
           <Loader />
         )}
       </StyledContainer>
-      <StyledContainer style={{marginTop: '42px'}}>
+      <StyledContainer style={{ marginTop: '42px' }}>
         <Label>
           Standby committee members
           <SearchBox
-            placeholder="Search for Amount"
+            placeholder="Search for Committee"
             onSearch={onSearchForStandbyCommittee}
           />
         </Label>

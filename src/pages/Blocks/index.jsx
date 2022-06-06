@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 // import components
-import {Table} from '../../components/Table';
+import { Table } from '../../components/Table';
 import Loader from '../../components/Loader/Loader';
 
 // import api
@@ -12,8 +12,8 @@ import { fetchBlock } from '../../store/apis/explorer';
 import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 
-const {fetchBigBlocks} = actions;
-const {getBigBlocks, isFetchingBigBlocks} = selectors;
+const { fetchBigBlocks } = actions;
+const { getBigBlocks, isFetchingBigBlocks } = selectors;
 
 const PageWrapper = styled.div`
   display: flex;
@@ -24,7 +24,7 @@ const PageWrapper = styled.div`
 `;
 
 const StyledContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};  
+  background: ${(props) => props.theme.palette.background.nearBlack};
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -38,6 +38,10 @@ const Label = styled.div`
   color: white;
   margin-bottom: 10px;
   margin-top: 10px;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+  }
 `;
 
 const Blocks = () => {
@@ -55,23 +59,29 @@ const Blocks = () => {
   // vars
   const headers = ['Block Number', 'Data', 'Transactions', 'Operations']; // table headers
   const buildFetchBlockPromises = (getBigBlocksData) =>
-  getBigBlocksData.map((block) =>
-      fetchBlock(block.key),
-    );
+    getBigBlocksData.map((block) => fetchBlock(block.key));
 
   const getRows = () => {
     return getBigBlocksData
-      ? Promise.all(buildFetchBlockPromises(getBigBlocksData)).then((blockPromises) => {
-          return blockPromises.map((blockPromise, index) => {
-            const block = getBigBlocksData[index];
-            return {
-              'Block Number': [`<a href="/blocks/${block.key}">${block.key}</a>`, 'html'],
-              Data: [blockPromise.data.timestamp, 'plainText'],
-              Transactions: [blockPromise.data.transactions.length, 'plainText'],
-              Operations: [block.doc_count, 'plainText'],
-            };
-          });
-        })
+      ? Promise.all(buildFetchBlockPromises(getBigBlocksData)).then(
+          (blockPromises) => {
+            return blockPromises.map((blockPromise, index) => {
+              const block = getBigBlocksData[index];
+              return {
+                'Block Number': [
+                  `<a href="/blocks/${block.key}">${block.key}</a>`,
+                  'html',
+                ],
+                Data: [blockPromise.data.timestamp, 'plainText'],
+                Transactions: [
+                  blockPromise.data.transactions.length,
+                  'plainText',
+                ],
+                Operations: [block.doc_count, 'plainText'],
+              };
+            });
+          },
+        )
       : Promise.resolve([]);
   };
 

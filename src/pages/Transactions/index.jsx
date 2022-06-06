@@ -1,17 +1,17 @@
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 // import components
-import {Table} from '../../components/Table';
+import { Table } from '../../components/Table';
 import Loader from '../../components/Loader/Loader';
 
 // import redux
 import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 
-const {fetchBigTransactions} = actions;
-const {getBigTransactions, isFetchingBigTransactions} = selectors;
+const { fetchBigTransactions } = actions;
+const { getBigTransactions, isFetchingBigTransactions } = selectors;
 
 const PageWrapper = styled.div`
   display: flex;
@@ -19,10 +19,14 @@ const PageWrapper = styled.div`
   max-width: 1315px;
   padding-top: 80px;
   padding-bottom: 38px;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    padding-top: 50px;
+  }
 `;
 
 const StyledContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};  
+  background: ${(props) => props.theme.palette.background.nearBlack};
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -36,6 +40,10 @@ const Label = styled.div`
   color: white;
   margin-bottom: 10px;
   margin-top: 10px;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+  }
 `;
 
 const Transactions = () => {

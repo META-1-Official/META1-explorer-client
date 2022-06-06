@@ -22,14 +22,12 @@ ReactDOM.render(
         <MuiThemeProvider theme={theme}>
           <ThemeProvider theme={theme}>
             <App />
-          </ ThemeProvider>
+          </ThemeProvider>
         </MuiThemeProvider>
       </StylesProvider>
-      <ToastContainer
-        autoClose={2000}
-      />
+      <ToastContainer autoClose={2000} />
     </Provider>
-  </React.StrictMode >,
+  </React.StrictMode>,
   document.getElementById('root'),
 );
 

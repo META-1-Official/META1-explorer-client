@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useLocation} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import {Table} from '../../../components/Table';
+import { Table } from '../../../components/Table';
 import Loader from '../../../components/Loader/Loader';
 
 // import api
-import {opText} from '../../../store/apis/explorer';
+import { opText } from '../../../store/apis/explorer';
 
 // import helpers
 import { buildCustomKVTableDto } from '../../../helpers/utility';
@@ -16,8 +16,8 @@ import { buildCustomKVTableDto } from '../../../helpers/utility';
 import actions from '../../../store/actions';
 import selectors from '../../../store/selectors';
 
-const {fetchTransaction} = actions;
-const {getTransaction, isFetchingTransaction} = selectors;
+const { fetchTransaction } = actions;
+const { getTransaction, isFetchingTransaction } = selectors;
 
 const PageWrapper = styled.div`
   display: flex;
@@ -25,6 +25,11 @@ const PageWrapper = styled.div`
   max-width: 1315px;
   padding-top: 80px;
   padding-bottom: 40px;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    flex-direction: column;
+    padding-top: 50px;
+  }
 `;
 
 const StyledTableContainer = styled.div`
@@ -33,6 +38,10 @@ const StyledTableContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 65%;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    width: 100%;
+  }
 `;
 
 const StyledMetaDataContainer = styled.div`
@@ -42,6 +51,11 @@ const StyledMetaDataContainer = styled.div`
   flex-direction: column;
   width: 40%;
   margin-left: 26px;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    width: 100%;
+    margin-left: 0;
+  }
 `;
 
 const Label = styled.div`
@@ -50,6 +64,10 @@ const Label = styled.div`
   font-size: 20px;
   line-height: 30px;
   color: white;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+  }
 `;
 
 const Transaction = () => {
@@ -91,7 +109,11 @@ const Transaction = () => {
   };
 
   const getMetadataRows = () => {
-    let headerM = [{Hash: 'trx_id', type: 'plainText'}, {Block: 'block_num', type: 'coloredText'}, {Date: 'block_time', type: 'plainText'}];
+    let headerM = [
+      { Hash: 'trx_id', type: 'plainText' },
+      { Block: 'block_num', type: 'coloredText' },
+      { Date: 'block_time', type: 'plainText' },
+    ];
 
     let rows = buildCustomKVTableDto(metadata, headerM);
 

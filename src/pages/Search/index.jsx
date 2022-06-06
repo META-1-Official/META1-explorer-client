@@ -1,17 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import _ from 'lodash';
 
 // import components
-import {SearchCard} from '../../components/Card';
+import { SearchCard } from '../../components/Card';
 
 // import redux
 import actions from '../../store/actions';
 import selectors from '../../store/selectors';
+import { toast } from 'react-toastify';
 
-const {fetchLastBlockNumber, fetchLookupAccounts, fetchLookupAssets} = actions;
+const { fetchLastBlockNumber, fetchLookupAccounts, fetchLookupAssets } =
+  actions;
 const {
   getLastBlockNumber,
   getLookupAccounts,
@@ -34,6 +36,10 @@ const StyledContainer = styled.div`
   flex-wrap: wrap;
   gap: 25px;
   justify-content: center;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    padding: 0 16px;
+  }
 `;
 
 const Search = React.memo(() => {
@@ -113,9 +119,13 @@ const Search = React.memo(() => {
 
   const handleClick = (param) => {
     let ele = document.getElementById(`Search ${_.capitalize(param)}`);
+    if (ele.value === '') {
+      toast('search value is empty');
+      return;
+    }
     switch (param) {
       case 'block':
-        navigate(`/blocks/${ele.value}`); 
+        navigate(`/blocks/${ele.value}`);
         break;
       case 'asset':
         navigate(`/assets/${ele.value}`);
@@ -163,7 +173,7 @@ const Search = React.memo(() => {
           description="In order to search for an object you need to insert an ID with the correct META1 object format. More info and list can be found HERE."
           searchInputSample="1.3.0"
           searchInputLabel="Object ID"
-          searchInputPlaceholder="Enter account name or id number"
+          searchInputPlaceholder="Enter object id"
           onClick={() => handleClick('object')}
         />
         <SearchCard
@@ -182,7 +192,7 @@ const Search = React.memo(() => {
           description="If you have a transaction hash, please paste it here to get transaction information."
           searchInputSample="cb4a306cb75.....6bb37bbcd29"
           searchInputLabel="Transaction ID"
-          searchInputPlaceholder="Enter tx hash"
+          searchInputPlaceholder="Enter transaction hash"
           onClick={() => handleClick('transaction')}
         />
       </StyledContainer>

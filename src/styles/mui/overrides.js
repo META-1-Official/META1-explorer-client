@@ -1,4 +1,4 @@
-import { breakpoints, palette, pxToRem } from './defaultTheme'
+import { breakpoints, palette, pxToRem } from './defaultTheme';
 
 /**
  * Component overrides
@@ -7,7 +7,6 @@ import { breakpoints, palette, pxToRem } from './defaultTheme'
  * its extracted properties to create our overrides,
  * and then include it in our overall theme
  */
-const overrides = Object.freeze({
-})
+const overrides = Object.freeze({});
 
-export default overrides
+export default overrides;

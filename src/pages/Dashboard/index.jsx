@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Pagination from '@mui/material/Pagination';
 import Button from '@mui/material/Button';
+import { Tabs, Tab } from '@mui/material';
+import CustomPieChart from '../../components/Chart/CustomPieChart';
 
 // import components
-import {LineChartCard} from '../../components/Card';
-import {Table} from '../../components/Table';
+import { LineChartCard } from '../../components/Card';
+import { Table } from '../../components/Table';
 import Loader from '../../components/Loader/Loader';
 
 // import icons
@@ -22,13 +24,14 @@ import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 
 // import api
-import {opText} from '../../store/apis/explorer';
+import { opText } from '../../store/apis/explorer';
+import api from '../../store/apis';
 
 // import constants
-import {OPS_TYPE_LABELS} from '../../constants';
+import { OPS_TYPE_LABELS, PIE_COLORS } from '../../constants';
 
-const {fetchLastOperations, fetchHeader} = actions;
-const {getOperations, isFetchingLastOperations, getHeader, isFetchingHeader} =
+const { fetchLastOperations, fetchHeader } = actions;
+const { getOperations, isFetchingLastOperations, getHeader, isFetchingHeader } =
   selectors;
 
 // styled components
@@ -43,19 +46,35 @@ const PageWrapper = styled.div`
 
 const StyledChartContainer = styled.div`
   display: flex;
+  justify-content: center;
+
+  @media only screen and (max-width: 1020px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 `;
 
 const LineChartsWrapper = styled.div`
   width: 100%;
   display: flex;
-  max-width: 860px;
   flex-wrap: wrap;
   gap: 17px;
+  justify-content: center;
+
+  @media only screen and (max-width: 1315px) {
+    max-width: 600px;
+  }
 `;
 
 const PieChartWrapper = styled.div`
   width: 100%;
   max-width: 410px;
+  height: 385px;
   border: 1px solid ${(props) => props.theme.palette.border.darkGrey};
   border-radius: 0.625em;
   margin-left: 17px;
@@ -63,6 +82,16 @@ const PieChartWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media only screen and (max-width: 1020px) {
+    margin-top: 30px;
+  }
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    max-width: unset;
+    width: unset;
+    margin-left: 0;
+  }
 `;
 
 const ButtonGroup = styled.div`
@@ -81,13 +110,14 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const OpsTypeLabels = styled.div`
+const LegendsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-top: -15px;
 `;
 
-const OpsTypeLabelWrapper = styled.div`
+const LegendLabel = styled.div`
   width: 40%;
   display: flex;
   align-items: center;
@@ -99,7 +129,7 @@ const OpsTypeLabelWrapper = styled.div`
   }
 `;
 
-const OpsTypeLabel = styled.div`
+const Legend = styled.div`
   font-weight: normal;
   font-size: 14px;
   line-height: 28px;
@@ -127,18 +157,28 @@ const Label = styled.div`
   font-size: 20px;
   line-height: 30px;
   color: white;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+  }
 `;
 
 const StyledPaginationContainer = styled.div`
   padding-top: 38px;
   display: flex;
   justify-content: flex-end;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    justify-content: center;
+  }
 `;
 
 const Dashboard = React.memo(() => {
   // state vars
   const [page, setPage] = useState(1);
   const [rows, setRows] = useState([]);
+  const [pie, setPie] = useState(null);
+  const [tabValue, setTabValue] = useState(0);
 
   // dispatch
   const dispatch = useDispatch();
@@ -154,8 +194,9 @@ const Dashboard = React.memo(() => {
   const isFetchingOps = useSelector(isFetchingLastOperations);
 
   // vars
-  const curPageOps = getOpsData?.slice((page - 1) * 20, page * 20); // current page operations - 20 ops per page
-  const totalPages = getOpsData?.length === 0 ? 1 : getOpsData?.length / 20; // total number of pages = all ops / opsPerPage (=20)
+  const TabLabels = ['Operations', 'Markets', 'Holders'];
+  const curPageOps = getOpsData?.slice((page - 1) * 10, page * 10); // current page operations - 20 ops per page
+  const totalPages = getOpsData?.length === 0 ? 1 : getOpsData?.length / 10; // total number of pages = all ops / opsPerPage (=20)
   const headers = ['Operation', 'ID', 'Date and time', 'Block', 'Type']; // table headers
 
   const buildOpTextPromises = (curPageOps) =>
@@ -180,10 +221,46 @@ const Dashboard = React.memo(() => {
       : Promise.resolve([]);
   };
 
+  const getColor = (name) => {
+    var color = 'white';
+    var v;
+    if (tabValue === 0) {
+      color = OPS_TYPE_LABELS.filter(
+        (label) => label.text.toUpperCase() === name,
+      )[0].color;
+    } else {
+      pie[tabValue]?.data.data.map((data, index) => {
+        if (data.name === name) v = index;
+      });
+      color = PIE_COLORS[v];
+    }
+    return color;
+  };
+
   useEffect(() => {
-    fetchHeaderData(); // fetch header
-    fetchLastOps(undefined); // first fetch with no search_after
+    (async () => {
+      fetchHeaderData(); // fetch header
+      fetchLastOps(undefined); // first fetch with no search_after
+      await loadPieData();
+    })();
   }, []);
+
+  useEffect(() => {
+    setInterval(fetchHeaderData, 1000 * 60);
+  }, []);
+
+  const loadPieData = async () => {
+    const [operation, proxies, markets, coins, uias, holders] =
+      await Promise.all([
+        api.topOperationsChart(),
+        api.topProxiesChart(),
+        api.topMarketsChart(),
+        api.topSmartCoinsChart(),
+        api.topUIAsChart(),
+        api.topHoldersChart(),
+      ]);
+    setPie([operation, markets, holders, coins, uias, proxies]);
+  };
 
   const [v, setV] = useState(false); // the flag var for fethcing for only change
   useEffect(() => {
@@ -201,6 +278,34 @@ const Dashboard = React.memo(() => {
       fetchLastOps(getOpsData[getOpsData.length - 1].operation_id_num); // fetch with search_after whenever current page reach out the maximum ES fetch count
   };
 
+  const handleChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
+
+  // sub renders
+  const TabPanel = (props) => {
+    const { children, value, index, ...other } = props;
+
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && <>{children}</>}
+      </div>
+    );
+  };
+
+  const a11yProps = (index) => {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  };
+
   return (
     <PageWrapper>
       <StyledChartContainer>
@@ -208,64 +313,82 @@ const Dashboard = React.memo(() => {
           <LineChartCard
             title="Block Number"
             number={getHeadData?.head_block_number}
+            chartData={getHeadData?.blocks_24h_history}
             icon={blockNumImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             title="New Users"
             number={getHeadData?.accounts_registered_this_interval}
+            chartData={getHeadData?.users_24h_history}
             icon={newUserImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             title="META1 Market Cap"
             number={getHeadData?.bts_market_cap}
+            chartData={getHeadData?.market_cap_24h_history}
             icon={marketCapImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             title="META1/BTC Volume"
             number={getHeadData?.quote_volume}
+            chartData={getHeadData?.meta1_volume_24h_history}
             icon={btcVolumeImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             title="Witness"
             number={getHeadData?.witness_count}
+            chartData={getHeadData?.witness_24h_history}
             icon={witnessImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             title="Committee"
             number={getHeadData?.committee_count}
+            chartData={getHeadData?.committee_24h_history}
             icon={committeeImg}
             isLoading={isFetchingHead}
           />
         </LineChartsWrapper>
         <PieChartWrapper>
-          <ButtonGroup>
-            <StyledButton className="on">Operations</StyledButton>
-            <StyledButton>Markets</StyledButton>
-            <StyledButton>Holders</StyledButton>
-          </ButtonGroup>
-          {/* <PieChart></PieChart> */}
-          <Label
-            style={{
-              textAlign: 'center',
-              fontWeight: 'normal',
-              fontSize: '18px',
-            }}
+          <Tabs
+            value={tabValue}
+            onChange={handleChange}
+            aria-label="operations"
+            style={{ marginLeft: '15px' }}
           >
-            Asset Price Publish
-          </Label>
-          <OpsTypeLabels>
-            {OPS_TYPE_LABELS.map((label) => (
-              <OpsTypeLabelWrapper key={label.type}>
-                <Dot color={label.color} />
-                <OpsTypeLabel key={label.type}>{label.text}</OpsTypeLabel>
-              </OpsTypeLabelWrapper>
+            {TabLabels.map((tlb, index) => (
+              <Tab label={tlb} {...a11yProps(index)} key={tlb} />
             ))}
-          </OpsTypeLabels>
+          </Tabs>
+          {pie &&
+            TabLabels.map((tlb, index) => (
+              <TabPanel value={tabValue} index={index} key={tlb}>
+                <CustomPieChart
+                  data={pie[index]?.data.data}
+                  tabValue={tabValue}
+                />
+                <LegendsWrapper>
+                  {tabValue === 0 &&
+                    OPS_TYPE_LABELS.map((label) => (
+                      <LegendLabel key={label.type}>
+                        <Dot color={label.color} />
+                        <Legend key={label.type}>{label.text}</Legend>
+                      </LegendLabel>
+                    ))}
+                  {tabValue !== 0 &&
+                    pie[index]?.data?.data.map((label) => (
+                      <LegendLabel key={label.name}>
+                        <Dot color={getColor(label.name)} />
+                        <Legend key={label.name}>{label.name}</Legend>
+                      </LegendLabel>
+                    ))}
+                </LegendsWrapper>
+              </TabPanel>
+            ))}
         </PieChartWrapper>
       </StyledChartContainer>
       <StyledTableContainer>

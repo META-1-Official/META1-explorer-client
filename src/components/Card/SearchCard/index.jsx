@@ -1,13 +1,14 @@
 import Button from '@mui/material/Button';
-import {Autocomplete, TextField} from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Loader from '../../Loader/Loader';
 
 const CardWrapper = styled.div`
-  width: 410px;
-  height: 430px;
+  width: 100%;
+  max-width: 410px;
+  height: 420px;
   border: 1px solid ${(props) => props.theme.palette.border.darkGrey};
   border-radius: 0.625em;
   box-sizing: border-box;
@@ -39,6 +40,7 @@ const CardBody = styled.div`
 
 const CardDescriptionWrapper = styled.div`
   margin-top: 5px;
+  min-height: 120px;
 `;
 
 const Description = styled.div`
@@ -83,8 +85,7 @@ const LoaderWrapper = styled.div`
   top: -32px;
 `;
 
-
-const StyledTextField = styled(TextField)`  
+const StyledTextField = styled(TextField)`
   .MuiInputBase-root {
     height: 51px !important;
   }
@@ -118,11 +119,6 @@ const SearchCard = ({
       <CardBody>
         <CardDescriptionWrapper>
           <Description>{description}</Description>
-          <br />
-          <HtmlWrapper>
-            Sample Input:
-            <Html dangerouslySetInnerHTML={{__html: searchInputSample}} />
-          </HtmlWrapper>
         </CardDescriptionWrapper>
         <div>
           <LabelWrapper>
@@ -131,12 +127,16 @@ const SearchCard = ({
                 <Loader />
               </LoaderWrapper>
             )}
+            <HtmlWrapper>
+              Sample Input:
+              <Html dangerouslySetInnerHTML={{ __html: searchInputSample }} />
+            </HtmlWrapper>
             <Label htmlFor={`${title}-search`}>{searchInputLabel}</Label>
           </LabelWrapper>
           <Autocomplete
             id={title}
             options={options ? options : []}
-            sx={{width: 300}}
+            sx={{ width: 300 }}
             onInputChange={onChange}
             inputValue={value}
             clearOnBlur={false}
@@ -146,13 +146,15 @@ const SearchCard = ({
                 id={`${title}-search`}
                 variant="outlined"
                 placeholder={searchInputPlaceholder}
-                sx={{width: '100%'}}
+                sx={{ width: '100%' }}
                 className="search-card"
               />
             )}
           />
         </div>
-        <StyledButton variant="contained" onClick={onClick}>Search</StyledButton>
+        <StyledButton variant="contained" onClick={onClick}>
+          Search
+        </StyledButton>
       </CardBody>
     </CardWrapper>
   );
@@ -163,4 +165,4 @@ SearchCard.propTypes = {
   isLoading: PropTypes.bool,
 };
 
-export {SearchCard};
+export { SearchCard };

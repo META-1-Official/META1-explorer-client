@@ -1,7 +1,7 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { routes } from './routes';
-import {PrimaryRoutes} from './components/PrimaryRoutes';
+import { PrimaryRoutes } from './components/PrimaryRoutes';
 
 import { createGlobalStyle } from 'styled-components';
 
@@ -24,6 +24,48 @@ const GlobalStyle = createGlobalStyle`
       &:hover {
         background: #15171B;
       }
+    }
+  }
+
+  .MuiOutlinedInput-notchedOutline {
+    border: none !important;
+  }
+
+  .navbar-item {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 0 10px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 400;
+    text-decoration: none;
+  
+    &.active {
+      color: #FFC000
+    }
+  
+    &:hover {
+      color: #FFC000
+    }
+  }
+
+  .sel-item {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 400;
+    text-decoration: none;
+  
+    &.active {
+      color: #FFC000
+    }
+  
+    &:hover {
+      color: #FFC000
     }
   }
 `;

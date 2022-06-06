@@ -1,23 +1,23 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import Pagination from '@mui/material/Pagination';
 
 // import components
-import {Table} from '../../components/Table';
+import { Table } from '../../components/Table';
 import Loader from '../../components/Loader/Loader';
-import {SearchBox} from '../../components/SearchBox';
+import { SearchBox } from '../../components/SearchBox';
 
 // import redux
 import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 
 // import helper
-import {formatBalance, operationType} from '../../helpers/utility';
+import { formatBalance, operationType } from '../../helpers/utility';
 
-const {fetchFees} = actions;
-const {getFees, isFetchingFees} = selectors;
+const { fetchFees } = actions;
+const { getFees, isFetchingFees } = selectors;
 
 const PageWrapper = styled.div`
   display: flex;
@@ -39,6 +39,10 @@ const StyledPaginationContainer = styled.div`
   padding-top: 38px;
   display: flex;
   justify-content: flex-end;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    justify-content: center;
+  }
 `;
 
 const Label = styled.div`
@@ -50,6 +54,11 @@ const Label = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const Fees = () => {
@@ -140,7 +149,7 @@ const Fees = () => {
       <StyledContainer>
         <Label>
           Fees
-          <SearchBox placeholder="Search for Amount" onSearch={onSearch} />
+          <SearchBox placeholder="Search for Fees" onSearch={onSearch} />
         </Label>
         {!isFetchingFeesData && rows ? (
           <Table headers={headers} rows={rows}></Table>

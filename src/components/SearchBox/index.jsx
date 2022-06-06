@@ -11,8 +11,8 @@ const Img = styled.img`
   height: 18px;
 `;
 
-export const SearchBox = ({placeholder, onSearch}) => {
-  const [searchKey, setSearchKey] = React.useState('');  
+export const SearchBox = ({ placeholder, onSearch }) => {
+  const [searchKey, setSearchKey] = React.useState('');
 
   const onSearchKeyChange = (event) => {
     onSearch(event.target.value);
@@ -27,7 +27,7 @@ export const SearchBox = ({placeholder, onSearch}) => {
     <TextField
       placeholder={placeholder}
       id="outlined-start-adornment"
-      sx={{m: 1}}
+      sx={{ m: 1 }}
       value={searchKey}
       onChange={onSearchKeyChange}
       InputProps={{
