@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { PropTypes } from 'prop-types';
+import { ellipsis } from 'polished';
 
 import MuiTable from '@mui/material/Table';
 import MuiTableContainer from '@mui/material/TableContainer';
@@ -10,10 +11,18 @@ import MuiTableHead from '@mui/material/TableHead';
 import MuiTableRow from '@mui/material/TableRow';
 
 import styled from 'styled-components';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import urlLinkImg from '../../assets/images/url-icon.png';
-import {operationType} from '../../helpers/utility';
+import { operationType } from '../../helpers/utility';
+
+const TableContainerWrapper = styled.div`
+  display: flex;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    padding: 0 16px;
+  }
+`;
 
 const StyledMuiTableContainer = styled(MuiTableContainer)`
   border-radius: 0.625em;
@@ -36,10 +45,11 @@ const StyledMuiTableContainer = styled(MuiTableContainer)`
 
       th.MuiTableCell-root {
         &:last-child {
-          text-align: ${props => props.lastcellaligned === false ? 'left' : 'right'};
+          text-align: ${(props) =>
+            props.lastcellaligned === false ? 'left' : 'right'};
         }
-        padding-top: ${props => props.cellHeight ?? '16px'};
-        padding-bottom: ${props => props.cellHeight ?? '16px'};
+        padding-top: ${(props) => props.cellHeight ?? '16px'};
+        padding-bottom: ${(props) => props.cellHeight ?? '16px'};
       }
     }
 
@@ -54,10 +64,20 @@ const StyledMuiTableContainer = styled(MuiTableContainer)`
 
         td.MuiTableCell-root {
           &:last-child {
-            text-align: ${props => props.lastcellaligned === false ? 'left' : 'right'};
+            text-align: ${(props) =>
+              props.lastcellaligned === false ? 'left' : 'right'};
           }
-          padding-top: ${props => props.cellHeight ?? '16px'};
-          padding-bottom: ${props => props.cellHeight ?? '16px'};
+          padding-top: ${(props) => props.cellHeight ?? '16px'};
+          padding-bottom: ${(props) => props.cellHeight ?? '16px'};
+
+          div {
+            ${ellipsis('350px')}
+
+            a {
+              margin-left: 5px;
+              margin-right: 5px;
+            }
+          }
         }
       }
     }
@@ -86,6 +106,7 @@ const Html = styled.div`
   font-weight: 300;
   align-items: center;
   display: flex;
+  width: 100%;
 
   a {
     color: white;
@@ -113,7 +134,7 @@ const Label = styled.div`
   text-align: center;
   width: fit-content;
   align-self: right;
-  opacity: 0.7;
+  // opacity: 0.7;
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
@@ -135,12 +156,18 @@ const Img = styled.img`
   margin-top: 7px;
 `;
 
-const TableCell = ({cell}) => {
+const TableCell = ({ cell }) => {
   const [content, contentType] = cell;
 
   switch (contentType) {
     case 'html':
-      return <Html dangerouslySetInnerHTML={{__html: content}} />;
+      return (
+        <Html
+          dangerouslySetInnerHTML={{
+            __html: content.toString().replaceAll('/#', ''),
+          }}
+        />
+      );
     case 'coloredText':
       return <Text type="colored">{content}</Text>;
     case 'label':
@@ -171,35 +198,40 @@ const handleUrlLinkClick = (url) => {
   }
 };
 
-export const Table = ({headers, rows, lastcellaligned, cellHeight}) => {
+export const Table = ({ headers, rows, lastcellaligned, cellHeight }) => {
   return (
-    <StyledMuiTableContainer lastcellaligned={lastcellaligned} cellHeight={cellHeight}>
-      <MuiTable aria-label="simple table">
-        <MuiTableHead>
-          <MuiTableRow>
-            {headers.map((header) => (
-              <StyledMuiTableHeaderCell key={`header-${header}`} align="left">
-                {header}
-              </StyledMuiTableHeaderCell>
-            ))}
-          </MuiTableRow>
-        </MuiTableHead>
-        <MuiTableBody>
-          {rows.map((row, rawIndex) => (
-            <MuiTableRow key={`raw-${rawIndex}`}>
+    <TableContainerWrapper>
+      <StyledMuiTableContainer
+        lastcellaligned={lastcellaligned}
+        cellHeight={cellHeight}
+      >
+        <MuiTable aria-label="simple table" responsive>
+          <MuiTableHead>
+            <MuiTableRow>
               {headers.map((header) => (
-                <StyledMuiTableCell key={`row-${header}`} align="left">
-                  <TableCell cell={row[header]} />
-                </StyledMuiTableCell>
+                <StyledMuiTableHeaderCell key={`header-${header}`} align="left">
+                  {header}
+                </StyledMuiTableHeaderCell>
               ))}
             </MuiTableRow>
-          ))}
-        </MuiTableBody>
-      </MuiTable>
-    </StyledMuiTableContainer>
+          </MuiTableHead>
+          <MuiTableBody>
+            {rows.map((row, rawIndex) => (
+              <MuiTableRow key={`raw-${rawIndex}`}>
+                {headers.map((header) => (
+                  <StyledMuiTableCell key={`row-${header}`} align="left">
+                    <TableCell cell={row[header]} />
+                  </StyledMuiTableCell>
+                ))}
+              </MuiTableRow>
+            ))}
+          </MuiTableBody>
+        </MuiTable>
+      </StyledMuiTableContainer>
+    </TableContainerWrapper>
   );
 };
 
 Table.propTypes = {
-  lastcellaligned: PropTypes.bool
+  lastcellaligned: PropTypes.bool,
 };

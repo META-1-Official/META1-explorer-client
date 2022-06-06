@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Pagination from '@mui/material/Pagination';
 
 // import components
-import {LineChartCard, FilledLineChartCard} from '../../components/Card';
-import {Table} from '../../components/Table';
+import { LineChartCard, FilledLineChartCard } from '../../components/Card';
+import { Table } from '../../components/Table';
 import Loader from '../../components/Loader/Loader';
-import {SearchBox} from '../../components/SearchBox';
+import { SearchBox } from '../../components/SearchBox';
 
 // import icons
 import coinMeta1Img from '../../assets/images/coin-meta1.png';
@@ -22,7 +22,7 @@ import selectors from '../../store/selectors';
 import { localizeNumber } from '../../helpers/utility';
 import images from '../../helpers/images';
 
-const {fetchActiveAssets, fetchDexVolume, fetchDailyDexChart} = actions;
+const { fetchActiveAssets, fetchDexVolume, fetchDailyDexChart } = actions;
 const {
   getActiveAssets,
   getDexVolume,
@@ -44,15 +44,29 @@ const PageWrapper = styled.div`
 
 const StyledChartContainer = styled.div`
   display: flex;
+  justify-content: center;
+
+  @media only screen and (max-width: 1020px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 `;
 
 const LineChartsWrapper = styled.div`
   width: 100%;
-  background: ${(props) => props.theme.palette.background.main};
   display: flex;
-  max-width: 860px;
   flex-wrap: wrap;
   gap: 17px;
+  justify-content: center;
+
+  @media only screen and (max-width: 1315px) {
+    max-width: 600px;
+  }
 `;
 
 const FilledLineChartWrapper = styled.div`
@@ -62,6 +76,15 @@ const FilledLineChartWrapper = styled.div`
   justify-content: center;
   width: 100%;
   max-width: 408px;
+
+  @media only screen and (max-width: 1020px) {
+    margin-top: 30px;
+  }
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    max-width: unset;
+    margin-left: 0;
+  }
 `;
 
 const StyledTableContainer = styled.div`
@@ -79,6 +102,11 @@ const Label = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const StyledPaginationContainer = styled.div`
@@ -86,6 +114,10 @@ const StyledPaginationContainer = styled.div`
   padding-top: 38px;
   display: flex;
   justify-content: flex-end;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    justify-content: center;
+  }
 `;
 
 const Assets = React.memo(() => {
@@ -109,11 +141,13 @@ const Assets = React.memo(() => {
   const isFetchingChart = useSelector(isFetchingDailyDexChart);
 
   // vars
-  const filteredData = getActiveAssetsData?.filter(data => data.asset_name.includes(query.toUpperCase()))
+  const filteredData = getActiveAssetsData?.filter((data) =>
+    data.asset_name.includes(query.toUpperCase()),
+  );
   const curPageOps = filteredData?.slice((page - 1) * 20, page * 20); // current page assets - 20 assets per page
   const totalPages =
-  filteredData?.length === 0 ? 1 : Math.floor(filteredData?.length / 20) + 1; // total number of pages = all assets / assetsPerPage (=20)
-  
+    filteredData?.length === 0 ? 1 : Math.floor(filteredData?.length / 20) + 1; // total number of pages = all assets / assetsPerPage (=20)
+
   const headers = [
     'Name',
     'Price',
@@ -138,11 +172,25 @@ const Assets = React.memo(() => {
           precision = Math.pow(10, value.precision);
         }
         return {
-          Name: [`<img src='${images[`coin-${value.asset_name.toLowerCase()}`]}'><a href='/assets/${value.asset_id}'>${value.asset_name}</a>`, 'html'],
+          Name: [
+            `<img src='${
+              images[`coin-${value.asset_name.toLowerCase()}`]
+            }'><a href='/assets/${value.asset_id}'>${value.asset_name}</a>`,
+            'html',
+          ],
           Price: [`${value.latest_price} META1`, 'plainText'],
-          '24H Volume': [`${Math.round(value['24h_volume'])} META1`, 'plainText'],
-          'Market Cap': [`${localizeNumber(Math.round(value.market_cap / 100000))} META1`, 'plainText'],
-          Supply: [localizeNumber(Math.round(value.current_supply / precision)), 'plainText'],
+          '24H Volume': [
+            `${Math.round(value['24h_volume'])} META1`,
+            'plainText',
+          ],
+          'Market Cap': [
+            `${localizeNumber(Math.round(value.market_cap / 100000))} META1`,
+            'plainText',
+          ],
+          Supply: [
+            localizeNumber(Math.round(value.current_supply / precision)),
+            'plainText',
+          ],
           Holders: [localizeNumber(value.holders_count), 'plainText'],
         };
       })
@@ -161,7 +209,7 @@ const Assets = React.memo(() => {
 
   const onSearch = (query) => {
     setQuery(query);
-  }
+  };
 
   return (
     <PageWrapper>
@@ -215,7 +263,7 @@ const Assets = React.memo(() => {
       <StyledTableContainer>
         <Label>
           Assets
-          <SearchBox placeholder="Search for Amount" onSearch={onSearch} />
+          <SearchBox placeholder="Search for Assets" onSearch={onSearch} />
         </Label>
         <Table headers={headers} rows={rows}></Table>
         {isFetchingAssets && <Loader />}

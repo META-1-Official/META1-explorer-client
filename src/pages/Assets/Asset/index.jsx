@@ -1,18 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useLocation} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import {Table} from '../../../components/Table';
+import { Table } from '../../../components/Table';
 import Loader from '../../../components/Loader/Loader';
-import {SearchBox} from '../../../components/SearchBox';
+import { SearchBox } from '../../../components/SearchBox';
 
 // import redux
 import actions from '../../../store/actions';
 import selectors from '../../../store/selectors';
 
 import images from '../../../helpers/images';
-import {buildCustomKVTableDto, localizeNumber} from '../../../helpers/utility';
+import {
+  buildCustomKVTableDto,
+  localizeNumber,
+} from '../../../helpers/utility';
 
 const {
   fetchAssetFull,
@@ -41,12 +44,26 @@ const PageWrapper = styled.div`
 
 const StyledContainer = styled.div`
   display: flex;
+
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 const StyledColumnContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  padding: 16px;
+
+  &.active_markets {
+    @media only screen and (max-width: 600px) {
+      margin-top: 30px;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    padding: 0;
+  }
 `;
 
 const BlockWrapper = styled.div`
@@ -56,6 +73,29 @@ const BlockWrapper = styled.div`
   flex-direction: column;
   margin-left: 15px;
   margin-right: 15px;
+
+  &.additional {
+    @media only screen and (max-width: 980px) {
+      display: none;
+    }
+  }
+
+  &.additional_d {
+    display: none;
+    @media only screen and (max-width: 980px) {
+      display: flex;
+    }
+  }
+
+  @media only screen and (max-width: 980px) {
+    width: 100%;
+  }
+
+  @media only screen and (max-width: 600px) {
+    margin-left: 0;
+    margin-right: 0;
+    align-items: center;
+  }
 `;
 
 const Img = styled.img`
@@ -71,6 +111,11 @@ const Label = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const Asset = () => {
@@ -104,9 +149,9 @@ const Asset = () => {
   const market_headers = ['Name', 'Price', 'Volume'];
   const holder_headers = ['Account', 'Amount'];
   const headerStatsM = [
-    {'24 HS META1 Volume': 'volume', type: 'plainText'},
-    {'Accumulated fees': 'accumulated_fees', type: 'plainText'},
-    {Holders: 'holders', type: 'plainText'},
+    { '24 HS META1 Volume': 'volume', type: 'plainText' },
+    { 'Accumulated fees': 'accumulated_fees', type: 'plainText' },
+    { Holders: 'holders', type: 'plainText' },
     {
       'Asset Properties': 'dynamic_asset_data_id',
       type: 'html',
@@ -114,17 +159,17 @@ const Asset = () => {
     },
   ];
   const headerInfoM = [
-    {Description: 'options.description', type: 'plainText'},
-    {'Max supply': 'options.max_supply', type: 'plainText'},
+    { Description: 'options.description', type: 'plainText' },
+    { 'Max supply': 'options.max_supply', type: 'plainText' },
     {
       Issuer: 'issuer_name',
       type: 'html',
       link: `/accounts/${getAssetFullData?.issuer}/`,
     },
-    {Precision: 'precision', type: 'plainText'},
-    {'Fee pool': 'fee_pool', type: 'plainText'},
-    {'Current supply': 'current_supply', type: 'plainText'},
-    {'Confidential supply': 'confidential_supply', type: 'plainText'},
+    { Precision: 'precision', type: 'plainText' },
+    { 'Fee pool': 'fee_pool', type: 'plainText' },
+    { 'Current supply': 'current_supply', type: 'plainText' },
+    { 'Confidential supply': 'confidential_supply', type: 'plainText' },
   ];
   const id = location.pathname.split('/')[2];
   const imgUrl = images[`coin-${getAssetFullData?.symbol.toLowerCase()}`];
@@ -178,17 +223,19 @@ const Asset = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <BlockWrapper width="30%" style={{minWidth: '300px'}}>
+        <BlockWrapper width="30%" style={{ minWidth: '300px' }}>
           <Img src={imgUrl}></Img>
         </BlockWrapper>
         <BlockWrapper width="45%">
           <Label>Stats</Label>
-          <Table
-            headers={['Key', 'Value']}
-            rows={statsRows}
-            lastcellaligned={false}
-            cellHeight="10px"
-          ></Table>
+          <div style={{ width: '100%' }}>
+            <Table
+              headers={['Key', 'Value']}
+              rows={statsRows}
+              lastcellaligned={false}
+              cellHeight="10px"
+            ></Table>
+          </div>
           {isFetchingAssetFullData && isFetchingAssetHoldersCountData && (
             <Loader />
           )}
@@ -202,32 +249,50 @@ const Asset = () => {
           >
             {getAssetFullData?.symbol.toUpperCase()}
           </div>
-          <div style={{color: 'white'}}>
-            <p style={{margin: 0}}>
+          <div style={{ color: 'white' }}>
+            <p style={{ margin: 0 }}>
               User Issued -{' '}
               <a
                 href={`/objects/${getAssetFullData?.id}/`}
-                style={{color: 'white'}}
+                style={{ color: 'white' }}
               >
                 {getAssetFullData?.id}
               </a>
             </p>
           </div>
         </BlockWrapper>
-        <BlockWrapper>
+        <BlockWrapper className="additional">
           <Label>Additional asset information</Label>
-          <Table
-            headers={['Key', 'Value']}
-            rows={infoRows}
-            lastcellaligned={false}
-            cellHeight="10px"
-          ></Table>
+          <div style={{ width: '100%' }}>
+            <Table
+              headers={['Key', 'Value']}
+              rows={infoRows}
+              lastcellaligned={false}
+              cellHeight="10px"
+            ></Table>
+          </div>
           {isFetchingAssetFullData && isFetchingAssetHoldersCountData && (
             <Loader />
           )}
         </BlockWrapper>
       </StyledContainer>
-      <StyledColumnContainer>
+      <StyledContainer>
+        <BlockWrapper className="additional_d">
+          <Label>Additional asset information</Label>
+          <div style={{ width: '100%' }}>
+            <Table
+              headers={['Key', 'Value']}
+              rows={infoRows}
+              lastcellaligned={false}
+              cellHeight="10px"
+            ></Table>
+          </div>
+          {isFetchingAssetFullData && isFetchingAssetHoldersCountData && (
+            <Loader />
+          )}
+        </BlockWrapper>
+      </StyledContainer>
+      <StyledColumnContainer className="active_markets">
         <Label>
           Active markets
           <SearchBox
@@ -241,7 +306,7 @@ const Asset = () => {
           <Loader />
         )}
       </StyledColumnContainer>
-      <StyledColumnContainer style={{marginTop: '42px'}}>
+      <StyledColumnContainer style={{ marginTop: '42px' }}>
         <Label>
           Top holders
           <SearchBox

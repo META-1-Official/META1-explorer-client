@@ -1,4 +1,4 @@
-import {lazy} from 'react';
+import { lazy } from 'react';
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Search = lazy(() => import('./pages/Search'));
@@ -6,6 +6,12 @@ const Search = lazy(() => import('./pages/Search'));
 // blocks
 const Blocks = lazy(() => import('./pages/Blocks'));
 const Block = lazy(() => import('./pages/Blocks/Block'));
+
+// object
+const Object = lazy(() => import('./pages/Objects/Object'));
+
+// operation
+const Operation = lazy(() => import('./pages/Operations/Operation'));
 
 // transactions
 const Transactions = lazy(() => import('./pages/Transactions'));
@@ -50,6 +56,14 @@ export const routes = [
     component: Block,
   },
   {
+    path: '/objects/:id',
+    component: Object,
+  },
+  {
+    path: '/operations/:id',
+    component: Operation,
+  },
+  {
     path: '/txs',
     component: Transactions,
   },
@@ -91,6 +105,6 @@ export const routes = [
   },
   {
     path: '/witnesses',
-    component: Witnesses
+    component: Witnesses,
   },
 ];

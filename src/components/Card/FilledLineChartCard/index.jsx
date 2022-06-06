@@ -1,6 +1,6 @@
-import {XAxis, AreaChart, Area, ResponsiveContainer, Tooltip} from 'recharts';
+import { AreaChart, Area, ResponsiveContainer, Tooltip } from 'recharts';
 
-export const FilledLineChartCard = ({data}) => {
+export const FilledLineChartCard = ({ data }) => {
   return (
     <div className="card card-filled-line-chart">
       <div className="card-body">
