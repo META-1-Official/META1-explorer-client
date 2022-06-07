@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 // import components
-import {Table} from '../../../components/Table';
+import { Table } from '../../../components/Table';
 import Loader from '../../../components/Loader/Loader';
-import {SearchBox} from '../../../components/SearchBox';
+import { SearchBox } from '../../../components/SearchBox';
 
 // import services
 import accountsService from '../../../services/accounts.services';
@@ -54,7 +54,7 @@ const BlockWrapper = styled.div`
   }
 `;
 
-const Balances = ({accountFullData}) => {
+const Balances = ({ accountFullData }) => {
   const [assetQuery, setAssetQuery] = useState('');
   const [vestingQuery, setVestingQuery] = useState('');
   const [parsedAssetBalances, setParsedAssetBalances] = useState([]);
@@ -122,7 +122,7 @@ const Balances = ({accountFullData}) => {
               onSearch={onAssetSearch}
             />
           </Label>
-          <div style={{width: '100%'}}>
+          <div style={{ width: '100%' }}>
             {asset_rows ? (
               <Table headers={headers} rows={asset_rows}></Table>
             ) : (
@@ -138,7 +138,7 @@ const Balances = ({accountFullData}) => {
               onSearch={onVestingSearch}
             />
           </Label>
-          <div style={{width: '100%'}}>
+          <div style={{ width: '100%' }}>
             {vesting_rows ? (
               <Table headers={headers} rows={vesting_rows}></Table>
             ) : (

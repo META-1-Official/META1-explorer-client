@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 // import components
-import {Table} from '../../../components/Table';
+import { Table } from '../../../components/Table';
 import Loader from '../../../components/Loader/Loader';
 
 // import services
@@ -52,7 +52,7 @@ const BlockWrapper = styled.div`
   }
 `;
 
-const Authorities = ({accountFullData}) => {
+const Authorities = ({ accountFullData }) => {
   const [keys, setKeys] = useState([]);
   const [accounts, setAccounts] = useState([]);
 
