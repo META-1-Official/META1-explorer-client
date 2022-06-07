@@ -73,6 +73,7 @@ const Fees = () => {
   // selectors
   const getFeesData = useSelector(getFees);
   const isFetchingFeesData = useSelector(isFetchingFees);
+  console.log(getFeesData);
 
   // const functions
   const getDisplayData = (o_data) => {
@@ -116,7 +117,11 @@ const Fees = () => {
   const filteredData = getDisplayData(getFeesData)?.filter((data) =>
     data.operation.includes(query.toUpperCase()),
   );
-  const curPageOps = filteredData?.slice((page - 1) * 20, page * 20); // current page markets - 20 markets per page
+
+  const curPageOps =
+    filteredData?.length > 20
+      ? filteredData?.slice((page - 1) * 20, page * 20)
+      : filteredData; // current page markets - 20 markets per page
   const totalPages =
     filteredData?.length === 0 ? 1 : Math.floor(filteredData?.length / 20) + 1; // total number of pages = all markets / marketsPerPage (=20)
 

@@ -379,6 +379,24 @@ export const opText = (operation_type, operation) => {
             return operation_text;
           });
       });
+  } else if (operation_type === 8) {
+    return axios
+      .get(
+        EXPLORER_URL +
+          '/account_name?account_id=' +
+          operation.account_to_upgrade,
+      )
+      .then((response) => {
+        operation_text =
+          "<a href='/#/accounts/" +
+          operation.account_to_upgrade +
+          "'>" +
+          response.data +
+          '</a> ' +
+          ' upgraded the account ';
+
+        return operation_text;
+      });
   } else if (operation_type === 14) {
     var issuer = operation.issuer;
     var issue_to_account = operation.issue_to_account;
@@ -955,6 +973,14 @@ export const fetchActiveAssets = () => {
   });
 };
 
+export const fetchAllAssetsData = () => {
+  return axios.get(EXPLORER_URL + '/all_assets', {
+    headers: {
+      'Content-Type': 'application/json-patch+json',
+    },
+  });
+};
+
 export const fetchDexVolume = () => {
   return axios.get(EXPLORER_URL + '/dex_total_volume', {
     headers: {
@@ -1422,62 +1448,19 @@ export const getAccountHistory = async (account_id, search_after) => {
   const params = {
     account_id,
     from: 0,
-    size: 5,
+    size: 1000,
     type: 'data',
     sort_by: '-account_history.sequence',
   };
   if (search_after && search_after !== 1) {
     params.search_after = search_after;
   }
-  // const response = await axios.get(
-  //   BASE_URL +
-  //     '/es/account_history' +
-  //     account_id +
-  //     '&search_after=' +
-  //     start +
-  //     '&size=' +
-  //     limit +
-  //     '&sort_by=-account_history.sequence' +
-  //     '&type=data',
-  // );
+
   const response = await axios.get(BASE_URL + '/es/account_history', {
     params,
   });
-  // const response = await axios.get(
-  //   BASE_URL +
-  //     '/es/account_history?account_id=' +
-  //     account_id +
-  //     '&size=' +
-  //     limit +
-  //     '&from=' +
-  //     start,
-  // );
 
-  const history = response.data.map(async (value) => {
-    let timestamp;
-    let witness;
-    const op = operationType(value.operation_type);
-    const op_type = op[0];
-    const op_color = op[1];
-    const time = new Date(value.block_data.block_time);
-    timestamp = time.toLocaleString();
-    witness = value.witness;
-    const parsed_op = value.operation_history.op_object;
-    const operation = {
-      operation_id: value.account_history.operation_id,
-      block_num: value.block_data.block_num,
-      operation_id_num: value.operation_id_num,
-      time: timestamp,
-      witness: witness,
-      op_type: value.operation_type,
-      op_color: op_color,
-    };
-    const op_text = await opText(value.operation_type, parsed_op);
-    operation.operation_text = op_text;
-    return operation;
-  });
-
-  return { data: history };
+  return { data: response };
 };
 
 /* CHART SERVICE */

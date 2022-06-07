@@ -16,9 +16,7 @@ export const clearOperations = () => ({
 // operation header
 export const fetchHeader = (isLoading) => ({
   type: types.HEADER_FETCH,
-  payload: {
-    isLoading,
-  },
+  payload: isLoading,
 });
 
 // last bolck number
@@ -31,6 +29,12 @@ export const fetchLastBlockNumber = () => ({
 export const fetchLookupAssets = (start) => ({
   type: types.LOOKUP_ASSETS_FETCH,
   payload: { start },
+});
+
+// all assets
+export const fetchAllAssets = () => ({
+  type: types.ALL_ASSETS_FETCH,
+  payload: {},
 });
 
 // lookup accounts
@@ -127,4 +131,13 @@ export const fetchCommittee = () => ({
 export const fetchWitnesses = () => ({
   type: types.WITNESSES_FETCH,
   payload: {},
+});
+
+// account history paginated
+export const fetchAccountHistory = (accountId, search_after) => ({
+  type: types.ACCOUNT_HISTORY_FETCH,
+  payload: {
+    accountId,
+    search_after,
+  },
 });

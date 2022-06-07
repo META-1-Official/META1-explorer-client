@@ -112,7 +112,7 @@ const Committee = () => {
           'html',
         ],
         Account: [
-          `<a href="/objects/${committee[0].committee_member_account_name}">${committee[0].committee_member_account_name}</a>`,
+          `<a href="/objects/${committee[0].committee_member_account}">${committee[0].committee_member_account_name}</a>`,
           'html',
         ],
         URL: [committee[0].url, 'urlLink'],

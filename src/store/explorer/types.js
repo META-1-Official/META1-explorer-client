@@ -76,6 +76,11 @@ export const ASSET_FULL_FETCH = 'explorer/ASSET_FULL_FETCH';
 export const ASSET_FULL_FETCH_SUCCESS = 'explorer/ASSET_FULL_FETCH_SUCCESS';
 export const ASSET_FULL_FETCH_FAILURE = 'explorer/ASSET_FULL_FETCH_FAILURE';
 
+// All Assets Data
+export const ALL_ASSETS_FETCH = 'explorer/ALL_ASSETS_FETCH';
+export const ALL_ASSETS_FETCH_SUCCESS = 'explorer/ALL_ASSETS_FETCH_SUCCESS';
+export const ALL_ASSETS_FETCH_FAILURE = 'explorer/ALL_ASSETS_FETCH_FAILURE';
+
 // Asset Holders
 export const ASSET_HOLDERS_FETCH = 'explorer/ASSET_HOLDERS_FETCH';
 export const ASSET_HOLDERS_FETCH_SUCCESS =
@@ -125,3 +130,8 @@ export const COMMITTEE_MEMBERS_FETCH_FAILURE =
 export const WITNESSES_FETCH = 'explorer/WITNESSES_FETCH';
 export const WITNESSES_FETCH_SUCCESS = 'explorer/WITNESSES_FETCH_SUCCESS';
 export const WITNESSES_FETCH_FAILURE = 'explorer/WITNESSES_FETCH_FAILURE';
+
+// account history
+export const ACCOUNT_HISTORY_FETCH = 'explorer/ACCOUNT_HISTORY_FETCH';
+export const ACCOUNT_HISTORY_FETCH_SUCCESS =
+  'explorer/ACCOUNT_HISTORY_FETCH_SUCCESS';

@@ -44,6 +44,7 @@ const StyledMuiTableContainer = styled(MuiTableContainer)`
       background: #15171b;
 
       th.MuiTableCell-root {
+        background: #15171b;
         &:last-child {
           text-align: ${(props) =>
             props.lastcellaligned === false ? 'left' : 'right'};
@@ -205,7 +206,7 @@ export const Table = ({ headers, rows, lastcellaligned, cellHeight }) => {
         lastcellaligned={lastcellaligned}
         cellHeight={cellHeight}
       >
-        <MuiTable aria-label="simple table" responsive>
+        <MuiTable aria-label="simple table" responsive stickyHeader>
           <MuiTableHead>
             <MuiTableRow>
               {headers.map((header) => (

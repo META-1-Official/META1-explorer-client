@@ -88,7 +88,7 @@ const Witnesses = () => {
     );
 
   const headers = [
-    'Poistion',
+    'Position',
     'ID',
     'Account',
     'URL',
@@ -108,7 +108,7 @@ const Witnesses = () => {
 
     return sortedData?.map((witness) => {
       return {
-        Poistion: [witness.position, 'plainText'],
+        Position: [witness.position, 'plainText'],
         ID: [`<a href="/objects/${witness.id}">${witness.id}</a>`, 'html'],
         Account: [
           `<a href="/objects/${witness.witness_account_name}">${witness.witness_account_name}</a>`,

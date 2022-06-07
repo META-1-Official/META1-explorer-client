@@ -539,6 +539,41 @@ const explorerReducer = (state = initialState, action) => {
           isFetchingWitnesses: false,
         },
       };
+    case types.ALL_ASSETS_FETCH:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+        },
+      };
+    case types.ALL_ASSETS_FETCH_SUCCESS:
+      return {
+        ...state,
+        assets: {
+          ...state.assets,
+          assetsData: action.payload,
+        },
+      };
+    case types.ACCOUNT_HISTORY_FETCH:
+      return {
+        ...state,
+        accountHistory: {
+          ...state.accountHistory,
+          status: action.payload,
+        },
+      };
+    case types.ACCOUNT_HISTORY_FETCH_SUCCESS:
+      return {
+        ...state,
+        accountHistory: {
+          ...state.accountHistory,
+          data: [
+            ...(state.accountHistory.data ? state.accountHistory.data : []),
+            ...action.payload,
+          ],
+        },
+      };
+
     case types.UNSET:
       return null;
     case types.INITIALIZE:

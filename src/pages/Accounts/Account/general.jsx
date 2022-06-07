@@ -72,7 +72,6 @@ const Label = styled.div`
 
 const General = ({ accountFullData }) => {
   const [parsedAccount, setParsedAccount] = useState(null);
-
   useEffect(() => {
     if (accountFullData) {
       (async () => {
@@ -115,7 +114,7 @@ const General = ({ accountFullData }) => {
     {
       Statistics: 'statistics',
       type: 'html',
-      link: `/accounts/${parsedAccount?.statistics}`,
+      link: `/objects/${parsedAccount?.statistics}`,
     },
   ];
   const statsRows = buildCustomKVTableDto(parsedAccount, headerStatsM);

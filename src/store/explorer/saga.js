@@ -13,6 +13,7 @@ import {
 } from 'redux-saga/effects';
 import * as types from './types';
 import api from '../apis';
+import accountsService from '../../services/accounts.services';
 
 import { generateFetchWorker, takeAllBundler } from '../saga';
 
@@ -149,6 +150,8 @@ export default function* watcherSaga() {
         api.fetchWitnesses,
       ),
     ),
+    takeLatest(types.ACCOUNT_HISTORY_FETCH, getHistory),
+    takeLatest(types.ALL_ASSETS_FETCH, getAssets),
   ]);
 }
 
@@ -173,4 +176,26 @@ function* opWorkerSaga(action) {
     yield put({ type: types.LAST_OPERATIONS_FETCH_FAILURE, error });
     return error;
   }
+}
+
+function* getHistory(action) {
+  const { accountId, search_after } = action.payload;
+  const response = yield call(
+    accountsService.getAccountHistoryData,
+    accountId,
+    search_after,
+  );
+  yield put({
+    type: types.ACCOUNT_HISTORY_FETCH_SUCCESS,
+    payload: response,
+  });
+  // return undefined;
+}
+
+function* getAssets() {
+  const response = yield call(api.fetchAllAssetsData);
+  yield put({
+    type: types.ALL_ASSETS_FETCH_SUCCESS,
+    payload: response,
+  });
 }

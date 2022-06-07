@@ -114,6 +114,7 @@ const Market = React.memo(() => {
 
   // selectors
   const getTickerData = useSelector(getTicker);
+  console.log(getTickerData);
   const isFetchingTickerData = useSelector(isFetchingTicker);
 
   // vars
@@ -142,8 +143,8 @@ const Market = React.memo(() => {
   }, []);
 
   const getOrderRows = (type) => {
-    if (orderBook) {
-      const orders = type === 'sell' ? orderBook.asks : orderBook.bids;
+    if (orderBook?.length) {
+      const orders = type === 'sell' ? orderBook?.asks : orderBook?.bids;
       return addTotalFieldToJsonArry(orders)
         .map((order) => {
           return {

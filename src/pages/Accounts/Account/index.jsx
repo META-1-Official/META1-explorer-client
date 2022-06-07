@@ -15,12 +15,17 @@ import api from '../../../store/apis';
 import accountsService from '../../../services/accounts.services';
 
 // import utils
-import { localizeNumber } from '../../../helpers/utility';
+import { localizeNumber, operationType } from '../../../helpers/utility';
 
 import General from './general';
 import Balances from './balances';
 import Authorities from './authorities';
 import Votes from './votes';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAccountHistory } from '../../../store/explorer/actions';
+import { getAccountHistory } from '../../../store/explorer/selectors';
+import { opText } from '../../../store/apis/explorer';
+import { accountHistoryRowsBuilder } from '../../../helpers/rowBuilders';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -75,10 +80,16 @@ const Label = styled.div`
 `;
 
 const Account = () => {
+  const dispatch = useDispatch();
+  const [v, setV] = useState(false);
+  const [rows, setRows] = useState([]);
   const [tabValue, setTabValue] = useState(0);
   const [account, setAccount] = useState();
   const [pageNumber, setPageNumber] = useState(1);
-  const [history, setHistory] = useState([]);
+  const history = useSelector(getAccountHistory);
+
+  const fetchAccountHistoryData = (accountId, search_after) =>
+    dispatch(fetchAccountHistory(accountId, search_after));
 
   // hooks
   const location = useLocation();
@@ -86,17 +97,8 @@ const Account = () => {
   // var
   const id = location.pathname.split('/')[2];
   const headers = ['Operation', 'ID', 'Date and Time', 'Block', 'Type'];
-  const history_rows = history
-    ? history.map((op) => {
-        return {
-          Operation: [op.operation_text, 'html'],
-          ID: [op.operation_id, 'coloredText'],
-          'Date and Time': [op.time, 'plainText'],
-          Block: [op.block_num, 'coloredText'],
-          Type: [op.op_type, 'label'],
-        };
-      })
-    : [];
+  const totalPages =
+    history?.length === 0 ? 1 : Math.ceil(history?.length / 10);
 
   useEffect(() => {
     (async () => {
@@ -107,35 +109,31 @@ const Account = () => {
   useEffect(() => {
     if (account) {
       (async () => {
-        const parsed = await accountsService.getAccountHistoryData(
-          account?.data,
-          undefined,
-        );
-        setHistory(parsed);
+        fetchAccountHistoryData(id, undefined);
       })();
     }
   }, [account]);
 
   const loadData = async () => {
-    const [account, totalOps] = await Promise.all([
-      api.getFullAccount(id),
-      api.getTotalAccountOps(id),
-    ]);
-    setAccount({ ...account, totalOps });
+    const account = await api.getFullAccount(id);
+    setAccount(account);
   };
 
-  const totalPages = Math.ceil(
-    account?.totalOps === 0 ? 1 : account?.totalOps.data / 10,
-  );
+  const curPageOps = history?.slice((pageNumber - 1) * 10, pageNumber * 10);
 
-  const onPageChange = async (_ignore, newPageNumber) => {
+  useEffect(() => {
+    if (curPageOps?.length && !v) {
+      setV(true);
+      accountHistoryRowsBuilder(curPageOps).then((rws) => setRows(rws));
+    }
+  }, [curPageOps]);
+
+  // handlers
+  const onPageChange = (_, newPageNumber) => {
     setPageNumber(newPageNumber);
-    return accountsService
-      .getAccountHistoryData(
-        account?.data,
-        history[history.length - 1].operation_id_num,
-      )
-      .then((res) => setHistory(res));
+    setV(false);
+    newPageNumber === totalPages &&
+      fetchAccountHistoryData(id, history[history.length - 1].operation_id_num); // fetch with search_after whenever current page reach out the maximum ES fetch count
   };
 
   // handlers
@@ -196,8 +194,8 @@ const Account = () => {
       </StyledContainer>
       <StyledHsContainer>
         <Label>Full Account History</Label>
-        {history && <Table headers={headers} rows={history_rows} />}
-        {history_rows?.length === 0 && <Loader />}
+        {history && <Table headers={headers} rows={rows} />}
+        {rows?.length === 0 && <Loader />}
       </StyledHsContainer>
       <StyledPaginationContainer>
         <Pagination

@@ -108,13 +108,11 @@ const getVotesData = async (fullAccount) => {
   return votes?.data;
 };
 
-const getAccountHistoryData = async (fullAccount, search_after) => {
-  const history = await api.getAccountHistory(
-    fullAccount.account.id,
-    search_after,
-  );
-  const val = await Promise.all(history?.data);
-  return val;
+const getAccountHistoryData = async (id, search_after) => {
+  const history = await api.getAccountHistory(id, search_after);
+  // const val = await Promise.all(history?.data);
+  // return val;
+  return history.data.data;
 };
 
 const accountsService = {

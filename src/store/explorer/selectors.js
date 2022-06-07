@@ -118,3 +118,7 @@ export const getWitnesses = (state) =>
   get(state, ['explorer', 'witnesses', 'witnesses']);
 export const isFetchingWitnesses = (state) =>
   get(state, ['explorer', 'witnesses', 'isFetchingWitnesses']);
+
+// account history
+export const getAccountHistory = (state) =>
+  get(state, ['explorer', 'accountHistory', 'data']);

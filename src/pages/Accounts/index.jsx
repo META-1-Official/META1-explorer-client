@@ -61,17 +61,23 @@ const Accounts = () => {
   const filteredAccounts = accounts?.filter((data) =>
     data.name.includes(query),
   );
-  const accountRows = filteredAccounts
-    ?.slice((page - 1) * 20, page * 20)
-    .map((account) => {
-      const { amount, name, id } = account;
-      return {
-        Amount: [Number(amount).toLocaleString(), 'plainText'],
-        Name: [`<a href='/accounts/${id}'>${name}</a>`, 'html'],
-      };
-    });
   const totalPages =
-    filteredAccounts?.length === 0 ? 1 : filteredAccounts?.length / 20;
+    filteredAccounts?.length === 0
+      ? 1
+      : Math.ceil(filteredAccounts?.length / 20);
+
+  const currentAccounts =
+    filteredAccounts?.length > 20
+      ? filteredAccounts?.slice((page - 1) * 20, page * 20)
+      : filteredAccounts;
+
+  const accountRows = currentAccounts.map((account) => {
+    const { amount, name, id } = account;
+    return {
+      Amount: [Number(amount).toLocaleString(), 'plainText'],
+      Name: [`<a href='/accounts/${id}'>${name}</a>`, 'html'],
+    };
+  });
 
   useEffect(() => {
     (async () => {

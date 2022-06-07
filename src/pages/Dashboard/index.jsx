@@ -29,6 +29,7 @@ import api from '../../store/apis';
 
 // import constants
 import { OPS_TYPE_LABELS, PIE_COLORS } from '../../constants';
+import { dashboardRowsBuilder } from '../../helpers/rowBuilders';
 
 const { fetchLastOperations, fetchHeader } = actions;
 const { getOperations, isFetchingLastOperations, getHeader, isFetchingHeader } =
@@ -199,28 +200,6 @@ const Dashboard = React.memo(() => {
   const totalPages = getOpsData?.length === 0 ? 1 : getOpsData?.length / 10; // total number of pages = all ops / opsPerPage (=20)
   const headers = ['Operation', 'ID', 'Date and time', 'Block', 'Type']; // table headers
 
-  const buildOpTextPromises = (curPageOps) =>
-    curPageOps.map((op) =>
-      opText(op.operation_type, op.operation_history.op_object),
-    );
-
-  const getRows = () => {
-    return curPageOps
-      ? Promise.all(buildOpTextPromises(curPageOps)).then((opTxts) => {
-          return opTxts.map((opTxt, index) => {
-            const op = curPageOps[index];
-            return {
-              Operation: [opTxt, 'html'],
-              ID: [op.account_history.operation_id, 'coloredText'],
-              'Date and time': [op.block_data.block_time, 'plainText'],
-              Block: [op.block_data.block_num, 'coloredText'],
-              Type: [op.operation_type, 'label'],
-            };
-          });
-        })
-      : Promise.resolve([]);
-  };
-
   const getColor = (name) => {
     var color = 'white';
     var v;
@@ -246,7 +225,7 @@ const Dashboard = React.memo(() => {
   }, []);
 
   useEffect(() => {
-    setInterval(fetchHeaderData(false), 1000 * 60);
+    setInterval(() => fetchHeaderData(false), 2000 * 60);
   }, []);
 
   const loadPieData = async () => {
@@ -266,7 +245,7 @@ const Dashboard = React.memo(() => {
   useEffect(() => {
     if (curPageOps && !v) {
       setV(true);
-      getRows().then((rws) => setRows(rws));
+      dashboardRowsBuilder(curPageOps).then((rws) => setRows(rws));
     }
   }, [curPageOps]);
 
