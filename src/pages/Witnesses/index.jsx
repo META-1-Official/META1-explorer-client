@@ -111,7 +111,7 @@ const Witnesses = () => {
         Position: [witness.position, 'plainText'],
         ID: [`<a href="/objects/${witness.id}">${witness.id}</a>`, 'html'],
         Account: [
-          `<a href="/objects/${witness.witness_account_name}">${witness.witness_account_name}</a>`,
+          `<a href="/objects/${witness.id}">${witness.witness_account_name}</a>`,
           'html',
         ],
         URL: [witness.url, 'urlLink'],

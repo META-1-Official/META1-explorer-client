@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Pagination } from '@mui/material';
+import { Pagination, Typography } from '@mui/material';
 
 import { Table } from '../../../components/Table';
 import { Loader } from '../../../components/Loader';
@@ -23,7 +23,10 @@ import Authorities from './authorities';
 import Votes from './votes';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAccountHistory } from '../../../store/explorer/actions';
-import { getAccountHistory } from '../../../store/explorer/selectors';
+import {
+  getAccountHistory,
+  isFetchingAccountHistory,
+} from '../../../store/explorer/selectors';
 import { opText } from '../../../store/apis/explorer';
 import { accountHistoryRowsBuilder } from '../../../helpers/rowBuilders';
 
@@ -87,6 +90,7 @@ const Account = () => {
   const [account, setAccount] = useState();
   const [pageNumber, setPageNumber] = useState(1);
   const history = useSelector(getAccountHistory);
+  const isAccountHistoryLoading = useSelector(isFetchingAccountHistory);
 
   const fetchAccountHistoryData = (accountId, search_after) =>
     dispatch(fetchAccountHistory(accountId, search_after));
@@ -195,7 +199,12 @@ const Account = () => {
       <StyledHsContainer>
         <Label>Full Account History</Label>
         {history && <Table headers={headers} rows={rows} />}
-        {rows?.length === 0 && <Loader />}
+        {isAccountHistoryLoading && <Loader />}
+        {history?.length === 0 && !isAccountHistoryLoading && (
+          <Typography align={'center'} color={'#FFFFFF'} marginTop={'1rem'}>
+            NO OPERATIONS FOUND
+          </Typography>
+        )}
       </StyledHsContainer>
       <StyledPaginationContainer>
         <Pagination

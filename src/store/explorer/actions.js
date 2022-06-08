@@ -31,18 +31,18 @@ export const fetchLookupAssets = (start) => ({
   payload: { start },
 });
 
-// all assets
-export const fetchAllAssets = () => ({
-  type: types.ALL_ASSETS_FETCH,
-  payload: {},
-});
-
 // lookup accounts
 export const fetchLookupAccounts = (start) => ({
   type: types.LOOKUP_ACCOUNTS_FETCH,
   payload: { start },
 });
 
+//lookup transactions
+
+export const fetchLookupTransactions = (start) => ({
+  type: types.LOOKUP_TRANSACTIONS_FETCH,
+  payload: { start },
+});
 // big blocks
 export const fetchBigBlocks = () => ({
   type: types.BIG_BLOCKS_FETCH,
@@ -139,5 +139,12 @@ export const fetchAccountHistory = (accountId, search_after) => ({
   payload: {
     accountId,
     search_after,
+  },
+});
+
+export const setPieData = (data) => ({
+  type: types.SET_PIE_DATA,
+  payload: {
+    data,
   },
 });

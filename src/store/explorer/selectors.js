@@ -122,3 +122,12 @@ export const isFetchingWitnesses = (state) =>
 // account history
 export const getAccountHistory = (state) =>
   get(state, ['explorer', 'accountHistory', 'data']);
+export const isFetchingAccountHistory = (state) =>
+  get(state, ['explorer', 'accountHistory', 'isFetchingAccountHistory']);
+
+// lookup transactions
+export const getLookupTransactions = (state) =>
+  get(state, ['explorer', 'transactions', 'lookupTransactions']);
+
+// pie data
+export const getPieData = (state) => get(state, ['explorer', 'pie', 'data']);

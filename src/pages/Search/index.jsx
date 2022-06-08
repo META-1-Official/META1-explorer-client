@@ -11,6 +11,14 @@ import { SearchCard } from '../../components/Card';
 import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 import { toast } from 'react-toastify';
+import {
+  fetchLookupBlocks,
+  fetchLookupTransactions,
+} from '../../store/explorer/actions';
+import {
+  getLookupBlocks,
+  getLookupTransactions,
+} from '../../store/explorer/selectors';
 
 const { fetchLastBlockNumber, fetchLookupAccounts, fetchLookupAssets } =
   actions;
@@ -47,7 +55,6 @@ const Search = React.memo(() => {
   const [block, setBlock] = useState('');
   const [blocks, setBlocks] = useState([]);
   const [account, setAccount] = useState('');
-  const [accounts, setAccounts] = useState([]);
   const [asset, setAsset] = useState('');
   const [assets, setAssets] = useState([]);
 
@@ -58,16 +65,17 @@ const Search = React.memo(() => {
   const dispatch = useDispatch();
 
   // actions
-  const fetchLastBlockNumberData = () => dispatch(fetchLastBlockNumber());
   const fetchLookupAccountsData = (start) =>
     dispatch(fetchLookupAccounts(start));
   const fetchLookupAssetsData = (start) => dispatch(fetchLookupAssets(start));
+  const fetchLookupTransactionsData = (start) =>
+    dispatch(fetchLookupTransactions(start));
 
   // selectors
   const getLastBlockNumberData = useSelector(getLastBlockNumber);
   const getLookupAccountsData = useSelector(getLookupAccounts);
   const getLookupAssetsData = useSelector(getLookupAssets);
-  const isFetchingBlockNumberData = useSelector(isFetchingLastBlockNumber);
+  const getLookupTransactionsData = useSelector(getLookupTransactions);
   const isFetchingLookupAccountsData = useSelector(isFetchingLookupAccounts);
   const isFetchingLookupAssetsData = useSelector(isFetchingLookupAssets);
 
@@ -84,36 +92,18 @@ const Search = React.memo(() => {
     return block_data;
   };
 
-  const getAssetsData = () => {
-    let asset_data = [];
-    for (var i = 0; i < getLookupAssetsData?.length; i++) {
-      asset_data[i] = getLookupAssetsData[i][0];
-    }
-    return asset_data;
-  };
-
-  const getAccountsData = () => {
-    let account_data = [];
-    for (var i = 0; i < getLookupAccountsData?.length; i++) {
-      account_data[i] = getLookupAccountsData[i][0];
-    }
-    return account_data;
-  };
-
   // handlers
   const handleChange = (e, param) => {
     if (param === 'block') {
       setBlock(e.target.value);
-      fetchLastBlockNumberData();
-      setBlocks(getBlockData());
     } else if (param === 'asset') {
       setAsset(e.target.value);
       fetchLookupAssetsData(e.target.value);
-      setAssets(getAssetsData());
     } else if (param === 'account') {
       setAccount(e.target.value);
       fetchLookupAccountsData(e.target.value);
-      setAccounts(getAccountsData());
+    } else if (param === 'transaction') {
+      fetchLookupTransactionsData(e.target.value);
     }
   };
 
@@ -153,8 +143,6 @@ const Search = React.memo(() => {
           searchInputLabel="Block number"
           searchInputPlaceholder="Enter Block number"
           onChange={(e) => handleChange(e, 'block')}
-          isLoading={isFetchingBlockNumberData}
-          options={[...new Set(blocks.slice(0, 8))]}
           onClick={() => handleClick('block')}
         />
         <SearchCard
@@ -165,7 +153,7 @@ const Search = React.memo(() => {
           searchInputPlaceholder="Enter account name or id number"
           onChange={(e) => handleChange(e, 'account')}
           isLoading={isFetchingLookupAccountsData}
-          options={[...new Set(accounts.slice(0, 8))]}
+          options={[...new Set(getLookupAccountsData?.slice(0, 8))]}
           onClick={() => handleClick('account')}
         />
         <SearchCard
@@ -184,7 +172,7 @@ const Search = React.memo(() => {
           searchInputPlaceholder="Enter asset name or id"
           onChange={(e) => handleChange(e, 'asset')}
           isLoading={isFetchingLookupAssetsData}
-          options={[...new Set(assets.slice(0, 8))]}
+          options={[...new Set(getLookupAssetsData?.slice(0, 8))]}
           onClick={() => handleClick('asset')}
         />
         <SearchCard
@@ -192,6 +180,8 @@ const Search = React.memo(() => {
           description="If you have a transaction hash, please paste it here to get transaction information."
           searchInputSample="cb4a306cb75.....6bb37bbcd29"
           searchInputLabel="Transaction ID"
+          options={[...new Set(getLookupTransactionsData?.slice(0, 8))]}
+          onChange={(e) => handleChange(e, 'transaction')}
           searchInputPlaceholder="Enter transaction hash"
           onClick={() => handleClick('transaction')}
         />

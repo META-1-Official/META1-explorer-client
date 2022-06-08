@@ -154,7 +154,7 @@ const explorerReducer = (state = initialState, action) => {
         ...state,
         assets: {
           ...state.assets,
-          lookup_accounts: action.payload,
+          lookup_assets: action.payload,
           isFetchingLookupAssets: false,
         },
       };
@@ -539,27 +539,13 @@ const explorerReducer = (state = initialState, action) => {
           isFetchingWitnesses: false,
         },
       };
-    case types.ALL_ASSETS_FETCH:
-      return {
-        ...state,
-        assets: {
-          ...state.assets,
-        },
-      };
-    case types.ALL_ASSETS_FETCH_SUCCESS:
-      return {
-        ...state,
-        assets: {
-          ...state.assets,
-          assetsData: action.payload,
-        },
-      };
     case types.ACCOUNT_HISTORY_FETCH:
       return {
         ...state,
         accountHistory: {
           ...state.accountHistory,
           status: action.payload,
+          isFetchingAccountHistory: true,
         },
       };
     case types.ACCOUNT_HISTORY_FETCH_SUCCESS:
@@ -567,12 +553,48 @@ const explorerReducer = (state = initialState, action) => {
         ...state,
         accountHistory: {
           ...state.accountHistory,
+          isFetchingAccountHistory: false,
           data: [
             ...(state.accountHistory.data ? state.accountHistory.data : []),
             ...action.payload,
           ],
         },
       };
+    case types.LOOKUP_TRANSACTIONS_FETCH:
+      return {
+        ...state,
+        transactions: {
+          ...state.transactions,
+          isFetchingTransaction: true,
+        },
+      };
+    case types.LOOKUP_TRANSACTIONS_FETCH_SUCCESS:
+      return {
+        ...state,
+        transactions: {
+          ...state.transactions,
+          isFetchingTransaction: false,
+          lookupTransactions: action.payload,
+        },
+      };
+    case types.LOOKUP_TRANSACTIONS_FETCH_FAILURE:
+      return {
+        ...state,
+        transactions: {
+          ...state.transactions,
+          isFetchingTransaction: false,
+          lookupTransactions: [],
+        },
+      };
+    case types.SET_PIE_DATA: {
+      return {
+        ...state,
+        pie: {
+          ...state.pie,
+          ...action.payload,
+        },
+      };
+    }
 
     case types.UNSET:
       return null;

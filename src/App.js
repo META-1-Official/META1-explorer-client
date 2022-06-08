@@ -4,6 +4,9 @@ import { routes } from './routes';
 import { PrimaryRoutes } from './components/PrimaryRoutes';
 
 import { createGlobalStyle } from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { fetchActiveAssets } from './store/explorer/actions';
+import { useEffect } from 'react';
 
 const GlobalStyle = createGlobalStyle`
   .MuiMenu-list {
@@ -71,6 +74,11 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchActiveAssets());
+  }, [dispatch]);
+
   return (
     <>
       <GlobalStyle />

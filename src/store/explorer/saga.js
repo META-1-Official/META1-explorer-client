@@ -151,7 +151,7 @@ export default function* watcherSaga() {
       ),
     ),
     takeLatest(types.ACCOUNT_HISTORY_FETCH, getHistory),
-    takeLatest(types.ALL_ASSETS_FETCH, getAssets),
+    takeLatest(types.LOOKUP_TRANSACTIONS_FETCH, getLookupTransactions),
   ]);
 }
 
@@ -189,13 +189,13 @@ function* getHistory(action) {
     type: types.ACCOUNT_HISTORY_FETCH_SUCCESS,
     payload: response,
   });
-  // return undefined;
 }
 
-function* getAssets() {
-  const response = yield call(api.fetchAllAssetsData);
+function* getLookupTransactions(action) {
+  const { start } = action.payload;
+  const response = yield call(api.getLookupTransactions, start);
   yield put({
-    type: types.ALL_ASSETS_FETCH_SUCCESS,
-    payload: response,
+    type: types.LOOKUP_TRANSACTIONS_FETCH_SUCCESS,
+    payload: response.data,
   });
 }

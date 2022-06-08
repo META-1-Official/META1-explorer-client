@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Pagination from '@mui/material/Pagination';
@@ -30,6 +30,8 @@ import api from '../../store/apis';
 // import constants
 import { OPS_TYPE_LABELS, PIE_COLORS } from '../../constants';
 import { dashboardRowsBuilder } from '../../helpers/rowBuilders';
+import { setPieData } from '../../store/explorer/actions';
+import { getPieData } from '../../store/explorer/selectors';
 
 const { fetchLastOperations, fetchHeader } = actions;
 const { getOperations, isFetchingLastOperations, getHeader, isFetchingHeader } =
@@ -178,7 +180,7 @@ const Dashboard = React.memo(() => {
   // state vars
   const [page, setPage] = useState(1);
   const [rows, setRows] = useState([]);
-  const [pie, setPie] = useState(null);
+  // const [pie, setPie] = useState(null);
   const [tabValue, setTabValue] = useState(0);
 
   // dispatch
@@ -188,11 +190,13 @@ const Dashboard = React.memo(() => {
     dispatch(fetchLastOperations(search_after));
   const fetchHeaderData = (isLoading) => dispatch(fetchHeader(isLoading));
 
+  const setPieDataAction = (data) => dispatch(setPieData(data));
   // selectors
   const getHeadData = useSelector(getHeader);
   const isFetchingHead = useSelector(isFetchingHeader);
   const getOpsData = useSelector(getOperations);
   const isFetchingOps = useSelector(isFetchingLastOperations);
+  const pie = useSelector(getPieData);
 
   // vars
   const TabLabels = ['Operations', 'Markets', 'Holders'];
@@ -238,7 +242,7 @@ const Dashboard = React.memo(() => {
         api.topUIAsChart(),
         api.topHoldersChart(),
       ]);
-    setPie([operation, markets, holders, coins, uias, proxies]);
+    setPieDataAction([operation, markets, holders, coins, uias, proxies]);
   };
 
   const [v, setV] = useState(false); // the flag var for fethcing for only change

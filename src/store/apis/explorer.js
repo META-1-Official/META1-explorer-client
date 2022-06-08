@@ -6,6 +6,7 @@ import {
   operationType,
   objectType,
 } from '../../helpers/utility';
+import useAsset from '../../helpers/useAsset';
 
 // eslint-disable-next-line no-undef
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -93,37 +94,35 @@ export const opText = (operation_type, operation) => {
           .then((response_name_to) => {
             var to_name = response_name_to.data;
 
-            return axios
-              .get(EXPLORER_URL + '/asset?asset_id=' + amount_asset_id)
-              .then((response_asset) => {
-                var asset_name = response_asset.data.symbol;
-                var asset_precision = response_asset.data.precision;
+            return useAsset(amount_asset_id).then((response_asset) => {
+              var asset_name = response_asset.data.symbol;
+              var asset_precision = response_asset.data.precision;
 
-                var divideby = Math.pow(10, asset_precision);
-                var amount = Number(amount_amount / divideby);
+              var divideby = Math.pow(10, asset_precision);
+              var amount = Number(amount_amount / divideby);
 
-                operation_text =
-                  "<a href='/#/accounts/" +
-                  from +
-                  "'>" +
-                  response_name.data +
-                  '</a>';
-                operation_text =
-                  operation_text +
-                  ' sent ' +
-                  formatNumber(amount) +
-                  " <a href='/#/assets/" +
-                  amount_asset_id +
-                  "'>" +
-                  asset_name +
-                  "</a> to <a href='/#/accounts/" +
-                  to +
-                  "'>" +
-                  to_name +
-                  '</a>';
+              operation_text =
+                "<a href='/#/accounts/" +
+                from +
+                "'>" +
+                response_name.data +
+                '</a>';
+              operation_text =
+                operation_text +
+                ' sent ' +
+                formatNumber(amount) +
+                " <a href='/#/assets/" +
+                amount_asset_id +
+                "'>" +
+                asset_name +
+                "</a> to <a href='/#/accounts/" +
+                to +
+                "'>" +
+                to_name +
+                '</a>';
 
-                return operation_text;
-              });
+              return operation_text;
+            });
           });
       });
   } else if (operation_type === 1) {
@@ -139,50 +138,46 @@ export const opText = (operation_type, operation) => {
     return axios
       .get(EXPLORER_URL + '/account_name?account_id=' + operation_account)
       .then((response_name) => {
-        return axios
-          .get(EXPLORER_URL + '/asset?asset_id=' + amount_to_sell_asset_id)
-          .then((response_asset1) => {
-            var sell_asset_name = response_asset1.data.symbol;
-            var sell_asset_precision = response_asset1.data.precision;
+        return useAsset(amount_to_sell_asset_id).then((response_asset1) => {
+          var sell_asset_name = response_asset1.data.symbol;
+          var sell_asset_precision = response_asset1.data.precision;
 
-            var divideby = Math.pow(10, sell_asset_precision);
-            var sell_amount = Number(amount_to_sell_amount / divideby);
+          var divideby = Math.pow(10, sell_asset_precision);
+          var sell_amount = Number(amount_to_sell_amount / divideby);
 
-            return axios
-              .get(EXPLORER_URL + '/asset?asset_id=' + min_to_receive_asset_id)
-              .then((response_asset2) => {
-                var receive_asset_name = response_asset2.data.symbol;
-                var receive_asset_precision = response_asset2.data.precision;
+          return useAsset(min_to_receive_asset_id).then((response_asset2) => {
+            var receive_asset_name = response_asset2.data.symbol;
+            var receive_asset_precision = response_asset2.data.precision;
 
-                var divideby = Math.pow(10, receive_asset_precision);
-                var receive_amount = Number(min_to_receive_amount / divideby);
+            var divideby = Math.pow(10, receive_asset_precision);
+            var receive_amount = Number(min_to_receive_amount / divideby);
 
-                operation_text =
-                  "<a href='/#/accounts/" +
-                  operation_account +
-                  "'>" +
-                  response_name.data +
-                  '</a>';
-                operation_text =
-                  operation_text +
-                  ' wants ' +
-                  formatNumber(receive_amount) +
-                  " <a href='/#/assets/" +
-                  min_to_receive_asset_id +
-                  "'>" +
-                  receive_asset_name +
-                  '</a> for ';
-                operation_text =
-                  operation_text +
-                  formatNumber(sell_amount) +
-                  " <a href='/#/assets/" +
-                  amount_to_sell_asset_id +
-                  "'>" +
-                  sell_asset_name +
-                  '</a>';
-                return operation_text;
-              });
+            operation_text =
+              "<a href='/#/accounts/" +
+              operation_account +
+              "'>" +
+              response_name.data +
+              '</a>';
+            operation_text =
+              operation_text +
+              ' wants ' +
+              formatNumber(receive_amount) +
+              " <a href='/#/assets/" +
+              min_to_receive_asset_id +
+              "'>" +
+              receive_asset_name +
+              '</a> for ';
+            operation_text =
+              operation_text +
+              formatNumber(sell_amount) +
+              " <a href='/#/assets/" +
+              amount_to_sell_asset_id +
+              "'>" +
+              sell_asset_name +
+              '</a>';
+            return operation_text;
           });
+        });
       });
   } else if (operation_type === 2) {
     fee_paying_account = operation.fee_paying_account;
@@ -207,36 +202,32 @@ export const opText = (operation_type, operation) => {
     return axios
       .get(EXPLORER_URL + '/account_name?account_id=' + funding_account)
       .then((response_name) => {
-        return axios
-          .get(EXPLORER_URL + '/asset?asset_id=' + delta_collateral_asset_id)
-          .then((response_asset1) => {
-            var asset1 = response_asset1.data.symbol;
+        return useAsset(delta_collateral_asset_id).then((response_asset1) => {
+          var asset1 = response_asset1.data.symbol;
 
-            return axios
-              .get(EXPLORER_URL + '/asset?asset_id=' + delta_debt_asset_id)
-              .then((response_asset2) => {
-                var asset2 = response_asset2.data.symbol;
+          return useAsset(delta_debt_asset_id).then((response_asset2) => {
+            var asset2 = response_asset2.data.symbol;
 
-                operation_text =
-                  "<a href='/#/accounts/" +
-                  operation_account +
-                  "'>" +
-                  response_name.data +
-                  '</a> update debt/collateral for ';
-                operation_text =
-                  operation_text +
-                  "<a href='#/markets/" +
-                  asset1 +
-                  '/' +
-                  asset2 +
-                  "'>" +
-                  asset1 +
-                  '/' +
-                  asset2 +
-                  '</a>';
-                return operation_text;
-              });
+            operation_text =
+              "<a href='/#/accounts/" +
+              operation_account +
+              "'>" +
+              response_name.data +
+              '</a> update debt/collateral for ';
+            operation_text =
+              operation_text +
+              "<a href='#/markets/" +
+              asset1 +
+              '/' +
+              asset2 +
+              "'>" +
+              asset1 +
+              '/' +
+              asset2 +
+              '</a>';
+            return operation_text;
           });
+        });
       });
   } else if (operation_type === 4) {
     var account_id = operation.account_id;
@@ -251,51 +242,47 @@ export const opText = (operation_type, operation) => {
     return axios
       .get(EXPLORER_URL + '/account_name?account_id=' + operation_account)
       .then((response_name) => {
-        return axios
-          .get(EXPLORER_URL + '/asset?asset_id=' + pays_asset_id)
-          .then((response_asset1) => {
-            var pays_asset_name = response_asset1.data.symbol;
-            var pays_asset_precision = response_asset1.data.precision;
+        return useAsset(pays_asset_id).then((response_asset1) => {
+          var pays_asset_name = response_asset1.data.symbol;
+          var pays_asset_precision = response_asset1.data.precision;
 
-            var divideby = Math.pow(10, pays_asset_precision);
+          var divideby = Math.pow(10, pays_asset_precision);
 
-            var p_amount = parseFloat(pays_amount / divideby);
+          var p_amount = parseFloat(pays_amount / divideby);
 
-            return axios
-              .get(EXPLORER_URL + '/asset?asset_id=' + receives_asset_id)
-              .then((response_asset2) => {
-                var receive_asset_name = response_asset2.data.symbol;
-                var receive_asset_precision = response_asset2.data.precision;
+          return useAsset(receives_asset_id).then((response_asset2) => {
+            var receive_asset_name = response_asset2.data.symbol;
+            var receive_asset_precision = response_asset2.data.precision;
 
-                var divideby = Math.pow(10, receive_asset_precision);
-                var receive_amount = Number(receives_amount / divideby);
+            var divideby = Math.pow(10, receive_asset_precision);
+            var receive_amount = Number(receives_amount / divideby);
 
-                operation_text =
-                  "<a href='/#/accounts/" +
-                  operation_account +
-                  "'>" +
-                  response_name.data +
-                  '</a>';
-                operation_text =
-                  operation_text +
-                  ' paid ' +
-                  formatNumber(p_amount) +
-                  " <a href='/#/assets/" +
-                  pays_asset_id +
-                  "'>" +
-                  pays_asset_name +
-                  '</a> for ';
-                operation_text =
-                  operation_text +
-                  formatNumber(receive_amount) +
-                  " <a href='/#/assets/" +
-                  receives_asset_id +
-                  "'>" +
-                  receive_asset_name +
-                  '</a>';
-                return operation_text;
-              });
+            operation_text =
+              "<a href='/#/accounts/" +
+              operation_account +
+              "'>" +
+              response_name.data +
+              '</a>';
+            operation_text =
+              operation_text +
+              ' paid ' +
+              formatNumber(p_amount) +
+              " <a href='/#/assets/" +
+              pays_asset_id +
+              "'>" +
+              pays_asset_name +
+              '</a> for ';
+            operation_text =
+              operation_text +
+              formatNumber(receive_amount) +
+              " <a href='/#/assets/" +
+              receives_asset_id +
+              "'>" +
+              receive_asset_name +
+              '</a>';
+            return operation_text;
           });
+        });
       });
   } else if (operation_type === 5) {
     var registrar = operation.registrar;
@@ -406,43 +393,39 @@ export const opText = (operation_type, operation) => {
     return axios
       .get(EXPLORER_URL + '/account_name?account_id=' + issuer)
       .then((response_name) => {
-        return axios
-          .get(EXPLORER_URL + '/asset?asset_id=' + asset_to_issue_asset_id)
-          .then((response_asset) => {
-            var asset_precision = response_asset.data.precision;
+        return useAsset(asset_to_issue_asset_id).then((response_asset) => {
+          var asset_precision = response_asset.data.precision;
 
-            var divideby = Math.pow(10, asset_precision);
-            var amount = Number(asset_to_issue_amount / divideby);
+          var divideby = Math.pow(10, asset_precision);
+          var amount = Number(asset_to_issue_amount / divideby);
 
-            return axios
-              .get(
-                EXPLORER_URL + '/account_name?account_id=' + issue_to_account,
-              )
-              .then((response_name2) => {
-                operation_text =
-                  "<a href='/#/accounts/" +
-                  issuer +
-                  "'>" +
-                  response_name.data +
-                  '</a>  issued ' +
-                  amount;
-                operation_text =
-                  operation_text +
-                  " <a href='/#/assets/" +
-                  asset_to_issue_asset_id +
-                  "'>" +
-                  response_asset.data.symbol +
-                  '</a>';
-                operation_text =
-                  operation_text +
-                  " to <a href='/#/accounts/" +
-                  issue_to_account +
-                  "'>" +
-                  response_name2.data +
-                  '</a>';
-                return operation_text;
-              });
-          });
+          return axios
+            .get(EXPLORER_URL + '/account_name?account_id=' + issue_to_account)
+            .then((response_name2) => {
+              operation_text =
+                "<a href='/#/accounts/" +
+                issuer +
+                "'>" +
+                response_name.data +
+                '</a>  issued ' +
+                amount;
+              operation_text =
+                operation_text +
+                " <a href='/#/assets/" +
+                asset_to_issue_asset_id +
+                "'>" +
+                response_asset.data.symbol +
+                '</a>';
+              operation_text =
+                operation_text +
+                " to <a href='/#/accounts/" +
+                issue_to_account +
+                "'>" +
+                response_name2.data +
+                '</a>';
+              return operation_text;
+            });
+        });
       });
   } else if (operation_type === 15) {
     operation_account = operation.payer;
@@ -453,28 +436,26 @@ export const opText = (operation_type, operation) => {
     return axios
       .get(EXPLORER_URL + '/account_name?account_id=' + operation_account)
       .then((response_name) => {
-        return axios
-          .get(EXPLORER_URL + '/asset?asset_id=' + amount_to_reserve_asset_id)
-          .then((response_asset) => {
-            var asset_name = response_asset.data.symbol;
-            var asset_precision = response_asset.data.precision;
-            var divideby = Math.pow(10, asset_precision);
-            var amount = Number(amount_to_reserve_amount / divideby);
+        return useAsset(amount_to_reserve_asset_id).then((response_asset) => {
+          var asset_name = response_asset.data.symbol;
+          var asset_precision = response_asset.data.precision;
+          var divideby = Math.pow(10, asset_precision);
+          var amount = Number(amount_to_reserve_amount / divideby);
 
-            operation_text =
-              "<a href='/#/accounts/" +
-              operation_account +
-              "'>" +
-              response_name.data +
-              '</a> burned(reserved) ' +
-              formatNumber(amount) +
-              " <a href='/#/assets/" +
-              amount_to_reserve_asset_id +
-              "'>" +
-              asset_name +
-              '</a>';
-            return operation_text;
-          });
+          operation_text =
+            "<a href='/#/accounts/" +
+            operation_account +
+            "'>" +
+            response_name.data +
+            '</a> burned(reserved) ' +
+            formatNumber(amount) +
+            " <a href='/#/assets/" +
+            amount_to_reserve_asset_id +
+            "'>" +
+            asset_name +
+            '</a>';
+          return operation_text;
+        });
       });
   } else if (operation_type === 19) {
     var publisher = operation.publisher;
@@ -484,24 +465,22 @@ export const opText = (operation_type, operation) => {
     return axios
       .get(EXPLORER_URL + '/account_name?account_id=' + operation_account)
       .then((response_name) => {
-        return axios
-          .get(EXPLORER_URL + '/asset?asset_id=' + asset_id)
-          .then((response_asset) => {
-            operation_text =
-              "<a href='/#/accounts/" +
-              operation_account +
-              "'>" +
-              response_name.data +
-              '</a>  published feed for ';
-            operation_text =
-              operation_text +
-              "<a href='/#/assets/" +
-              asset_id +
-              "'>" +
-              response_asset.data.symbol +
-              '</a>';
-            return operation_text;
-          });
+        return useAsset(asset_id).then((response_asset) => {
+          operation_text =
+            "<a href='/#/accounts/" +
+            operation_account +
+            "'>" +
+            response_name.data +
+            '</a>  published feed for ';
+          operation_text =
+            operation_text +
+            "<a href='/#/assets/" +
+            asset_id +
+            "'>" +
+            response_asset.data.symbol +
+            '</a>';
+          return operation_text;
+        });
       });
   } else if (operation_type === 22) {
     fee_paying_account = operation.fee_paying_account;
@@ -550,28 +529,26 @@ export const opText = (operation_type, operation) => {
     return axios
       .get(EXPLORER_URL + '/account_name?account_id=' + operation_account)
       .then((response_name) => {
-        return axios
-          .get(EXPLORER_URL + '/asset?asset_id=' + amount_asset_id)
-          .then((response_asset) => {
-            var asset_name = response_asset.data.symbol;
-            var asset_precision = response_asset.data.precision;
-            var divideby = Math.pow(10, asset_precision);
-            var amount = Number(amount_amount / divideby);
+        return useAsset(amount_asset_id).then((response_asset) => {
+          var asset_name = response_asset.data.symbol;
+          var asset_precision = response_asset.data.precision;
+          var divideby = Math.pow(10, asset_precision);
+          var amount = Number(amount_amount / divideby);
 
-            operation_text =
-              "<a href='/#/accounts/" +
-              operation_account +
-              "'>" +
-              response_name.data +
-              '</a> withdrew vesting balance of ' +
-              formatNumber(amount) +
-              " <a href='/#/assets/" +
-              amount_asset_id +
-              "'>" +
-              asset_name +
-              '</a>';
-            return operation_text;
-          });
+          operation_text =
+            "<a href='/#/accounts/" +
+            operation_account +
+            "'>" +
+            response_name.data +
+            '</a> withdrew vesting balance of ' +
+            formatNumber(amount) +
+            " <a href='/#/assets/" +
+            amount_asset_id +
+            "'>" +
+            asset_name +
+            '</a>';
+          return operation_text;
+        });
       });
   } else if (operation_type === 37) {
     // BALANCE_CLAIM
@@ -583,28 +560,26 @@ export const opText = (operation_type, operation) => {
     return axios
       .get(EXPLORER_URL + '/account_name?account_id=' + operation_account)
       .then((response_name) => {
-        return axios
-          .get(EXPLORER_URL + '/asset?asset_id=' + total_claimed_asset_id)
-          .then((response_asset) => {
-            var asset_name = response_asset.data.symbol;
-            var asset_precision = response_asset.data.precision;
-            var divideby = Math.pow(10, asset_precision);
-            var amount = Number(total_claimed_amount / divideby);
+        return useAsset(total_claimed_asset_id).then((response_asset) => {
+          var asset_name = response_asset.data.symbol;
+          var asset_precision = response_asset.data.precision;
+          var divideby = Math.pow(10, asset_precision);
+          var amount = Number(total_claimed_amount / divideby);
 
-            operation_text =
-              "<a href='/#/accounts/" +
-              operation_account +
-              "'>" +
-              response_name.data +
-              '</a> claimed a balance of ' +
-              formatNumber(amount) +
-              " <a href='/#/assets/" +
-              amount_to_reserve_asset_id +
-              "'>" +
-              asset_name +
-              '</a>';
-            return operation_text;
-          });
+          operation_text =
+            "<a href='/#/accounts/" +
+            operation_account +
+            "'>" +
+            response_name.data +
+            '</a> claimed a balance of ' +
+            formatNumber(amount) +
+            " <a href='/#/assets/" +
+            amount_to_reserve_asset_id +
+            "'>" +
+            asset_name +
+            '</a>';
+          return operation_text;
+        });
       });
   } else if (operation_type === 45) {
     // BID COLLATERAL
@@ -620,19 +595,15 @@ export const opText = (operation_type, operation) => {
     return axios
       .get(EXPLORER_URL + '/account_name?account_id=' + operation_account)
       .then((response_name) => {
-        return axios
-          .get(
-            EXPLORER_URL + '/asset?asset_id=' + additional_collateral_asset_id,
-          )
-          .then((additional_collateral_asset) => {
+        return useAsset(additional_collateral_asset_id).then(
+          (additional_collateral_asset) => {
             var asset_name1 = additional_collateral_asset.data.symbol;
             var asset_precision1 = additional_collateral_asset.data.precision;
             var divideby1 = Math.pow(10, asset_precision1);
             var amount1 = Number(additional_collateral_amount / divideby1);
 
-            return axios
-              .get(EXPLORER_URL + '/asset?asset_id=' + debt_covered_asset_id)
-              .then((debt_covered_asset) => {
+            return useAsset(debt_covered_asset_id).then(
+              (debt_covered_asset) => {
                 var asset_name2 = debt_covered_asset.data.symbol;
                 var asset_precision2 = debt_covered_asset.data.precision;
                 var divideby2 = Math.pow(10, asset_precision2);
@@ -657,8 +628,10 @@ export const opText = (operation_type, operation) => {
                   asset_name2 +
                   '</a>';
                 return operation_text;
-              });
-          });
+              },
+            );
+          },
+        );
       });
   } else if (operation_type === 49) {
     // HTLC CREATE
@@ -672,36 +645,34 @@ export const opText = (operation_type, operation) => {
     return axios
       .get(EXPLORER_URL + '/account_name?account_id=' + operation_account)
       .then((response_name) => {
-        return axios
-          .get(EXPLORER_URL + '/asset?asset_id=' + asset_id)
-          .then((asset) => {
-            var asset_name = asset.data.symbol;
-            var asset_precision = asset.data.precision;
-            var divideby = Math.pow(10, asset_precision);
-            var amount = Number(amount_ / divideby);
+        return useAsset(asset_id).then((asset) => {
+          var asset_name = asset.data.symbol;
+          var asset_precision = asset.data.precision;
+          var divideby = Math.pow(10, asset_precision);
+          var amount = Number(amount_ / divideby);
 
-            return axios
-              .get(EXPLORER_URL + '/account_name?account_id=' + to)
-              .then((response_name2) => {
-                operation_text =
-                  "<a href='/#/accounts/" +
-                  operation_account +
-                  "'>" +
-                  response_name.data +
-                  "</a> create HTLC to <a href='/#/accounts/" +
-                  to +
-                  "'>" +
-                  response_name2.data +
-                  '</a> to transfer ' +
-                  formatNumber(amount) +
-                  " <a href='/#/assets/" +
-                  asset_id +
-                  "'>" +
-                  asset_name +
-                  '</a>';
-                return operation_text;
-              });
-          });
+          return axios
+            .get(EXPLORER_URL + '/account_name?account_id=' + to)
+            .then((response_name2) => {
+              operation_text =
+                "<a href='/#/accounts/" +
+                operation_account +
+                "'>" +
+                response_name.data +
+                "</a> create HTLC to <a href='/#/accounts/" +
+                to +
+                "'>" +
+                response_name2.data +
+                '</a> to transfer ' +
+                formatNumber(amount) +
+                " <a href='/#/assets/" +
+                asset_id +
+                "'>" +
+                asset_name +
+                '</a>';
+              return operation_text;
+            });
+        });
       });
   } else if (operation_type === 50) {
     // HTLC REDEEM
@@ -826,39 +797,37 @@ export const opText = (operation_type, operation) => {
     return axios
       .get(EXPLORER_URL + '/account_name?account_id=' + operation_account)
       .then((response_name) => {
-        return axios
-          .get(EXPLORER_URL + '/asset?asset_id=' + symbol)
-          .then((asset) => {
-            var asset_name = asset.data.symbol;
-            var asset_precision = asset.data.precision;
-            var divideby = Math.pow(10, asset_precision);
-            var symbol_amount = Number(
-              operation.usd_price.denominator / divideby,
-            );
-            var usd_amount = Number(
-              operation.usd_price.numerator / Math.pow(10, 6),
-            );
+        return useAsset(symbol).then((asset) => {
+          var asset_name = asset.data.symbol;
+          var asset_precision = asset.data.precision;
+          var divideby = Math.pow(10, asset_precision);
+          var symbol_amount = Number(
+            operation.usd_price.denominator / divideby,
+          );
+          var usd_amount = Number(
+            operation.usd_price.numerator / Math.pow(10, 6),
+          );
 
-            operation_text =
-              "<a href='/#/accounts/" +
-              response_name.data +
-              "'>" +
-              response_name.data +
-              '</a>  published price ';
-            operation_text =
-              operation_text +
-              usd_amount / symbol_amount +
-              ' ' +
-              'USD' +
-              '/' +
-              "<a href='/#/assets/" +
-              asset_name +
-              "'>" +
-              asset_name +
-              '</a>' +
-              ' ';
-            return operation_text;
-          });
+          operation_text =
+            "<a href='/#/accounts/" +
+            response_name.data +
+            "'>" +
+            response_name.data +
+            '</a>  published price ';
+          operation_text =
+            operation_text +
+            usd_amount / symbol_amount +
+            ' ' +
+            'USD' +
+            '/' +
+            "<a href='/#/assets/" +
+            asset_name +
+            "'>" +
+            asset_name +
+            '</a>' +
+            ' ';
+          return operation_text;
+        });
       });
   } else {
     operation_text = '';
@@ -1548,4 +1517,11 @@ export const topHoldersChart = async () => {
     { value: response.data[6].amount, name: response.data[6].account_name },
   ];
   return { data: { data } };
+};
+
+export const getLookupTransactions = async (start) => {
+  const response = await axios.get(EXPLORER_URL + '/lookup_transactions', {
+    params: { start },
+  });
+  return response;
 };

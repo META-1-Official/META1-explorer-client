@@ -10,6 +10,7 @@ import { localizeNumber } from '../../../helpers/utility';
 
 // import services
 import accountsService from '../../../services/accounts.services';
+import { Typography } from '@mui/material';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -53,15 +54,18 @@ const BlockWrapper = styled.div`
 
 const Votes = ({ accountFullData }) => {
   const [votesData, setVotesData] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (accountFullData) {
       (async () => {
+        setLoading(true);
         const parsed = await accountsService.getVotesData(accountFullData);
         setVotesData(parsed);
+        setLoading(false);
       })();
     }
-  }, []);
+  }, [accountFullData]);
 
   // vars
   const headers = ['Id', 'Type', 'Account', 'Total Votes']; // table headers
@@ -84,11 +88,13 @@ const Votes = ({ accountFullData }) => {
       <StyledContainer>
         <BlockWrapper>
           <Label>Supporting with my vote</Label>
-          {vote_rows && vote_rows.length !== 0 ? (
-            <Table headers={headers} rows={vote_rows}></Table>
-          ) : (
-            <Loader />
+          {loading && <Loader />}
+          {!vote_rows.length && !loading && (
+            <Typography align={'center'} color={'#FFFFFF'} marginTop={'1rem'}>
+              NO VOTES FOUND
+            </Typography>
           )}
+          {vote_rows.length && <Table headers={headers} rows={vote_rows} />}
         </BlockWrapper>
       </StyledContainer>
     </PageWrapper>

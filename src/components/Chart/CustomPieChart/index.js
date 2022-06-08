@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { PieChart, Pie, ResponsiveContainer, Sector } from 'recharts';
 
 // import constants

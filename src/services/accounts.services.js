@@ -110,8 +110,6 @@ const getVotesData = async (fullAccount) => {
 
 const getAccountHistoryData = async (id, search_after) => {
   const history = await api.getAccountHistory(id, search_after);
-  // const val = await Promise.all(history?.data);
-  // return val;
   return history.data.data;
 };
 
