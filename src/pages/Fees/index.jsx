@@ -1,23 +1,23 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import Pagination from '@mui/material/Pagination';
 
 // import components
-import {Table} from '../../components/Table';
+import { Table } from '../../components/Table';
 import Loader from '../../components/Loader/Loader';
-import {SearchBox} from '../../components/SearchBox';
+import { SearchBox } from '../../components/SearchBox';
 
 // import redux
 import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 
 // import helper
-import {formatBalance, operationType} from '../../helpers/utility';
+import { formatBalance, operationType } from '../../helpers/utility';
 
-const {fetchFees} = actions;
-const {getFees, isFetchingFees} = selectors;
+const { fetchFees } = actions;
+const { getFees, isFetchingFees } = selectors;
 
 const PageWrapper = styled.div`
   display: flex;
@@ -39,17 +39,27 @@ const StyledPaginationContainer = styled.div`
   padding-top: 38px;
   display: flex;
   justify-content: flex-end;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    justify-content: center;
+  }
 `;
 
 const Label = styled.div`
   font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
+  font-weight: 600;
+  font-size: 20px !important;
   line-height: 30px;
+  margin-bottom: 30px;
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const Fees = () => {
@@ -64,6 +74,7 @@ const Fees = () => {
   // selectors
   const getFeesData = useSelector(getFees);
   const isFetchingFeesData = useSelector(isFetchingFees);
+  console.log(getFeesData);
 
   // const functions
   const getDisplayData = (o_data) => {
@@ -107,7 +118,11 @@ const Fees = () => {
   const filteredData = getDisplayData(getFeesData)?.filter((data) =>
     data.operation.includes(query.toUpperCase()),
   );
-  const curPageOps = filteredData?.slice((page - 1) * 20, page * 20); // current page markets - 20 markets per page
+
+  const curPageOps =
+    filteredData?.length > 20
+      ? filteredData?.slice((page - 1) * 20, page * 20)
+      : filteredData; // current page markets - 20 markets per page
   const totalPages =
     filteredData?.length === 0 ? 1 : Math.floor(filteredData?.length / 20) + 1; // total number of pages = all markets / marketsPerPage (=20)
 
@@ -138,12 +153,16 @@ const Fees = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <Label>
-          Fees
-          <SearchBox placeholder="Search for Amount" onSearch={onSearch} />
-        </Label>
+        <Label>FEES</Label>
         {!isFetchingFeesData && rows ? (
-          <Table headers={headers} rows={rows}></Table>
+          <Table
+            headers={headers}
+            rows={rows}
+            headerText={'FEE SCHEDULE'}
+            withSearch
+            onSearch={onSearch}
+            searchText={'Search for a fee'}
+          ></Table>
         ) : (
           <Loader />
         )}

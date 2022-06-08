@@ -10,14 +10,15 @@ export default class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    this.setState({error, errorInfo});
+    this.setState({ error, errorInfo });
   }
 
   render() {
-    const {error, errorInfo} = this.state;
+    const { error, errorInfo } = this.state;
 
     if (errorInfo) {
       const errorDetails =
+        // eslint-disable-next-line no-undef
         process.env.NODE_ENV === 'development' ? (
           <details>
             {error && error.toString()}

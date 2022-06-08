@@ -1,7 +1,7 @@
 /**
  * pallete for theme
  */
- const customPalette = Object.freeze({
+const customPalette = Object.freeze({
   primary: {
     main: '#FFC000',
   },
@@ -11,11 +11,11 @@
   background: {
     main: '#0C0E11',
     nearBlack: '#0A0B0D',
-    cardBg: '#15171B'
+    cardBg: '#15171B',
   },
   border: {
     darkGrey: '#1C1F27',
-    dividerBottom: 'rgba(255, 255, 255, 0.1)'
+    dividerBottom: 'rgba(255, 255, 255, 0.1)',
   },
   accent: {
     darkGreen: '#00362F',
@@ -24,7 +24,7 @@
     primary: '#000000',
     secondary: '#FFFFFF',
     third: '#CECECE',
-    srchBtnText: '#550101'
+    srchBtnText: '#550101',
   },
   action: {
     disabled: '#000000',
@@ -41,6 +41,6 @@
     medium: '#546366',
     dark: '#2A393E',
   },
-})
+});
 
-export default customPalette
+export default customPalette;

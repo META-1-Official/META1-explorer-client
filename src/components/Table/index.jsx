@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { PropTypes } from 'prop-types';
+import { ellipsis } from 'polished';
 
 import MuiTable from '@mui/material/Table';
 import MuiTableContainer from '@mui/material/TableContainer';
@@ -10,10 +11,19 @@ import MuiTableHead from '@mui/material/TableHead';
 import MuiTableRow from '@mui/material/TableRow';
 
 import styled from 'styled-components';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import urlLinkImg from '../../assets/images/url-icon.png';
-import {operationType} from '../../helpers/utility';
+import { operationType } from '../../helpers/utility';
+import { SearchBox } from '../SearchBox';
+
+const TableContainerWrapper = styled.div`
+  display: flex;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    padding: 0 16px;
+  }
+`;
 
 const StyledMuiTableContainer = styled(MuiTableContainer)`
   border-radius: 0.625em;
@@ -24,7 +34,6 @@ const StyledMuiTableContainer = styled(MuiTableContainer)`
     width: 0;
     background: transparent;
   }
-  max-height: 700px;
 
   .MuiTable-root {
     background: #0a0b0d;
@@ -35,11 +44,13 @@ const StyledMuiTableContainer = styled(MuiTableContainer)`
       background: #15171b;
 
       th.MuiTableCell-root {
+        background: #15171b;
         &:last-child {
-          text-align: ${props => props.lastcellaligned === false ? 'left' : 'right'};
+          text-align: ${(props) =>
+            props.lastcellaligned === false ? 'left' : 'right'};
         }
-        padding-top: ${props => props.cellHeight ?? '16px'};
-        padding-bottom: ${props => props.cellHeight ?? '16px'};
+        padding-top: ${(props) => props.cellHeight ?? '16px'};
+        padding-bottom: ${(props) => props.cellHeight ?? '16px'};
       }
     }
 
@@ -54,10 +65,20 @@ const StyledMuiTableContainer = styled(MuiTableContainer)`
 
         td.MuiTableCell-root {
           &:last-child {
-            text-align: ${props => props.lastcellaligned === false ? 'left' : 'right'};
+            text-align: ${(props) =>
+              props.lastcellaligned === false ? 'left' : 'right'};
           }
-          padding-top: ${props => props.cellHeight ?? '16px'};
-          padding-bottom: ${props => props.cellHeight ?? '16px'};
+          padding-top: ${(props) => props.cellHeight ?? '16px'};
+          padding-bottom: ${(props) => props.cellHeight ?? '16px'};
+
+          div {
+            ${ellipsis('350px')}
+
+            a {
+              margin-left: 5px;
+              margin-right: 5px;
+            }
+          }
         }
       }
     }
@@ -71,10 +92,21 @@ const StyledMuiTableCell = styled(MuiTableCell)`
   line-height: 21px;
 `;
 
+const StyledSearchCell = styled.div`
+  display: flex;
+  height: 60px;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  border-radius: 5px 0 0 5px;
+  font-size: 15px !important;
+  background: #15171b;
+`;
+
 const StyledMuiTableHeaderCell = styled(MuiTableCell)`
   font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: 600 !important;
+  font-size: 15px !important;
   line-height: 21px;
   text-transform: uppercase;
   color: white !important;
@@ -86,6 +118,7 @@ const Html = styled.div`
   font-weight: 300;
   align-items: center;
   display: flex;
+  width: 100%;
 
   a {
     color: white;
@@ -110,10 +143,14 @@ const Label = styled.div`
   background: ${(props) => `#${props.color}`};
   padding: 5px 10px 5px 10px;
   border-radius: 5px;
-  text-align: center;
   width: fit-content;
   align-self: right;
-  opacity: 0.7;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  vertical-align: center;
+  height: 24px;
+  // opacity: 0.7;
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
@@ -135,12 +172,18 @@ const Img = styled.img`
   margin-top: 7px;
 `;
 
-const TableCell = ({cell}) => {
+const TableCell = ({ cell }) => {
   const [content, contentType] = cell;
 
   switch (contentType) {
     case 'html':
-      return <Html dangerouslySetInnerHTML={{__html: content}} />;
+      return (
+        <Html
+          dangerouslySetInnerHTML={{
+            __html: content.toString().replaceAll('/#', ''),
+          }}
+        />
+      );
     case 'coloredText':
       return <Text type="colored">{content}</Text>;
     case 'label':
@@ -171,35 +214,76 @@ const handleUrlLinkClick = (url) => {
   }
 };
 
-export const Table = ({headers, rows, lastcellaligned, cellHeight}) => {
+export const Table = ({
+  headers,
+  rows,
+  lastcellaligned,
+  cellHeight,
+  headerText,
+  searchText,
+  onSearch,
+  withSearch,
+}) => {
   return (
-    <StyledMuiTableContainer lastcellaligned={lastcellaligned} cellHeight={cellHeight}>
-      <MuiTable aria-label="simple table">
-        <MuiTableHead>
-          <MuiTableRow>
-            {headers.map((header) => (
-              <StyledMuiTableHeaderCell key={`header-${header}`} align="left">
-                {header}
-              </StyledMuiTableHeaderCell>
+    <TableContainerWrapper>
+      <StyledMuiTableContainer
+        lastcellaligned={lastcellaligned}
+        cellHeight={cellHeight}
+      >
+        {withSearch && (
+          <StyledSearchCell>
+            <div style={{ padding: '14px' }}>{headerText}</div>
+            <div>
+              <SearchBox placeholder={searchText} onSearch={onSearch} />
+            </div>
+          </StyledSearchCell>
+        )}
+        <MuiTable aria-label="simple table" responsive>
+          {!withSearch ? (
+            <MuiTableHead>
+              <MuiTableRow>
+                {headers.map((header) => (
+                  <StyledMuiTableHeaderCell
+                    key={`header-${header}`}
+                    align="left"
+                  >
+                    {header}
+                  </StyledMuiTableHeaderCell>
+                ))}
+              </MuiTableRow>
+            </MuiTableHead>
+          ) : null}
+
+          <MuiTableBody>
+            {withSearch ? (
+              <MuiTableRow>
+                {headers.map((header) => (
+                  <StyledMuiTableHeaderCell
+                    key={`header-${header}`}
+                    align="left"
+                  >
+                    {header}
+                  </StyledMuiTableHeaderCell>
+                ))}
+              </MuiTableRow>
+            ) : null}
+
+            {rows.map((row, rawIndex) => (
+              <MuiTableRow key={`raw-${rawIndex}`}>
+                {headers.map((header) => (
+                  <StyledMuiTableCell key={`row-${header}`} align="left">
+                    <TableCell cell={row[header]} />
+                  </StyledMuiTableCell>
+                ))}
+              </MuiTableRow>
             ))}
-          </MuiTableRow>
-        </MuiTableHead>
-        <MuiTableBody>
-          {rows.map((row, rawIndex) => (
-            <MuiTableRow key={`raw-${rawIndex}`}>
-              {headers.map((header) => (
-                <StyledMuiTableCell key={`row-${header}`} align="left">
-                  <TableCell cell={row[header]} />
-                </StyledMuiTableCell>
-              ))}
-            </MuiTableRow>
-          ))}
-        </MuiTableBody>
-      </MuiTable>
-    </StyledMuiTableContainer>
+          </MuiTableBody>
+        </MuiTable>
+      </StyledMuiTableContainer>
+    </TableContainerWrapper>
   );
 };
 
 Table.propTypes = {
-  lastcellaligned: PropTypes.bool
+  lastcellaligned: PropTypes.bool,
 };

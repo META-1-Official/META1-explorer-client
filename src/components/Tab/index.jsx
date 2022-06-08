@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import MuiTabs from '@mui/material/Tabs';
 import MuiTab from '@mui/material/Tab';
 
-export const Tab = ({tabs, activeTab = 'operations', onChangeTab}) => {
+export const Tab = ({ tabs, activeTab = 'operations', onChangeTab }) => {
   const onChangeActiveTab = (_, newTab) => {
     onChangeTab(newTab);
   };

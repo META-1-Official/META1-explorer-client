@@ -13,5 +13,12 @@ const StyledButtonLoader = styled(Loader)`
 `;
 
 export const ButtonLoader = () => {
-  return <StyledButtonLoader type="TailSpin" height={20} width={20} color={'#FFFFFF'} />;
+  return (
+    <StyledButtonLoader
+      type="TailSpin"
+      height={20}
+      width={20}
+      color={'#FFFFFF'}
+    />
+  );
 };

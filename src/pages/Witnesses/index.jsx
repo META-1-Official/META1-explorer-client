@@ -1,21 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 // import components
-import {Table} from '../../components/Table';
+import { Table } from '../../components/Table';
 import Loader from '../../components/Loader/Loader';
-import {SearchBox} from '../../components/SearchBox';
+import { SearchBox } from '../../components/SearchBox';
 
 // import redux
 import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 
 // import helper
-import {localizeNumber} from '../../helpers/utility';
+import { localizeNumber } from '../../helpers/utility';
 
-const {fetchWitnesses, fetchHeader} = actions;
-const {getWitnesses, isFetchingWitnesses, getHeader, isFetchingHeader} =
+const { fetchWitnesses, fetchHeader } = actions;
+const { getWitnesses, isFetchingWitnesses, getHeader, isFetchingHeader } =
   selectors;
 
 const PageWrapper = styled.div`
@@ -41,6 +41,11 @@ const Label = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const Witnesses = () => {
@@ -83,7 +88,7 @@ const Witnesses = () => {
     );
 
   const headers = [
-    'Poistion',
+    'Position',
     'ID',
     'Account',
     'URL',
@@ -98,20 +103,15 @@ const Witnesses = () => {
         : filteredStandByWitnessesData;
 
     let sortedData = filteredData?.sort((w1, w2) => {
-      return (
-        parseInt(w1.id.split('.')[2]) - parseInt(w2.id.split('.')[2])
-      );
+      return parseInt(w1.id.split('.')[2]) - parseInt(w2.id.split('.')[2]);
     });
 
     return sortedData?.map((witness) => {
       return {
-        Poistion: [witness.position, 'plainText'],
-        ID: [
-          `<a href="/objects/${witness.id}">${witness.id}</a>`,
-          'html',
-        ],
+        Position: [witness.position, 'plainText'],
+        ID: [`<a href="/objects/${witness.id}">${witness.id}</a>`, 'html'],
         Account: [
-          `<a href="/objects/${witness.witness_account_name}">${witness.witness_account_name}</a>`,
+          `<a href="/objects/${witness.id}">${witness.witness_account_name}</a>`,
           'html',
         ],
         URL: [witness.url, 'urlLink'],
@@ -150,26 +150,34 @@ const Witnesses = () => {
         <Label>
           Active Witness
           <SearchBox
-            placeholder="Search for Amount"
+            placeholder="Search for Witnesses"
             onSearch={onSearchForActiveWitnesses}
           />
         </Label>
         {!isFetchingWitnessesData && !isFetchingHead && getRows('active') ? (
-          <Table headers={headers} rows={getRows('active')} lastCellAligned={false}></Table>
+          <Table
+            headers={headers}
+            rows={getRows('active')}
+            lastCellAligned={false}
+          ></Table>
         ) : (
           <Loader />
         )}
       </StyledContainer>
-      <StyledContainer style={{marginTop: '42px'}}>
+      <StyledContainer style={{ marginTop: '42px' }}>
         <Label>
           Standby Witness
           <SearchBox
-            placeholder="Search for Amount"
+            placeholder="Search for Witnesses"
             onSearch={onSearchForStandbyWitnesses}
           />
         </Label>
         {!isFetchingWitnessesData && !isFetchingHead && getRows('standby') ? (
-          <Table headers={headers} rows={getRows('standby')} lastCellAligned={false}></Table>
+          <Table
+            headers={headers}
+            rows={getRows('standby')}
+            lastCellAligned={false}
+          ></Table>
         ) : (
           <Loader />
         )}

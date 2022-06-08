@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useLocation} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 // import components
-import {LineChartCard} from '../../../components/Card';
-import {Table} from '../../../components/Table';
+import { LineChartCard } from '../../../components/Card';
+import { Table } from '../../../components/Table';
 import Loader from '../../../components/Loader/Loader';
 
 // import helpers
@@ -26,8 +26,8 @@ import {
 import actions from '../../../store/actions';
 import selectors from '../../../store/selectors';
 
-const {fetchTicker} = actions;
-const {getTicker, isFetchingTicker} = selectors;
+const { fetchTicker } = actions;
+const { getTicker, isFetchingTicker } = selectors;
 
 const PageWrapper = styled.div`
   display: flex;
@@ -35,6 +35,10 @@ const PageWrapper = styled.div`
   padding-top: 20px;
   padding-bottom: 40px;
   flex-direction: column;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    padding-top: 80px;
+  }
 `;
 
 const StyledContainer = styled.div`
@@ -71,6 +75,11 @@ const ContainerHeader = styled.div`
   margin-left: 15px;
   margin-right: 15px;
   margin-bottom: 15px;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const Label = styled.div`
@@ -82,6 +91,11 @@ const Label = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const Market = React.memo(() => {
@@ -100,6 +114,7 @@ const Market = React.memo(() => {
 
   // selectors
   const getTickerData = useSelector(getTicker);
+  console.log(getTickerData);
   const isFetchingTickerData = useSelector(isFetchingTicker);
 
   // vars
@@ -128,8 +143,8 @@ const Market = React.memo(() => {
   }, []);
 
   const getOrderRows = (type) => {
-    if (orderBook) {
-      const orders = type === 'sell' ? orderBook.asks : orderBook.bids;
+    if (orderBook?.length) {
+      const orders = type === 'sell' ? orderBook?.asks : orderBook?.bids;
       return addTotalFieldToJsonArry(orders)
         .map((order) => {
           return {
@@ -198,17 +213,17 @@ const Market = React.memo(() => {
   };
 
   const setOrderBookData = async () => {
-    const orderBook = await fetchOrderBook({base: m1, quote: m2});
+    const orderBook = await fetchOrderBook({ base: m1, quote: m2 });
     setOrderBook(orderBook.data);
   };
 
   const setSellGroupedOrderBookData = async () => {
-    const orderSellBook = await fetchGroupedOrderBook({base: m1, quote: m2});
+    const orderSellBook = await fetchGroupedOrderBook({ base: m1, quote: m2 });
     setSellGroupedOrderBook(orderSellBook.data);
   };
 
   const setBuyGroupedOrderBookData = async () => {
-    const orderBuyBook = await fetchGroupedOrderBook({base: m2, quote: m1});
+    const orderBuyBook = await fetchGroupedOrderBook({ base: m2, quote: m1 });
     setBuyGroupedOrderBook(orderBuyBook.data);
   };
 
@@ -254,7 +269,9 @@ const Market = React.memo(() => {
           />
         </LineChartsWrapper>
       </StyledContainer>
-      <ContainerHeader style={{marginTop: '20px'}}>Order book</ContainerHeader>
+      <ContainerHeader style={{ marginTop: '20px' }}>
+        Order book
+      </ContainerHeader>
       <StyledContainer>
         <BlockWrapper>
           <Label>Sell Orders</Label>
@@ -274,7 +291,7 @@ const Market = React.memo(() => {
           {!orderBook && <Loader />}
         </BlockWrapper>
       </StyledContainer>
-      <ContainerHeader style={{marginTop: '20px'}}>
+      <ContainerHeader style={{ marginTop: '20px' }}>
         Grouped order book
       </ContainerHeader>
       <StyledContainer>

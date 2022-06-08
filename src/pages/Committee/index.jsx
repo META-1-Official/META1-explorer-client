@@ -1,21 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 // import components
-import {Table} from '../../components/Table';
+import { Table } from '../../components/Table';
 import Loader from '../../components/Loader/Loader';
-import {SearchBox} from '../../components/SearchBox';
+import { SearchBox } from '../../components/SearchBox';
 
 // import redux
 import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 
 // import helper
-import {localizeNumber} from '../../helpers/utility';
+import { localizeNumber } from '../../helpers/utility';
 
-const {fetchCommittee, fetchHeader} = actions;
-const {getCommittee, isFetchingCommittee, getHeader, isFetchingHeader} =
+const { fetchCommittee, fetchHeader } = actions;
+const { getCommittee, isFetchingCommittee, getHeader, isFetchingHeader } =
   selectors;
 
 const PageWrapper = styled.div`
@@ -34,13 +34,19 @@ const StyledContainer = styled.div`
 
 const Label = styled.div`
   font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
+  font-weight: 600;
+  font-size: 20px !important;
   line-height: 30px;
+  margin-bottom: 30px;
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media ${(props) => props.theme.bkps.device.mobile} {
+    text-align: center;
+    flex-direction: column;
+  }
 `;
 
 const Committee = () => {
@@ -86,7 +92,7 @@ const Committee = () => {
         ), // remain = standby
     );
 
-  const headers = ['Poistion', 'ID', 'Account', 'URL', 'Total Votes']; // table headers
+  const headers = ['Position', 'ID', 'Account', 'URL', 'Total Votes']; // table headers
   const getRows = (type) => {
     let filteredData =
       type === 'active'
@@ -101,13 +107,13 @@ const Committee = () => {
 
     return sortedData?.map((committee) => {
       return {
-        Poistion: [committee[0].position, 'plainText'],
+        Position: [committee[0].position, 'plainText'],
         ID: [
           `<a href="/objects/${committee[0].id}">${committee[0].id}</a>`,
           'html',
         ],
         Account: [
-          `<a href="/objects/${committee[0].committee_member_account_name}">${committee[0].committee_member_account_name}</a>`,
+          `<a href="/objects/${committee[0].committee_member_account}">${committee[0].committee_member_account_name}</a>`,
           'html',
         ],
         URL: [committee[0].url, 'urlLink'],
@@ -132,29 +138,30 @@ const Committee = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <Label>
-          Current active committee members
-          <SearchBox
-            placeholder="Search for Amount"
-            onSearch={onSearchForActiveCommittee}
-          />
-        </Label>
+        <Label>COMMITTEE MEMBERS</Label>
         {!isFetchingCommitteeData && !isFetchingHead && getRows('active') ? (
-          <Table headers={headers} rows={getRows('active')}></Table>
+          <Table
+            headers={headers}
+            withSearch
+            onSearch={onSearchForActiveCommittee}
+            headerText={'CURRENT ACTIVE COMMITTEE MEMBERS'}
+            searchText={'Search for active committee member'}
+            rows={getRows('active')}
+          ></Table>
         ) : (
           <Loader />
         )}
       </StyledContainer>
-      <StyledContainer style={{marginTop: '42px'}}>
-        <Label>
-          Standby committee members
-          <SearchBox
-            placeholder="Search for Amount"
-            onSearch={onSearchForStandbyCommittee}
-          />
-        </Label>
+      <StyledContainer style={{ marginTop: '42px' }}>
         {!isFetchingCommitteeData && !isFetchingHead && getRows('standby') ? (
-          <Table headers={headers} rows={getRows('standby')}></Table>
+          <Table
+            headers={headers}
+            withSearch
+            onSearch={onSearchForStandbyCommittee}
+            headerText={'STANDBY COMMITTEE MEMBERS'}
+            searchText={'Search for standby committee member'}
+            rows={getRows('standby')}
+          ></Table>
         ) : (
           <Loader />
         )}
