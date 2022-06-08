@@ -47,9 +47,10 @@ const StyledPaginationContainer = styled.div`
 
 const Label = styled.div`
   font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
+  font-weight: 600;
+  font-size: 20px !important;
   line-height: 30px;
+  margin-bottom: 30px;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -152,12 +153,16 @@ const Fees = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <Label>
-          Fees
-          <SearchBox placeholder="Search for Fees" onSearch={onSearch} />
-        </Label>
+        <Label>FEES</Label>
         {!isFetchingFeesData && rows ? (
-          <Table headers={headers} rows={rows}></Table>
+          <Table
+            headers={headers}
+            rows={rows}
+            headerText={'FEE SCHEDULE'}
+            withSearch
+            onSearch={onSearch}
+            searchText={'Search for a fee'}
+          ></Table>
         ) : (
           <Loader />
         )}

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Pagination from '@mui/material/Pagination';
@@ -180,7 +180,6 @@ const Dashboard = React.memo(() => {
   // state vars
   const [page, setPage] = useState(1);
   const [rows, setRows] = useState([]);
-  // const [pie, setPie] = useState(null);
   const [tabValue, setTabValue] = useState(0);
 
   // dispatch
@@ -265,23 +264,6 @@ const Dashboard = React.memo(() => {
     setTabValue(newValue);
   };
 
-  // sub renders
-  const TabPanel = (props) => {
-    const { children, value, index, ...other } = props;
-
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && <>{children}</>}
-      </div>
-    );
-  };
-
   const a11yProps = (index) => {
     return {
       id: `simple-tab-${index}`,
@@ -347,31 +329,30 @@ const Dashboard = React.memo(() => {
               <Tab label={tlb} {...a11yProps(index)} key={tlb} />
             ))}
           </Tabs>
-          {pie &&
-            TabLabels.map((tlb, index) => (
-              <TabPanel value={tabValue} index={index} key={tlb}>
-                <CustomPieChart
-                  data={pie[index]?.data.data}
-                  tabValue={tabValue}
-                />
-                <LegendsWrapper>
-                  {tabValue === 0 &&
-                    OPS_TYPE_LABELS.map((label) => (
-                      <LegendLabel key={label.type}>
-                        <Dot color={label.color} />
-                        <Legend key={label.type}>{label.text}</Legend>
-                      </LegendLabel>
-                    ))}
-                  {tabValue !== 0 &&
-                    pie[index]?.data?.data.map((label) => (
-                      <LegendLabel key={label.name}>
-                        <Dot color={getColor(label.name)} />
-                        <Legend key={label.name}>{label.name}</Legend>
-                      </LegendLabel>
-                    ))}
-                </LegendsWrapper>
-              </TabPanel>
-            ))}
+          {pie && (
+            <div>
+              <CustomPieChart
+                data={pie[tabValue]?.data.data}
+                tabValue={tabValue}
+              />
+              <LegendsWrapper>
+                {tabValue === 0 &&
+                  OPS_TYPE_LABELS.map((label) => (
+                    <LegendLabel key={label.type}>
+                      <Dot color={label.color} />
+                      <Legend key={label.type}>{label.text}</Legend>
+                    </LegendLabel>
+                  ))}
+                {tabValue !== 0 &&
+                  pie[tabValue]?.data?.data.map((label) => (
+                    <LegendLabel key={label.name}>
+                      <Dot color={getColor(label.name)} />
+                      <Legend key={label.name}>{label.name}</Legend>
+                    </LegendLabel>
+                  ))}
+              </LegendsWrapper>
+            </div>
+          )}
         </PieChartWrapper>
       </StyledChartContainer>
       <StyledTableContainer>

@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 
 import urlLinkImg from '../../assets/images/url-icon.png';
 import { operationType } from '../../helpers/utility';
+import { SearchBox } from '../SearchBox';
 
 const TableContainerWrapper = styled.div`
   display: flex;
@@ -33,7 +34,6 @@ const StyledMuiTableContainer = styled(MuiTableContainer)`
     width: 0;
     background: transparent;
   }
-  max-height: 700px;
 
   .MuiTable-root {
     background: #0a0b0d;
@@ -92,10 +92,21 @@ const StyledMuiTableCell = styled(MuiTableCell)`
   line-height: 21px;
 `;
 
+const StyledSearchCell = styled.div`
+  display: flex;
+  height: 60px;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  border-radius: 5px 0 0 5px;
+  font-size: 15px !important;
+  background: #15171b;
+`;
+
 const StyledMuiTableHeaderCell = styled(MuiTableCell)`
   font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: 600 !important;
+  font-size: 15px !important;
   line-height: 21px;
   text-transform: uppercase;
   color: white !important;
@@ -132,9 +143,13 @@ const Label = styled.div`
   background: ${(props) => `#${props.color}`};
   padding: 5px 10px 5px 10px;
   border-radius: 5px;
-  text-align: center;
   width: fit-content;
   align-self: right;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  vertical-align: center;
+  height: 24px;
   // opacity: 0.7;
   font-style: normal;
   font-weight: normal;
@@ -199,24 +214,60 @@ const handleUrlLinkClick = (url) => {
   }
 };
 
-export const Table = ({ headers, rows, lastcellaligned, cellHeight }) => {
+export const Table = ({
+  headers,
+  rows,
+  lastcellaligned,
+  cellHeight,
+  headerText,
+  searchText,
+  onSearch,
+  withSearch,
+}) => {
   return (
     <TableContainerWrapper>
       <StyledMuiTableContainer
         lastcellaligned={lastcellaligned}
         cellHeight={cellHeight}
       >
-        <MuiTable aria-label="simple table" responsive stickyHeader>
-          <MuiTableHead>
-            <MuiTableRow>
-              {headers.map((header) => (
-                <StyledMuiTableHeaderCell key={`header-${header}`} align="left">
-                  {header}
-                </StyledMuiTableHeaderCell>
-              ))}
-            </MuiTableRow>
-          </MuiTableHead>
+        {withSearch && (
+          <StyledSearchCell>
+            <div style={{ padding: '14px' }}>{headerText}</div>
+            <div>
+              <SearchBox placeholder={searchText} onSearch={onSearch} />
+            </div>
+          </StyledSearchCell>
+        )}
+        <MuiTable aria-label="simple table" responsive>
+          {!withSearch ? (
+            <MuiTableHead>
+              <MuiTableRow>
+                {headers.map((header) => (
+                  <StyledMuiTableHeaderCell
+                    key={`header-${header}`}
+                    align="left"
+                  >
+                    {header}
+                  </StyledMuiTableHeaderCell>
+                ))}
+              </MuiTableRow>
+            </MuiTableHead>
+          ) : null}
+
           <MuiTableBody>
+            {withSearch ? (
+              <MuiTableRow>
+                {headers.map((header) => (
+                  <StyledMuiTableHeaderCell
+                    key={`header-${header}`}
+                    align="left"
+                  >
+                    {header}
+                  </StyledMuiTableHeaderCell>
+                ))}
+              </MuiTableRow>
+            ) : null}
+
             {rows.map((row, rawIndex) => (
               <MuiTableRow key={`raw-${rawIndex}`}>
                 {headers.map((header) => (

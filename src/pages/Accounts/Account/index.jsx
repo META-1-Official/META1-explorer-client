@@ -27,7 +27,6 @@ import {
   getAccountHistory,
   isFetchingAccountHistory,
 } from '../../../store/explorer/selectors';
-import { opText } from '../../../store/apis/explorer';
 import { accountHistoryRowsBuilder } from '../../../helpers/rowBuilders';
 
 const PageWrapper = styled.div`
@@ -102,7 +101,7 @@ const Account = () => {
   const id = location.pathname.split('/')[2];
   const headers = ['Operation', 'ID', 'Date and Time', 'Block', 'Type'];
   const totalPages =
-    history?.length === 0 ? 1 : Math.ceil(history?.length / 10);
+    history?.length === 0 ? 1 : Math.ceil(history?.length / 100);
 
   useEffect(() => {
     (async () => {
@@ -123,7 +122,7 @@ const Account = () => {
     setAccount(account);
   };
 
-  const curPageOps = history?.slice((pageNumber - 1) * 10, pageNumber * 10);
+  const curPageOps = history?.slice((pageNumber - 1) * 100, pageNumber * 100);
 
   useEffect(() => {
     if (curPageOps?.length && !v) {

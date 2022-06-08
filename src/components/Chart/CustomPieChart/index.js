@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { PieChart, Pie, ResponsiveContainer, Sector } from 'recharts';
 
 // import constants
@@ -6,7 +6,6 @@ import { OPS_TYPE_LABELS, PIE_COLORS } from '../../../constants';
 
 const CustomPieChart = ({ data, tabValue }) => {
   const [pieIndex, setPieIndex] = useState(0);
-
   const getColor = (name) => {
     let color = 'white';
     let v;

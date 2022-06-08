@@ -27,7 +27,7 @@ export const SearchBox = ({ placeholder, onSearch }) => {
     <TextField
       placeholder={placeholder}
       id="outlined-start-adornment"
-      sx={{ m: 1 }}
+      sx={{ m: 1, width: 'auto' }}
       value={searchKey}
       onChange={onSearchKeyChange}
       InputProps={{

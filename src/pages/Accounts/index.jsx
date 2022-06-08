@@ -37,9 +37,10 @@ const StyledPaginationContainer = styled.div`
 
 const Label = styled.div`
   font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
+  font-weight: 600;
+  font-size: 20px !important;
   line-height: 30px;
+  margin-bottom: 30px;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -59,7 +60,7 @@ const Accounts = () => {
   // vars
   const headers = ['Name', 'Amount'];
   const filteredAccounts = accounts?.filter((data) =>
-    data.name.includes(query),
+    data.amount.toString().includes(query),
   );
   const totalPages =
     filteredAccounts?.length === 0
@@ -97,11 +98,15 @@ const Accounts = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <Label>
-          Accounts
-          <SearchBox placeholder="Search for Accounts" onSearch={onSearch} />
-        </Label>
-        <Table headers={headers} rows={accountRows} />
+        <Label>ACCOUNTS</Label>
+        <Table
+          headers={headers}
+          rows={accountRows}
+          withSearch
+          onSearch={onSearch}
+          headerText={'RICH LIST'}
+          searchText={'Search for Amount'}
+        />
         {accounts?.length === 0 && <Loader />}
       </StyledContainer>
       <StyledPaginationContainer>

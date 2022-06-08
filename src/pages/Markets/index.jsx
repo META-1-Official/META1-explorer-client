@@ -45,9 +45,10 @@ const StyledPaginationContainer = styled.div`
 
 const Label = styled.div`
   font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
+  font-weight: 600;
+  font-size: 20px !important;
   line-height: 30px;
+  margin-bottom: 30px;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -108,12 +109,16 @@ const Markets = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <Label>
-          Markets
-          <SearchBox placeholder="Search for markets" onSearch={onSearch} />
-        </Label>
+        <Label>MARKETS</Label>
         {!isFetchingMostActiveMarkets && rows ? (
-          <Table headers={headers} rows={rows}></Table>
+          <Table
+            headers={headers}
+            rows={rows}
+            searchText={'Search for a markets'}
+            onSearch={onSearch}
+            withSearch
+            headerText={'MOST ACTIVE MARKETS'}
+          ></Table>
         ) : (
           <Loader />
         )}
