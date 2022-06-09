@@ -3,9 +3,11 @@ import { PieChart, Pie, ResponsiveContainer, Sector } from 'recharts';
 
 // import constants
 import { OPS_TYPE_LABELS, PIE_COLORS } from '../../../constants';
+import { useTranslation } from 'react-i18next';
 
 const CustomPieChart = ({ data, tabValue }) => {
   const [pieIndex, setPieIndex] = useState(0);
+  const { t } = useTranslation();
   const getColor = (name) => {
     let color = 'white';
     let v;
@@ -62,7 +64,7 @@ const CustomPieChart = ({ data, tabValue }) => {
           textAnchor="middle"
           fill={getColor(name)}
         >
-          {payload.name}
+          {t(payload.name)}
         </text>
         <Sector
           cx={cx}
@@ -109,7 +111,7 @@ const CustomPieChart = ({ data, tabValue }) => {
           textAnchor={textAnchor}
           fill="#999"
         >
-          {`Rate ${(percent * 100).toFixed(2)}%`}
+          {`${t('Rate')} ${(percent * 100).toFixed(2)}%`}
         </text>
       </g>
     );

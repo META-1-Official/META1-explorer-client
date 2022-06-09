@@ -13,6 +13,8 @@ import selectors from '../../store/selectors';
 
 // import helper
 import { localizeNumber } from '../../helpers/utility';
+import PageLabel from '../../components/PageLabel.jsx';
+import { useTranslation } from 'react-i18next';
 
 const { fetchWitnesses, fetchHeader } = actions;
 const { getWitnesses, isFetchingWitnesses, getHeader, isFetchingHeader } =
@@ -32,25 +34,10 @@ const StyledContainer = styled.div`
   flex-direction: column;
 `;
 
-const Label = styled.div`
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 30px;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    text-align: center;
-    flex-direction: column;
-  }
-`;
-
 const Witnesses = () => {
   const [queryForActive, setQueryForActive] = useState('');
   const [queryForStandby, setQueryForStandby] = useState('');
+  const { t } = useTranslation();
 
   // dispatch
   const dispatch = useDispatch();
@@ -114,7 +101,7 @@ const Witnesses = () => {
           `<a href="/objects/${witness.id}">${witness.witness_account_name}</a>`,
           'html',
         ],
-        URL: [witness.url, 'urlLink'],
+        URL: witness.url ? [witness.url, 'urlLink'] : '',
         'Total Votes': [localizeNumber(witness.total_votes), 'plainText'],
         Missed: [localizeNumber(witness.total_missed), 'plainText'],
         'Last confirmed block': [
@@ -132,10 +119,6 @@ const Witnesses = () => {
     fetchWitnessesData(); // fetch data
   }, []);
 
-  useEffect(() => {
-    console.log('AAA', getWitnessesData);
-  }, []);
-
   const onSearchForActiveWitnesses = (query) => {
     setQueryForActive(query);
   };
@@ -147,16 +130,15 @@ const Witnesses = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <Label>
-          Active Witness
-          <SearchBox
-            placeholder="Search for Witnesses"
-            onSearch={onSearchForActiveWitnesses}
-          />
-        </Label>
+        <PageLabel>{t('WITNESSES')}</PageLabel>
         {!isFetchingWitnessesData && !isFetchingHead && getRows('active') ? (
           <Table
             headers={headers}
+            withSearch
+            searchFullWidth
+            headerText={'ACTIVE WITNESSES'}
+            searchText={'Search for Active witnesses'}
+            onSearch={onSearchForActiveWitnesses}
             rows={getRows('active')}
             lastCellAligned={false}
           ></Table>
@@ -165,16 +147,14 @@ const Witnesses = () => {
         )}
       </StyledContainer>
       <StyledContainer style={{ marginTop: '42px' }}>
-        <Label>
-          Standby Witness
-          <SearchBox
-            placeholder="Search for Witnesses"
-            onSearch={onSearchForStandbyWitnesses}
-          />
-        </Label>
         {!isFetchingWitnessesData && !isFetchingHead && getRows('standby') ? (
           <Table
             headers={headers}
+            withSearch
+            searchFullWidth
+            headerText={'STANDBY WITNESSES'}
+            searchText={'Search for Standby witnesses'}
+            onSearch={onSearchForStandbyWitnesses}
             rows={getRows('standby')}
             lastCellAligned={false}
           ></Table>

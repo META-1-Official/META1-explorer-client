@@ -15,6 +15,8 @@ import selectors from '../../store/selectors';
 
 // import helper
 import { formatBalance, operationType } from '../../helpers/utility';
+import PageLabel from '../../components/PageLabel.jsx';
+import { useTranslation } from 'react-i18next';
 
 const { fetchFees } = actions;
 const { getFees, isFetchingFees } = selectors;
@@ -45,27 +47,11 @@ const StyledPaginationContainer = styled.div`
   }
 `;
 
-const Label = styled.div`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px !important;
-  line-height: 30px;
-  margin-bottom: 30px;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    text-align: center;
-    flex-direction: column;
-  }
-`;
-
 const Fees = () => {
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState('');
 
+  const { t } = useTranslation();
   // dispatch
   const dispatch = useDispatch();
 
@@ -74,7 +60,6 @@ const Fees = () => {
   // selectors
   const getFeesData = useSelector(getFees);
   const isFetchingFeesData = useSelector(isFetchingFees);
-  console.log(getFeesData);
 
   // const functions
   const getDisplayData = (o_data) => {
@@ -153,7 +138,7 @@ const Fees = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <Label>FEES</Label>
+        <PageLabel>{t('FEES')}</PageLabel>
         {!isFetchingFeesData && rows ? (
           <Table
             headers={headers}

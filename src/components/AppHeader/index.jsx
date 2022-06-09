@@ -130,8 +130,17 @@ const AppHeader = () => {
     return selected === route ? 'active' : '';
   };
 
+  useEffect(() => {
+    if (localStorage.lang) {
+      const val = localStorage.getItem('lang');
+      setLanguage(val);
+      changeLanguage(val);
+    }
+  }, [localStorage]);
+
   const handleChange = (val) => {
     setLanguage(val);
+    localStorage.setItem('lang', val);
     changeLanguage(val);
   };
 

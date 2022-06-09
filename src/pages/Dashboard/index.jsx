@@ -32,6 +32,8 @@ import { OPS_TYPE_LABELS, PIE_COLORS } from '../../constants';
 import { dashboardRowsBuilder } from '../../helpers/rowBuilders';
 import { setPieData } from '../../store/explorer/actions';
 import { getPieData } from '../../store/explorer/selectors';
+import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const { fetchLastOperations, fetchHeader } = actions;
 const { getOperations, isFetchingLastOperations, getHeader, isFetchingHeader } =
@@ -160,6 +162,7 @@ const Label = styled.div`
   font-size: 20px;
   line-height: 30px;
   color: white;
+  margin-bottom: 15px;
 
   @media ${(props) => props.theme.bkps.device.mobile} {
     text-align: center;
@@ -181,6 +184,8 @@ const Dashboard = React.memo(() => {
   const [page, setPage] = useState(1);
   const [rows, setRows] = useState([]);
   const [tabValue, setTabValue] = useState(0);
+
+  const { t } = useTranslation();
 
   // dispatch
   const dispatch = useDispatch();
@@ -276,42 +281,42 @@ const Dashboard = React.memo(() => {
       <StyledChartContainer>
         <LineChartsWrapper>
           <LineChartCard
-            title="Block Number"
+            title={'Block Number'}
             number={getHeadData?.head_block_number}
             chartData={getHeadData?.blocks_24h_history}
             icon={blockNumImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
-            title="New Users"
+            title={'New Users'}
             number={getHeadData?.accounts_registered_this_interval}
             chartData={getHeadData?.users_24h_history}
             icon={newUserImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
-            title="META1 Market Cap"
+            title={'META1 Market Cap'}
             number={getHeadData?.bts_market_cap}
             chartData={getHeadData?.market_cap_24h_history}
             icon={marketCapImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
-            title="META1/BTC Volume"
+            title={'META1/BTC Volume'}
             number={getHeadData?.quote_volume}
             chartData={getHeadData?.meta1_volume_24h_history}
             icon={btcVolumeImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
-            title="Witness"
+            title={'Witnesses'}
             number={getHeadData?.witness_count}
             chartData={getHeadData?.witness_24h_history}
             icon={witnessImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
-            title="Committee"
+            title={'Committee'}
             number={getHeadData?.committee_count}
             chartData={getHeadData?.committee_24h_history}
             icon={committeeImg}
@@ -326,7 +331,7 @@ const Dashboard = React.memo(() => {
             style={{ marginLeft: '15px' }}
           >
             {TabLabels.map((tlb, index) => (
-              <Tab label={tlb} {...a11yProps(index)} key={tlb} />
+              <Tab label={t(tlb)} {...a11yProps(index)} key={tlb} />
             ))}
           </Tabs>
           {pie && (
@@ -340,14 +345,14 @@ const Dashboard = React.memo(() => {
                   OPS_TYPE_LABELS.map((label) => (
                     <LegendLabel key={label.type}>
                       <Dot color={label.color} />
-                      <Legend key={label.type}>{label.text}</Legend>
+                      <Legend key={label.type}>{t(label.text)}</Legend>
                     </LegendLabel>
                   ))}
                 {tabValue !== 0 &&
                   pie[tabValue]?.data?.data.map((label) => (
                     <LegendLabel key={label.name}>
                       <Dot color={getColor(label.name)} />
-                      <Legend key={label.name}>{label.name}</Legend>
+                      <Legend key={label.name}>{t(label.name)}</Legend>
                     </LegendLabel>
                   ))}
               </LegendsWrapper>
@@ -356,7 +361,7 @@ const Dashboard = React.memo(() => {
         </PieChartWrapper>
       </StyledChartContainer>
       <StyledTableContainer>
-        <Label>Recent activity</Label>
+        <Label>{t('Recent activity')}</Label>
         <Table headers={headers} rows={rows} lastcellaligned={false}></Table>
         {(isFetchingOps || rows.length === 0) && <Loader />}
       </StyledTableContainer>

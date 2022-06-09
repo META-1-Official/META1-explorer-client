@@ -16,6 +16,7 @@ import useWidth from '../../../helpers/getWidth';
 
 // import api
 import api from '../../../store/apis';
+import { useTranslation } from 'react-i18next';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -90,6 +91,7 @@ const Votes = () => {
   // hooks
   const location = useLocation();
   const width = useWidth();
+  const { t } = useTranslation();
 
   // vars
   const block_num = location.pathname.split('/')[2];
@@ -136,15 +138,17 @@ const Votes = () => {
               startIcon={icons['prev']}
               variant="text"
             >
-              Prev Block (#{block.prev})
+              {t('Prev Block')} (#{block.prev})
             </Button>
-            <Button variant="text">Current Block (#{block_num})</Button>
+            <Button variant="text">
+              {t('Current Block')} (#{block_num})
+            </Button>
             <Button
               href={`/blocks/${block?.next}`}
               endIcon={icons['next']}
               variant="text"
             >
-              Next Block (#{block.next})
+              {t('Next Block')} (#{block.next})
             </Button>
           </ButtonGroup>
           {block && block_rows ? (
@@ -160,7 +164,7 @@ const Votes = () => {
       </StyledContainer>
       <StyledContainer>
         <BlockWrapper>
-          <Label>Transactions raw data</Label>
+          <Label>{t('Transactions raw data')}</Label>
           <JsonInputWrapper>
             <JSONInput
               id="trd"

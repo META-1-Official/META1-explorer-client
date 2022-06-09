@@ -21,6 +21,8 @@ import selectors from '../../store/selectors';
 // import helper
 import { localizeNumber } from '../../helpers/utility';
 import images from '../../helpers/images';
+import PageLabel from '../../components/PageLabel.jsx';
+import { useTranslation } from 'react-i18next';
 
 const { fetchActiveAssets, fetchDexVolume, fetchDailyDexChart } = actions;
 const {
@@ -93,22 +95,6 @@ const StyledTableContainer = styled.div`
   flex-direction: column;
 `;
 
-const Label = styled.div`
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 30px;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    text-align: center;
-    flex-direction: column;
-  }
-`;
-
 const StyledPaginationContainer = styled.div`
   background: ${(props) => props.theme.palette.background.nearBlack};
   padding-top: 38px;
@@ -124,6 +110,7 @@ const Assets = React.memo(() => {
   // state vars
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState('');
+  const { t } = useTranslation();
 
   // dispatch
   const dispatch = useDispatch();
@@ -261,10 +248,10 @@ const Assets = React.memo(() => {
         </FilledLineChartWrapper>
       </StyledChartContainer>
       <StyledTableContainer>
-        <Label>
-          Assets
+        <PageLabel>
+          {t('Assets')}
           <SearchBox placeholder="Search for Assets" onSearch={onSearch} />
-        </Label>
+        </PageLabel>
         <Table headers={headers} rows={rows}></Table>
         {isFetchingAssets && <Loader />}
       </StyledTableContainer>

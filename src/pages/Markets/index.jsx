@@ -15,6 +15,8 @@ import selectors from '../../store/selectors';
 
 // import helper
 import { localizeNumber } from '../../helpers/utility';
+import PageLabel from '../../components/PageLabel.jsx';
+import { useTranslation } from 'react-i18next';
 
 const { fetchActiveMarkets } = actions;
 const { getActiveMarkets, isFetchingActiveMarkets } = selectors;
@@ -43,26 +45,10 @@ const StyledPaginationContainer = styled.div`
   }
 `;
 
-const Label = styled.div`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px !important;
-  line-height: 30px;
-  margin-bottom: 30px;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    text-align: center;
-    flex-direction: column;
-  }
-`;
-
 const Markets = () => {
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState('');
+  const { t } = useTranslation();
 
   // dispatch
   const dispatch = useDispatch();
@@ -109,7 +95,7 @@ const Markets = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <Label>MARKETS</Label>
+        <PageLabel>{t('MARKETS')}</PageLabel>
         {!isFetchingMostActiveMarkets && rows ? (
           <Table
             headers={headers}

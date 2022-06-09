@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import urlLinkImg from '../../assets/images/url-icon.png';
 import { operationType } from '../../helpers/utility';
 import { SearchBox } from '../SearchBox';
+import { useTranslation } from 'react-i18next';
 
 const TableContainerWrapper = styled.div`
   display: flex;
@@ -73,7 +74,8 @@ const StyledMuiTableContainer = styled(MuiTableContainer)`
 
           div {
             ${ellipsis('350px')}
-
+            margin-left: ${(props) =>
+              props.lastcellaligned === false ? 'auto' : '0'};
             a {
               margin-left: 5px;
               margin-right: 5px;
@@ -160,7 +162,7 @@ const LinkWrapper = styled.div`
   width: 32px;
   height: 32px;
   background: ${(props) => props.theme.palette.primary.main};
-  display: flex;
+  display: flex !important;
   justify-content: center;
   border-radius: 16px;
   cursor: pointer;
@@ -174,6 +176,7 @@ const Img = styled.img`
 
 const TableCell = ({ cell }) => {
   const [content, contentType] = cell;
+  const { t } = useTranslation();
 
   switch (contentType) {
     case 'html':
@@ -189,7 +192,7 @@ const TableCell = ({ cell }) => {
     case 'label':
       return (
         <Label color={operationType(content)[1]}>
-          {operationType(content)[0]}
+          {t(operationType(content)[0])}
         </Label>
       );
     case 'plainText':
@@ -222,8 +225,10 @@ export const Table = ({
   headerText,
   searchText,
   onSearch,
+  searchFullWidth,
   withSearch,
 }) => {
+  const { t } = useTranslation();
   return (
     <TableContainerWrapper>
       <StyledMuiTableContainer
@@ -232,9 +237,13 @@ export const Table = ({
       >
         {withSearch && (
           <StyledSearchCell>
-            <div style={{ padding: '14px' }}>{headerText}</div>
+            <div style={{ padding: '14px' }}>{t(headerText)}</div>
             <div>
-              <SearchBox placeholder={searchText} onSearch={onSearch} />
+              <SearchBox
+                placeholder={searchText}
+                onSearch={onSearch}
+                fullWidth={searchFullWidth}
+              />
             </div>
           </StyledSearchCell>
         )}
@@ -247,7 +256,7 @@ export const Table = ({
                     key={`header-${header}`}
                     align="left"
                   >
-                    {header}
+                    {t(header)}
                   </StyledMuiTableHeaderCell>
                 ))}
               </MuiTableRow>
@@ -262,7 +271,7 @@ export const Table = ({
                     key={`header-${header}`}
                     align="left"
                   >
-                    {header}
+                    {t(header)}
                   </StyledMuiTableHeaderCell>
                 ))}
               </MuiTableRow>

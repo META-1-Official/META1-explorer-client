@@ -15,6 +15,7 @@ import { buildCustomKVTableDto } from '../../../helpers/utility';
 // import redux
 import actions from '../../../store/actions';
 import selectors from '../../../store/selectors';
+import { useTranslation } from 'react-i18next';
 
 const { fetchTransaction } = actions;
 const { getTransaction, isFetchingTransaction } = selectors;
@@ -72,6 +73,7 @@ const Label = styled.div`
 
 const Transaction = () => {
   const [rows, setRows] = useState([]);
+  const { t } = useTranslation();
 
   // dispatch
   const dispatch = useDispatch();
@@ -84,7 +86,7 @@ const Transaction = () => {
   const isFetchingTrx = useSelector(isFetchingTransaction);
 
   // vars
-  const headers = ['Operation in transaction', 'ID', 'Type']; // table headers
+  const headers = ['Operations In Transaction', 'ID', 'Type']; // table headers
   const addr = location.pathname.split('/')[2];
   const metadata = getTrx ? getTrx[0].block_data : null;
 
@@ -99,7 +101,7 @@ const Transaction = () => {
           return opTxts.map((opTxt, index) => {
             const op = getTrx[index];
             return {
-              'Operation in transaction': [opTxt, 'html'],
+              'Operations In Transaction': [opTxt, 'html'],
               ID: [op.account_history.operation_id, 'coloredText'],
               Type: [op.operation_type, 'label'],
             };
@@ -140,12 +142,12 @@ const Transaction = () => {
   return (
     <PageWrapper>
       <StyledTableContainer>
-        <Label>Operations In Transaction</Label>
+        <Label>{t('Operations In Transaction')}</Label>
         <Table headers={headers} rows={rows} lastcellaligned={false}></Table>
         {(isFetchingTrx || rows.length === 0) && <Loader />}
       </StyledTableContainer>
       <StyledMetaDataContainer>
-        <Label>Transaction Data</Label>
+        <Label>{t('Transaction Data')}</Label>
         <Table
           headers={['Key', 'Value']}
           rows={getMetadataRows()}

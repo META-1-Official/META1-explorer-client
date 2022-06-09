@@ -20,13 +20,11 @@ import {
   getLookupTransactions,
 } from '../../store/explorer/selectors';
 
-const { fetchLastBlockNumber, fetchLookupAccounts, fetchLookupAssets } =
-  actions;
+const { fetchLookupAccounts, fetchLookupAssets } = actions;
 const {
   getLastBlockNumber,
   getLookupAccounts,
   getLookupAssets,
-  isFetchingLastBlockNumber,
   isFetchingLookupAccounts,
   isFetchingLookupAssets,
 } = selectors;
@@ -51,13 +49,6 @@ const StyledContainer = styled.div`
 `;
 
 const Search = React.memo(() => {
-  // state vars
-  const [block, setBlock] = useState('');
-  const [blocks, setBlocks] = useState([]);
-  const [account, setAccount] = useState('');
-  const [asset, setAsset] = useState('');
-  const [assets, setAssets] = useState([]);
-
   // hooks
   let navigate = useNavigate();
 
@@ -72,37 +63,19 @@ const Search = React.memo(() => {
     dispatch(fetchLookupTransactions(start));
 
   // selectors
-  const getLastBlockNumberData = useSelector(getLastBlockNumber);
   const getLookupAccountsData = useSelector(getLookupAccounts);
   const getLookupAssetsData = useSelector(getLookupAssets);
   const getLookupTransactionsData = useSelector(getLookupTransactions);
   const isFetchingLookupAccountsData = useSelector(isFetchingLookupAccounts);
   const isFetchingLookupAssetsData = useSelector(isFetchingLookupAssets);
 
-  // vars, funcs
-  const getBlockData = () => {
-    let number = parseInt(block);
-    let block_data = [];
-    while (number <= getLastBlockNumberData) {
-      block_data.push(number);
-      number *= 10;
-      number++;
-      block_data.push(number);
-    }
-    return block_data;
-  };
-
   // handlers
   const handleChange = (e, param) => {
-    if (param === 'block') {
-      setBlock(e.target.value);
-    } else if (param === 'asset') {
-      setAsset(e.target.value);
+    if (e && param === 'asset' && e?.type !== 'click') {
       fetchLookupAssetsData(e.target.value);
-    } else if (param === 'account') {
-      setAccount(e.target.value);
+    } else if (e && param === 'account') {
       fetchLookupAccountsData(e.target.value);
-    } else if (param === 'transaction') {
+    } else if (e && param === 'transaction') {
       fetchLookupTransactionsData(e.target.value);
     }
   };
@@ -147,6 +120,7 @@ const Search = React.memo(() => {
         />
         <SearchCard
           title="Search Account"
+          withSelect
           description="Looking for an account? Start typing the first letters of it's name and let the auto complete feature help you find the exact account name string."
           searchInputSample="meta1"
           searchInputLabel="Account name or ID"
@@ -162,9 +136,11 @@ const Search = React.memo(() => {
           searchInputSample="1.3.0"
           searchInputLabel="Object ID"
           searchInputPlaceholder="Enter object id"
+          onChange={(e) => handleChange(e, 'account')}
           onClick={() => handleClick('object')}
         />
         <SearchCard
+          withSelect
           title="Search Asset"
           description="Looking for a SmartCoin or UIA? Start typing the first letters of it's name and let the auto complete feature help you find the exact asset name string."
           searchInputSample="USDT"
@@ -176,7 +152,8 @@ const Search = React.memo(() => {
           onClick={() => handleClick('asset')}
         />
         <SearchCard
-          title="Search Transaction"
+          withSelect
+          title="Search Transaction Hash"
           description="If you have a transaction hash, please paste it here to get transaction information."
           searchInputSample="cb4a306cb75.....6bb37bbcd29"
           searchInputLabel="Transaction ID"

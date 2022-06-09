@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Loader from '../../Loader/Loader';
+import { useTranslation } from 'react-i18next';
 
 const CardWrapper = styled.div`
   width: 100%;
@@ -112,13 +113,15 @@ const SearchCard = ({
   onChange,
   isLoading,
   options,
+  withSelect,
 }) => {
+  const { t } = useTranslation();
   return (
     <CardWrapper>
-      <CardHeader>{title}</CardHeader>
+      <CardHeader>{t(title)}</CardHeader>
       <CardBody>
         <CardDescriptionWrapper>
-          <Description>{description}</Description>
+          <Description>{t(description)}</Description>
         </CardDescriptionWrapper>
         <div>
           <LabelWrapper>
@@ -128,32 +131,44 @@ const SearchCard = ({
               </LoaderWrapper>
             )}
             <HtmlWrapper>
-              Sample Input:
+              {t('Sample input')}:
               <Html dangerouslySetInnerHTML={{ __html: searchInputSample }} />
             </HtmlWrapper>
-            <Label htmlFor={`${title}-search`}>{searchInputLabel}</Label>
+            <Label htmlFor={`${title}-search`}>{t(searchInputLabel)}</Label>
           </LabelWrapper>
-          <Autocomplete
-            id={title}
-            options={options ? options : []}
-            sx={{ width: 300 }}
-            onInputChange={onChange}
-            inputValue={value}
-            clearOnBlur={false}
-            renderInput={(params) => (
-              <StyledTextField
-                {...params}
-                id={`${title}-search`}
-                variant="outlined"
-                placeholder={searchInputPlaceholder}
-                sx={{ width: '100%' }}
-                className="search-card"
-              />
-            )}
-          />
+          {withSelect ? (
+            <Autocomplete
+              id={title}
+              options={options ? options : []}
+              sx={{ width: 300 }}
+              onInputChange={onChange}
+              inputValue={value}
+              clearOnBlur={false}
+              renderInput={(params) => (
+                <StyledTextField
+                  {...params}
+                  id={`${title}-search`}
+                  variant="outlined"
+                  placeholder={t(searchInputPlaceholder)}
+                  sx={{ width: '100%' }}
+                  className="search-card"
+                />
+              )}
+            />
+          ) : (
+            <StyledTextField
+              id={title}
+              variant="outlined"
+              onChange={onChange}
+              value={value}
+              placeholder={t(searchInputPlaceholder)}
+              sx={{ width: '100%' }}
+              className="search-card"
+            />
+          )}
         </div>
         <StyledButton variant="contained" onClick={onClick}>
-          Search
+          {t('Search')}
         </StyledButton>
       </CardBody>
     </CardWrapper>

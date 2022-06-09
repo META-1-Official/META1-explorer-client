@@ -11,6 +11,8 @@ import { fetchBlock } from '../../store/apis/explorer';
 // import redux
 import actions from '../../store/actions';
 import selectors from '../../store/selectors';
+import PageLabel from '../../components/PageLabel.jsx';
+import { useTranslation } from 'react-i18next';
 
 const { fetchBigBlocks } = actions;
 const { getBigBlocks, isFetchingBigBlocks } = selectors;
@@ -30,20 +32,6 @@ const StyledContainer = styled.div`
   width: 100%;
 `;
 
-const Label = styled.div`
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 30px;
-  color: white;
-  margin-bottom: 10px;
-  margin-top: 10px;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    text-align: center;
-  }
-`;
-
 const Blocks = () => {
   const [rows, setRows] = useState([]);
 
@@ -57,7 +45,7 @@ const Blocks = () => {
   const isFetchingBigBlocksData = useSelector(isFetchingBigBlocks);
 
   // vars
-  const headers = ['Block Number', 'Data', 'Transactions', 'Operations']; // table headers
+  const headers = ['BLOCK NUMBER', 'DATA', 'Transactions', 'Operations']; // table headers
   const buildFetchBlockPromises = (getBigBlocksData) =>
     getBigBlocksData.map((block) => fetchBlock(block.key));
 
@@ -68,11 +56,11 @@ const Blocks = () => {
             return blockPromises.map((blockPromise, index) => {
               const block = getBigBlocksData[index];
               return {
-                'Block Number': [
+                'BLOCK NUMBER': [
                   `<a href="/blocks/${block.key}">${block.key}</a>`,
                   'html',
                 ],
-                Data: [blockPromise.data.timestamp, 'plainText'],
+                DATA: [blockPromise.data.timestamp, 'plainText'],
                 Transactions: [
                   blockPromise.data.transactions.length,
                   'plainText',
@@ -89,6 +77,8 @@ const Blocks = () => {
     fetchBigBlocksData(); // fetch big trxs
   }, []);
 
+  const { t } = useTranslation();
+
   const [v, setV] = useState(false); // the flag var for fethcing for only change
   useEffect(() => {
     if (getBigBlocksData && !v) {
@@ -100,7 +90,7 @@ const Blocks = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <Label>Blocks</Label>
+        <PageLabel>{t('BLOCKS')}</PageLabel>
         {!isFetchingBigBlocksData && rows && rows.length !== 0 ? (
           <Table headers={headers} rows={rows}></Table>
         ) : (

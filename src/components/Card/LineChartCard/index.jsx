@@ -3,6 +3,7 @@ import { LineChart, Line } from 'recharts';
 
 import { localizeNumber } from '../../../helpers/utility';
 import Loader from '../../../components/Loader/Loader';
+import { useTranslation } from 'react-i18next';
 
 const mock_chart_data = [
   { uv: 100 },
@@ -20,6 +21,7 @@ export const LineChartCard = ({
   icon,
   isLoading,
 }) => {
+  const { t } = useTranslation();
   const memoizedChartData = useMemo(() => {
     if (chartData) {
       return chartData.reduce((acc, curr) => {
@@ -38,7 +40,7 @@ export const LineChartCard = ({
             <img src={icon} alt={title} />
           </div>
           <div className="card-title">
-            <span>{title}</span>
+            <span>{t(title.toUpperCase())}</span>
             {!isLoading ? <span>{localizeNumber(number)}</span> : <Loader />}
           </div>
         </div>

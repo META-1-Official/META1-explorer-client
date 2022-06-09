@@ -9,6 +9,8 @@ import Loader from '../../components/Loader/Loader';
 // import redux
 import actions from '../../store/actions';
 import selectors from '../../store/selectors';
+import PageLabel from '../../components/PageLabel.jsx';
+import { useTranslation } from 'react-i18next';
 
 const { fetchBigTransactions } = actions;
 const { getBigTransactions, isFetchingBigTransactions } = selectors;
@@ -32,23 +34,10 @@ const StyledContainer = styled.div`
   width: 100%;
 `;
 
-const Label = styled.div`
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 30px;
-  color: white;
-  margin-bottom: 10px;
-  margin-top: 10px;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    text-align: center;
-  }
-`;
-
 const Transactions = () => {
   // dispatch
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const fetchBigTrxs = () => dispatch(fetchBigTransactions());
 
@@ -74,9 +63,13 @@ const Transactions = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <Label>Transactions</Label>
+        <PageLabel>{t('TRANSACTIONS')}</PageLabel>
         {!isFetchingBigTrxs && rows ? (
-          <Table headers={headers} rows={rows}></Table>
+          <Table
+            headers={headers}
+            headerText={'BIGGEST TRANSACTIONS IN THE LAST 1 HOUR'}
+            rows={rows}
+          ></Table>
         ) : (
           <Loader />
         )}

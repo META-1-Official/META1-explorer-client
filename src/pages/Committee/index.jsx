@@ -13,6 +13,8 @@ import selectors from '../../store/selectors';
 
 // import helper
 import { localizeNumber } from '../../helpers/utility';
+import PageLabel from '../../components/PageLabel.jsx';
+import { useTranslation } from 'react-i18next';
 
 const { fetchCommittee, fetchHeader } = actions;
 const { getCommittee, isFetchingCommittee, getHeader, isFetchingHeader } =
@@ -32,26 +34,10 @@ const StyledContainer = styled.div`
   flex-direction: column;
 `;
 
-const Label = styled.div`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px !important;
-  line-height: 30px;
-  margin-bottom: 30px;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    text-align: center;
-    flex-direction: column;
-  }
-`;
-
 const Committee = () => {
   const [queryForActive, setQueryForActive] = useState('');
   const [queryForStandby, setQueryForStandby] = useState('');
+  const { t } = useTranslation();
 
   // dispatch
   const dispatch = useDispatch();
@@ -116,7 +102,7 @@ const Committee = () => {
           `<a href="/objects/${committee[0].committee_member_account}">${committee[0].committee_member_account_name}</a>`,
           'html',
         ],
-        URL: [committee[0].url, 'urlLink'],
+        URL: committee[0].url ? [committee[0].url, 'urlLink'] : '',
         'Total Votes': [localizeNumber(committee[0].total_votes), 'plainText'],
       };
     });
@@ -138,11 +124,12 @@ const Committee = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <Label>COMMITTEE MEMBERS</Label>
+        <PageLabel>{t('COMMITTEE MEMBERS')}</PageLabel>
         {!isFetchingCommitteeData && !isFetchingHead && getRows('active') ? (
           <Table
             headers={headers}
             withSearch
+            searchFullWidth={true}
             onSearch={onSearchForActiveCommittee}
             headerText={'CURRENT ACTIVE COMMITTEE MEMBERS'}
             searchText={'Search for active committee member'}
@@ -158,6 +145,7 @@ const Committee = () => {
             headers={headers}
             withSearch
             onSearch={onSearchForStandbyCommittee}
+            searchFullWidth={true}
             headerText={'STANDBY COMMITTEE MEMBERS'}
             searchText={'Search for standby committee member'}
             rows={getRows('standby')}

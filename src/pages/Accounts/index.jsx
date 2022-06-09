@@ -10,6 +10,8 @@ import { SearchBox } from '../../components/SearchBox';
 
 // import api
 import api from '../../store/apis';
+import PageLabel from '../../components/PageLabel.jsx';
+import { useTranslation } from 'react-i18next';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -35,33 +37,20 @@ const StyledPaginationContainer = styled.div`
   }
 `;
 
-const Label = styled.div`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px !important;
-  line-height: 30px;
-  margin-bottom: 30px;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    text-align: center;
-    flex-direction: column;
-  }
-`;
-
 const Accounts = () => {
   const [page, setPage] = useState(1);
   const [accounts, setAccounts] = useState([]);
   const [query, setQuery] = useState('');
 
+  const { t } = useTranslation();
+
   // vars
   const headers = ['Name', 'Amount'];
-  const filteredAccounts = accounts?.filter((data) =>
-    data.amount.toString().includes(query),
-  );
+  const filteredAccounts = accounts?.filter((data) => {
+    return /^\d/.test(query)
+      ? data.amount.toString().includes(query)
+      : data.name.includes(query);
+  });
   const totalPages =
     filteredAccounts?.length === 0
       ? 1
@@ -98,7 +87,7 @@ const Accounts = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <Label>ACCOUNTS</Label>
+        <PageLabel>{t('ACCOUNTS')}</PageLabel>
         <Table
           headers={headers}
           rows={accountRows}

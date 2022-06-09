@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PageLabel from '../../components/PageLabel.jsx';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -16,21 +17,11 @@ const StyledContainer = styled.div`
   width: 100%;
 `;
 
-const Label = styled.div`
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 30px;
-  color: white;
-  margin-bottom: 10px;
-  margin-top: 10px;
-`;
-
 const Objects = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <Label>Objects</Label>
+        <PageLabel>OBJECTS</PageLabel>
       </StyledContainer>
     </PageWrapper>
   );
