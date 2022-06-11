@@ -8,6 +8,7 @@ import { SearchBox } from '../../../components/SearchBox';
 
 // import services
 import accountsService from '../../../services/accounts.services';
+import { useTranslation } from 'react-i18next';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -59,6 +60,8 @@ const Balances = ({ accountFullData }) => {
   const [vestingQuery, setVestingQuery] = useState('');
   const [parsedAssetBalances, setParsedAssetBalances] = useState([]);
   const [parsedVestingBalances, setParsedVestingBalances] = useState([]);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (accountFullData) {
@@ -115,32 +118,34 @@ const Balances = ({ accountFullData }) => {
     <PageWrapper>
       <StyledContainer>
         <BlockWrapper>
-          <Label>
-            2 Asset balances
-            <SearchBox
-              placeholder="Search for balance"
-              onSearch={onAssetSearch}
-            />
-          </Label>
           <div style={{ width: '100%' }}>
             {asset_rows ? (
-              <Table headers={headers} rows={asset_rows}></Table>
+              <Table
+                headers={headers}
+                withSearch
+                searchText={'Search for balance'}
+                onSearch={onAssetSearch}
+                headerText={`${parsedAssetBalances?.length} ${t(
+                  'Asset balances',
+                )}`}
+                rows={asset_rows}
+              ></Table>
             ) : (
               <Loader />
             )}
           </div>
         </BlockWrapper>
         <BlockWrapper>
-          <Label>
-            Vesting balances
-            <SearchBox
-              placeholder="Search for vesting balance"
-              onSearch={onVestingSearch}
-            />
-          </Label>
           <div style={{ width: '100%' }}>
             {vesting_rows ? (
-              <Table headers={headers} rows={vesting_rows}></Table>
+              <Table
+                headers={headers}
+                headerText={'Vesting balances'}
+                withSearch
+                searchText={'Search for vesting balance'}
+                onSearch={onVestingSearch}
+                rows={vesting_rows}
+              ></Table>
             ) : (
               <Loader />
             )}

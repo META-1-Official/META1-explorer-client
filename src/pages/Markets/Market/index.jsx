@@ -25,6 +25,7 @@ import {
 // import redux
 import actions from '../../../store/actions';
 import selectors from '../../../store/selectors';
+import { useTranslation } from 'react-i18next';
 
 const { fetchTicker } = actions;
 const { getTicker, isFetchingTicker } = selectors;
@@ -108,13 +109,13 @@ const Market = React.memo(() => {
   // hooks
   const location = useLocation();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   // actions
   const fetchTickerData = (base, quote) => dispatch(fetchTicker(base, quote));
 
   // selectors
   const getTickerData = useSelector(getTicker);
-  console.log(getTickerData);
   const isFetchingTickerData = useSelector(isFetchingTicker);
 
   // vars
@@ -124,15 +125,19 @@ const Market = React.memo(() => {
     'Price',
     getTickerData?.base,
     getTickerData?.quote,
-    `Total(${getTickerData?.quote})`,
+    `${t('Total')}(${getTickerData?.quote})`,
   ];
   const buyOrdersHeader = [
     'Price',
     getTickerData?.quote,
     getTickerData?.base,
-    `Total(${getTickerData?.quote})`,
+    `${t('Total')}(${getTickerData?.quote})`,
   ];
-  const groupOrdersHeader = ['Min', 'Max', `Total(${getTickerData?.quote})`];
+  const groupOrdersHeader = [
+    'Min',
+    'Max',
+    `${t('Total')}(${getTickerData?.quote})`,
+  ];
 
   useEffect(() => {
     setAssetsData();
@@ -157,7 +162,7 @@ const Market = React.memo(() => {
               Number(order.quote).toFixed(precision?.quote),
               'plainText',
             ],
-            [`Total(${getTickerData?.quote})`]: [
+            [`${t('Total')}(${getTickerData?.quote})`]: [
               Number(order.total).toFixed(precision?.base),
               'plainText',
             ],
@@ -165,8 +170,8 @@ const Market = React.memo(() => {
         })
         .sort((o1, o2) => {
           return (
-            o2[`Total(${getTickerData?.quote})`][0] -
-            o1[`Total(${getTickerData?.quote})`][0]
+            o2[`${t('Total')}(${getTickerData?.quote})`][0] -
+            o1[`${t('Total')}(${getTickerData?.quote})`][0]
           );
         });
     } else return [];
@@ -186,7 +191,7 @@ const Market = React.memo(() => {
               Number(order.max_price).toFixed(precision?.base),
               'plainText',
             ],
-            [`Total(${getTickerData?.quote})`]: [
+            [`${t('Total')}(${getTickerData?.quote})`]: [
               Number(order.total_for_sale).toFixed(precision?.base),
               'plainText',
             ],
@@ -194,8 +199,8 @@ const Market = React.memo(() => {
         })
         .sort((o1, o2) => {
           return (
-            o2[`Total(${getTickerData?.quote})`][0] -
-            o1[`Total(${getTickerData?.quote})`][0]
+            o2[`${t('Total')}(${getTickerData?.quote})`][0] -
+            o1[`${t('Total')}(${getTickerData?.quote})`][0]
           );
         });
     } else return [];
@@ -250,13 +255,13 @@ const Market = React.memo(() => {
             isLoading={isFetchingTickerData}
           />
           <LineChartCard
-            title={`${getTickerData?.base} VOLUME`}
+            title={`${getTickerData?.base} ${t('VOLUME')}`}
             number={Math.floor(getTickerData?.base_volume)}
             icon={images['volume']}
             isLoading={isFetchingTickerData}
           />
           <LineChartCard
-            title={`${getTickerData?.quote} VOLUME`}
+            title={`${getTickerData?.quote} ${t('VOLUME')}`}
             number={Math.floor(getTickerData?.quote_volume)}
             icon={images['volume']}
             isLoading={isFetchingTickerData}
@@ -270,11 +275,11 @@ const Market = React.memo(() => {
         </LineChartsWrapper>
       </StyledContainer>
       <ContainerHeader style={{ marginTop: '20px' }}>
-        Order book
+        {t('Order book')}
       </ContainerHeader>
       <StyledContainer>
         <BlockWrapper>
-          <Label>Sell Orders</Label>
+          <Label>{t('Sell Orders')}</Label>
           {getTickerData && (
             <Table
               headers={sellOrdersHeader}
@@ -284,7 +289,7 @@ const Market = React.memo(() => {
           {!orderBook && <Loader />}
         </BlockWrapper>
         <BlockWrapper>
-          <Label>Buy Orders</Label>
+          <Label>{t('Buy Orders')}</Label>
           {getTickerData && (
             <Table headers={buyOrdersHeader} rows={getOrderRows('buy')}></Table>
           )}
@@ -292,11 +297,11 @@ const Market = React.memo(() => {
         </BlockWrapper>
       </StyledContainer>
       <ContainerHeader style={{ marginTop: '20px' }}>
-        Grouped order book
+        {t('Grouped Order Book')}
       </ContainerHeader>
       <StyledContainer>
         <BlockWrapper>
-          <Label>Sell Orders Groups</Label>
+          <Label>{t('Sell Orders Groups')}</Label>
           {getTickerData && sellGroupedOrderBook && precision && (
             <Table
               headers={groupOrdersHeader}
@@ -306,7 +311,7 @@ const Market = React.memo(() => {
           {!sellGroupedOrderBook && <Loader />}
         </BlockWrapper>
         <BlockWrapper>
-          <Label>Buy Orders Groups</Label>
+          <Label>{t('Buy Orders Groups')}</Label>
           {getTickerData && buyGroupedOrderBook && precision && (
             <Table
               headers={groupOrdersHeader}

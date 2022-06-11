@@ -16,6 +16,7 @@ import {
   buildCustomKVTableDto,
   localizeNumber,
 } from '../../../helpers/utility';
+import { useTranslation } from 'react-i18next';
 
 const {
   fetchAssetFull,
@@ -44,6 +45,7 @@ const PageWrapper = styled.div`
 
 const StyledContainer = styled.div`
   display: flex;
+  margin-bottom: 1rem;
 
   @media only screen and (max-width: 600px) {
     flex-direction: column;
@@ -118,6 +120,16 @@ const Label = styled.div`
   }
 `;
 
+const AssetInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: #15171b;
+  border: 1px solid #1c1f27;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 17px;
+`;
+
 const Asset = () => {
   const [queryMarkets, setQueryMarkets] = useState('');
   const [queryHolders, setQueryHolders] = useState('');
@@ -125,6 +137,7 @@ const Asset = () => {
   // dispatch
   const dispatch = useDispatch();
   const location = useLocation();
+  const { t } = useTranslation();
 
   // actions
   const fetchAssetFullData = (id) => dispatch(fetchAssetFull(id));
@@ -227,7 +240,7 @@ const Asset = () => {
           <Img src={imgUrl}></Img>
         </BlockWrapper>
         <BlockWrapper width="45%">
-          <Label>Stats</Label>
+          <Label>{t('Stats')}</Label>
           <div style={{ width: '100%' }}>
             <Table
               headers={['Key', 'Value']}
@@ -239,30 +252,33 @@ const Asset = () => {
           {isFetchingAssetFullData && isFetchingAssetHoldersCountData && (
             <Loader />
           )}
-          <div
-            style={{
-              fontSize: '32px',
-              width: '100px',
-              color: 'white',
-              marginTop: '10px',
-            }}
-          >
-            {getAssetFullData?.symbol.toUpperCase()}
-          </div>
-          <div style={{ color: 'white' }}>
-            <p style={{ margin: 0 }}>
-              User Issued -{' '}
-              <a
-                href={`/objects/${getAssetFullData?.id}/`}
-                style={{ color: 'white' }}
-              >
-                {getAssetFullData?.id}
-              </a>
-            </p>
-          </div>
+          <AssetInfoWrapper>
+            <div
+              style={{
+                fontSize: '32px',
+                width: '100px',
+                color: 'white',
+                fontWeight: '600',
+                marginBottom: '10px',
+              }}
+            >
+              {getAssetFullData?.symbol.toUpperCase()}
+            </div>
+            <div style={{ color: 'white' }}>
+              <p style={{ margin: 0 }}>
+                {t('User Issued')} -{' '}
+                <a
+                  href={`/objects/${getAssetFullData?.id}/`}
+                  style={{ color: 'gold', textDecoration: 'none' }}
+                >
+                  {getAssetFullData?.id}
+                </a>
+              </p>
+            </div>
+          </AssetInfoWrapper>
         </BlockWrapper>
         <BlockWrapper className="additional">
-          <Label>Additional asset information</Label>
+          <Label>{t('Additional asset information')}</Label>
           <div style={{ width: '100%' }}>
             <Table
               headers={['Key', 'Value']}
@@ -278,7 +294,7 @@ const Asset = () => {
       </StyledContainer>
       <StyledContainer>
         <BlockWrapper className="additional_d">
-          <Label>Additional asset information</Label>
+          <Label>{t('Additional asset information')}</Label>
           <div style={{ width: '100%' }}>
             <Table
               headers={['Key', 'Value']}
@@ -293,29 +309,29 @@ const Asset = () => {
         </BlockWrapper>
       </StyledContainer>
       <StyledColumnContainer className="active_markets">
-        <Label>
-          Active markets
-          <SearchBox
-            placeholder="Search for a market"
-            onSearch={onSearchForActiveMarkets}
-          />
-        </Label>
         {!isFetchingAssetMarketsData && marketRows ? (
-          <Table headers={market_headers} rows={marketRows}></Table>
+          <Table
+            withSearch
+            onSearch={onSearchForActiveMarkets}
+            headerText={'ACTIVE MARKETS'}
+            searchText={'Search for a market'}
+            headers={market_headers}
+            rows={marketRows}
+          ></Table>
         ) : (
           <Loader />
         )}
       </StyledColumnContainer>
       <StyledColumnContainer style={{ marginTop: '42px' }}>
-        <Label>
-          Top holders
-          <SearchBox
-            placeholder="Search for a holder"
-            onSearch={onSearchForTopHolders}
-          />
-        </Label>
         {!isFetchingAssetHoldersData && holderRows ? (
-          <Table headers={holder_headers} rows={holderRows}></Table>
+          <Table
+            withSearch
+            onSearch={onSearchForTopHolders}
+            searchText={'Search for a holders'}
+            headerText={'TOP HOLDERS'}
+            headers={holder_headers}
+            rows={holderRows}
+          ></Table>
         ) : (
           <Loader />
         )}

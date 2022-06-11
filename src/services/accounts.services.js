@@ -1,5 +1,6 @@
 import api from '../store/apis';
 import { formatBalance } from '../helpers/utility';
+import useAccount from '../helpers/useAccount';
 
 const getAccountFullData = async (fullAccount) => {
   let cashback_balance_id = '';
@@ -21,7 +22,7 @@ const getAccountFullData = async (fullAccount) => {
   const lifetime_fees_paid = fullAccount.statistics.lifetime_fees_paid;
   const bts_balance = fullAccount.balances[0].balance;
   const total_ops = await api.getTotalAccountOps(fullAccount.account.id);
-  const vote_acc_name = await api.getAccountName(
+  const vote_acc_name = await useAccount(
     fullAccount.account.options.voting_account,
   );
 
@@ -40,7 +41,7 @@ const getAccountFullData = async (fullAccount) => {
     vesting: vesting_balances?.data,
     memo_key: fullAccount.account.options.memo_key,
     voting_account_id: fullAccount.account.options.voting_account,
-    voting_account_name: vote_acc_name?.data,
+    voting_account_name: vote_acc_name,
   };
 
   return retVal;

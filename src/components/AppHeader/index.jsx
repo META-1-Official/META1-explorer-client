@@ -141,7 +141,7 @@ const AppHeader = () => {
   const handleChange = (val) => {
     setLanguage(val);
     localStorage.setItem('lang', val);
-    changeLanguage(val);
+    window.location.reload();
   };
 
   const handleDrawerClose = () => {
@@ -168,6 +168,9 @@ const AppHeader = () => {
           </MenuItem>
           <MenuItem value="cn">
             <Img alt="Flag" src={images['lang-cn']} className="lang" />
+          </MenuItem>
+          <MenuItem value="es">
+            <Img alt="Flag" src={images['lang-es']} className="lang" />
           </MenuItem>
         </StyledLangSelect>
         <Divider style={{ height: '38px' }} />

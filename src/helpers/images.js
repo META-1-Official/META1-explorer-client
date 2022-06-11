@@ -21,6 +21,7 @@ import dayNightImg from '../assets/images/day-night.png';
 import helpImg from '../assets/images/help.png';
 import enImg from '../assets/images/en.png';
 import cnImg from '../assets/images/cn.png';
+import esImg from '../assets/images/es.png';
 
 const images = {
   'coin-btc': coinBtcImg,
@@ -43,6 +44,7 @@ const images = {
   'help-mark': helpImg,
   'lang-en': enImg,
   'lang-cn': cnImg,
+  'lang-es': esImg,
 };
 
 export default images;

@@ -32,7 +32,7 @@ import { OPS_TYPE_LABELS, PIE_COLORS } from '../../constants';
 import { dashboardRowsBuilder } from '../../helpers/rowBuilders';
 import { setPieData } from '../../store/explorer/actions';
 import { getPieData } from '../../store/explorer/selectors';
-import { t } from 'i18next';
+import i18n, { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 
 const { fetchLastOperations, fetchHeader } = actions;
@@ -123,7 +123,7 @@ const LegendsWrapper = styled.div`
 `;
 
 const LegendLabel = styled.div`
-  width: 40%;
+  width: ${i18n.language !== 'es' ? '40%' : '48%'};
   display: flex;
   align-items: center;
   margin-left: 8px;
@@ -185,7 +185,7 @@ const Dashboard = React.memo(() => {
   const [rows, setRows] = useState([]);
   const [tabValue, setTabValue] = useState(0);
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   // dispatch
   const dispatch = useDispatch();
@@ -362,7 +362,7 @@ const Dashboard = React.memo(() => {
       </StyledChartContainer>
       <StyledTableContainer>
         <Label>{t('Recent activity')}</Label>
-        <Table headers={headers} rows={rows} lastcellaligned={false}></Table>
+        <Table headers={headers} rows={rows} lastcellaligned={true}></Table>
         {(isFetchingOps || rows.length === 0) && <Loader />}
       </StyledTableContainer>
       <StyledPaginationContainer>

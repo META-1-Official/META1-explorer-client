@@ -11,6 +11,7 @@ import { localizeNumber } from '../../../helpers/utility';
 // import services
 import accountsService from '../../../services/accounts.services';
 import { Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -55,6 +56,7 @@ const BlockWrapper = styled.div`
 const Votes = ({ accountFullData }) => {
   const [votesData, setVotesData] = useState('');
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (accountFullData) {
@@ -87,11 +89,11 @@ const Votes = ({ accountFullData }) => {
     <PageWrapper>
       <StyledContainer>
         <BlockWrapper>
-          <Label>Supporting with my vote</Label>
+          <Label>{t('Supporting with my vote')}</Label>
           {loading && <Loader />}
           {!vote_rows.length && !loading && (
             <Typography align={'center'} color={'#FFFFFF'} marginTop={'1rem'}>
-              NO VOTES FOUND
+              {t('NO VOTES FOUND')}
             </Typography>
           )}
           {vote_rows.length && <Table headers={headers} rows={vote_rows} />}

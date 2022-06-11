@@ -5,6 +5,7 @@ import Loader from '../../../components/Loader/Loader';
 import { buildCustomKVTableDto } from '../../../helpers/utility';
 import accountsService from '../../../services/accounts.services';
 import Identicon from 'react-identicons';
+import { useTranslation } from 'react-i18next';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -72,6 +73,8 @@ const Label = styled.div`
 
 const General = ({ accountFullData }) => {
   const [parsedAccount, setParsedAccount] = useState(null);
+  const { t } = useTranslation();
+
   useEffect(() => {
     if (accountFullData) {
       (async () => {
@@ -131,7 +134,7 @@ const General = ({ accountFullData }) => {
           )}
         </BlockWrapper>
         <BlockWrapper>
-          <Label>Account Information</Label>
+          <Label>{t('Account Information')}</Label>
           <div style={{ width: '100%' }}>
             {parsedAccount && infoRows ? (
               <Table
@@ -146,7 +149,7 @@ const General = ({ accountFullData }) => {
           </div>
         </BlockWrapper>
         <BlockWrapper className="stat">
-          <Label>Account statistics</Label>
+          <Label>{t('Account statistics')}</Label>
           <div style={{ width: '100%' }}>
             {parsedAccount && statsRows ? (
               <Table
@@ -163,7 +166,7 @@ const General = ({ accountFullData }) => {
       </StyledContainer>
       <StyledContainer>
         <BlockWrapper className="stat_d">
-          <Label>Account statistics</Label>
+          <Label>{t('Account statistics')}</Label>
           <div style={{ width: '100%' }}>
             {parsedAccount && statsRows ? (
               <Table

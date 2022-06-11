@@ -15,6 +15,7 @@ import useWidth from '../../../helpers/getWidth';
 
 // import api
 import api from '../../../store/apis';
+import { useTranslation } from 'react-i18next';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -87,6 +88,7 @@ const Object = () => {
   // hooks
   const location = useLocation();
   const width = useWidth();
+  const { t } = useTranslation();
 
   // vars
   const id = location.pathname.split('/')[2];
@@ -109,7 +111,7 @@ const Object = () => {
     <PageWrapper>
       <StyledContainer>
         <BlockWrapper>
-          <Label>Exploring Object: {id}</Label>
+          <Label>{`${t('Exploring Object')}` + ': ' + `${id}`}</Label>
           {object ? (
             <Table
               headers={['Key', 'Value']}
@@ -123,7 +125,7 @@ const Object = () => {
       </StyledContainer>
       <StyledContainer>
         <BlockWrapper>
-          <Label>Object raw data</Label>
+          <Label>{t('Object raw data')}</Label>
           <JsonInputWrapper>
             <JSONInput
               id="obj"

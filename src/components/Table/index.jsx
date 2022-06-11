@@ -75,7 +75,7 @@ const StyledMuiTableContainer = styled(MuiTableContainer)`
           div {
             ${ellipsis('350px')}
             margin-left: ${(props) =>
-              props.lastcellaligned === false ? 'auto' : '0'};
+              props.lastcellaligned === false ? '0' : 'auto'};
             a {
               margin-left: 5px;
               margin-right: 5px;

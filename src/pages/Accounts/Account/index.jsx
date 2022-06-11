@@ -28,6 +28,7 @@ import {
   isFetchingAccountHistory,
 } from '../../../store/explorer/selectors';
 import { accountHistoryRowsBuilder } from '../../../helpers/rowBuilders';
+import { useTranslation } from 'react-i18next';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -96,6 +97,7 @@ const Account = () => {
 
   // hooks
   const location = useLocation();
+  const { t } = useTranslation();
 
   // var
   const id = location.pathname.split('/')[2];
@@ -170,17 +172,17 @@ const Account = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <Label>Accounts</Label>
+        <Label>{t('ACCOUNTS')}</Label>
         <Tabs
           value={tabValue}
           onChange={handleChange}
           aria-label="general labels"
           style={{ marginLeft: '15px' }}
         >
-          <Tab label="General" {...a11yProps(0)} />
-          <Tab label="Balances" {...a11yProps(1)} />
-          <Tab label="Authorities" {...a11yProps(2)} />
-          <Tab label="Votes" {...a11yProps(3)} />
+          <Tab label={t('General')} {...a11yProps(0)} />
+          <Tab label={t('Balances')} {...a11yProps(1)} />
+          <Tab label={t('Authorities')} {...a11yProps(2)} />
+          <Tab label={t('Votes')} {...a11yProps(3)} />
         </Tabs>
         <TabPanel value={tabValue} index={0}>
           {account && <General accountFullData={account?.data} />}
@@ -196,12 +198,12 @@ const Account = () => {
         </TabPanel>
       </StyledContainer>
       <StyledHsContainer>
-        <Label>Full Account History</Label>
-        {history && <Table headers={headers} rows={rows} />}
+        <Label>{t('Full Account History')}</Label>
+        {history && <Table headers={headers} rows={rows} lastcellaligned />}
         {isAccountHistoryLoading && <Loader />}
         {history?.length === 0 && !isAccountHistoryLoading && (
           <Typography align={'center'} color={'#FFFFFF'} marginTop={'1rem'}>
-            NO OPERATIONS FOUND
+            {t('NO OPERATIONS FOUND')}
           </Typography>
         )}
       </StyledHsContainer>

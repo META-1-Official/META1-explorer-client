@@ -7,6 +7,7 @@ import Loader from '../../../components/Loader/Loader';
 
 // import services
 import accountsService from '../../../services/accounts.services';
+import { useTranslation } from 'react-i18next';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -55,6 +56,7 @@ const BlockWrapper = styled.div`
 const Authorities = ({ accountFullData }) => {
   const [keys, setKeys] = useState([]);
   const [accounts, setAccounts] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (accountFullData) {
@@ -110,7 +112,7 @@ const Authorities = ({ accountFullData }) => {
     <PageWrapper>
       <StyledContainer>
         <BlockWrapper>
-          <Label>Owner Keys</Label>
+          <Label>{t('Owner Keys')}</Label>
           {owner_key_rows ? (
             <Table headers={key_headers} rows={owner_key_rows}></Table>
           ) : (
@@ -118,7 +120,7 @@ const Authorities = ({ accountFullData }) => {
           )}
           {owner_acc_rows?.length !== 0 && (
             <>
-              <Label>Owner Accounts</Label>
+              <Label>{t('Owner Accounts')}</Label>
               {owner_acc_rows ? (
                 <Table headers={acc_headers} rows={owner_acc_rows}></Table>
               ) : (
@@ -128,7 +130,7 @@ const Authorities = ({ accountFullData }) => {
           )}
         </BlockWrapper>
         <BlockWrapper>
-          <Label>Active Keys</Label>
+          <Label>{t('Active Keys')}</Label>
           {active_key_rows ? (
             <Table headers={key_headers} rows={active_key_rows}></Table>
           ) : (
@@ -136,7 +138,7 @@ const Authorities = ({ accountFullData }) => {
           )}
           {active_acc_rows?.length !== 0 && (
             <>
-              <Label>Owner Accounts</Label>
+              <Label>{t('Owner Accounts')}</Label>
               {active_acc_rows ? (
                 <Table headers={acc_headers} rows={active_acc_rows}></Table>
               ) : (
@@ -148,7 +150,7 @@ const Authorities = ({ accountFullData }) => {
       </StyledContainer>
       <StyledContainer>
         <BlockWrapper>
-          <Label>Memo Keys</Label>
+          <Label>{t('Memo Keys')}</Label>
           {memo_key_rows ? (
             <Table headers={key_headers} rows={memo_key_rows}></Table>
           ) : (

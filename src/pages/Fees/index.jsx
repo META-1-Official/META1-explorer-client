@@ -145,6 +145,7 @@ const Fees = () => {
             rows={rows}
             headerText={'FEE SCHEDULE'}
             withSearch
+            lastcellaligned={false}
             onSearch={onSearch}
             searchText={'Search for a fee'}
           ></Table>
