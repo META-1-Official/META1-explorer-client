@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -89,6 +89,7 @@ const Account = () => {
   const [tabValue, setTabValue] = useState(0);
   const [account, setAccount] = useState();
   const [pageNumber, setPageNumber] = useState(1);
+  const [query, setQuery] = useState('');
   const history = useSelector(getAccountHistory);
   const isAccountHistoryLoading = useSelector(isFetchingAccountHistory);
 
@@ -169,6 +170,18 @@ const Account = () => {
     };
   };
 
+  const onSearch = (query) => {
+    setQuery(query);
+  };
+
+  const filteredRows = useMemo(() => {
+    return rows.filter((item) =>
+      operationType(item.Type[0])[0].toLowerCase().includes(query.toLowerCase())
+        ? item
+        : false,
+    );
+  }, [rows, query]);
+
   return (
     <PageWrapper>
       <StyledContainer>
@@ -199,7 +212,16 @@ const Account = () => {
       </StyledContainer>
       <StyledHsContainer>
         <Label>{t('Full Account History')}</Label>
-        {history && <Table headers={headers} rows={rows} lastcellaligned />}
+        {history && (
+          <Table
+            headers={headers}
+            withSearch
+            searchText={'Search for type'}
+            onSearch={onSearch}
+            rows={filteredRows}
+            lastcellaligned
+          />
+        )}
         {isAccountHistoryLoading && <Loader />}
         {history?.length === 0 && !isAccountHistoryLoading && (
           <Typography align={'center'} color={'#FFFFFF'} marginTop={'1rem'}>

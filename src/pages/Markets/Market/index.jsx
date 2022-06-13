@@ -11,7 +11,7 @@ import Loader from '../../../components/Loader/Loader';
 // import helpers
 import images from '../../../helpers/images';
 import {
-  addTotalFieldToJsonArry,
+  addTotalFieldToJsonArray,
   parseGroupOrdersBook,
 } from '../../../helpers/utility';
 
@@ -150,7 +150,7 @@ const Market = React.memo(() => {
   const getOrderRows = (type) => {
     if (orderBook?.length) {
       const orders = type === 'sell' ? orderBook?.asks : orderBook?.bids;
-      return addTotalFieldToJsonArry(orders)
+      return addTotalFieldToJsonArray(orders)
         .map((order) => {
           return {
             Price: [Number(order.price).toFixed(precision?.base), 'plainText'],

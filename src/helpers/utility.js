@@ -314,7 +314,7 @@ export const buildCustomKVTableDto = (data, headerM) => {
 };
 
 // added total field as last feild (total = sum of first value in each element)
-export const addTotalFieldToJsonArry = (arry) => {
+export const addTotalFieldToJsonArray = (arry) => {
   if (Object.keys(arry[0]).includes('total')) return arry;
   let total = 0;
   return arry.map((ele) => {

@@ -146,7 +146,7 @@ const Label = styled.div`
   padding: 5px 10px 5px 10px;
   border-radius: 5px;
   width: fit-content;
-  align-self: right;
+  align-self: flex-end;
   display: flex !important;
   justify-content: center;
   align-items: center;
