@@ -2,11 +2,11 @@ import { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Pagination, Typography } from '@mui/material';
+import { Pagination, Typography, Tabs, Tab } from '@mui/material';
 
 import { Table } from '../../../components/Table';
 import { Loader } from '../../../components/Loader';
-import { Tabs, Tab } from '@mui/material';
+import TabPanel from '../../../components/TabPanel';
 
 // import api
 import api from '../../../store/apis';
@@ -145,22 +145,6 @@ const Account = () => {
   // handlers
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
-  };
-
-  const TabPanel = (props) => {
-    const { children, value, index, ...other } = props;
-
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && <>{children}</>}
-      </div>
-    );
   };
 
   const a11yProps = (index) => {
