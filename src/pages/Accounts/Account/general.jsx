@@ -88,15 +88,20 @@ const General = ({ accountFullData }) => {
 
   // vars
   const headerInfoM = [
-    { ID: 'id', type: 'html', link: `/accounts/${parsedAccount?.id}/` },
-    { Name: 'name', type: 'plainText' },
     {
-      Referer: 'referer',
+      'ID table_key': 'id',
+      type: 'html',
+      link: `/accounts/${parsedAccount?.id}/`,
+    },
+    { 'Name table_key': 'name', type: 'plainText' },
+
+    {
+      'Referer table_key': 'referer',
       type: 'html',
       link: `/accounts/${parsedAccount?.referer}/`,
     },
     {
-      Registrar: 'registrar',
+      'Registrar table_key': 'registrar',
       type: 'html',
       link: `/accounts/${parsedAccount?.registrar}/`,
     },
@@ -115,7 +120,7 @@ const General = ({ accountFullData }) => {
       type: 'plainText',
     },
     {
-      Statistics: 'statistics',
+      'Statistics table_key': 'statistics',
       type: 'html',
       link: `/objects/${parsedAccount?.statistics}`,
     },

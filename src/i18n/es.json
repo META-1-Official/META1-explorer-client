@@ -26,14 +26,18 @@
 
   "Account Information": "Informacion de cuenta",
   "Name": "Nombre",
+  "Name table_key:": "Nombre:",
   "Referrer": "Referente",
+  "Referrer table_key:": "Referente:",
   "Registrar": "Registrador",
+  "Registrar table_key:": "Registrador:",
   "Voting as": "Votar como",
   "Account statistics": "Estadisticas de cuenta",
   "Balance": "Balance",
   "Lifetime fees paid": "Total comisiones pagadas",
   "Total operations": "Operaciones totales",
   "Statistics": "Estadisticas",
+  "Statistics table_key:": "Estadisticas:",
   "Asset balances": "Balance de activo",
   "Asset": "Activo",
   "Vesting balances": "Balances adjudicados",
@@ -67,13 +71,17 @@
   "Volume": "Volumen",
   "Accumulated fees": "Comisiones acumuladas",
   "Holders": "Propietarios",
+  "Holders table_key:": "Propietarios:",
   "Dynamic asset properties": "Propiedades dinamicas del activo",
   "Bit-Asset properties": "Propiedades del Bit-Asset",
   "Additional asset information": "Informacion adicional del activo",
   "Description": "Descripcion",
+  "Description table_key:": "Description:",
   "Max supply": "Maxima oferta",
   "Issuer": "Emisor",
+  "Issuer table_key:": "Emisor:",
   "Precision": "Presicion",
+  "Precision table_key:": "Precision:",
   "Fee pool": "Bolsa de comisiones",
   "Current supply": "Oferta actual",
   "Confidential supply": "Oferta confidencial",
@@ -96,9 +104,8 @@
 
   "Blocks": "Bloques",
   "Block Number": "Numero de bloque",
-  "Block": "Bloque",
   "Previous": "Previo",
-  "Date and time": "Fecha y hora",
+  "Date and time:": "Fecha y hora",
   "Witness": "Testigo",
   "Witness signature": "Firma del testigo",
   "Transactions in block": "Transacciones en el bloque",
@@ -107,8 +114,8 @@
 
   "Biggest network blocks": "Bloques mas grandes la red vistos recientemente",
   "Date": "Fecha",
-  "Transactions": "Transacciones",
   "Operations": "Operaciones",
+  "Operations table_key:": "Operaciones:",
 
   "Committee members": "Miembros del comite",
   "Current active committee members": "Miembros del comite activos ahora",
@@ -122,7 +129,6 @@
   "WITNESSES": "TESTIGOS",
   "COMMITTEE": "COMITE",
 
-  "Fees": "Comisiones",
   "Fee schedule": "Listado de comisiones",
   "Basic": "Basico",
   "Premium": "Premium",
@@ -168,6 +174,10 @@
   "Biggest transactions in the last 1 hour": "Mayores transacciones en la ultima hora",
 
   "Hash": "Hash",
+  "Hash table_key:": "Hash",
+  "Date table_key:": "Fecha",
+  "ID table_key:": "ID:",
+
 
   "Voting report": "Reporte de votacion",
 
@@ -231,15 +241,21 @@
   "Prev Block": "Previo bloque",
   "Next Block": "Siguiente bloque",
   "Current Block": "Bloque actual",
+  "Block table_key:": "Bloque",
   "Previous:": "Previo",
+  "Merkle Root:": "Raíz de Merkle",
+  "Previous table_key:": "Previo",
   "Witness:": "Testigo",
   "WITNESS": "TESTIGO",
+  "Witness table_key:": "Testigo",
   "Witness signature:": "Firma de testigo",
   "Transactions in block:": "Transacciones en bloque",
   "Operations in block:": "Operaciones en bloque",
 
   "TRANSACTIONS": "ACTAS",
   "DATA": "DATOS",
+
+
 
   "COMMITTEE MEMBERS": "MIEMBROS DEL COMITÉ",
   "CURRENT ACTIVE COMMITTEE MEMBERS": "MIEMBROS ACTIVOS ACTUALES DEL COMITÉ",

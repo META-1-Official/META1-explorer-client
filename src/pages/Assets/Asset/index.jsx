@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 import { Table } from '../../../components/Table';
 import Loader from '../../../components/Loader/Loader';
-import { SearchBox } from '../../../components/SearchBox';
 
 // import redux
 import actions from '../../../store/actions';
@@ -164,7 +163,7 @@ const Asset = () => {
   const headerStatsM = [
     { '24 HS META1 Volume': 'volume', type: 'plainText' },
     { 'Accumulated fees': 'accumulated_fees', type: 'plainText' },
-    { Holders: 'holders', type: 'plainText' },
+    { 'Holders table_key': 'holders', type: 'plainText' },
     {
       'Asset Properties': 'dynamic_asset_data_id',
       type: 'html',
@@ -172,14 +171,14 @@ const Asset = () => {
     },
   ];
   const headerInfoM = [
-    { Description: 'options.description', type: 'plainText' },
+    { 'Description table_key': 'options.description', type: 'plainText' },
     { 'Max supply': 'options.max_supply', type: 'plainText' },
     {
-      Issuer: 'issuer_name',
+      'Issuer table_key': 'issuer_name',
       type: 'html',
       link: `/accounts/${getAssetFullData?.issuer}/`,
     },
-    { Precision: 'precision', type: 'plainText' },
+    { 'Precision table_key': 'precision', type: 'plainText' },
     { 'Fee pool': 'fee_pool', type: 'plainText' },
     { 'Current supply': 'current_supply', type: 'plainText' },
     { 'Confidential supply': 'confidential_supply', type: 'plainText' },

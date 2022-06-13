@@ -96,14 +96,14 @@ const Votes = () => {
   // vars
   const block_num = location.pathname.split('/')[2];
   const headerM = [
-    { Previous: 'previous', type: 'plainText' },
+    { 'Previous table_key': 'previous', type: 'plainText' },
     { 'Date and time': 'timestamp', type: 'plainText' },
     {
       'Merkle Root': 'transaction_merkle_root',
       type: 'plainText',
     },
     {
-      Witness: 'witness',
+      'Witness table_key': 'witness',
       type: 'plainText',
     },
     {

@@ -11,7 +11,7 @@ import Loader from '../../../components/Loader/Loader';
 // import helpers
 import images from '../../../helpers/images';
 import {
-  addTotalFieldToJsonArray,
+  addTotalFieldToJsonArry,
   parseGroupOrdersBook,
 } from '../../../helpers/utility';
 

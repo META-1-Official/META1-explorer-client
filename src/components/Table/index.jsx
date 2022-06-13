@@ -196,7 +196,7 @@ const TableCell = ({ cell }) => {
         </Label>
       );
     case 'plainText':
-      return <Text type="plain">{content}</Text>;
+      return <Text type="plain">{t(content)}</Text>;
     case 'urlLink':
       return (
         <LinkWrapper onClick={() => handleUrlLinkClick(content)}>

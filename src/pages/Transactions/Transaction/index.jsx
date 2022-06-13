@@ -112,15 +112,15 @@ const Transaction = () => {
 
   const getMetadataRows = () => {
     let headerM = [
-      { Hash: 'trx_id', type: 'plainText' },
-      { Block: 'block_num', type: 'coloredText' },
-      { Date: 'block_time', type: 'plainText' },
+      { 'Hash table_key': 'trx_id', type: 'plainText' },
+      { 'Block table_key': 'block_num', type: 'coloredText' },
+      { 'Date table_key': 'block_time', type: 'plainText' },
     ];
 
     let rows = buildCustomKVTableDto(metadata, headerM);
 
     rows.push({
-      Key: ['Operations:', 'plainText'],
+      Key: ['Operations table_key:', 'plainText'],
       Value: [getTrx ? getTrx.length : 0, 'plainText'],
     });
 
