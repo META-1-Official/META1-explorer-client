@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
+import * as styled from './Fees.styles';
 
 import Pagination from '@mui/material/Pagination';
 
@@ -14,38 +14,12 @@ import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 
 // import helper
-import { formatBalance, operationType } from '../../helpers/utility';
 import PageLabel from '../../components/PageLabel.jsx';
 import { useTranslation } from 'react-i18next';
+import { feesRowsBuilder } from '../../helpers/rowBuilders';
 
 const { fetchFees } = actions;
 const { getFees, isFetchingFees } = selectors;
-
-const PageWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  max-width: 1315px;
-  padding-top: 80px;
-  padding-bottom: 40px;
-  flex-direction: column;
-`;
-
-const StyledContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
-  display: flex;
-  flex-direction: column;
-`;
-
-const StyledPaginationContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
-  padding-top: 38px;
-  display: flex;
-  justify-content: flex-end;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    justify-content: center;
-  }
-`;
 
 const Fees = () => {
   const [page, setPage] = useState(1);
@@ -62,45 +36,9 @@ const Fees = () => {
   const isFetchingFeesData = useSelector(isFetchingFees);
 
   // const functions
-  const getDisplayData = (o_data) => {
-    if (o_data) {
-      let basic_fee = 0;
-      let fees = [];
-      let fee_params = o_data.parameters.current_fees.parameters;
-      for (var i = 0; i < fee_params.length; i++) {
-        if (fee_params[i][1].fee) {
-          basic_fee = fee_params[i][1].fee;
-        } else {
-          basic_fee = fee_params[i][1].basic_fee;
-        }
-        var op_type = operationType(fee_params[i][0]);
-
-        const fee = {
-          identifier: fee_params[i][0],
-          operation: op_type[0],
-          type: fee_params[i][0],
-          basic_fee: isNaN(formatBalance(basic_fee, 5))
-            ? ''
-            : formatBalance(basic_fee, 5),
-          premium_fee: isNaN(formatBalance(fee_params[i][1].premium_fee, 5))
-            ? ''
-            : formatBalance(fee_params[i][1].premium_fee, 5),
-          price_per_kbyte: isNaN(
-            formatBalance(fee_params[i][1].price_per_kbyte, 5),
-          )
-            ? ''
-            : formatBalance(fee_params[i][1].price_per_kbyte, 5),
-        };
-        fees.push(fee);
-      }
-      return fees;
-    } else {
-      return [];
-    }
-  };
 
   // vars
-  const filteredData = getDisplayData(getFeesData)?.filter((data) =>
+  const filteredData = feesRowsBuilder(getFeesData)?.filter((data) =>
     data.operation.includes(query.toUpperCase()),
   );
 
@@ -136,8 +74,8 @@ const Fees = () => {
   };
 
   return (
-    <PageWrapper>
-      <StyledContainer>
+    <styled.PageWrapper>
+      <styled.StyledContainer>
         <PageLabel>{t('FEES')}</PageLabel>
         {!isFetchingFeesData && rows ? (
           <Table
@@ -152,16 +90,16 @@ const Fees = () => {
         ) : (
           <Loader />
         )}
-      </StyledContainer>
-      <StyledPaginationContainer>
+      </styled.StyledContainer>
+      <styled.StyledPaginationContainer>
         <Pagination
           count={totalPages}
           page={page}
           shape="rounded"
           onChange={onPageChange}
         />
-      </StyledPaginationContainer>
-    </PageWrapper>
+      </styled.StyledPaginationContainer>
+    </styled.PageWrapper>
   );
 };
 

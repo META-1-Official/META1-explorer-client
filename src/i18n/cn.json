@@ -25,14 +25,15 @@
   "Name": "名称",
   "Name table_key:": "名称:",
   "Referrer": "介绍人",
-  "Referrer table_key:": "介绍人:",
+  "Referer table_key:": "介绍人:",
   "Registrar": "注册员",
   "Registrar table_key:": "注册员:",
-  "Voting as": "投票为",
+  "Voting as:": "投票为",
   "Account statistics": "帐户统计",
   "Balance": "平衡",
-  "Lifetime fees paid": "支付终身费",
-  "Total operations": "总运营",
+  "Lifetime fees paid:": "支付终身费",
+  "Total operations:": "总运营",
+  "META1 Balance:": "META1 平衡:",
   "Statistics": "统计",
   "Statistics table_key:": "统计:",
   "Asset balances": "资产余额",
@@ -316,6 +317,15 @@
   "EXECUTE BID": "执行投标",
   "ASSET CLAIM POOL": "资产索赔池",
   "ASSET UPDATE ISSUER": "资产更新发行人",
+  "HTLC CREATE": "HTLC 創建",
+  "HTLC REDEEM": "HTLC 兌換",
+  "HTLC REDEEMED": "HTLC 已兌換",
+  "HTLC EXTEND": "HTLC 擴展",
+  "HTLC REFUND": "HTLC 退款",
+  "PROPERTY CREATE": "物業創建",
+  "PROPERTY UPDATE": "物業更新",
+  "PROPERTY APPROVE": "物業批准",
+  "PROPERTY DELETE": "屬性刪除",
 
   "COPYRIGHT": "版权",
 
@@ -351,5 +361,7 @@
   "updated property": "更新的屬性 ",
   "approved property": "批准的財產 ",
   "deleted property": "已刪除的財產 ",
-  "published price": "公佈價格 "
+  "published price": "公佈價格 ",
+
+  "Select operation category": "選擇操作類別"
 }

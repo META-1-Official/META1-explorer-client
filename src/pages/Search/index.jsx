@@ -22,7 +22,6 @@ import {
 
 const { fetchLookupAccounts, fetchLookupAssets } = actions;
 const {
-  getLastBlockNumber,
   getLookupAccounts,
   getLookupAssets,
   isFetchingLookupAccounts,

@@ -15,7 +15,11 @@ import api from '../../../store/apis';
 import accountsService from '../../../services/accounts.services';
 
 // import utils
-import { localizeNumber, operationType } from '../../../helpers/utility';
+import {
+  localizeNumber,
+  operationType,
+  opMapping,
+} from '../../../helpers/utility';
 
 import General from './general';
 import Balances from './balances';
@@ -25,6 +29,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAccountHistory } from '../../../store/explorer/actions';
 import {
   getAccountHistory,
+  getAccountHistoryCount,
   isFetchingAccountHistory,
 } from '../../../store/explorer/selectors';
 import { accountHistoryRowsBuilder } from '../../../helpers/rowBuilders';
@@ -86,29 +91,32 @@ const Account = () => {
   const dispatch = useDispatch();
   const [v, setV] = useState(false);
   const [rows, setRows] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [tabValue, setTabValue] = useState(0);
   const [account, setAccount] = useState();
   const [pageNumber, setPageNumber] = useState(1);
-  const [query, setQuery] = useState('');
-  const history = useSelector(getAccountHistory);
-  const isAccountHistoryLoading = useSelector(isFetchingAccountHistory);
+  const [selectedSearchValues, setSelectedSearchValues] = useState([]);
 
-  const fetchAccountHistoryData = (accountId, search_after) =>
-    dispatch(fetchAccountHistory(accountId, search_after));
+  const fetchAccountHistoryData = (accountId, from, search_after, object_ids) =>
+    dispatch(fetchAccountHistory(accountId, from, search_after, object_ids));
 
   // hooks
   const location = useLocation();
   const { t } = useTranslation();
 
+  const history = useSelector(getAccountHistory);
+  const historyCount = useSelector(getAccountHistoryCount);
+  const isAccountHistoryLoading = useSelector(isFetchingAccountHistory);
+
   // var
   const id = location.pathname.split('/')[2];
   const headers = ['Operation', 'ID', 'Date and Time', 'Block', 'Type'];
-  const totalPages =
-    history?.length === 0 ? 1 : Math.ceil(history?.length / 100);
+  const OPERATIONS_PER_PAGE = 100;
 
   useEffect(() => {
     (async () => {
-      await loadData();
+      const account = await api.getFullAccount(id);
+      setAccount(account);
     })();
   }, []);
 
@@ -120,26 +128,55 @@ const Account = () => {
     }
   }, [account]);
 
-  const loadData = async () => {
-    const account = await api.getFullAccount(id);
-    setAccount(account);
-  };
-
-  const curPageOps = history?.slice((pageNumber - 1) * 100, pageNumber * 100);
-
   useEffect(() => {
-    if (curPageOps?.length && !v) {
-      setV(true);
-      accountHistoryRowsBuilder(curPageOps).then((rws) => setRows(rws));
+    if (
+      pageNumber >= totalPages &&
+      pageNumber * OPERATIONS_PER_PAGE < historyCount
+    ) {
+      setTotalPages(totalPages + 1);
     }
-  }, [curPageOps]);
+
+    if (history?.length && !v) {
+      setV(true);
+      accountHistoryRowsBuilder(history).then((rws) => setRows(rws));
+    }
+  }, [history]);
+
+  const operationIdsBuilder = (entryArray) => {
+    return Object.entries(opMapping)
+      .filter(([, value]) => entryArray.includes(value))
+      .map((item) => item[0])
+      .join('.');
+  };
 
   // handlers
   const onPageChange = (_, newPageNumber) => {
     setPageNumber(newPageNumber);
     setV(false);
-    newPageNumber === totalPages &&
-      fetchAccountHistoryData(id, history[history.length - 1].operation_id_num); // fetch with search_after whenever current page reach out the maximum ES fetch count
+    if (
+      (newPageNumber === totalPages && newPageNumber < OPERATIONS_PER_PAGE) ||
+      newPageNumber !== totalPages
+    ) {
+      setRows([]);
+      const ids = operationIdsBuilder(selectedSearchValues);
+      fetchAccountHistoryData(
+        id,
+        (newPageNumber - 1) * OPERATIONS_PER_PAGE,
+        undefined,
+        ids,
+      );
+    } else if (
+      newPageNumber === totalPages &&
+      newPageNumber > OPERATIONS_PER_PAGE
+    ) {
+      setRows([]);
+      fetchAccountHistoryData(
+        id,
+        0,
+        history[history.length - 1].operation_id_num,
+        selectedSearchValues,
+      ); // fetch with search_after whenever current page reach out the maximum ES fetch count
+    }
   };
 
   // handlers
@@ -154,17 +191,25 @@ const Account = () => {
     };
   };
 
-  const onSearch = (query) => {
-    setQuery(query);
+  const onSearch = (event) => {
+    setRows([]);
+    const selectedTags =
+      typeof event.target.value === 'string'
+        ? event.target.value.split(',')
+        : event.target.value;
+    setSelectedSearchValues(selectedTags);
+    const ids = operationIdsBuilder(selectedTags);
+    setTotalPages(1);
+    fetchAccountHistoryData(id, 0, undefined, ids);
+    setPageNumber(1);
+    setV(false);
   };
 
-  const filteredRows = useMemo(() => {
-    return rows.filter((item) =>
-      operationType(item.Type[0])[0].toLowerCase().includes(query.toLowerCase())
-        ? item
-        : false,
-    );
-  }, [rows, query]);
+  const clearFilters = () => {
+    setSelectedSearchValues([]);
+    fetchAccountHistoryData(id, undefined);
+    setV(false);
+  };
 
   return (
     <PageWrapper>
@@ -199,10 +244,14 @@ const Account = () => {
         {history && (
           <Table
             headers={headers}
-            withSearch
-            searchText={'Search for type'}
+            withSelect
+            selectMultiple
+            selectSelectedValues={selectedSearchValues}
+            selectValues={Object.values(opMapping)}
+            selectPlaceholder={'Select operation category'}
+            clearFilters={clearFilters}
             onSearch={onSearch}
-            rows={filteredRows}
+            rows={rows}
             lastcellaligned
           />
         )}

@@ -88,7 +88,7 @@ export const opText = (operation_type, operation) => {
     return useAccount(operation_account).then((response_name) => {
       // get me the to name:
       return useAccount(to).then((response_name_to) => {
-        var to_name = response_name_to.data;
+        var to_name = response_name_to;
 
         return useAsset(amount_asset_id).then((response_asset) => {
           var asset_name = response_asset.data.symbol;
@@ -1348,16 +1348,24 @@ export const parseVesting = async (vesting_balances) => {
   return { data: [] };
 };
 
-export const getAccountHistory = async (account_id, search_after) => {
+export const getAccountHistory = async (
+  account_id,
+  from,
+  search_after,
+  object_ids,
+) => {
   const params = {
     account_id,
-    from: 0,
-    size: 1000,
+    from,
+    size: 100,
     type: 'data',
     sort_by: '-account_history.sequence',
   };
   if (search_after && search_after !== 1) {
     params.search_after = search_after;
+  }
+  if (object_ids && object_ids.length) {
+    params.object_ids = object_ids;
   }
 
   const response = await axios.get(BASE_URL + '/es/account_history', {

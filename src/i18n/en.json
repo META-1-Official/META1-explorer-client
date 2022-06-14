@@ -25,14 +25,15 @@
   "Name": "Name",
   "Name table_key:": "Name:",
   "Referrer": "Referrer",
-  "Referer table_key:": "Referrer",
+  "Referer table_key:": "Referrer:",
   "Registrar": "Registrar",
   "Registrar table_key:": "Registrar:",
-  "Voting as": "Voting as",
+  "Voting as": "Voting as:",
   "Account statistics": "Account statistics",
   "Balance": "Balance",
   "Lifetime fees paid": "Lifetime fees paid",
   "Total operations": "Total operations",
+  "META1 Balance": "META1 Balance",
   "Statistics": "Statistics",
   "Statistics table_key:": "Statistics:",
   "Asset balances": "Asset balances",
@@ -316,6 +317,17 @@
   "EXECUTE BID": "EXECUTE BID",
   "ASSET CLAIM POOL": "ASSET CLAIM POOL",
   "ASSET UPDATE ISSUER": "ASSET UPDATE ISSUER",
+  "HTLC CREATE": "HTLC CREATE",
+  "HTLC REDEEM": "HTLC REDEEM",
+  "HTLC REDEEMED": "HTLC REDEEMED",
+  "HTLC EXTEND": "HTLC EXTEND",
+  "HTLC REFUND": "HTLC REFUND",
+  "PROPERTY CREATE": "PROPERTY CREATE",
+  "PROPERTY UPDATE": "PROPERTY UPDATE",
+  "PROPERTY APPROVE": "PROPERTY APPROVE",
+  "PROPERTY DELETE": "PROPERTY DELETE",
+
+
 
   "COPYRIGHT": "COPYRIGHT",
 
@@ -351,6 +363,8 @@
   "updated property": "updated property ",
   "approved property": "approved property ",
   "deleted property": "deleted property ",
-  "published price": "published price "
+  "published price": "published price ",
+
+  "Select operation category": "Select operation category"
 
 }

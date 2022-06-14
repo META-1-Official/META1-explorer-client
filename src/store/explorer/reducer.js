@@ -24,8 +24,9 @@ const explorerReducer = (state = initialState, action) => {
           ...state.operations,
           op_data: [
             ...(state.operations.op_data ? state.operations.op_data : []),
-            ...action.payload,
+            ...action.payload.data,
           ],
+          operationsCount: action.payload.count,
           isFetchingLastOperations: false,
         },
       };
@@ -554,10 +555,8 @@ const explorerReducer = (state = initialState, action) => {
         accountHistory: {
           ...state.accountHistory,
           isFetchingAccountHistory: false,
-          data: [
-            ...(state.accountHistory.data ? state.accountHistory.data : []),
-            ...action.payload,
-          ],
+          data: action.payload.data,
+          count: action.payload.count,
         },
       };
     case types.LOOKUP_TRANSACTIONS_FETCH:

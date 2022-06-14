@@ -179,11 +179,13 @@ function* opWorkerSaga(action) {
 }
 
 function* getHistory(action) {
-  const { accountId, search_after } = action.payload;
+  const { accountId, from, search_after, object_ids } = action.payload;
   const response = yield call(
     accountsService.getAccountHistoryData,
     accountId,
+    from,
     search_after,
+    object_ids,
   );
   yield put({
     type: types.ACCOUNT_HISTORY_FETCH_SUCCESS,

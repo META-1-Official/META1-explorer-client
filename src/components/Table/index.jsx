@@ -1,178 +1,21 @@
 import React from 'react';
 
 import { PropTypes } from 'prop-types';
-import { ellipsis } from 'polished';
+import * as styled from './Table.styles';
 
 import MuiTable from '@mui/material/Table';
-import MuiTableContainer from '@mui/material/TableContainer';
 import MuiTableBody from '@mui/material/TableBody';
-import MuiTableCell from '@mui/material/TableCell';
 import MuiTableHead from '@mui/material/TableHead';
 import MuiTableRow from '@mui/material/TableRow';
 
-import styled from 'styled-components';
 import { toast } from 'react-toastify';
 
 import urlLinkImg from '../../assets/images/url-icon.png';
 import { operationType } from '../../helpers/utility';
 import { SearchBox } from '../SearchBox';
 import { useTranslation } from 'react-i18next';
-
-const TableContainerWrapper = styled.div`
-  display: flex;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    padding: 0 16px;
-  }
-`;
-
-const StyledMuiTableContainer = styled(MuiTableContainer)`
-  border-radius: 0.625em;
-  overflow: scroll;
-  overflow-x: hidden;
-
-  ::-webkit-scrollbar {
-    width: 0;
-    background: transparent;
-  }
-
-  .MuiTable-root {
-    background: #0a0b0d;
-    border: 1px solid #1c1f27;
-    box-sizing: border-box;
-
-    .MuiTableHead-root {
-      background: #15171b;
-
-      th.MuiTableCell-root {
-        background: #15171b;
-        &:last-child {
-          text-align: ${(props) =>
-            props.lastcellaligned === false ? 'left' : 'right'};
-        }
-        padding-top: ${(props) => props.cellHeight ?? '16px'};
-        padding-bottom: ${(props) => props.cellHeight ?? '16px'};
-      }
-    }
-
-    .MuiTableBody-root {
-      .MuiTableRow-root {
-        border: 1px solid rgba(194, 213, 225, 0.08);
-
-        .MuiTableCell-root {
-          color: white;
-          border: none;
-        }
-
-        td.MuiTableCell-root {
-          &:last-child {
-            text-align: ${(props) =>
-              props.lastcellaligned === false ? 'left' : 'right'};
-          }
-          padding-top: ${(props) => props.cellHeight ?? '16px'};
-          padding-bottom: ${(props) => props.cellHeight ?? '16px'};
-
-          div {
-            ${ellipsis('350px')}
-            margin-left: ${(props) =>
-              props.lastcellaligned === false ? '0' : 'auto'};
-            a {
-              margin-left: 5px;
-              margin-right: 5px;
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-const StyledMuiTableCell = styled(MuiTableCell)`
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 21px;
-`;
-
-const StyledSearchCell = styled.div`
-  display: flex;
-  height: 60px;
-  justify-content: space-between;
-  align-items: center;
-  color: white;
-  border-radius: 5px 0 0 5px;
-  font-size: 15px !important;
-  background: #15171b;
-`;
-
-const StyledMuiTableHeaderCell = styled(MuiTableCell)`
-  font-style: normal;
-  font-weight: 600 !important;
-  font-size: 15px !important;
-  line-height: 21px;
-  text-transform: uppercase;
-  color: white !important;
-  border-bottom: none !important;
-`;
-
-const Html = styled.div`
-  color: ${(props) => props.theme.palette.text.third};
-  font-weight: 300;
-  align-items: center;
-  display: flex;
-  width: 100%;
-
-  a {
-    color: white;
-    font-weight: 600;
-  }
-
-  img {
-    width: 25px;
-    margin-right: 14px;
-  }
-`;
-
-const Text = styled.div`
-  color: ${(props) =>
-    props.type === 'colored'
-      ? props.theme.palette.primary.main
-      : props.theme.palette.text.third};
-  font-weight: ${(props) => (props.type === 'colored' ? '500' : '400')};
-`;
-
-const Label = styled.div`
-  background: ${(props) => `#${props.color}`};
-  padding: 5px 10px 5px 10px;
-  border-radius: 5px;
-  width: fit-content;
-  align-self: flex-end;
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
-  vertical-align: center;
-  height: 24px;
-  // opacity: 0.7;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-`;
-
-const LinkWrapper = styled.div`
-  width: 32px;
-  height: 32px;
-  background: ${(props) => props.theme.palette.primary.main};
-  display: flex !important;
-  justify-content: center;
-  border-radius: 16px;
-  cursor: pointer;
-`;
-
-const Img = styled.img`
-  width: 17px;
-  height: 17px;
-  margin-top: 7px;
-`;
+import CustomSelect from '../Select';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const TableCell = ({ cell }) => {
   const [content, contentType] = cell;
@@ -181,30 +24,32 @@ const TableCell = ({ cell }) => {
   switch (contentType) {
     case 'html':
       return (
-        <Html
+        <styled.Html
           dangerouslySetInnerHTML={{
             __html: content.toString().replaceAll('/#', ''),
           }}
         />
       );
     case 'coloredText':
-      return <Text type="colored">{content}</Text>;
+      return <styled.Text type="colored">{content}</styled.Text>;
     case 'label':
       return (
-        <Label color={operationType(content)[1]}>
+        <styled.Label color={operationType(content)[1]}>
           {t(operationType(content)[0])}
-        </Label>
+        </styled.Label>
       );
+    case 'date':
+      return <styled.Text type="plain">{content}</styled.Text>;
     case 'plainText':
-      return <Text type="plain">{t(content)}</Text>;
+      return <styled.Text type="plain">{t(content)}</styled.Text>;
     case 'urlLink':
       return (
-        <LinkWrapper onClick={() => handleUrlLinkClick(content)}>
-          <Img src={urlLinkImg} />
-        </LinkWrapper>
+        <styled.LinkWrapper onClick={() => handleUrlLinkClick(content)}>
+          <styled.Img src={urlLinkImg} />
+        </styled.LinkWrapper>
       );
     default:
-      return <Text type="plain">{content}</Text>;
+      return <styled.Text type="plain">{content}</styled.Text>;
   }
 };
 
@@ -227,16 +72,22 @@ export const Table = ({
   onSearch,
   searchFullWidth,
   withSearch,
+  withSelect,
+  selectMultiple,
+  selectValues,
+  selectSelectedValues,
+  selectPlaceholder,
+  clearFilters,
 }) => {
   const { t } = useTranslation();
   return (
-    <TableContainerWrapper>
-      <StyledMuiTableContainer
+    <styled.TableContainerWrapper>
+      <styled.StyledMuiTableContainer
         lastcellaligned={lastcellaligned}
         cellHeight={cellHeight}
       >
         {withSearch && (
-          <StyledSearchCell>
+          <styled.StyledSearchCell>
             <div style={{ padding: '14px' }}>{t(headerText)}</div>
             <div>
               <SearchBox
@@ -245,34 +96,55 @@ export const Table = ({
                 fullWidth={searchFullWidth}
               />
             </div>
-          </StyledSearchCell>
+          </styled.StyledSearchCell>
+        )}
+        {withSelect && (
+          <styled.StyledSearchCell withSelect={withSelect}>
+            {selectSelectedValues.length > 0 && (
+              <CancelIcon
+                color={'primary'}
+                onClick={clearFilters}
+                sx={{
+                  marginRight: '10px',
+                  cursor: 'pointer',
+                }}
+              />
+            )}
+            <CustomSelect
+              values={selectValues}
+              multiple={selectMultiple}
+              onChange={onSearch}
+              placeholder={selectPlaceholder}
+              selectedValues={selectSelectedValues}
+            />
+          </styled.StyledSearchCell>
         )}
         <MuiTable aria-label="simple table" responsive>
-          {!withSearch ? (
+          {!withSearch && !withSelect ? (
             <MuiTableHead>
               <MuiTableRow>
                 {headers.map((header) => (
-                  <StyledMuiTableHeaderCell
+                  <styled.StyledMuiTableHeaderCell
                     key={`header-${header}`}
                     align="left"
                   >
                     {t(header)}
-                  </StyledMuiTableHeaderCell>
+                  </styled.StyledMuiTableHeaderCell>
                 ))}
               </MuiTableRow>
             </MuiTableHead>
           ) : null}
 
           <MuiTableBody>
-            {withSearch ? (
+            {withSearch || withSelect ? (
               <MuiTableRow>
                 {headers.map((header) => (
-                  <StyledMuiTableHeaderCell
+                  <styled.StyledMuiTableHeaderCell
                     key={`header-${header}`}
                     align="left"
                   >
                     {t(header)}
-                  </StyledMuiTableHeaderCell>
+                  </styled.StyledMuiTableHeaderCell>
                 ))}
               </MuiTableRow>
             ) : null}
@@ -280,16 +152,16 @@ export const Table = ({
             {rows.map((row, rawIndex) => (
               <MuiTableRow key={`raw-${rawIndex}`}>
                 {headers.map((header) => (
-                  <StyledMuiTableCell key={`row-${header}`} align="left">
+                  <styled.StyledMuiTableCell key={`row-${header}`} align="left">
                     <TableCell cell={row[header]} />
-                  </StyledMuiTableCell>
+                  </styled.StyledMuiTableCell>
                 ))}
               </MuiTableRow>
             ))}
           </MuiTableBody>
         </MuiTable>
-      </StyledMuiTableContainer>
-    </TableContainerWrapper>
+      </styled.StyledMuiTableContainer>
+    </styled.TableContainerWrapper>
   );
 };
 

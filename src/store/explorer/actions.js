@@ -134,11 +134,18 @@ export const fetchWitnesses = () => ({
 });
 
 // account history paginated
-export const fetchAccountHistory = (accountId, search_after) => ({
+export const fetchAccountHistory = (
+  accountId,
+  from,
+  search_after,
+  object_ids,
+) => ({
   type: types.ACCOUNT_HISTORY_FETCH,
   payload: {
     accountId,
+    from,
     search_after,
+    object_ids,
   },
 });
 

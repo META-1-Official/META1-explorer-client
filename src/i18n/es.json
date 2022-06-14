@@ -28,14 +28,15 @@
   "Name": "Nombre",
   "Name table_key:": "Nombre:",
   "Referrer": "Referente",
-  "Referrer table_key:": "Referente:",
+  "Referer table_key:": "Referente:",
   "Registrar": "Registrador",
   "Registrar table_key:": "Registrador:",
-  "Voting as": "Votar como",
+  "Voting as:": "Votar como:",
   "Account statistics": "Estadisticas de cuenta",
   "Balance": "Balance",
-  "Lifetime fees paid": "Total comisiones pagadas",
-  "Total operations": "Operaciones totales",
+  "Lifetime fees paid:": "Total comisiones pagadas:",
+  "Total operations:": "Operaciones totales:",
+  "META1 Balance:": "Saldo META1:",
   "Statistics": "Estadisticas",
   "Statistics table_key:": "Estadisticas:",
   "Asset balances": "Balance de activo",
@@ -362,6 +363,17 @@
   "EXECUTE BID": "EJECUTAR OFERTA",
   "ASSET CLAIM POOL": "CONJUNTO DE RECLAMOS DE ACTIVOS",
   "ASSET UPDATE ISSUER": "EMISOR DE ACTUALIZACIÓN DE ACTIVOS",
+  "HTLC CREATE": "CREAR HTLC",
+  "HTLC REDEEM": "HTLC CANJEAR",
+  "HTLC REDEEMED": "HTLC REDIMIDO",
+  "HTLC EXTEND": "EXTENSIÓN DE HTLC",
+  "HTLC REFUND": "REEMBOLSO DE HTLC",
+  "PROPERTY CREATE": "CREAR PROPIEDAD",
+  "PROPERTY UPDATE": "ACTUALIZACIÓN DE LA PROPIEDAD",
+  "PROPERTY APPROVE": "APROBACIÓN DE PROPIEDAD",
+  "PROPERTY DELETE": "ELIMINAR PROPIEDAD",
+
+
 
   "COPYRIGHT": "la propiedad literaria",
 
@@ -397,7 +409,9 @@
   "updated property": "propiedad actualizada ",
   "approved property": "propiedad aprobada ",
   "deleted property": "propiedad eliminada ",
-  "published price": "precio publicado "
+  "published price": "precio publicado ",
+
+  "Select operation category": "Seleccionar categoría de operación"
 
 
 

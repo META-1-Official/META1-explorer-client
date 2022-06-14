@@ -12,9 +12,9 @@ import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 
 // import helper
-import { localizeNumber } from '../../helpers/utility';
 import PageLabel from '../../components/PageLabel.jsx';
 import { useTranslation } from 'react-i18next';
+import { witnessesRowsBuilder } from '../../helpers/rowBuilders';
 
 const { fetchWitnesses, fetchHeader } = actions;
 const { getWitnesses, isFetchingWitnesses, getHeader, isFetchingHeader } =
@@ -93,25 +93,7 @@ const Witnesses = () => {
       return parseInt(w1.id.split('.')[2]) - parseInt(w2.id.split('.')[2]);
     });
 
-    return sortedData?.map((witness) => {
-      return {
-        Position: [witness.position, 'plainText'],
-        ID: [`<a href="/objects/${witness.id}">${witness.id}</a>`, 'html'],
-        Account: [
-          `<a href="/objects/${witness.id}">${witness.witness_account_name}</a>`,
-          'html',
-        ],
-        URL: witness.url ? [witness.url, 'urlLink'] : '',
-        'Total Votes': [localizeNumber(witness.total_votes), 'plainText'],
-        Missed: [localizeNumber(witness.total_missed), 'plainText'],
-        'Last confirmed block': [
-          `<a href="/blocks/${
-            witness.last_confirmed_block_num
-          }">${localizeNumber(witness.last_confirmed_block_num)}</a>`,
-          'html',
-        ],
-      };
-    });
+    return witnessesRowsBuilder(sortedData);
   };
 
   useEffect(() => {

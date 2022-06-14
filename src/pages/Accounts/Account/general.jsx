@@ -84,7 +84,7 @@ const General = ({ accountFullData }) => {
         setParsedAccount(parsed);
       })();
     }
-  }, []);
+  }, [accountFullData]);
 
   // vars
   const headerInfoM = [

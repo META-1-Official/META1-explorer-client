@@ -22,7 +22,7 @@ const GlobalStyle = createGlobalStyle`
         text-decoration: none;
       }
       &.Mui-selected {
-        background: #FFC000 !important;
+        background: #FFC000;
       }
       &:hover {
         background: #15171B;

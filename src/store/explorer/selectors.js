@@ -122,6 +122,8 @@ export const isFetchingWitnesses = (state) =>
 // account history
 export const getAccountHistory = (state) =>
   get(state, ['explorer', 'accountHistory', 'data']);
+export const getAccountHistoryCount = (state) =>
+  get(state, ['explorer', 'accountHistory', 'count']);
 export const isFetchingAccountHistory = (state) =>
   get(state, ['explorer', 'accountHistory', 'isFetchingAccountHistory']);
 

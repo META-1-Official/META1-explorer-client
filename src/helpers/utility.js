@@ -92,187 +92,249 @@ export const objectType = (id) => {
   return object_type;
 };
 
+export const opMapping = {
+  0: 'TRANSFER',
+  1: 'LIMIT ORDER CREATE',
+  2: 'LIMIT ORDER CANCEL',
+  3: 'CALL ORDER UPDATE',
+  4: 'FILL ORDER',
+  5: 'ACCOUNT CREATE',
+  6: 'ACCOUNT UPDATE',
+  7: 'ACCOUNT WHITELIST',
+  8: 'ACCOUNT UPGRADE',
+  9: 'ACCOUNT TRANSFER',
+  10: 'ASSET CREATE',
+  11: 'ASSET UPDATE',
+  12: 'ASSET UPDATE BITASSET',
+  13: 'ASSET UPDATE FEED PRODUCERS',
+  14: 'ASSET ISSUE',
+  15: 'ASSET RESERVE',
+  16: 'ASSET FUND FEE POOL',
+  17: 'ASSET SETTLE',
+  18: 'ASSET GLOBAL SETTLE',
+  19: 'ASSET PUBLISH FEED',
+  20: 'WITNESS CREATE',
+  21: 'WITNESS UPDATE',
+  22: 'PROPOSAL CREATE',
+  23: 'PROPOSAL UPDATE',
+  24: 'PROPOSAL DELETE',
+  25: 'WITHDRAW PERMISSION CREATE',
+  26: 'WITHDRAW PERMISSION',
+  27: 'WITHDRAW PERMISSION CLAIM',
+  28: 'WITHDRAW PERMISSION DELETE',
+  29: 'COMMITTEE MEMBER CREATE',
+  30: 'COMMITTEE MEMBER UPDATE',
+  31: 'COMMITTEE MEMBER UPDATE GLOBAL PARAMETERS',
+  32: 'VESTING BALANCE CREATE',
+  33: 'VESTING BALANCE WITHDRAW',
+  34: 'WORKER CREATE',
+  35: 'CUSTOM',
+  36: 'ASSERT',
+  37: 'BALANCE CLAIM',
+  38: 'OVERRIDE TRANSFER',
+  39: 'TRANSFER TO BLIND',
+  40: 'BLIND TRANSFER',
+  41: 'TRANSFER FROM BLIND',
+  42: 'ASSET SETTLE CANCEL',
+  43: 'ASSET CLAIM FEES',
+  44: 'FBA DISTRIBUTE',
+  45: 'BID COLLATERAL',
+  46: 'EXECUTE BID',
+  47: 'ASSET CLAIM POOL',
+  48: 'ASSET UPDATE ISSUER',
+  49: 'HTLC CREATE',
+  50: 'HTLC REDEEM',
+  51: 'HTLC REDEEMED',
+  52: 'HTLC EXTEND',
+  53: 'HTLC REFUND',
+  54: 'PROPERTY CREATE',
+  55: 'PROPERTY UPDATE',
+  56: 'PROPERTY APPROVE',
+  57: 'PROPERTY DELETE',
+  58: 'ASSET PRICE PUBLISH',
+};
+
 export const operationType = (_opType) => {
   var name;
   var color;
   var results = [];
   var opType = Number(_opType);
   if (opType === 0) {
-    name = 'TRANSFER';
+    name = opMapping[0];
     color = '81CA80';
   } else if (opType === 1) {
-    name = 'LIMIT ORDER CREATE';
+    name = opMapping[1];
     color = '6BBCD7';
   } else if (opType === 2) {
-    name = 'LIMIT ORDER CANCEL';
+    name = opMapping[2];
     color = 'E9C842';
   } else if (opType === 3) {
-    name = 'CALL ORDER UPDATE';
+    name = opMapping[3];
     color = 'E96562';
   } else if (opType === 4) {
-    name = 'FILL ORDER';
+    name = opMapping[4];
     color = '008000';
   } else if (opType === 5) {
-    name = 'ACCOUNT CREATE';
+    name = opMapping[5];
     color = 'CCCCCC';
   } else if (opType === 6) {
-    name = 'ACCOUNT UPDATE';
+    name = opMapping[6];
     color = 'FF007F';
   } else if (opType === 7) {
-    name = 'ACCOUNT WHITELIST';
+    name = opMapping[7];
     color = 'FB8817';
   } else if (opType === 8) {
-    name = 'ACCOUNT UPGRADE';
+    name = opMapping[8];
     color = '552AFF';
   } else if (opType === 9) {
-    name = 'ACCOUNT TRANSFER';
+    name = opMapping[9];
     color = 'AA2AFF';
   } else if (opType === 10) {
-    name = 'ASSET CREATE';
+    name = opMapping[10];
     color = 'D400FF';
   } else if (opType === 11) {
-    name = 'ASSET UPDATE';
+    name = opMapping[11];
     color = '0000FF';
   } else if (opType === 12) {
-    name = 'ASSET UPDATE BITASSET';
+    name = opMapping[12];
     color = 'AA7FFF';
   } else if (opType === 13) {
-    name = 'ASSET UPDATE FEED PRODUCERS';
+    name = opMapping[13];
     color = '2A7FFF';
   } else if (opType === 14) {
-    name = 'ASSET ISSUE';
+    name = opMapping[14];
     color = '7FAAFF';
   } else if (opType === 15) {
-    name = 'ASSET RESERVE';
+    name = opMapping[15];
     color = '55FF7F';
   } else if (opType === 16) {
-    name = 'ASSET FUND FEE POOL';
+    name = opMapping[16];
     color = '55FF7F';
   } else if (opType === 17) {
-    name = 'ASSET SETTLE';
+    name = opMapping[17];
     color = 'F1CFBB';
   } else if (opType === 18) {
-    name = 'ASSET GLOBAL SETTLE';
+    name = opMapping[18];
     color = 'F1DFCC';
   } else if (opType === 19) {
-    name = 'ASSET PUBLISH FEED';
+    name = opMapping[19];
     color = 'FF2A55';
   } else if (opType === 20) {
-    name = 'WITNESS CREATE';
+    name = opMapping[20];
     color = 'FFAA7F';
   } else if (opType === 21) {
-    name = 'WITNESS UPDATE';
+    name = opMapping[21];
     color = 'F1AA2A';
   } else if (opType === 22) {
-    name = 'PROPOSAL CREATE';
+    name = opMapping[22];
     color = 'FFAA55';
   } else if (opType === 23) {
-    name = 'PROPOSAL UPDATE';
+    name = opMapping[23];
     color = 'FF7F55';
   } else if (opType === 24) {
-    name = 'PROPOSAL DELETE';
+    name = opMapping[24];
     color = 'FF552A';
   } else if (opType === 25) {
-    name = 'WITHDRAW PERMISSION CREATE';
+    name = opMapping[25];
     color = 'FF00AA';
   } else if (opType === 26) {
-    name = 'WITHDRAW PERMISSION';
+    name = opMapping[26];
     color = 'FF00FF';
   } else if (opType === 27) {
-    name = 'WITHDRAW PERMISSION CLAIM';
+    name = opMapping[27];
     color = 'FF0055';
   } else if (opType === 28) {
-    name = 'WITHDRAW PERMISSION DELETE';
+    name = opMapping[28];
     color = '37B68Cc';
   } else if (opType === 29) {
-    name = 'COMMITTEE MEMBER CREATE';
+    name = opMapping[29];
     color = '37B68C';
   } else if (opType === 30) {
-    name = 'COMMITTEE MEMBER UPDATE';
+    name = opMapping[30];
     color = '6712E7';
   } else if (opType === 31) {
-    name = 'COMMITTEE MEMBER UPDATE GLOBAL PARAMETERS';
+    name = opMapping[31];
     color = 'B637B6';
   } else if (opType === 32) {
-    name = 'VESTING BALANCE CREATE';
+    name = opMapping[32];
     color = 'A5A5A5';
   } else if (opType === 33) {
-    name = 'VESTING BALANCE WITHDRAW';
+    name = opMapping[33];
     color = '696969';
   } else if (opType === 34) {
-    name = 'WORKER CREATE';
+    name = opMapping[34];
     color = '0F0F0F';
   } else if (opType === 35) {
-    name = 'CUSTOM';
+    name = opMapping[35];
     color = '0DB762';
   } else if (opType === 36) {
-    name = 'ASSERT';
+    name = opMapping[36];
     color = 'D1EEFF';
   } else if (opType === 37) {
-    name = 'BALANCE CLAIM';
+    name = opMapping[37];
     color = '939314';
   } else if (opType === 38) {
-    name = 'OVERRIDE TRANSFER';
+    name = opMapping[38];
     color = '8D0DB7';
   } else if (opType === 39) {
-    name = 'TRANSFER TO BLIND';
+    name = opMapping[39];
     color = 'C4EFC4';
   } else if (opType === 40) {
-    name = 'BLIND TRANSFER';
+    name = opMapping[40];
     color = 'F29DF2';
   } else if (opType === 41) {
-    name = 'TRANSFER FROM BLIND';
+    name = opMapping[41];
     color = '9D9DF2';
   } else if (opType === 42) {
-    name = 'ASSET SETTLE CANCEL';
+    name = opMapping[42];
     color = '4ECEF8';
   } else if (opType === 43) {
-    name = 'ASSET CLAIM FEES';
+    name = opMapping[43];
     color = 'F8794E';
   } else if (opType === 44) {
-    name = 'FBA DISTRIBUTE';
+    name = opMapping[44];
     color = '8808B2';
   } else if (opType === 45) {
-    name = 'BID COLLATERAL';
+    name = opMapping[45];
     color = '6012B1';
   } else if (opType === 46) {
-    name = 'EXECUTE BID';
+    name = opMapping[46];
     color = '1D04BB';
   } else if (opType === 47) {
-    name = 'ASSET CLAIM POOL';
+    name = opMapping[47];
     color = 'AAF654';
   } else if (opType === 48) {
-    name = 'ASSET UPDATE ISSUER';
+    name = opMapping[48];
     color = 'AB7781';
   } else if (opType === 49) {
-    name = 'HTLC CREATE';
+    name = opMapping[49];
     color = '11e0dc';
   } else if (opType === 50) {
-    name = 'HTLC REDEEM';
+    name = opMapping[50];
     color = '085957';
   } else if (opType === 51) {
-    name = 'HTLC REDEEMED';
+    name = opMapping[51];
     color = 'AB7781';
   } else if (opType === 52) {
-    name = 'HTLC EXTEND';
+    name = opMapping[52];
     color = '093f3e';
   } else if (opType === 53) {
-    name = 'HTLC REFUND';
+    name = opMapping[53];
     color = '369694';
   } else if (opType === 54) {
-    name = 'PROPERTY CREATE';
+    name = opMapping[54];
     color = '169524';
   } else if (opType === 55) {
-    name = 'PROPERTY UPDATE';
+    name = opMapping[55];
     color = '169524';
   } else if (opType === 56) {
-    name = 'PROPERTY APPROVE';
+    name = opMapping[56];
     color = '169524';
   } else if (opType === 57) {
-    name = 'PROPERTY DELETE';
+    name = opMapping[57];
     color = '169524';
   } else if (opType === 58) {
-    name = 'ASSET PRICE PUBLISH';
+    name = opMapping[58];
     color = 'FF2A55';
   } else {
     name = 'UNKNOWN (' + opType + ')';
