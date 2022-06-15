@@ -22,7 +22,7 @@ const icons = {
   'list-item-text': <ListItemText />,
   inbox: <InboxIcon />,
   mail: <MailIcon />,
-  close: <CloseRoundedIcon style={{ color: 'white' }} />,
+  close: <CloseRoundedIcon style={{ color: 'white', fontSize: '3rem' }} />,
 };
 
 export default icons;

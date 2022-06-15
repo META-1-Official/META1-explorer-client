@@ -6,6 +6,7 @@ import { buildCustomKVTableDto } from '../../../helpers/utility';
 import accountsService from '../../../services/accounts.services';
 import Identicon from 'react-identicons';
 import { useTranslation } from 'react-i18next';
+import BlockWrapper from '../../../components/BlockWrapper';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -18,38 +19,6 @@ const StyledContainer = styled.div`
 
   @media only screen and (max-width: 600px) {
     flex-direction: column;
-  }
-`;
-
-const BlockWrapper = styled.div`
-  margin-top: 38px;
-  display: flex;
-  width: ${(props) => props.width ?? '100%'};
-  flex-direction: column;
-  margin-left: 15px;
-  margin-right: 15px;
-
-  &.stat {
-    @media only screen and (max-width: 950px) {
-      display: none;
-    }
-  }
-
-  &.stat_d {
-    display: none;
-    @media only screen and (max-width: 950px) {
-      display: flex;
-    }
-  }
-
-  @media only screen and (max-width: 950px) {
-    width: 100%;
-  }
-
-  @media only screen and (max-width: 600px) {
-    margin-left: 0;
-    margin-right: 0;
-    align-items: center;
   }
 `;
 

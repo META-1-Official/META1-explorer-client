@@ -3,113 +3,15 @@ import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { changeLanguage } from 'i18next';
 import ReactTooltip from 'react-tooltip';
+import * as styled from './AppHeader.styles';
 
 // import UI packs
-import { Drawer, IconButton, Select, Divider, MenuItem } from '@mui/material';
-import styled from 'styled-components';
+import { Drawer, IconButton, Divider, MenuItem } from '@mui/material';
 
 import images from '../../helpers/images';
 import icons from '../../helpers/icons';
 
 import useWidth from '../../helpers/getWidth';
-
-const StyledSelect = styled(Select)`
-  width: fit-content !important;
-  margin-top: 2px;
-
-  .MuiSelect-select {
-    background-color: ${(props) => props.theme.palette.background.nearBlack};
-    height: 24px !important;
-    padding-left: 0px;
-    padding-right: 0px;
-    border: none;
-  }
-
-  .MuiSvgIcon-root {
-    right: 15px !important;
-  }
-`;
-
-const NavBar = styled.nav`
-  display: flex;
-  align-items: center;
-  height: 60px;
-  padding: 0 1em;
-  background-color: ${(props) => props.theme.palette.background.nearBlack};
-  border: 1px solid ${(props) => props.theme.palette.border.darkGrey};
-  justify-content: space-between;
-`;
-
-const Tabs = styled.div`
-  display: flex;
-  flex-direction: ${(props) => (props.isOpen ? 'column' : 'row')};
-`;
-
-const SettingWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 30px;
-`;
-
-const Settings = styled.div`
-  display: flex;
-`;
-
-const StyledLangSelect = styled(Select)`
-  width: fit-content !important;
-  margin-top: 2px;
-
-  .MuiSelect-select {
-    background-color: ${(props) => props.theme.palette.background.nearBlack};
-    height: 24px !important;
-    padding-left: 0px;
-    padding-right: 0px;
-    border: none;
-  }
-
-  .MuiSvgIcon-root {
-    right: 15px !important;
-  }
-`;
-
-const Img = styled.img`
-  width: 90px;
-  margin-right: 45px;
-
-  &.lang,
-  &.setting {
-    width: 23px;
-    margin-right: 10px;
-  }
-`;
-
-const MobileHeader = styled.div`
-  display: flex;
-  position: fixed;
-  justify-content: space-between;
-  height: 60px;
-  padding-left: 10px;
-  padding-right: 10px;
-  align-items: center;
-  background: black;
-  width: 100%;
-  z-index: 10;
-`;
-
-const DrawerHeader = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  justify-content: flex-end;
-  width: 100%;
-`;
-
-const Flex = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-`;
 
 const AppHeader = () => {
   const location = useLocation();
@@ -155,8 +57,8 @@ const AppHeader = () => {
   // renderers
   const renderSettings = () => {
     return (
-      <Settings>
-        <StyledLangSelect
+      <styled.Settings>
+        <styled.StyledLangSelect
           labelId="language-select"
           id="language-select"
           autoWidth
@@ -164,18 +66,18 @@ const AppHeader = () => {
           onChange={(event) => handleChange(event.target.value)}
         >
           <MenuItem value="en">
-            <Img alt="Flag" src={images['lang-en']} className="lang" />
+            <styled.Img alt="Flag" src={images['lang-en']} className="lang" />
           </MenuItem>
           <MenuItem value="cn">
-            <Img alt="Flag" src={images['lang-cn']} className="lang" />
+            <styled.Img alt="Flag" src={images['lang-cn']} className="lang" />
           </MenuItem>
           <MenuItem value="es">
-            <Img alt="Flag" src={images['lang-es']} className="lang" />
+            <styled.Img alt="Flag" src={images['lang-es']} className="lang" />
           </MenuItem>
-        </StyledLangSelect>
+        </styled.StyledLangSelect>
         <Divider style={{ height: '38px' }} />
         <IconButton className="navbar-item" data-tip data-for="help">
-          <Img
+          <styled.Img
             alt="Help"
             src={images['help-mark']}
             className="setting"
@@ -190,7 +92,7 @@ const AppHeader = () => {
             className="setting"
           />
         </IconButton> */}
-      </Settings>
+      </styled.Settings>
     );
   };
 
@@ -209,23 +111,23 @@ const AppHeader = () => {
         anchor="right"
         open={isOpen}
       >
-        <Flex>
-          <DrawerHeader>
+        <styled.Flex>
+          <styled.DrawerHeader>
             <IconButton onClick={handleDrawerClose}>
               {icons['close']}
             </IconButton>
-          </DrawerHeader>
+          </styled.DrawerHeader>
           <Divider />
           {renderTabs()}
-        </Flex>
+        </styled.Flex>
       </Drawer>
     );
   };
 
   const renderTabs = () => {
     return (
-      <Tabs isOpen={width > 1140 ? false : true}>
-        <Img
+      <styled.Tabs isOpen={width > 1140 ? false : true}>
+        <styled.Img
           alt="logo"
           src={images['logo']}
           style={{ display: width < 1140 ? 'none' : 'unset' }}
@@ -286,7 +188,7 @@ const AppHeader = () => {
         >
           {t('Fees')}
         </Link>
-        <StyledSelect
+        <styled.StyledSelect
           labelId="governance"
           id="governance"
           autoWidth
@@ -346,30 +248,30 @@ const AppHeader = () => {
             Proxies
           </Link>
         </MenuItem> */}
-        </StyledSelect>
-      </Tabs>
+        </styled.StyledSelect>
+      </styled.Tabs>
     );
   };
 
   const renderDesktopHeader = () => {
     return (
-      <NavBar>
+      <styled.NavBar>
         {renderTabs()}
         {renderSettings()}
-      </NavBar>
+      </styled.NavBar>
     );
   };
 
   const renderMobileHeader = () => {
     return (
       <>
-        <MobileHeader>
-          <Img
+        <styled.MobileHeader>
+          <styled.Img
             alt="logo"
             src={images['logo']}
             style={{ width: '80px', height: '30px' }}
           />
-          <SettingWrapper>
+          <styled.SettingWrapper>
             {renderSettings()}
             <IconButton
               aria-label="open drawer"
@@ -380,8 +282,8 @@ const AppHeader = () => {
             >
               {icons['menu']}
             </IconButton>
-          </SettingWrapper>
-        </MobileHeader>
+          </styled.SettingWrapper>
+        </styled.MobileHeader>
         {renderDrawer()}
       </>
     );

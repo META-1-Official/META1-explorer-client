@@ -1,5 +1,6 @@
 import { formatBalance, localizeNumber, operationType } from './utility';
 import { opText } from '../store/apis/explorer';
+import images from './images';
 
 export const accountHistoryRowsBuilder = async (rows) => {
   const history = rows.map(async (value) => {
@@ -117,4 +118,37 @@ export const witnessesRowsBuilder = (sortedData) => {
       ],
     };
   });
+};
+
+export const assetRowsBuilder = (rows) => {
+  return rows?.length
+    ? rows.map((value) => {
+        let precision = 100000;
+        if (value.precision) {
+          precision = Math.pow(10, value.precision);
+        }
+        return {
+          Name: [
+            `<img src='${
+              images[`coin-${value.asset_name.toLowerCase()}`]
+            }'><a href='/assets/${value.asset_id}'>${value.asset_name}</a>`,
+            'html',
+          ],
+          Price: [`${value.latest_price} META1`, 'plainText'],
+          '24H Volume': [
+            `${Math.round(value['24h_volume'])} META1`,
+            'plainText',
+          ],
+          'Market Cap': [
+            `${localizeNumber(Math.round(value.market_cap / 100000))} META1`,
+            'plainText',
+          ],
+          Supply: [
+            localizeNumber(Math.round(value.current_supply / precision)),
+            'plainText',
+          ],
+          Holders: [localizeNumber(value.holders_count), 'plainText'],
+        };
+      })
+    : [];
 };

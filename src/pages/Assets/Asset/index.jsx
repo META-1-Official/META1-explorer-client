@@ -16,6 +16,7 @@ import {
   localizeNumber,
 } from '../../../helpers/utility';
 import { useTranslation } from 'react-i18next';
+import BlockWrapper from '../../../components/BlockWrapper';
 
 const {
   fetchAssetFull,
@@ -64,38 +65,6 @@ const StyledColumnContainer = styled.div`
 
   @media only screen and (max-width: 600px) {
     padding: 0;
-  }
-`;
-
-const BlockWrapper = styled.div`
-  margin-top: 38px;
-  display: flex;
-  width: ${(props) => props.width ?? '100%'};
-  flex-direction: column;
-  margin-left: 15px;
-  margin-right: 15px;
-
-  &.additional {
-    @media only screen and (max-width: 980px) {
-      display: none;
-    }
-  }
-
-  &.additional_d {
-    display: none;
-    @media only screen and (max-width: 980px) {
-      display: flex;
-    }
-  }
-
-  @media only screen and (max-width: 980px) {
-    width: 100%;
-  }
-
-  @media only screen and (max-width: 600px) {
-    margin-left: 0;
-    margin-right: 0;
-    align-items: center;
   }
 `;
 

@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { debounce } from 'lodash';
 
 import { Pagination, Typography, Tabs, Tab } from '@mui/material';
 
@@ -191,23 +192,29 @@ const Account = () => {
     };
   };
 
-  const onSearch = (event) => {
+  const fetchSelectedData = (tags) => {
     setRows([]);
-    const selectedTags =
-      typeof event.target.value === 'string'
-        ? event.target.value.split(',')
-        : event.target.value;
-    setSelectedSearchValues(selectedTags);
-    const ids = operationIdsBuilder(selectedTags);
+    const ids = tags?.length
+      ? operationIdsBuilder(tags)
+      : operationIdsBuilder(selectedSearchValues);
     setTotalPages(1);
     fetchAccountHistoryData(id, 0, undefined, ids);
     setPageNumber(1);
     setV(false);
   };
 
+  const onSearch = (event) => {
+    const selectedTags =
+      typeof event.target.value === 'string'
+        ? event.target.value.split(',')
+        : event.target.value;
+    setSelectedSearchValues(selectedTags);
+  };
+
   const clearFilters = () => {
     setSelectedSearchValues([]);
-    fetchAccountHistoryData(id, undefined);
+    setRows([]);
+    fetchAccountHistoryData(id, 0, undefined);
     setV(false);
   };
 
@@ -249,6 +256,7 @@ const Account = () => {
             selectSelectedValues={selectedSearchValues}
             selectValues={Object.values(opMapping)}
             selectPlaceholder={'Select operation category'}
+            searchCallback={fetchSelectedData}
             clearFilters={clearFilters}
             onSearch={onSearch}
             rows={rows}

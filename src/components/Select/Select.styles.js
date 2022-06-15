@@ -14,11 +14,23 @@ export const useStyles = makeStyles((theme) => ({
     '&::-webkit-scrollbar-thumb': {
       backgroundColor: 'rgba(0,0,0,.3) !important',
     },
+    '& > .MuiMenu-list': {
+      paddingBottom: '0px !important',
+    },
   },
   list: {
     '&.MuiMenuItem-root.Mui-selected': {
       background: 'gray !important',
     },
+  },
+  button: {
+    width: '100%',
+    textAlign: 'center',
+    position: 'sticky !important',
+    bottom: 0,
+    background: 'gold !important',
+    color: 'black !important',
+    fontSize: '1rem !important',
   },
 }));
 

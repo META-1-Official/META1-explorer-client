@@ -1,7 +1,14 @@
 import styled from 'styled-components';
-import { Checkbox, ListItemText, MenuItem, Select } from '@mui/material';
+import {
+  Button,
+  Checkbox,
+  ListItemText,
+  MenuItem,
+  Select,
+} from '@mui/material';
 import { useStyles, StyledMenuItem } from './Select.styles';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 
 const CustomSelect = ({
   multiple,
@@ -9,6 +16,7 @@ const CustomSelect = ({
   onChange,
   selectedValues,
   placeholder,
+  searchCallback,
 }) => {
   const classes = useStyles();
   const MenuProps = {
@@ -21,6 +29,12 @@ const CustomSelect = ({
     },
   };
   const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+
+  const close = () => {
+    setOpen(false);
+    searchCallback();
+  };
   return (
     <>
       <Select
@@ -28,7 +42,11 @@ const CustomSelect = ({
         multiple={multiple}
         value={selectedValues}
         onChange={onChange}
+        open={open}
+        onOpen={() => setOpen(true)}
+        onBlur={() => setOpen(false)}
         displayEmpty
+        onClose={close}
         renderValue={(selectedValues) => {
           if (selectedValues.length === 0) {
             return <>{t(placeholder)}</>;
@@ -48,6 +66,11 @@ const CustomSelect = ({
             <ListItemText primary={t(value)} />
           </MenuItem>
         ))}
+        {selectedValues.length > 0 && (
+          <Button className={classes.button} onClick={close}>
+            {t('Search')}
+          </Button>
+        )}
       </Select>
     </>
   );

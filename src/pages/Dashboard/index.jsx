@@ -185,7 +185,7 @@ const Dashboard = React.memo(() => {
   const [rows, setRows] = useState([]);
   const [tabValue, setTabValue] = useState(0);
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   // dispatch
   const dispatch = useDispatch();
@@ -238,7 +238,7 @@ const Dashboard = React.memo(() => {
 
   const loadPieData = async () => {
     const [operation, proxies, markets, coins, uias, holders] =
-      await Promise.all([
+      await Promise.allSettled([
         api.topOperationsChart(),
         api.topProxiesChart(),
         api.topMarketsChart(),
@@ -246,7 +246,14 @@ const Dashboard = React.memo(() => {
         api.topUIAsChart(),
         api.topHoldersChart(),
       ]);
-    setPieDataAction([operation, markets, holders, coins, uias, proxies]);
+    setPieDataAction([
+      operation.value,
+      markets.value,
+      holders.value,
+      coins.value,
+      uias.value,
+      proxies.value,
+    ]);
   };
 
   const [v, setV] = useState(false); // the flag var for fethcing for only change

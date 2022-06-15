@@ -77,6 +77,7 @@ export const Table = ({
   selectValues,
   selectSelectedValues,
   selectPlaceholder,
+  searchCallback,
   clearFilters,
 }) => {
   const { t } = useTranslation();
@@ -115,6 +116,7 @@ export const Table = ({
               multiple={selectMultiple}
               onChange={onSearch}
               placeholder={selectPlaceholder}
+              searchCallback={searchCallback}
               selectedValues={selectSelectedValues}
             />
           </styled.StyledSearchCell>

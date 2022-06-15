@@ -23,6 +23,7 @@ import { localizeNumber } from '../../helpers/utility';
 import images from '../../helpers/images';
 import PageLabel from '../../components/PageLabel.jsx';
 import { useTranslation } from 'react-i18next';
+import { assetRowsBuilder } from '../../helpers/rowBuilders';
 
 const { fetchActiveAssets, fetchDexVolume, fetchDailyDexChart } = actions;
 const {
@@ -152,36 +153,7 @@ const Assets = React.memo(() => {
       };
     });
 
-  const rows = curPageOps
-    ? curPageOps.map((value) => {
-        var precision = 100000;
-        if (value.precision) {
-          precision = Math.pow(10, value.precision);
-        }
-        return {
-          Name: [
-            `<img src='${
-              images[`coin-${value.asset_name.toLowerCase()}`]
-            }'><a href='/assets/${value.asset_id}'>${value.asset_name}</a>`,
-            'html',
-          ],
-          Price: [`${value.latest_price} META1`, 'plainText'],
-          '24H Volume': [
-            `${Math.round(value['24h_volume'])} META1`,
-            'plainText',
-          ],
-          'Market Cap': [
-            `${localizeNumber(Math.round(value.market_cap / 100000))} META1`,
-            'plainText',
-          ],
-          Supply: [
-            localizeNumber(Math.round(value.current_supply / precision)),
-            'plainText',
-          ],
-          Holders: [localizeNumber(value.holders_count), 'plainText'],
-        };
-      })
-    : [];
+  const rows = assetRowsBuilder(curPageOps);
 
   useEffect(() => {
     fetchDexVolumeData();

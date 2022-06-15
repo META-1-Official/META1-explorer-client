@@ -9,6 +9,7 @@ import { SearchBox } from '../../../components/SearchBox';
 // import services
 import accountsService from '../../../services/accounts.services';
 import { useTranslation } from 'react-i18next';
+import BlockWrapper from '../../../components/BlockWrapper';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -21,21 +22,6 @@ const StyledContainer = styled.div`
 
   @media ${(props) => props.theme.bkps.device.mobile} {
     flex-direction: column;
-  }
-`;
-
-const BlockWrapper = styled.div`
-  margin-top: 38px;
-  display: flex;
-  width: ${(props) => props.width ?? '100%'};
-  flex-direction: column;
-  margin-left: 15px;
-  margin-right: 15px;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    margin-left: 0;
-    margin-right: 0;
-    align-items: center;
   }
 `;
 

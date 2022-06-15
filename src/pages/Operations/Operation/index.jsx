@@ -4,18 +4,17 @@ import { useLocation } from 'react-router-dom';
 
 // import components
 import { Table } from '../../../components/Table';
-import Button from '@mui/material/Button';
 import JSONInput from 'react-json-editor-ajrm';
 import locale from 'react-json-editor-ajrm/locale/en';
 import Loader from '../../../components/Loader/Loader';
 
 // import utils
 import { buildCustomKVTableDto } from '../../../helpers/utility';
-import icons from '../../../helpers/icons';
 import useWidth from '../../../helpers/getWidth';
 
 // import api
 import api from '../../../store/apis';
+import BlockWrapper from '../../../components/BlockWrapper';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -62,20 +61,6 @@ const Label = styled.div`
   @media ${(props) => props.theme.bkps.device.mobile} {
     text-align: center;
     flex-direction: column;
-  }
-`;
-
-const BlockWrapper = styled.div`
-  margin-top: 38px;
-  display: flex;
-  width: ${(props) => props.width ?? '100%'};
-  flex-direction: column;
-  margin-left: 15px;
-  margin-right: 15px;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    margin-left: 0;
-    margin-right: 0;
   }
 `;
 

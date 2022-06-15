@@ -114,7 +114,7 @@ const Transaction = () => {
     let headerM = [
       { 'Hash table_key': 'trx_id', type: 'plainText' },
       { 'Block table_key': 'block_num', type: 'coloredText' },
-      { 'Date table_key': 'block_time', type: 'plainText' },
+      { 'Date table_key': 'block_time', type: 'date' },
     ];
 
     let rows = buildCustomKVTableDto(metadata, headerM);
@@ -143,7 +143,7 @@ const Transaction = () => {
     <PageWrapper>
       <StyledTableContainer>
         <Label>{t('Operations In Transaction')}</Label>
-        <Table headers={headers} rows={rows} lastcellaligned={false}></Table>
+        <Table headers={headers} rows={rows} lastcellaligned={true}></Table>
         {(isFetchingTrx || rows.length === 0) && <Loader />}
       </StyledTableContainer>
       <StyledMetaDataContainer>
