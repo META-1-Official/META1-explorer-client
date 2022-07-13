@@ -134,7 +134,7 @@ const Account = () => {
       pageNumber >= totalPages &&
       pageNumber * OPERATIONS_PER_PAGE < historyCount
     ) {
-      setTotalPages(totalPages + 1);
+      setTotalPages(Math.ceil(historyCount / OPERATIONS_PER_PAGE));
     }
 
     if (history?.length && !v) {
