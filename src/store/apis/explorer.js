@@ -108,8 +108,10 @@ export const opText = (operation_type, operation) => {
               amount_asset_id +
               "'>" +
               asset_name +
-              "</a> to <a href='/#/accounts/" +
+              '</a>' +
               i18n.t('to') +
+              "<a href='/#/accounts/" +
+              to_name +
               "'>" +
               to_name +
               '</a>';
@@ -478,7 +480,7 @@ export const opText = (operation_type, operation) => {
         return operation_text;
       });
 
-    case 23:
+    case (22, 23, 24):
       fee_paying_account = operation.fee_paying_account;
       var proposal = operation.proposal;
       operation_account = fee_paying_account;

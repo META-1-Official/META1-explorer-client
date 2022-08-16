@@ -194,19 +194,19 @@ const Assets = React.memo(() => {
           />
           <LineChartCard
             title="24h MARKET CAP IN META1"
-            number={getDexVolumeData?.market_cap_bts.toString().slice(0, -12)}
+            number={getDexVolumeData?.market_cap_bts?.toString().slice(0, -12)}
             icon={coinMeta1Img}
             isLoading={isFetchingVolume}
           />
           <LineChartCard
             title="24h MARKET CAP IN USDT"
-            number={getDexVolumeData?.market_cap_usd.toString().slice(0, -12)}
+            number={getDexVolumeData?.market_cap_usd?.toString().slice(0, -12)}
             icon={coinUsdtImg}
             isLoading={isFetchingVolume}
           />
           <LineChartCard
             title="24h MARKET CAP IN BTC"
-            number={getDexVolumeData?.market_cap_cny.toString().slice(0, -12)}
+            number={getDexVolumeData?.market_cap_cny?.toString().slice(0, -12)}
             icon={coinBtcImg}
             isLoading={isFetchingVolume}
           />

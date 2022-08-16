@@ -20,7 +20,7 @@ const getAccountFullData = async (fullAccount) => {
 
   let vesting_balances = await api.parseVesting(fullAccount.vesting_balances);
   const lifetime_fees_paid = fullAccount.statistics.lifetime_fees_paid;
-  const bts_balance = fullAccount.balances[0].balance;
+  const bts_balance = fullAccount.balances[0]?.balance;
   const total_ops = await api.getTotalAccountOps(fullAccount.account.id);
   const vote_acc_name = await useAccount(
     fullAccount.account.options.voting_account,

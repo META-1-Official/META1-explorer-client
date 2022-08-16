@@ -245,7 +245,7 @@ export const operationType = (_opType) => {
     color = 'FF0055';
   } else if (opType === 28) {
     name = opMapping[28];
-    color = '37B68Cc';
+    color = '37B68C';
   } else if (opType === 29) {
     name = opMapping[29];
     color = '37B68C';

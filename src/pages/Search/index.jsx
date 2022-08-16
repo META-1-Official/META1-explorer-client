@@ -80,7 +80,9 @@ const Search = React.memo(() => {
   };
 
   const handleClick = (param) => {
-    let ele = document.getElementById(`Search ${_.capitalize(param)}`);
+    let ele = !param.includes('Transaction')
+      ? document.getElementById(`Search ${_.capitalize(param)}`)
+      : document.getElementById(`Search Transaction Hash`);
     if (ele.value === '') {
       toast('search value is empty');
       return;
@@ -95,7 +97,7 @@ const Search = React.memo(() => {
       case 'account':
         navigate(`/accounts/${ele.value}`);
         break;
-      case 'transaction':
+      case 'Transaction Hash':
         navigate(`/txs/${ele.value}`);
         break;
       case 'object':
@@ -159,7 +161,7 @@ const Search = React.memo(() => {
           options={[...new Set(getLookupTransactionsData?.slice(0, 8))]}
           onChange={(e) => handleChange(e, 'transaction')}
           searchInputPlaceholder="Enter transaction hash"
-          onClick={() => handleClick('transaction')}
+          onClick={() => handleClick('Transaction Hash')}
         />
       </StyledContainer>
     </PageWrapper>

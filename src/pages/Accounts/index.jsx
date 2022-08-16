@@ -6,8 +6,6 @@ import Pagination from '@mui/material/Pagination';
 import { Table } from '../../components/Table';
 import { Loader } from '../../components/Loader';
 
-import { SearchBox } from '../../components/SearchBox';
-
 // import api
 import api from '../../store/apis';
 import PageLabel from '../../components/PageLabel.jsx';
