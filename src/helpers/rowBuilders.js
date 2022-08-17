@@ -2,6 +2,17 @@ import { formatBalance, localizeNumber, operationType } from './utility';
 import { opText } from '../store/apis/explorer';
 import images from './images';
 
+const coloredLinksHistoryRows = (arg, type) => {
+  return (
+    <a
+      style={{ color: '#FFC000', fontWeight: 500, textDecoration: 'none' }}
+      href={`/${type === 'ID' ? 'objects' : 'blocks'}/${arg}`}
+    >
+      {arg}
+    </a>
+  );
+};
+
 export const accountHistoryRowsBuilder = async (rows) => {
   const history = rows.map(async (value) => {
     let timestamp;
@@ -31,9 +42,9 @@ export const accountHistoryRowsBuilder = async (rows) => {
     return promises.map((op) => {
       return {
         Operation: [op.operation_text, 'html'],
-        ID: [op.operation_id, 'coloredText'],
+        ID: [coloredLinksHistoryRows(op.operation_id, 'ID'), 'coloredText'],
         'Date and Time': [op.time, 'date'],
-        Block: [op.block_num, 'coloredText'],
+        Block: [coloredLinksHistoryRows(op.block_num, 'BLOCK'), 'coloredText'],
         Type: [op.op_type, 'label'],
       };
     });
@@ -51,9 +62,15 @@ export const dashboardRowsBuilder = async (rows) => {
           const op = rows[index];
           return {
             Operation: [opTxt, 'html'],
-            ID: [op.account_history.operation_id, 'coloredText'],
+            ID: [
+              coloredLinksHistoryRows(op.account_history.operation_id, 'ID'),
+              'coloredText',
+            ],
             'Date and time': [op.block_data.block_time, 'date'],
-            Block: [op.block_data.block_num, 'coloredText'],
+            Block: [
+              coloredLinksHistoryRows(op.block_data.block_num, 'BLOCK'),
+              'coloredText',
+            ],
             Type: [op.operation_type, 'label'],
           };
         });
