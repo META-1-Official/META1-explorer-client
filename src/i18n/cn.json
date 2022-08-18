@@ -211,6 +211,7 @@
   "Enter object id": "輸入對象 ID",
   "Enter asset name or id": "輸入資產名稱或 ID",
   "Enter transaction hash": "輸入交易哈希",
+  "No record found": "未找到記錄",
 
   "Biggest transactions in the last 1 hour": "过去1小时内最大的交易次数",
 
@@ -265,7 +266,7 @@
 
   "ACCOUNTS": "賬戶",
   "RICH LIST": "富豪榜",
-  "Search for Amount": "搜索金額",
+  "Search for Account": "搜索帳戶",
 
   "FEES": "費用",
   "FEE SCHEDULE": "費用表",
@@ -362,6 +363,7 @@
   "approved property": "批准的財產 ",
   "deleted property": "已刪除的財產 ",
   "published price": "公佈價格 ",
+  "asset created": "已創建資產",
 
   "Select operation category": "選擇操作類別"
 }

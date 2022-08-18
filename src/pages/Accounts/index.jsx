@@ -92,7 +92,7 @@ const Accounts = () => {
           withSearch
           onSearch={onSearch}
           headerText={'RICH LIST'}
-          searchText={'Search for Amount'}
+          searchText={'Search for Account'}
         />
         {accounts?.length === 0 && <Loader />}
       </StyledContainer>

@@ -212,6 +212,7 @@
   "Enter object id": "Enter object id",
   "Enter asset name or id": "Enter asset name or id",
   "Enter transaction hash": "Enter transaction hash",
+  "No record found": "No record found",
 
   "Biggest transactions in the last 1 hour": "Biggest transactions in the last 1 hour",
 
@@ -264,7 +265,7 @@
 
   "ACCOUNTS": "ACCOUNTS",
   "RICH LIST": "RICH LIST",
-  "Search for Amount": "Search for Amount",
+  "Search for Account": "Search for Account",
   "Search for a markets": "Search for a markets",
 
   "FEES": "FEES",
@@ -364,6 +365,7 @@
   "approved property": "approved property ",
   "deleted property": "deleted property ",
   "published price": "published price ",
+  "asset created": "asset created",
 
   "Select operation category": "Select operation category"
 

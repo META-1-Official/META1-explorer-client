@@ -22,6 +22,12 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  .MuiAutocomplete-popper {
+    .MuiAutocomplete-noOptions, .MuiAutocomplete-loading {
+        color: #15171B !important;
+    }
+  }
+  
   .MuiOutlinedInput-notchedOutline {
     border: none !important;
   }

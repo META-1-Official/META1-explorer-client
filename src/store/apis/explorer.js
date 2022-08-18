@@ -368,6 +368,17 @@ export const opText = (operation_type, operation) => {
         return operation_text;
       });
 
+    case 10:
+      operation_text =
+        "<a href='/#/assets/" +
+        operation.symbol +
+        "'>" +
+        operation.symbol +
+        '</a> ' +
+        i18n.t('asset created');
+
+      return operation_text;
+
     case 14:
       var issuer = operation.issuer;
       var issue_to_account = operation.issue_to_account;

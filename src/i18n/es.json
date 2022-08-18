@@ -171,6 +171,7 @@
   "Search transaction hash": "Buscar transaccion",
   "If you have a transaction hash, please paste it here to get transaction information.": "Si tienes el hash de una transaccion, pegalo aqui para buscar los delattes de la misma.",
   "Transaction ID": "ID de la transaccion",
+  "No record found": "No se encontró ningún registro",
 
   "Biggest transactions in the last 1 hour": "Mayores transacciones en la ultima hora",
 
@@ -310,7 +311,7 @@
 
   "ACCOUNTS": "CUENTAS",
   "RICH LIST": "LISTA RICA",
-  "Search for Amount": "Buscar cantidad",
+  "Search for Account": "buscar cuenta",
   "Search for a markets": "Buscar un mercado",
 
   "FEES": "TARIFA",
@@ -410,6 +411,7 @@
   "approved property": "propiedad aprobada ",
   "deleted property": "propiedad eliminada ",
   "published price": "precio publicado ",
+  "asset created": "activo creado",
 
   "Select operation category": "Seleccionar categoría de operación"
 

@@ -67,7 +67,6 @@ const Search = React.memo(() => {
   const getLookupTransactionsData = useSelector(getLookupTransactions);
   const isFetchingLookupAccountsData = useSelector(isFetchingLookupAccounts);
   const isFetchingLookupAssetsData = useSelector(isFetchingLookupAssets);
-
   // handlers
   const handleChange = (e, param) => {
     if (e && param === 'asset' && e?.type !== 'click') {
@@ -128,7 +127,7 @@ const Search = React.memo(() => {
           searchInputPlaceholder="Enter account name or id number"
           onChange={(e) => handleChange(e, 'account')}
           isLoading={isFetchingLookupAccountsData}
-          options={[...new Set(getLookupAccountsData?.slice(0, 8))]}
+          options={[...new Set(getLookupAccountsData)]}
           onClick={() => handleClick('account')}
         />
         <SearchCard
@@ -137,7 +136,7 @@ const Search = React.memo(() => {
           searchInputSample="1.3.0"
           searchInputLabel="Object ID"
           searchInputPlaceholder="Enter object id"
-          onChange={(e) => handleChange(e, 'account')}
+          onChange={(e) => handleChange(e, 'object')}
           onClick={() => handleClick('object')}
         />
         <SearchCard
@@ -158,7 +157,7 @@ const Search = React.memo(() => {
           description="If you have a transaction hash, please paste it here to get transaction information."
           searchInputSample="cb4a306cb75.....6bb37bbcd29"
           searchInputLabel="Transaction ID"
-          options={[...new Set(getLookupTransactionsData?.slice(0, 8))]}
+          options={[...new Set(getLookupTransactionsData)]}
           onChange={(e) => handleChange(e, 'transaction')}
           searchInputPlaceholder="Enter transaction hash"
           onClick={() => handleClick('Transaction Hash')}

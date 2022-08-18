@@ -193,16 +193,12 @@ const AppHeader = () => {
           id="governance"
           autoWidth
           value={menuItem}
+          displayEmpty
+          renderValue={(selected) => {
+            return <div className={`sel-item`}>Governance</div>;
+          }}
           onChange={(event) => setMenuItem(event.target.value)}
         >
-          <MenuItem value="governance">
-            <div
-              className={`sel-item ${routeStatus('/governance')}`}
-              onClick={() => handleClick('/governance')}
-            >
-              {t('Governance')}
-            </div>
-          </MenuItem>
           <MenuItem value="committee">
             <Link
               to="/committee"
