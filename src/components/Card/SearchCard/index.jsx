@@ -8,6 +8,7 @@ import {
   CardDescriptionWrapper,
   CardHeader,
   CardWrapper,
+  CustomPopper,
   Description,
   Html,
   HtmlWrapper,
@@ -34,14 +35,7 @@ const SearchCard = ({
   const { t } = useTranslation();
 
   const PopperMy = (props) => {
-    return (
-      <Popper
-        {...props}
-        sx={{ color: 'black !important' }}
-        style={{ width: 'fit-content', minWidth: '313px' }}
-        placement="bottom-end"
-      />
-    );
+    return <CustomPopper {...props} placement="bottom-end" />;
   };
 
   return (

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { TextField } from '@mui/material';
+import { Popper, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 
 export const CardWrapper = styled.div`
@@ -96,4 +96,18 @@ export const StyledButton = styled(Button)`
   border-radius: 6px;
   color: ${(props) => props.theme.palette.text.srchBtnText};
   background: ${(props) => props.theme.palette.primary.main};
+`;
+
+export const CustomPopper = styled(Popper)`
+  width: fit-content !important;
+  min-width: 313px !important;
+  @media screen and (max-width: 768px) {
+    max-width: 90vw;
+    .MuiAutocomplete-option {
+      display: block !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+    }
+  }
 `;
