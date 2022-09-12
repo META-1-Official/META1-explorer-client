@@ -203,7 +203,7 @@ const Dashboard = React.memo(() => {
   const pie = useSelector(getPieData);
 
   // vars
-  const TabLabels = ['Operations', 'Markets', 'Holders'];
+  const TabLabels = ['Operations'];
   const curPageOps = getOpsData?.slice((page - 1) * 10, page * 10); // current page operations - 20 ops per page
   const totalPages = getOpsData?.length === 0 ? 1 : getOpsData?.length / 10; // total number of pages = all ops / opsPerPage (=20)
   const headers = ['Operation', 'ID', 'Date and time', 'Block', 'Type']; // table headers
@@ -287,48 +287,48 @@ const Dashboard = React.memo(() => {
     <PageWrapper>
       <StyledChartContainer>
         <LineChartsWrapper>
-          <LineChartCard
-            title={'Block Number'}
-            number={getHeadData?.head_block_number}
-            chartData={getHeadData?.blocks_24h_history}
-            icon={blockNumImg}
-            isLoading={isFetchingHead}
-          />
-          <LineChartCard
-            title={'New Users'}
-            number={getHeadData?.accounts_registered_this_interval}
-            chartData={getHeadData?.users_24h_history}
-            icon={newUserImg}
-            isLoading={isFetchingHead}
-          />
-          <LineChartCard
-            title={'META1 Market Cap'}
-            number={getHeadData?.bts_market_cap}
-            chartData={getHeadData?.market_cap_24h_history}
-            icon={marketCapImg}
-            isLoading={isFetchingHead}
-          />
-          <LineChartCard
-            title={'META1/BTC Volume'}
-            number={getHeadData?.quote_volume}
-            chartData={getHeadData?.meta1_volume_24h_history}
-            icon={btcVolumeImg}
-            isLoading={isFetchingHead}
-          />
-          <LineChartCard
-            title={'Witnesses'}
-            number={getHeadData?.witness_count}
-            chartData={getHeadData?.witness_24h_history}
-            icon={witnessImg}
-            isLoading={isFetchingHead}
-          />
-          <LineChartCard
-            title={'Committee'}
-            number={getHeadData?.committee_count}
-            chartData={getHeadData?.committee_24h_history}
-            icon={committeeImg}
-            isLoading={isFetchingHead}
-          />
+          {/*<LineChartCard*/}
+          {/*  title={'Block Number'}*/}
+          {/*  number={getHeadData?.head_block_number}*/}
+          {/*  chartData={getHeadData?.blocks_24h_history}*/}
+          {/*  icon={blockNumImg}*/}
+          {/*  isLoading={isFetchingHead}*/}
+          {/*/>*/}
+          {/*<LineChartCard*/}
+          {/*  title={'New Users'}*/}
+          {/*  number={getHeadData?.accounts_registered_this_interval}*/}
+          {/*  chartData={getHeadData?.users_24h_history}*/}
+          {/*  icon={newUserImg}*/}
+          {/*  isLoading={isFetchingHead}*/}
+          {/*/>*/}
+          {/*<LineChartCard*/}
+          {/*  title={'META1 Market Cap'}*/}
+          {/*  number={getHeadData?.bts_market_cap}*/}
+          {/*  chartData={getHeadData?.market_cap_24h_history}*/}
+          {/*  icon={marketCapImg}*/}
+          {/*  isLoading={isFetchingHead}*/}
+          {/*/>*/}
+          {/*<LineChartCard*/}
+          {/*  title={'META1/BTC Volume'}*/}
+          {/*  number={getHeadData?.quote_volume}*/}
+          {/*  chartData={getHeadData?.meta1_volume_24h_history}*/}
+          {/*  icon={btcVolumeImg}*/}
+          {/*  isLoading={isFetchingHead}*/}
+          {/*/>*/}
+          {/*<LineChartCard*/}
+          {/*  title={'Witnesses'}*/}
+          {/*  number={getHeadData?.witness_count}*/}
+          {/*  chartData={getHeadData?.witness_24h_history}*/}
+          {/*  icon={witnessImg}*/}
+          {/*  isLoading={isFetchingHead}*/}
+          {/*/>*/}
+          {/*<LineChartCard*/}
+          {/*  title={'Committee'}*/}
+          {/*  number={getHeadData?.committee_count}*/}
+          {/*  chartData={getHeadData?.committee_24h_history}*/}
+          {/*  icon={committeeImg}*/}
+          {/*  isLoading={isFetchingHead}*/}
+          {/*/>*/}
         </LineChartsWrapper>
         <PieChartWrapper>
           <Tabs

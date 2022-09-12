@@ -238,7 +238,7 @@ const Account = () => {
             <Tab label={t('General')} {...a11yProps(0)} />
             <Tab label={t('Balances')} {...a11yProps(1)} />
             <Tab label={t('Authorities')} {...a11yProps(2)} />
-            <Tab label={t('Votes')} {...a11yProps(3)} />
+            {/*<Tab label={t('Votes')} {...a11yProps(3)} />*/}
           </Tabs>
           <TabPanel value={tabValue} index={0}>
             {account && <General accountFullData={account?.data} />}
@@ -249,9 +249,9 @@ const Account = () => {
           <TabPanel value={tabValue} index={2}>
             {account && <Authorities accountFullData={account?.data} />}
           </TabPanel>
-          <TabPanel value={tabValue} index={3}>
-            {account && <Votes accountFullData={account?.data} />}
-          </TabPanel>
+          {/*<TabPanel value={tabValue} index={3}>*/}
+          {/*  {account && <Votes accountFullData={account?.data} />}*/}
+          {/*</TabPanel>*/}
         </StyledContainer>
         <StyledHsContainer>
           <Label>{t('Full Account History')}</Label>

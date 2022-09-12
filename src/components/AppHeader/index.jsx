@@ -167,13 +167,13 @@ const AppHeader = () => {
         >
           {t('Assets')}
         </Link>
-        <Link
-          to="/markets"
-          className={`navbar-item ${routeStatus('/markets')}`}
-          onClick={() => handleClick('/markets')}
-        >
-          {t('Markets')}
-        </Link>
+        {/*<Link*/}
+        {/*  to="/markets"*/}
+        {/*  className={`navbar-item ${routeStatus('/markets')}`}*/}
+        {/*  onClick={() => handleClick('/markets')}*/}
+        {/*>*/}
+        {/*  {t('Markets')}*/}
+        {/*</Link>*/}
         <Link
           to="/accounts"
           className={`navbar-item ${routeStatus('/accounts')}`}
@@ -181,70 +181,70 @@ const AppHeader = () => {
         >
           {t('Accounts')}
         </Link>
-        <Link
-          to="/fees"
-          className={`navbar-item ${routeStatus('/fees')}`}
-          onClick={() => handleClick('/fees')}
-        >
-          {t('Fees')}
-        </Link>
-        <styled.StyledSelect
-          labelId="governance"
-          id="governance"
-          autoWidth
-          value={menuItem}
-          displayEmpty
-          renderValue={(selected) => {
-            return <div className={`sel-item`}>Governance</div>;
-          }}
-          onChange={(event) => setMenuItem(event.target.value)}
-        >
-          <MenuItem value="committee">
-            <Link
-              to="/committee"
-              className={`sel-item ${routeStatus('/committee')}`}
-              onClick={() => handleClick('/committee')}
-            >
-              {t('Committee')}
-            </Link>
-          </MenuItem>
-          <MenuItem value="witnesses">
-            <Link
-              to="/witnesses"
-              className={`sel-item ${routeStatus('/witnesses')}`}
-              onClick={() => handleClick('/witnesses')}
-            >
-              {t('Witnesses')}
-            </Link>
-          </MenuItem>
-          {/* <MenuItem value="workers">
-          <Link
-            to="/"
-            className={`sel-item ${routeStatus('/workers')}`}
-            onClick={() => handleClick('/workers')}
-          >
-            Workers
-          </Link>
-        </MenuItem>
-        <MenuItem value="voting">
-          <Link
-            to="/"
-            className={`sel-item ${routeStatus('/voting')}`}
-            onClick={() => handleClick('/voting')}
-          >
-            Voting
-          </Link>
-        </MenuItem>
-        <MenuItem value="proxies">
-          <Link
-            to="/"
-            className={`sel-item ${routeStatus('/proxies')}`}
-            onClick={() => handleClick('/proxies')}
-          >
-            Proxies
-          </Link>
-        </MenuItem> */}
-        </styled.StyledSelect>
+        {/*<Link*/}
+        {/*  to="/fees"*/}
+        {/*  className={`navbar-item ${routeStatus('/fees')}`}*/}
+        {/*  onClick={() => handleClick('/fees')}*/}
+        {/*>*/}
+        {/*  {t('Fees')}*/}
+        {/*</Link>*/}
+        {/*<styled.StyledSelect*/}
+        {/*  labelId="governance"*/}
+        {/*  id="governance"*/}
+        {/*  autoWidth*/}
+        {/*  value={menuItem}*/}
+        {/*  displayEmpty*/}
+        {/*  renderValue={(selected) => {*/}
+        {/*    return <div className={`sel-item`}>Governance</div>;*/}
+        {/*  }}*/}
+        {/*  onChange={(event) => setMenuItem(event.target.value)}*/}
+        {/*>*/}
+        {/*  <MenuItem value="committee">*/}
+        {/*    <Link*/}
+        {/*      to="/committee"*/}
+        {/*      className={`sel-item ${routeStatus('/committee')}`}*/}
+        {/*      onClick={() => handleClick('/committee')}*/}
+        {/*    >*/}
+        {/*      {t('Committee')}*/}
+        {/*    </Link>*/}
+        {/*  </MenuItem>*/}
+        {/*  <MenuItem value="witnesses">*/}
+        {/*    <Link*/}
+        {/*      to="/witnesses"*/}
+        {/*      className={`sel-item ${routeStatus('/witnesses')}`}*/}
+        {/*      onClick={() => handleClick('/witnesses')}*/}
+        {/*    >*/}
+        {/*      {t('Witnesses')}*/}
+        {/*    </Link>*/}
+        {/*  </MenuItem>*/}
+        {/*  /!* <MenuItem value="workers">*/}
+        {/*  <Link*/}
+        {/*    to="/"*/}
+        {/*    className={`sel-item ${routeStatus('/workers')}`}*/}
+        {/*    onClick={() => handleClick('/workers')}*/}
+        {/*  >*/}
+        {/*    Workers*/}
+        {/*  </Link>*/}
+        {/*</MenuItem>*/}
+        {/*<MenuItem value="voting">*/}
+        {/*  <Link*/}
+        {/*    to="/"*/}
+        {/*    className={`sel-item ${routeStatus('/voting')}`}*/}
+        {/*    onClick={() => handleClick('/voting')}*/}
+        {/*  >*/}
+        {/*    Voting*/}
+        {/*  </Link>*/}
+        {/*</MenuItem>*/}
+        {/*<MenuItem value="proxies">*/}
+        {/*  <Link*/}
+        {/*    to="/"*/}
+        {/*    className={`sel-item ${routeStatus('/proxies')}`}*/}
+        {/*    onClick={() => handleClick('/proxies')}*/}
+        {/*  >*/}
+        {/*    Proxies*/}
+        {/*  </Link>*/}
+        {/*</MenuItem> *!/*/}
+        {/*</styled.StyledSelect>*/}
       </styled.Tabs>
     );
   };

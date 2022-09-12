@@ -130,15 +130,15 @@ const Search = React.memo(() => {
           options={[...new Set(getLookupAccountsData)]}
           onClick={() => handleClick('account')}
         />
-        <SearchCard
-          title="Search Object"
-          description="In order to search for an object you need to insert an ID with the correct META1 object format. More info and list can be found HERE."
-          searchInputSample="1.3.0"
-          searchInputLabel="Object ID"
-          searchInputPlaceholder="Enter object id"
-          onChange={(e) => handleChange(e, 'object')}
-          onClick={() => handleClick('object')}
-        />
+        {/*<SearchCard*/}
+        {/*  title="Search Object"*/}
+        {/*  description="In order to search for an object you need to insert an ID with the correct META1 object format. More info and list can be found HERE."*/}
+        {/*  searchInputSample="1.3.0"*/}
+        {/*  searchInputLabel="Object ID"*/}
+        {/*  searchInputPlaceholder="Enter object id"*/}
+        {/*  onChange={(e) => handleChange(e, 'object')}*/}
+        {/*  onClick={() => handleClick('object')}*/}
+        {/*/>*/}
         <SearchCard
           withSelect
           title="Search Asset"
