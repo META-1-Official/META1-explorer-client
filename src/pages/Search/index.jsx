@@ -144,7 +144,7 @@ const Search = React.memo(() => {
           title="Search Asset"
           description="Looking for a SmartCoin or UIA? Start typing the first letters of it's name and let the auto complete feature help you find the exact asset name string."
           searchInputSample="USDT"
-          searchInputLabel="Asset name or id"
+          searchInputLabel="Asset name or ID"
           searchInputPlaceholder="Enter asset name or id"
           onChange={(e) => handleChange(e, 'asset')}
           isLoading={isFetchingLookupAssetsData}

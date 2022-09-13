@@ -85,7 +85,7 @@ const Accounts = () => {
   return (
     <PageWrapper>
       <StyledContainer>
-        <PageLabel>{t('ACCOUNTS')}</PageLabel>
+        <PageLabel>{t('WALLETS')}</PageLabel>
         <Table
           headers={headers}
           rows={accountRows}

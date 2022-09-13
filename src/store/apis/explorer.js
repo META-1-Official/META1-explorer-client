@@ -839,10 +839,10 @@ export const fetchLookupAccounts = ({ start }) => {
 
 /* BLOCKS SERVICE */
 // big blocks (first 20 big blocks by order)
-export const fetchBigBlocks = () => {
+export const fetchBigBlocks = ({ size }) => {
   return axios.get(
     BASE_URL +
-      '/es/account_history?from_date=now-1w&to_date=now&type=aggs&agg_field=block_data.block_num&size=20',
+      `/es/account_history?from_date=now-1w&to_date=now&type=aggs&agg_field=block_data.block_num&size=${size}`,
     {
       headers: {
         'Content-Type': 'application/json-patch+json',
@@ -879,10 +879,10 @@ export const fetchBlock = async (block_num) => {
 
 /* TRANSACTION SERVICE */
 // big transactions (first 20 big transactions by order)
-export const fetchBigTransactions = () => {
+export const fetchBigTransactions = ({ size }) => {
   return axios.get(
     BASE_URL +
-      '/es/account_history?from_date=now-1h&to_date=now&type=aggs&agg_field=block_data.trx_id.keyword&size=20',
+      `/es/account_history?from_date=now-1h&to_date=now&type=aggs&agg_field=block_data.trx_id.keyword&size=${size}`,
     {
       headers: {
         'Content-Type': 'application/json-patch+json',
@@ -1370,11 +1370,12 @@ export const getAccountHistory = async (
   from,
   search_after,
   object_ids,
+  size,
 ) => {
   const params = {
     account_id,
     from,
-    size: 100,
+    size,
     type: 'data',
     sort_by: '-account_history.sequence',
   };

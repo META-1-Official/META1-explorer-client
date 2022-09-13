@@ -82,6 +82,9 @@ const AppHeader = () => {
             src={images['help-mark']}
             className="setting"
             style={{ width: '23px', height: '23px', alignSelf: 'center' }}
+            onClick={() =>
+              window.open('https://support.meta1coin.vision', '_blank')
+            }
           />
         </IconButton>
         <Divider style={{ height: '38px' }} />
@@ -179,7 +182,7 @@ const AppHeader = () => {
           className={`navbar-item ${routeStatus('/accounts')}`}
           onClick={() => handleClick('/accounts')}
         >
-          {t('Accounts')}
+          {t('Wallets')}
         </Link>
         {/*<Link*/}
         {/*  to="/fees"*/}
@@ -285,24 +288,7 @@ const AppHeader = () => {
     );
   };
 
-  const renderToolTip = () => (
-    <ReactTooltip
-      id="help"
-      aria-haspopup="true"
-      role="help"
-      place="bottom"
-      type="warning"
-    >
-      <p>Meta1 Explorer Client</p>
-    </ReactTooltip>
-  );
-
-  return (
-    <>
-      {width > 1140 ? renderDesktopHeader() : renderMobileHeader()}
-      {renderToolTip()}
-    </>
-  );
+  return <>{width > 1140 ? renderDesktopHeader() : renderMobileHeader()}</>;
 };
 
 export default AppHeader;

@@ -66,7 +66,7 @@ export const dashboardRowsBuilder = async (rows) => {
               coloredLinksHistoryRows(op.account_history.operation_id, 'ID'),
               'coloredText',
             ],
-            'Date and time': [op.block_data.block_time, 'date'],
+            'Date and Time': [op.block_data.block_time, 'date'],
             Block: [
               coloredLinksHistoryRows(op.block_data.block_num, 'BLOCK'),
               'coloredText',
