@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Pagination from '@mui/material/Pagination';
 import Button from '@mui/material/Button';
-import { Tabs, Tab } from '@mui/material';
+import { Tabs, Tab, Select, MenuItem } from '@mui/material';
 import CustomPieChart from '../../components/Chart/CustomPieChart';
 
 // import components
@@ -34,6 +34,7 @@ import { setPieData } from '../../store/explorer/actions';
 import { getPieData } from '../../store/explorer/selectors';
 import i18n, { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
+import PaginationSelect from '../../components/AppPagination/PaginationSelect';
 
 const { fetchLastOperations, fetchHeader } = actions;
 const { getOperations, isFetchingLastOperations, getHeader, isFetchingHeader } =
@@ -184,6 +185,7 @@ const Dashboard = React.memo(() => {
   const [page, setPage] = useState(1);
   const [rows, setRows] = useState([]);
   const [tabValue, setTabValue] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const { t } = useTranslation();
 
@@ -204,9 +206,15 @@ const Dashboard = React.memo(() => {
 
   // vars
   const TabLabels = ['Operations', 'Markets', 'Holders'];
-  const curPageOps = getOpsData?.slice((page - 1) * 10, page * 10); // current page operations - 20 ops per page
-  const totalPages = getOpsData?.length === 0 ? 1 : getOpsData?.length / 10; // total number of pages = all ops / opsPerPage (=20)
-  const headers = ['Operation', 'ID', 'Date and time', 'Block', 'Type']; // table headers
+  const curPageOps = getOpsData?.slice(
+    (page - 1) * rowsPerPage,
+    page * rowsPerPage,
+  ); // current page operations - 20 ops per page
+  const totalPages =
+    getOpsData?.length === 0
+      ? 1
+      : +(getOpsData?.length / rowsPerPage).toFixed(); // total number of pages = all ops / opsPerPage (=20)
+  const headers = ['Operation', 'ID', 'Date and Time', 'Block', 'Type']; // table headers
 
   const getColor = (name) => {
     var color = 'white';
@@ -262,7 +270,7 @@ const Dashboard = React.memo(() => {
       setV(true);
       dashboardRowsBuilder(curPageOps).then((rws) => setRows(rws));
     }
-  }, [curPageOps]);
+  }, [curPageOps, rowsPerPage]);
 
   // handlers
   const onPageChange = (_, newPageNumber) => {
@@ -270,6 +278,13 @@ const Dashboard = React.memo(() => {
     setV(false);
     newPageNumber === totalPages &&
       fetchLastOps(getOpsData[getOpsData.length - 1].operation_id_num); // fetch with search_after whenever current page reach out the maximum ES fetch count
+  };
+
+  const onRowsPerPageChange = ({ target }) => {
+    const { value } = target;
+    setRowsPerPage(value);
+    setPage(1);
+    setV(false);
   };
 
   const handleChange = (event, newValue) => {
@@ -373,6 +388,7 @@ const Dashboard = React.memo(() => {
         {(isFetchingOps || rows.length === 0) && <Loader />}
       </StyledTableContainer>
       <StyledPaginationContainer>
+        <PaginationSelect value={rowsPerPage} onChange={onRowsPerPageChange} />
         <Pagination
           count={totalPages ?? 0}
           page={page}

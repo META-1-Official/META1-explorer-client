@@ -10,6 +10,7 @@
   "Voting": "表决",
   "Home": "家",
   "Accounts": "帐号",
+  "Wallets": "錢包",
   "General": "一般",
   "Balances": "余额",
   "Authorities": "当局",
@@ -67,6 +68,7 @@
 
   "Rich list": "丰富的清单",
   "Amount": "量",
+  "WALLETS": "錢包",
 
   "Volume": "体积",
   "Accumulated fees": "累计费用",
@@ -197,8 +199,7 @@
   "Looking for an account? Start typing the first letters of it's name and let the auto complete feature help you find the exact account name string.": "正在寻找一个帐户？ 开始键入其名称的第一个字母，并让自动完成功能帮助您找到确切的帐户名称字符串。",
   "Account name or ID": "帐户名称或ID",
   "Search Object": "搜索对象",
-  "In order to search for an object you need to insert an ID with the correct META1 object format. More info and list can be found": "要搜索对象，您需要插入具有正确Bitshares对象格式的ID。 可以找到更多信息和列表",
-  "HERE": "这里",
+  "In order to search for an object you need to insert an ID with the correct META1 object format. More info and list can be found HERE.": "要搜索对象，您需要插入具有正确Bitshares对象格式的ID。 可以找到更多信息和列表 这里",
   "Object ID": "对象ID",
   "Search Asset": "搜索资产",
   "Looking for a SmartCoin or UIA? Start typing the first letters of it's name and let the auto complete feature help you find the exact asset name string.": "寻找SmartCoin或UIA？ 开始键入其名称的第一个字母，然后让自动完成功能帮助您找到确切的资产名称字符串。",

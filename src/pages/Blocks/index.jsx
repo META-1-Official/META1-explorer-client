@@ -13,32 +13,24 @@ import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 import PageLabel from '../../components/PageLabel.jsx';
 import { useTranslation } from 'react-i18next';
+import PaginationSelect from '../../components/AppPagination/PaginationSelect';
+import {
+  PageWrapper,
+  PaginationWrapper,
+  StyledContainer,
+} from '../Transactions/Transactions.styles';
 
 const { fetchBigBlocks } = actions;
 const { getBigBlocks, isFetchingBigBlocks } = selectors;
 
-const PageWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  max-width: 1315px;
-  padding-top: 80px;
-  padding-bottom: 38px;
-`;
-
-const StyledContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
-
 const Blocks = () => {
   const [rows, setRows] = useState([]);
+  const [rowsPerPage, serRowsPerPage] = useState(20);
 
   // dispatch
   const dispatch = useDispatch();
 
-  const fetchBigBlocksData = () => dispatch(fetchBigBlocks());
+  const fetchBigBlocksData = (size) => dispatch(fetchBigBlocks(size));
 
   // selectors
   const getBigBlocksData = useSelector(getBigBlocks);
@@ -74,8 +66,8 @@ const Blocks = () => {
   };
 
   useEffect(() => {
-    fetchBigBlocksData(); // fetch big trxs
-  }, []);
+    fetchBigBlocksData(rowsPerPage); // fetch big trxs
+  }, [rowsPerPage]);
 
   const { t } = useTranslation();
 
@@ -87,12 +79,27 @@ const Blocks = () => {
     }
   }, [getBigBlocksData]);
 
+  const changeRowsPerPageHandler = ({ target }) => {
+    const { value } = target;
+    serRowsPerPage(value);
+    setV(false);
+    setRows([]);
+  };
+
   return (
     <PageWrapper>
       <StyledContainer>
         <PageLabel>{t('BLOCKS')}</PageLabel>
         {!isFetchingBigBlocksData && rows && rows.length !== 0 ? (
-          <Table headers={headers} rows={rows}></Table>
+          <>
+            <Table headers={headers} rows={rows}></Table>
+            <PaginationWrapper>
+              <PaginationSelect
+                value={rowsPerPage}
+                onChange={changeRowsPerPageHandler}
+              />
+            </PaginationWrapper>
+          </>
         ) : (
           <Loader />
         )}

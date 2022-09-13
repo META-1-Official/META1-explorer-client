@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import MuiTableContainer from '@mui/material/TableContainer';
 import { ellipsis } from 'polished';
 import MuiTableCell from '@mui/material/TableCell';
-import { Select } from '@mui/material';
 
 export const TableContainerWrapper = styled.div`
   display: flex;
@@ -36,8 +35,8 @@ export const StyledMuiTableContainer = styled(MuiTableContainer)`
           text-align: ${(props) =>
             props.lastcellaligned === false ? 'left' : 'right'};
         }
-        padding-top: ${(props) => props.cellHeight ?? '16px'};
-        padding-bottom: ${(props) => props.cellHeight ?? '16px'};
+        padding-top: ${(props) => props.cellHeight ?? '9px'};
+        padding-bottom: ${(props) => props.cellHeight ?? '9px'};
       }
     }
 
@@ -48,6 +47,7 @@ export const StyledMuiTableContainer = styled(MuiTableContainer)`
         .MuiTableCell-root {
           color: white;
           border: none;
+          vertical-align: bottom;
         }
 
         td.MuiTableCell-root {
@@ -55,8 +55,8 @@ export const StyledMuiTableContainer = styled(MuiTableContainer)`
             text-align: ${(props) =>
               props.lastcellaligned === false ? 'left' : 'right'};
           }
-          padding-top: ${(props) => props.cellHeight ?? '16px'};
-          padding-bottom: ${(props) => props.cellHeight ?? '16px'};
+          padding-top: ${(props) => props.cellHeight ?? '9px'};
+          padding-bottom: ${(props) => props.cellHeight ?? '9px'};
 
           div {
             ${ellipsis('350px')}

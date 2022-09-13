@@ -44,15 +44,15 @@ export const fetchLookupTransactions = (start) => ({
   payload: { start },
 });
 // big blocks
-export const fetchBigBlocks = () => ({
+export const fetchBigBlocks = (size) => ({
   type: types.BIG_BLOCKS_FETCH,
-  payload: {},
+  payload: { size },
 });
 
 // big transactions
-export const fetchBigTransactions = () => ({
+export const fetchBigTransactions = (size) => ({
   type: types.BIG_TRANSACTIONS_FETCH,
-  payload: {},
+  payload: { size },
 });
 
 // transaction metadata
@@ -139,6 +139,7 @@ export const fetchAccountHistory = (
   from,
   search_after,
   object_ids,
+  size,
 ) => ({
   type: types.ACCOUNT_HISTORY_FETCH,
   payload: {
@@ -146,6 +147,7 @@ export const fetchAccountHistory = (
     from,
     search_after,
     object_ids,
+    size,
   },
 });
 

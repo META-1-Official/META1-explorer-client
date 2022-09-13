@@ -109,12 +109,19 @@ const getVotesData = async (fullAccount) => {
   return votes?.data;
 };
 
-const getAccountHistoryData = async (id, from, search_after, object_ids) => {
+const getAccountHistoryData = async (
+  id,
+  from,
+  search_after,
+  object_ids,
+  size,
+) => {
   const history = await api.getAccountHistory(
     id,
     from,
     search_after,
     object_ids,
+    size,
   );
   return history.data.data;
 };

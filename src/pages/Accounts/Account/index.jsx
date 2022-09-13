@@ -1,7 +1,6 @@
-import { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { debounce } from 'lodash';
 
 import { Pagination, Typography, Tabs, Tab } from '@mui/material';
 
@@ -28,6 +27,7 @@ import {
 } from '../../../store/explorer/selectors';
 import { accountHistoryRowsBuilder } from '../../../helpers/rowBuilders';
 import { useTranslation } from 'react-i18next';
+import PaginationSelect from '../../../components/AppPagination/PaginationSelect';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -100,9 +100,18 @@ const Account = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedSearchValues, setSelectedSearchValues] = useState([]);
   const [loadingAccount, setLoadingAccount] = useState(true);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const fetchAccountHistoryData = (accountId, from, search_after, object_ids) =>
-    dispatch(fetchAccountHistory(accountId, from, search_after, object_ids));
+  const fetchAccountHistoryData = (
+    accountId,
+    from,
+    search_after,
+    object_ids,
+    size,
+  ) =>
+    dispatch(
+      fetchAccountHistory(accountId, from, search_after, object_ids, size),
+    );
 
   // hooks
   const location = useLocation();
@@ -115,7 +124,6 @@ const Account = () => {
   // var
   const id = location.pathname.split('/')[2];
   const headers = ['Operation', 'ID', 'Date and Time', 'Block', 'Type'];
-  const OPERATIONS_PER_PAGE = 100;
 
   useEffect(() => {
     (async () => {
@@ -137,10 +145,7 @@ const Account = () => {
   }, [account]);
 
   useEffect(() => {
-    if (
-      pageNumber >= totalPages &&
-      pageNumber * OPERATIONS_PER_PAGE < historyCount
-    ) {
+    if (pageNumber >= totalPages && pageNumber * rowsPerPage < historyCount) {
       setTotalPages(totalPages + 1);
     }
 
@@ -162,27 +167,28 @@ const Account = () => {
     setPageNumber(newPageNumber);
     setV(false);
     if (
-      (newPageNumber === totalPages && newPageNumber < OPERATIONS_PER_PAGE) ||
+      (newPageNumber === totalPages && newPageNumber < rowsPerPage) ||
       newPageNumber !== totalPages
     ) {
       setRows([]);
       const ids = operationIdsBuilder(selectedSearchValues);
+      window.stop();
       fetchAccountHistoryData(
         id,
-        (newPageNumber - 1) * OPERATIONS_PER_PAGE,
+        (newPageNumber - 1) * rowsPerPage,
         undefined,
         ids,
+        rowsPerPage,
       );
-    } else if (
-      newPageNumber === totalPages &&
-      newPageNumber > OPERATIONS_PER_PAGE
-    ) {
+    } else if (newPageNumber === totalPages && newPageNumber > rowsPerPage) {
       setRows([]);
+      window.stop();
       fetchAccountHistoryData(
         id,
         0,
         history[history.length - 1].operation_id_num,
         selectedSearchValues,
+        rowsPerPage,
       ); // fetch with search_after whenever current page reach out the maximum ES fetch count
     }
   };
@@ -216,6 +222,15 @@ const Account = () => {
         ? event.target.value.split(',')
         : event.target.value;
     setSelectedSearchValues(selectedTags);
+  };
+
+  const onRowsPerPageChange = ({ target }) => {
+    const { value } = target;
+    setRowsPerPage(value);
+    setPageNumber(1);
+    setRows([]);
+    fetchAccountHistoryData(id, 0, undefined, undefined, value);
+    setV(false);
   };
 
   const clearFilters = () => {
@@ -278,8 +293,16 @@ const Account = () => {
           )}
         </StyledHsContainer>
         <StyledPaginationContainer>
+          <PaginationSelect
+            value={rowsPerPage}
+            onChange={onRowsPerPageChange}
+          />
           <Pagination
-            count={totalPages}
+            count={
+              historyCount > 10000
+                ? rowsPerPage
+                : +Math.ceil(historyCount / rowsPerPage)
+            }
             page={pageNumber}
             shape="rounded"
             onChange={onPageChange}
