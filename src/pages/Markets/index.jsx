@@ -17,6 +17,8 @@ import selectors from '../../store/selectors';
 import { localizeNumber } from '../../helpers/utility';
 import PageLabel from '../../components/PageLabel.jsx';
 import { useTranslation } from 'react-i18next';
+import { EmptyLabel } from '../../components/EmptyResultsBlock/EmptyResultsBlock.styles';
+import EmptyResultsBlock from '../../components/EmptyResultsBlock';
 
 const { fetchActiveMarkets } = actions;
 const { getActiveMarkets, isFetchingActiveMarkets } = selectors;
@@ -64,11 +66,11 @@ const Markets = () => {
     data.pair.includes(query.toUpperCase()),
   );
   const curPageOps =
-    filteredData?.length > 20
-      ? filteredData?.slice((page - 1) * 20, page * 20)
-      : filteredData; // current page markets - 20 markets per page
+    filteredData?.length > 25
+      ? filteredData?.slice((page - 1) * 25, page * 25)
+      : filteredData; // current page markets - 25 markets per page
   const totalPages =
-    filteredData?.length === 0 ? 1 : Math.floor(filteredData?.length / 20) + 1; // total number of pages = all markets / marketsPerPage (=20)
+    filteredData?.length === 0 ? 1 : Math.floor(filteredData?.length / 25) + 1; // total number of pages = all markets / marketsPerPage (=25)
 
   const headers = ['Pair', 'Price', 'Operations']; // table headers
   const rows = curPageOps?.map((market) => {
@@ -96,7 +98,8 @@ const Markets = () => {
     <PageWrapper>
       <StyledContainer>
         <PageLabel>{t('MARKETS')}</PageLabel>
-        {!isFetchingMostActiveMarkets && rows ? (
+        {isFetchingMostActiveMarkets && <Loader />}
+        {!isFetchingMostActiveMarkets && rows && (
           <Table
             headers={headers}
             rows={rows}
@@ -105,8 +108,9 @@ const Markets = () => {
             withSearch
             headerText={'MOST ACTIVE MARKETS'}
           ></Table>
-        ) : (
-          <Loader />
+        )}
+        {getMostActiveMarkets?.length && !rows?.length && (
+          <EmptyResultsBlock withoutLink />
         )}
       </StyledContainer>
       <StyledPaginationContainer>

@@ -19,6 +19,7 @@ import {
   PaginationWrapper,
   StyledContainer,
 } from '../Transactions/Transactions.styles';
+import EmptyResultsBlock from '../../components/EmptyResultsBlock';
 
 const { fetchBigBlocks } = actions;
 const { getBigBlocks, isFetchingBigBlocks } = selectors;
@@ -26,6 +27,7 @@ const { getBigBlocks, isFetchingBigBlocks } = selectors;
 const Blocks = () => {
   const [rows, setRows] = useState([]);
   const [rowsPerPage, serRowsPerPage] = useState(20);
+  const [query, setQuery] = useState('');
 
   // dispatch
   const dispatch = useDispatch();
@@ -86,13 +88,27 @@ const Blocks = () => {
     setRows([]);
   };
 
+  const filteredRows = rows.filter((row) =>
+    row['BLOCK NUMBER'][0]?.split('>')[1].split('<')[0].startsWith(query),
+  );
+  const onSearch = (value) => {
+    setQuery(value);
+  };
   return (
     <PageWrapper>
       <StyledContainer>
         <PageLabel>{t('BLOCKS')}</PageLabel>
-        {!isFetchingBigBlocksData && rows && rows.length !== 0 ? (
+        {!isFetchingBigBlocksData && rows && (
           <>
-            <Table headers={headers} rows={rows}></Table>
+            <Table
+              headers={headers}
+              rows={filteredRows}
+              withSearch
+              headerText={'BIGGEST BLOCKS'}
+              searchText={'Search for a Block number'}
+              onSearch={onSearch}
+            ></Table>
+            {rows?.length && !filteredRows?.length && <EmptyResultsBlock />}
             <PaginationWrapper>
               <PaginationSelect
                 value={rowsPerPage}
@@ -100,9 +116,8 @@ const Blocks = () => {
               />
             </PaginationWrapper>
           </>
-        ) : (
-          <Loader />
         )}
+        {isFetchingBigBlocksData && !rows && <Loader />}
       </StyledContainer>
     </PageWrapper>
   );

@@ -15,13 +15,8 @@ export const StyledContainer = styled.div`
   flex-direction: column;
 `;
 
-export const StyledPaginationContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
-  padding-top: 38px;
-  display: flex;
-  justify-content: flex-end;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    justify-content: center;
-  }
+export const PageDescription = styled.div`
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 1rem;
 `;

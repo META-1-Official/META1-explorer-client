@@ -112,6 +112,8 @@
 
   "Blocks": "Blocks",
   "BLOCKS": "BLOCKS",
+  "BIGGEST BLOCKS": "BIGGEST BLOCKS",
+  "Search for a Block number": "Search for a Block number",
   "Block Number": "Block Number",
   "Key": "Key",
   "Value": "Value",
@@ -134,6 +136,8 @@
 
   "Biggest network blocks": "Biggest network blocks",
   "Transactions": "Transactions",
+  "BIGGEST TRANSACTIONS": "BIGGEST TRANSACTIONS",
+  "Search for Transaction Hash": "Search for Transaction Hash",
   "TRANSACTIONS": "TRANSACTIONS",
   "DATA": "DATA",
   "Operations": "Operations",
@@ -166,8 +170,9 @@
 
   "Fees": "Fees",
   "Fee schedule": "Fee schedule",
-  "Basic": "Basic",
-  "Premium": "Premium",
+  "Lifetime Member Fee": "Lifetime Member Fee",
+  "Standard Fee": "Standard Fee",
+  "In the META1 ecosystem every operation is assigned an individual fee. These fees are subject to change. However, they are defined solely by shareholder approval, thus each and every shareholder of the META1 core asset (META1) has a say as to what the fees should be. If shareholders can be convinced to reduce a certain fee and consensus is reached, the fee will be reduced automatically by the blockchain. Changes of blockchain parameters are proposed by members of the committee. These members are voted by shareholders and improve the flexibility and reaction rate.": "In the META1 ecosystem every operation is assigned an individual fee. These fees are subject to change. However, they are defined solely by shareholder approval, thus each and every shareholder of the META1 core asset (META1) has a say as to what the fees should be. If shareholders can be convinced to reduce a certain fee and consensus is reached, the fee will be reduced automatically by the blockchain. Changes of blockchain parameters are proposed by members of the committee. These members are voted by shareholders and improve the flexibility and reaction rate.",
   "Price per KB": "Price per KB",
 
   "Objects": "Objects",
@@ -368,6 +373,8 @@
   "published price": "published price ",
   "asset created": "asset created",
 
-  "Select operation category": "Select operation category"
+  "Select operation category": "Select operation category",
+  "NO RESULTS FOUND": "NO RESULTS FOUND",
+  "Try to Search Here": "Try to Search Here"
 
 }

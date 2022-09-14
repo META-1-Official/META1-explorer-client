@@ -24,7 +24,6 @@ import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 
 // import api
-import { opText } from '../../store/apis/explorer';
 import api from '../../store/apis';
 
 // import constants

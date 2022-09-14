@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Pagination, Typography, Tabs, Tab } from '@mui/material';
+import {
+  Pagination,
+  Typography,
+  Tabs,
+  Tab,
+  PaginationItem,
+} from '@mui/material';
 
 import { Table } from '../../../components/Table';
 import { Loader } from '../../../components/Loader';
@@ -28,6 +34,8 @@ import {
 import { accountHistoryRowsBuilder } from '../../../helpers/rowBuilders';
 import { useTranslation } from 'react-i18next';
 import PaginationSelect from '../../../components/AppPagination/PaginationSelect';
+import React from 'react';
+import { ArrowBackIosNew } from '@mui/icons-material';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -167,7 +175,7 @@ const Account = () => {
     setPageNumber(newPageNumber);
     setV(false);
     if (
-      (newPageNumber === totalPages && newPageNumber < rowsPerPage) ||
+      (newPageNumber === totalPages && newPageNumber <= rowsPerPage) ||
       newPageNumber !== totalPages
     ) {
       setRows([]);
@@ -300,9 +308,23 @@ const Account = () => {
           <Pagination
             count={
               historyCount > 10000
-                ? rowsPerPage
+                ? totalPages
                 : +Math.ceil(historyCount / rowsPerPage)
             }
+            renderItem={(item) => {
+              if (historyCount > 10000) {
+                return (
+                  <PaginationItem
+                    components={{
+                      next: (props) => <div {...props}>...</div>,
+                    }}
+                    {...item}
+                  />
+                );
+              } else {
+                return <PaginationItem {...item} />;
+              }
+            }}
             page={pageNumber}
             shape="rounded"
             onChange={onPageChange}
