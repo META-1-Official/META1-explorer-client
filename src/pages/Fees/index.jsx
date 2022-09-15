@@ -83,6 +83,7 @@ const Fees = () => {
             lastcellaligned={false}
             onSearch={onSearch}
             searchText={'Search for a fee'}
+            isFees
           ></Table>
         ) : (
           <Loader />
