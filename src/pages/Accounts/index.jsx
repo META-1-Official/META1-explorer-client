@@ -64,7 +64,7 @@ const Accounts = () => {
   const accountRows = currentAccounts.map((account) => {
     const { amount, name, id } = account;
     return {
-      Amount: [Number(amount).toLocaleString(), 'plainText'],
+      Amount: [`${Number(amount).toLocaleString()} META1`, 'plainText'],
       Name: [`<a href='/accounts/${id}'>${name}</a>`, 'html'],
     };
   });

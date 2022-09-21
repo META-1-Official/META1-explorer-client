@@ -53,7 +53,13 @@ export const accountHistoryRowsBuilder = async (rows) => {
 };
 
 const buildOpTextPromises = (rows) =>
-  rows.map((op) => opText(op.operation_type, op.operation_history.op_object));
+  rows.map((op) =>
+    opText(
+      op.operation_type,
+      op.operation_history.op_object,
+      op.account_history.account,
+    ),
+  );
 
 export const dashboardRowsBuilder = async (rows) => {
   return rows
