@@ -60,6 +60,20 @@ const TableCell = ({ cell }) => {
   }
 };
 
+const FeesTableCell = ({ cell }) => {
+  const [content, contentType] = cell;
+  const { t } = useTranslation();
+
+  switch (contentType) {
+    case 'label':
+      return <span>{t(operationType(content)[0])}</span>;
+    case 'plainText':
+      return <styled.Text type="plain">{t(content)}</styled.Text>;
+    default:
+      return <styled.Text type="plain">{content}</styled.Text>;
+  }
+};
+
 const handleUrlLinkClick = (url) => {
   if (url === '') {
     toast('No url to copy to clipboard');
@@ -86,6 +100,7 @@ export const Table = ({
   selectPlaceholder,
   searchCallback,
   clearFilters,
+  isFees,
 }) => {
   const { t } = useTranslation();
   return (
@@ -162,7 +177,11 @@ export const Table = ({
               <MuiTableRow key={`raw-${rawIndex}`}>
                 {headers.map((header) => (
                   <styled.StyledMuiTableCell key={`row-${header}`} align="left">
-                    <TableCell cell={row[header]} />
+                    {isFees ? (
+                      <FeesTableCell cell={row[header]} />
+                    ) : (
+                      <TableCell cell={row[header]} />
+                    )}
                   </styled.StyledMuiTableCell>
                 ))}
               </MuiTableRow>
