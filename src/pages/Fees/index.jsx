@@ -17,6 +17,7 @@ import selectors from '../../store/selectors';
 import PageLabel from '../../components/PageLabel.jsx';
 import { useTranslation } from 'react-i18next';
 import { feesRowsBuilder } from '../../helpers/rowBuilders';
+import { PageDescription } from './Fees.styles';
 
 const { fetchFees } = actions;
 const { getFees, isFetchingFees } = selectors;
@@ -42,21 +43,15 @@ const Fees = () => {
     data.operation.includes(query.toUpperCase()),
   );
 
-  const curPageOps =
-    filteredData?.length > 20
-      ? filteredData?.slice((page - 1) * 20, page * 20)
-      : filteredData; // current page markets - 20 markets per page
-  const totalPages =
-    filteredData?.length === 0 ? 1 : Math.floor(filteredData?.length / 20) + 1; // total number of pages = all markets / marketsPerPage (=20)
+  const curPageOps = filteredData; // current page markets - 20 markets per page
 
-  const headers = ['ID', 'Operation', 'Basic', 'Premium', 'Amount']; // table headers
+  const headers = ['ID', 'Operation', 'Standard Fee', 'Lifetime Member Fee']; // table headers
   const rows = curPageOps?.map((fee) => {
     return {
       ID: [fee.identifier, 'plainText'],
       Operation: [fee.type, 'label'],
-      Basic: [fee.basic_fee, 'plainText'],
-      Premium: [fee.premium_fee, 'plainText'],
-      Amount: [fee.price_per_kbyte, 'plainText'],
+      'Standard Fee': [fee.basic_fee, 'plainText'],
+      'Lifetime Member Fee': [fee.price_per_kbyte, 'plainText'],
     };
   });
 
@@ -65,9 +60,6 @@ const Fees = () => {
   }, []);
 
   // handlers
-  const onPageChange = (_, newPageNumber) => {
-    setPage(newPageNumber);
-  };
 
   const onSearch = (query) => {
     setQuery(query);
@@ -77,6 +69,11 @@ const Fees = () => {
     <styled.PageWrapper>
       <styled.StyledContainer>
         <PageLabel>{t('FEES')}</PageLabel>
+        <PageDescription>
+          {t(
+            'In the META1 ecosystem every operation is assigned an individual fee. These fees are subject to change. However, they are defined solely by shareholder approval, thus each and every shareholder of the META1 core asset (META1) has a say as to what the fees should be. If shareholders can be convinced to reduce a certain fee and consensus is reached, the fee will be reduced automatically by the blockchain. Changes of blockchain parameters are proposed by members of the committee. These members are voted by shareholders and improve the flexibility and reaction rate.',
+          )}
+        </PageDescription>
         {!isFetchingFeesData && rows ? (
           <Table
             headers={headers}
@@ -91,14 +88,6 @@ const Fees = () => {
           <Loader />
         )}
       </styled.StyledContainer>
-      <styled.StyledPaginationContainer>
-        <Pagination
-          count={totalPages}
-          page={page}
-          shape="rounded"
-          onChange={onPageChange}
-        />
-      </styled.StyledPaginationContainer>
     </styled.PageWrapper>
   );
 };

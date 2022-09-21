@@ -1,3 +1,5 @@
+import { instanceOf } from 'prop-types';
+
 export const localizeNumber = (number, locale = 'en') => {
   return Number(number).toLocaleString(locale);
 };
@@ -434,4 +436,18 @@ export const parseGroupOrdersBook = (data, quote_precision, base_precision) => {
       quote_precision: quote_precision,
     };
   });
+};
+
+export const dateTimeZoneOffsetCorrect = (date) => {
+  const timeZoneOffset = new Date().getTimezoneOffset();
+  const currentDate = new Date(
+    new Date(date).setMinutes(new Date(date).getMinutes() - timeZoneOffset),
+  );
+  if (currentDate instanceof Date && !isNaN(currentDate)) {
+    const orderDate = `${currentDate.toLocaleTimeString(
+      'en-GB',
+    )}, ${currentDate.toLocaleDateString()}`;
+    return orderDate;
+  }
+  return date.split(',').reverse().join(', ');
 };

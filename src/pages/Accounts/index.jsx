@@ -10,6 +10,8 @@ import { Loader } from '../../components/Loader';
 import api from '../../store/apis';
 import PageLabel from '../../components/PageLabel.jsx';
 import { useTranslation } from 'react-i18next';
+import { Link } from '@mui/material';
+import EmptyResultsBlock from '../../components/EmptyResultsBlock';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -95,6 +97,7 @@ const Accounts = () => {
           searchText={'Search for Account'}
         />
         {accounts?.length === 0 && <Loader />}
+        {accounts.length && !currentAccounts?.length && <EmptyResultsBlock />}
       </StyledContainer>
       <StyledPaginationContainer>
         <Pagination

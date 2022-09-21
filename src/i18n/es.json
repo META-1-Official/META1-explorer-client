@@ -107,6 +107,8 @@
 
   "Blocks": "Bloques",
   "Block Number": "Numero de bloque",
+  "BIGGEST BLOCKS": "BLOQUES MÁS GRANDES",
+  "Search for a Block number": "Buscar un número de bloque",
   "Previous": "Previo",
   "Date and time:": "Fecha y hora",
   "Witness": "Testigo",
@@ -118,6 +120,8 @@
   "Biggest network blocks": "Bloques mas grandes la red vistos recientemente",
   "Date": "Fecha",
   "Operations": "Operaciones",
+  "BIGGEST TRANSACTIONS": "TRANSACCIONES MÁS GRANDES",
+  "Search for Transaction Hash": "Buscar hash de transacción",
   "Operations table_key:": "Operaciones:",
 
   "Committee members": "Miembros del comite",
@@ -133,8 +137,9 @@
   "COMMITTEE": "COMITE",
 
   "Fee schedule": "Listado de comisiones",
-  "Basic": "Basico",
-  "Premium": "Premium",
+  "Lifetime Member Fee": "Cuota de miembro de por vida",
+  "Standard Fee": "Tarifa estándar",
+  "In the META1 ecosystem every operation is assigned an individual fee. These fees are subject to change. However, they are defined solely by shareholder approval, thus each and every shareholder of the META1 core asset (META1) has a say as to what the fees should be. If shareholders can be convinced to reduce a certain fee and consensus is reached, the fee will be reduced automatically by the blockchain. Changes of blockchain parameters are proposed by members of the committee. These members are voted by shareholders and improve the flexibility and reaction rate.": "En el ecosistema META1 a cada operación se le asigna una tarifa individual. Estas tarifas están sujetas a cambios. Sin embargo, se definen únicamente por la aprobación de los accionistas, por lo que todos y cada uno de los accionistas del activo principal de META1 (META1) tienen voz sobre cuáles deberían ser las tarifas. Si se puede convencer a los accionistas para que reduzcan una determinada tarifa y se llega a un consenso, la cadena de bloques reducirá automáticamente la tarifa. Los miembros del comité proponen cambios en los parámetros de la cadena de bloques. Estos miembros son votados por los accionistas y mejoran la flexibilidad y la velocidad de reacción.",
   "Price per KB": "Precio por KB",
 
   "Objects": "Objectos",
@@ -414,8 +419,8 @@
   "published price": "precio publicado ",
   "asset created": "activo creado",
 
-  "Select operation category": "Seleccionar categoría de operación"
-
-
+  "Select operation category": "Seleccionar categoría de operación",
+  "NO RESULTS FOUND": "NO SE HAN ENCONTRADO RESULTADOS",
+  "Try to Search Here": "Intenta buscar aquí"
 
 }

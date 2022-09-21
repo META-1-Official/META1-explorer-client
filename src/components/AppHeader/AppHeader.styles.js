@@ -3,7 +3,7 @@ import { Select } from '@mui/material';
 
 export const StyledSelect = styled(Select)`
   width: fit-content !important;
-  margin-top: 2px;
+  margin-top: 5px;
 
   .MuiSelect-select {
     background-color: ${(props) => props.theme.palette.background.nearBlack};
@@ -61,7 +61,7 @@ export const StyledLangSelect = styled(Select)`
 `;
 
 export const Img = styled.img`
-  width: 90px;
+  width: 145px;
   margin-right: 45px;
 
   &.lang,

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import MuiTableContainer from '@mui/material/TableContainer';
 import { ellipsis } from 'polished';
 import MuiTableCell from '@mui/material/TableCell';
-import { Select } from '@mui/material';
 
 export const TableContainerWrapper = styled.div`
   display: flex;
@@ -36,8 +35,8 @@ export const StyledMuiTableContainer = styled(MuiTableContainer)`
           text-align: ${(props) =>
             props.lastcellaligned === false ? 'left' : 'right'};
         }
-        padding-top: ${(props) => props.cellHeight ?? '9px'};
-        padding-bottom: ${(props) => props.cellHeight ?? '9px'};
+        padding-top: ${(props) => props.cellHeight ?? '5px'};
+        padding-bottom: ${(props) => props.cellHeight ?? '5px'};
       }
     }
 
@@ -56,8 +55,8 @@ export const StyledMuiTableContainer = styled(MuiTableContainer)`
             text-align: ${(props) =>
               props.lastcellaligned === false ? 'left' : 'right'};
           }
-          padding-top: ${(props) => props.cellHeight ?? '9px'};
-          padding-bottom: ${(props) => props.cellHeight ?? '9px'};
+          padding-top: ${(props) => props.cellHeight ?? '5px'};
+          padding-bottom: ${(props) => props.cellHeight ?? '5px'};
 
           div {
             ${ellipsis('350px')}
@@ -131,7 +130,7 @@ export const Text = styled.div`
 
 export const Label = styled.div`
   background: ${(props) => `#${props.color}`};
-  padding: 5px 10px 5px 10px;
+  padding: 0px 5px;
   border-radius: 5px;
   width: fit-content;
   align-self: flex-end;
@@ -140,7 +139,6 @@ export const Label = styled.div`
   align-items: center;
   vertical-align: center;
   height: 24px;
-  // opacity: 0.7;
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
