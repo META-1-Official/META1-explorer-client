@@ -156,13 +156,13 @@
   "COMMITTEE": "COMMITTEE",
 
   "Asset Price Publish": "Asset Price Publish",
-  "Limit Order Create": "Limit Order Create",
+  "Order Create": "Order Create",
   "Fill Order": "Fill Order",
-  "Limit Order Cancel": "Limit Order Cancel",
+  "Order Cancel": "Order Cancel",
   "Transfer": "Transfer",
   "Account Create": "Account Create",
   "ASSET PRICE PUBLISH": "ASSET PRICE PUBLISH",
-  "LIMIT ORDER CREATE": "LIMIT ORDER CREATE",
+  "ORDER CREATE": "ORDER CREATE",
   "FILL ORDER": "FILL ORDER",
   "Rate": "Rate",
 
@@ -271,7 +271,7 @@
 
   "ACCOUNTS": "ACCOUNTS",
   "RICH LIST": "RICH LIST",
-  "Search for Account": "Search for Account",
+  "Search for Wallet": "Search for Wallet",
   "Search for a markets": "Search for a markets",
 
   "FEES": "FEES",

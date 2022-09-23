@@ -96,8 +96,8 @@ export const objectType = (id) => {
 
 export const opMapping = {
   0: 'TRANSFER',
-  1: 'LIMIT ORDER CREATE',
-  2: 'LIMIT ORDER CANCEL',
+  1: 'ORDER CREATE',
+  2: 'ORDER CANCEL',
   3: 'CALL ORDER UPDATE',
   4: 'FILL ORDER',
   5: 'ACCOUNT CREATE',

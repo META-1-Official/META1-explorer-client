@@ -64,7 +64,7 @@ const Accounts = () => {
   const accountRows = currentAccounts.map((account) => {
     const { amount, name, id } = account;
     return {
-      Amount: [Number(amount).toLocaleString(), 'plainText'],
+      Amount: [`${Number(amount).toLocaleString()} META1`, 'plainText'],
       Name: [`<a href='/accounts/${id}'>${name}</a>`, 'html'],
     };
   });
@@ -94,7 +94,7 @@ const Accounts = () => {
           withSearch
           onSearch={onSearch}
           headerText={'RICH LIST'}
-          searchText={'Search for Account'}
+          searchText={'Search for Wallet'}
         />
         {accounts?.length === 0 && <Loader />}
         {accounts.length && !currentAccounts?.length && <EmptyResultsBlock />}
