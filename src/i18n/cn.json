@@ -154,13 +154,13 @@
   "COMMITTEE": "委员会",
 
   "Asset Price Publish": "資產價格發布",
-  "Limit Order Create": "限價單創建",
+  "Order Create": "訂單創建",
   "Fill Order": "填寫訂單",
-  "Limit Order Cancel": "限價單取消",
+  "Order Cancel": "訂單取消",
   "Transfer": "轉移",
   "Account Create": "帳戶創建",
   "ASSET PRICE PUBLISH": "資產價格發布",
-  "LIMIT ORDER CREATE": "限價單創建",
+  "ORDER CREATE": "訂單創建",
   "FILL ORDER": "填寫訂單",
   "Rate": "速度",
 
@@ -272,7 +272,7 @@
 
   "ACCOUNTS": "賬戶",
   "RICH LIST": "富豪榜",
-  "Search for Account": "搜索帳戶",
+  "Search for Wallet": "搜索錢包",
 
   "FEES": "費用",
   "FEE SCHEDULE": "費用表",

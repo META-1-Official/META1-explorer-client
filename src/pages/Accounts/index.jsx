@@ -94,7 +94,7 @@ const Accounts = () => {
           withSearch
           onSearch={onSearch}
           headerText={'RICH LIST'}
-          searchText={'Search for Account'}
+          searchText={'Search for Wallet'}
         />
         {accounts?.length === 0 && <Loader />}
         {accounts.length && !currentAccounts?.length && <EmptyResultsBlock />}

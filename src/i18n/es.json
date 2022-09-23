@@ -271,13 +271,13 @@
 
 
   "Asset Price Publish": "Publicar precio activos",
-  "Limit Order Create": "Crear orden limitada",
+  "Order Create": "Orden Crear",
   "Fill Order": "Llenar pedido",
-  "Limit Order Cancel": "Cancelar orden limitada",
+  "Order Cancel": "Cancelar pedido",
   "Transfer": "Transferir",
   "Account Create": "Crear cuenta",
   "ASSET PRICE PUBLISH": "PUBLICAR PRECIO DE ACTIVOS",
-  "LIMIT ORDER CREATE": "CREAR PEDIDO LÍMITE",
+  "ORDER CREATE": "ORDER CREAR",
   "FILL ORDER": "LLENAR PEDIDO",
   "Rate": "Velocidad",
 
@@ -317,7 +317,7 @@
 
   "ACCOUNTS": "CUENTAS",
   "RICH LIST": "LISTA RICA",
-  "Search for Account": "buscar cuenta",
+  "Search for Wallet": "Buscar billetera",
   "Search for a markets": "Buscar un mercado",
 
   "FEES": "TARIFA",
