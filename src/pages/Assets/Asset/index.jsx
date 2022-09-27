@@ -99,7 +99,6 @@ const AssetInfoWrapper = styled.div`
 `;
 
 const Asset = () => {
-  const [queryMarkets, setQueryMarkets] = useState('');
   const [queryHolders, setQueryHolders] = useState('');
 
   // dispatch
@@ -112,7 +111,6 @@ const Asset = () => {
   const fetchAssetHoldersData = (id) => dispatch(fetchAssetHolders(id));
   const fetchAssetHoldersCountData = (id) =>
     dispatch(fetchAssetHoldersCount(id));
-  const fetchAssetMarketsData = (id) => dispatch(fetchAssetMarkets(id));
 
   // selectors
   const getAssetFullData = useSelector(getAssetFull);
@@ -123,14 +121,10 @@ const Asset = () => {
   const isFetchingAssetHoldersCountData = useSelector(
     isFetchingAssetHoldersCount,
   );
-  const getAssetMarketsData = useSelector(getAssetMarkets);
-  const isFetchingAssetMarketsData = useSelector(isFetchingAssetMarkets);
 
   // vars
-  const market_headers = ['Name', 'Price', 'Volume'];
   const holder_headers = ['Account', 'Amount'];
   const headerStatsM = [
-    { '24 HS META1 Volume': 'volume', type: 'plainText' },
     { 'Accumulated fees': 'accumulated_fees', type: 'plainText' },
     { 'Holders table_key': 'holders', type: 'plainText' },
     {
@@ -156,15 +150,6 @@ const Asset = () => {
   const imgUrl = images[`coin-${getAssetFullData?.symbol.toLowerCase()}`];
   const statsRows = buildCustomKVTableDto(getAssetFullData, headerStatsM);
   const infoRows = buildCustomKVTableDto(getAssetFullData, headerInfoM);
-  const marketRows = getAssetMarketsData
-    ?.filter((data) => data.pair.includes(queryMarkets.toUpperCase()))
-    .map((data) => {
-      return {
-        Name: [`<a href='/markets/${data.pair}'>${data.pair}</a>`, 'html'],
-        Price: [localizeNumber(data.latest_price), 'plainText'],
-        Volume: [localizeNumber(data['24h_volume']), 'plainText'],
-      };
-    });
   const holderRows = getAssetHoldersData
     ?.filter((data) => data.name.includes(queryHolders))
     .map((data) => {
@@ -181,21 +166,11 @@ const Asset = () => {
     fetchAssetFullData(id);
     fetchAssetHoldersData(id);
     fetchAssetHoldersCountData(id);
-    fetchAssetMarketsData(id);
   }, []);
 
   useEffect(() => {
     if (getAssetFullData) getAssetFullData.holders = getAssetHoldersCountData;
-  }, [
-    getAssetFullData,
-    getAssetHoldersData,
-    getAssetHoldersCountData,
-    getAssetMarketsData,
-  ]);
-
-  const onSearchForActiveMarkets = (query) => {
-    setQueryMarkets(query);
-  };
+  }, [getAssetFullData, getAssetHoldersData, getAssetHoldersCountData]);
 
   const onSearchForTopHolders = (query) => {
     setQueryHolders(query);
@@ -276,20 +251,6 @@ const Asset = () => {
           )}
         </BlockWrapper>
       </StyledContainer>
-      <StyledColumnContainer className="active_markets">
-        {!isFetchingAssetMarketsData && marketRows ? (
-          <Table
-            withSearch
-            onSearch={onSearchForActiveMarkets}
-            headerText={'ACTIVE MARKETS'}
-            searchText={'Search for a market'}
-            headers={market_headers}
-            rows={marketRows}
-          ></Table>
-        ) : (
-          <Loader />
-        )}
-      </StyledColumnContainer>
       <StyledColumnContainer style={{ marginTop: '42px' }}>
         {!isFetchingAssetHoldersData && holderRows ? (
           <Table

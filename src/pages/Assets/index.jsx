@@ -173,44 +173,6 @@ const Assets = React.memo(() => {
   return (
     <PageWrapper>
       <StyledChartContainer>
-        <LineChartsWrapper>
-          <LineChartCard
-            title="24h VOLUME IN META1"
-            number={getDexVolumeData?.volume_bts}
-            icon={coinMeta1Img}
-            isLoading={isFetchingVolume}
-          />
-          <LineChartCard
-            title="24h VOLUME IN USDT"
-            number={getDexVolumeData?.volume_usd}
-            icon={coinUsdtImg}
-            isLoading={isFetchingVolume}
-          />
-          <LineChartCard
-            title="24h VOLUME IN BTC"
-            number={getDexVolumeData?.volume_cny}
-            icon={coinBtcImg}
-            isLoading={isFetchingVolume}
-          />
-          <LineChartCard
-            title="24h MARKET CAP IN META1"
-            number={getDexVolumeData?.market_cap_bts?.toString().slice(0, -12)}
-            icon={coinMeta1Img}
-            isLoading={isFetchingVolume}
-          />
-          <LineChartCard
-            title="24h MARKET CAP IN USDT"
-            number={getDexVolumeData?.market_cap_usd?.toString().slice(0, -12)}
-            icon={coinUsdtImg}
-            isLoading={isFetchingVolume}
-          />
-          <LineChartCard
-            title="24h MARKET CAP IN BTC"
-            number={getDexVolumeData?.market_cap_cny?.toString().slice(0, -12)}
-            icon={coinBtcImg}
-            isLoading={isFetchingVolume}
-          />
-        </LineChartsWrapper>
         <FilledLineChartWrapper>
           {isFetchingChart ? (
             <Loader />
