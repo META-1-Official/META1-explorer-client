@@ -108,6 +108,7 @@ const ButtonGroup = styled.div`
 
 const StyledButton = styled(Button)`
   color: white;
+
   &:hover,
   &.on {
     background: ${(props) => props.theme.palette.primary.main};
@@ -193,7 +194,7 @@ const Dashboard = React.memo(() => {
 
   const fetchLastOps = (search_after) =>
     dispatch(fetchLastOperations(search_after));
-  const fetchHeaderData = (isLoading) => dispatch(fetchHeader(isLoading));
+  // const fetchHeaderData = (isLoading) => dispatch(fetchHeader(isLoading));
 
   const setPieDataAction = (data) => dispatch(setPieData(data));
   // selectors
@@ -233,29 +234,29 @@ const Dashboard = React.memo(() => {
 
   useEffect(() => {
     (async () => {
-      fetchHeaderData(true); // fetch header
+      // fetchHeaderData(true); // fetch header
       fetchLastOps(undefined); // first fetch with no search_after
       await loadPieData();
     })();
   }, []);
 
-  useEffect(() => {
-    setInterval(() => fetchHeaderData(false), 2000 * 60);
-  }, []);
+  // useEffect(() => {
+  //   setInterval(() => fetchHeaderData(false), 2000 * 60);
+  // }, []);
 
   const loadPieData = async () => {
-    const [operation, proxies, markets, coins, uias, holders] =
-      await Promise.allSettled([
+    const [operation, proxies, coins, uias, holders] = await Promise.allSettled(
+      [
         api.topOperationsChart(),
         api.topProxiesChart(),
-        api.topMarketsChart(),
+        // api.topMarketsChart(),
         api.topSmartCoinsChart(),
         api.topUIAsChart(),
         api.topHoldersChart(),
-      ]);
+      ],
+    );
     setPieDataAction([
       operation.value,
-      markets.value,
       holders.value,
       coins.value,
       uias.value,
