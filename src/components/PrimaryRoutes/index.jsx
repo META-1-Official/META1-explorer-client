@@ -20,12 +20,16 @@ const StyledContent = styled.div`
   align-items: center;
 `;
 
+const LoadingDiv = styled.div`
+  color: white;
+`;
+
 export const PrimaryRoutes = ({ routes }) => {
   return (
     <StyledLayout>
       <AppHeader />
       <StyledContent>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingDiv>Loading...</LoadingDiv>}>
           <ErrorBoundary>
             <Routes>
               {routes.map(({ path, component: Component }) => (
