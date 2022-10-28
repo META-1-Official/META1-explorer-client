@@ -809,7 +809,8 @@ export const opText = (operation_type, operation, accountId) => {
             i18n.t('published price');
           operation_text =
             operation_text +
-            usd_amount / symbol_amount +
+            // usd_amount / symbol_amount +
+            operation.usd_price.numerator / operation.usd_price.denominator +
             ' ' +
             'USD' +
             '/' +
