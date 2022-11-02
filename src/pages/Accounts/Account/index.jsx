@@ -104,7 +104,7 @@ const Account = () => {
   const [rows, setRows] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [tabValue, setTabValue] = useState(0);
-  const [account, setAccount] = useState();
+  const [account, setAccount] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedSearchValues, setSelectedSearchValues] = useState([]);
   const [loadingAccount, setLoadingAccount] = useState(true);
@@ -247,102 +247,104 @@ const Account = () => {
     fetchAccountHistoryData(id, 0, undefined);
     setV(false);
   };
-  if (account && !loadingAccount) {
-    return (
-      <PageWrapper>
-        <StyledContainer>
-          <Label>{t('ACCOUNTS')}</Label>
-          <Tabs
-            value={tabValue}
-            onChange={handleChange}
-            aria-label="general labels"
-            style={{ marginLeft: '15px' }}
-          >
-            <Tab label={t('General')} {...a11yProps(0)} />
-            <Tab label={t('Balances')} {...a11yProps(1)} />
-            <Tab label={t('Authorities')} {...a11yProps(2)} />
-            <Tab label={t('Votes')} {...a11yProps(3)} />
-          </Tabs>
-          <TabPanel value={tabValue} index={0}>
-            {account && <General accountFullData={account?.data} />}
-          </TabPanel>
-          <TabPanel value={tabValue} index={1}>
-            {account && <Balances accountFullData={account?.data} />}
-          </TabPanel>
-          <TabPanel value={tabValue} index={2}>
-            {account && <Authorities accountFullData={account?.data} />}
-          </TabPanel>
-          <TabPanel value={tabValue} index={3}>
-            {account && <Votes accountFullData={account?.data} />}
-          </TabPanel>
-        </StyledContainer>
-        <StyledHsContainer>
-          <Label>{t('Full Account History')}</Label>
-          {history && (
-            <Table
-              headers={headers}
-              withSelect
-              selectMultiple
-              selectSelectedValues={selectedSearchValues}
-              selectValues={Object.values(opMapping)}
-              selectPlaceholder={'Select operation category'}
-              searchCallback={fetchSelectedData}
-              clearFilters={clearFilters}
-              onSearch={onSearch}
-              rows={rows}
-              lastcellaligned
-            />
-          )}
-          {isAccountHistoryLoading && <Loader />}
-          {history?.length === 0 && !isAccountHistoryLoading && (
-            <Typography align={'center'} color={'#FFFFFF'} marginTop={'1rem'}>
-              {t('NO OPERATIONS FOUND')}
-            </Typography>
-          )}
-        </StyledHsContainer>
-        <StyledPaginationContainer>
-          <PaginationSelect
-            value={rowsPerPage}
-            onChange={onRowsPerPageChange}
-          />
-          <Pagination
-            count={
-              historyCount > 10000
-                ? totalPages
-                : +Math.ceil(historyCount / rowsPerPage)
-            }
-            renderItem={(item) => {
-              if (historyCount > 10000) {
-                return (
-                  <PaginationItem
-                    components={{
-                      next: (props) => <div {...props}>...</div>,
-                    }}
-                    {...item}
-                  />
-                );
-              } else {
-                return <PaginationItem {...item} />;
-              }
-            }}
-            page={pageNumber}
-            shape="rounded"
-            onChange={onPageChange}
-          />
-        </StyledPaginationContainer>
-      </PageWrapper>
-    );
-  } else if (!account && !loadingAccount) {
-    return (
-      <PageWrapper>
-        <StyledContainer>
-          <EmptyBlock>NO ACCOUNT FOUND</EmptyBlock>
-        </StyledContainer>
-      </PageWrapper>
-    );
-  } else {
-    return null;
+  if (loadingAccount) {
+    return <Loader />;
   }
+
+  return (
+    <>
+      {account && !loadingAccount ? (
+        <PageWrapper>
+          <StyledContainer>
+            <Label>{t('ACCOUNTS')}</Label>
+            <Tabs
+              value={tabValue}
+              onChange={handleChange}
+              aria-label="general labels"
+              style={{ marginLeft: '15px' }}
+            >
+              <Tab label={t('General')} {...a11yProps(0)} />
+              <Tab label={t('Balances')} {...a11yProps(1)} />
+              <Tab label={t('Authorities')} {...a11yProps(2)} />
+              <Tab label={t('Votes')} {...a11yProps(3)} />
+            </Tabs>
+            <TabPanel value={tabValue} index={0}>
+              {account && <General accountFullData={account?.data} />}
+            </TabPanel>
+            <TabPanel value={tabValue} index={1}>
+              {account && <Balances accountFullData={account?.data} />}
+            </TabPanel>
+            <TabPanel value={tabValue} index={2}>
+              {account && <Authorities accountFullData={account?.data} />}
+            </TabPanel>
+            <TabPanel value={tabValue} index={3}>
+              {account && <Votes accountFullData={account?.data} />}
+            </TabPanel>
+          </StyledContainer>
+          <StyledHsContainer>
+            <Label>{t('Full Account History')}</Label>
+            {history && (
+              <Table
+                headers={headers}
+                withSelect
+                selectMultiple
+                selectSelectedValues={selectedSearchValues}
+                selectValues={Object.values(opMapping)}
+                selectPlaceholder={'Select operation category'}
+                searchCallback={fetchSelectedData}
+                clearFilters={clearFilters}
+                onSearch={onSearch}
+                rows={rows}
+                lastcellaligned
+              />
+            )}
+            {isAccountHistoryLoading && <Loader />}
+            {history?.length === 0 && !isAccountHistoryLoading && (
+              <Typography align={'center'} color={'#FFFFFF'} marginTop={'1rem'}>
+                {t('NO OPERATIONS FOUND')}
+              </Typography>
+            )}
+          </StyledHsContainer>
+          <StyledPaginationContainer>
+            <PaginationSelect
+              value={rowsPerPage}
+              onChange={onRowsPerPageChange}
+            />
+            <Pagination
+              count={
+                historyCount > 10000
+                  ? totalPages
+                  : +Math.ceil(historyCount / rowsPerPage)
+              }
+              renderItem={(item) => {
+                if (historyCount > 10000) {
+                  return (
+                    <PaginationItem
+                      components={{
+                        next: (props) => <div {...props}>...</div>,
+                      }}
+                      {...item}
+                    />
+                  );
+                } else {
+                  return <PaginationItem {...item} />;
+                }
+              }}
+              page={pageNumber}
+              shape="rounded"
+              onChange={onPageChange}
+            />
+          </StyledPaginationContainer>
+        </PageWrapper>
+      ) : !account && !loadingAccount ? (
+        <PageWrapper>
+          <StyledContainer>
+            <EmptyBlock>NO ACCOUNT FOUND</EmptyBlock>
+          </StyledContainer>
+        </PageWrapper>
+      ) : null}
+    </>
+  );
 };
 
 export default Account;
