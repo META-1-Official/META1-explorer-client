@@ -449,5 +449,5 @@ export const dateTimeZoneOffsetCorrect = (date) => {
     )}, ${currentDate.toLocaleDateString()}`;
     return orderDate;
   }
-  return date.split(',').reverse().join(', ');
+  return date?.split(',').reverse().join(', ');
 };
