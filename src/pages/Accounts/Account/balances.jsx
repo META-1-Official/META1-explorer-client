@@ -25,6 +25,17 @@ const StyledContainer = styled.div`
   }
 `;
 
+const ASSETS = {
+  '1.3.0': 'META1',
+  '1.3.1': 'USDT',
+  '1.3.2': 'BTC',
+  '1.3.3': 'ETH',
+  '1.3.4': 'LTC',
+  '1.3.5': 'EOS',
+  '1.3.6': 'XLM',
+  '1.3.7': 'BNB',
+};
+
 const Balances = ({ accountFullData }) => {
   const [assetQuery, setAssetQuery] = useState('');
   const [vestingQuery, setVestingQuery] = useState('');
@@ -44,13 +55,13 @@ const Balances = ({ accountFullData }) => {
   }, []);
 
   // vars
-  const filteredAssetData = parsedAssetBalances?.filter((balance) =>
-    balance.asset_name?.includes(assetQuery.toUpperCase()),
-  );
+  const filteredAssetData = parsedAssetBalances?.filter((balance) => {
+    return balance.asset_name?.includes(assetQuery.toUpperCase());
+  });
 
-  const filteredVestingData = parsedVestingBalances?.filter((balance) =>
-    balance.asset_name?.includes(vestingQuery.toUpperCase()),
-  );
+  const filteredVestingData = parsedVestingBalances?.filter((balance) => {
+    return balance.balance.asset_id?.includes(vestingQuery.toUpperCase());
+  });
 
   const headers = ['Id', 'Asset', 'Balance']; // table headers
   const asset_rows = filteredAssetData?.map((balance) => {
@@ -68,10 +79,12 @@ const Balances = ({ accountFullData }) => {
     return {
       Id: [`<a href="/objects/${balance.id}">${balance.id}</a>`, 'html'],
       Asset: [
-        `<a href="/assets/${balance.asset}">${balance.asset_name}</a>`,
+        `<a href="/assets/${balance.balance.asset_id}">${
+          ASSETS[balance.balance.asset_id]
+        }</a>`,
         'html',
       ],
-      Balance: [balance.balance, 'plainText'],
+      Balance: [balance.balance.amount, 'plainText'],
     };
   });
 
