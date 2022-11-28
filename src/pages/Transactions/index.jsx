@@ -57,6 +57,18 @@ const Transactions = () => {
     <PageWrapper>
       <StyledContainer>
         <PageLabel>{t('TRANSACTIONS')}</PageLabel>
+        <text
+          style={{
+            display: 'block',
+            color: 'white',
+            marginTop: '-20px',
+            marginBottom: '20px',
+            fontSize: '12px',
+            fontStyle: 'italic',
+          }}
+        >
+          {t('Biggest transactions in the last 1 hour')}
+        </text>
         {isFetchingBigTrxs && <Loader />}
         {!isFetchingBigTrxs && rows && (
           <>

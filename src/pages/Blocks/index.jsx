@@ -98,6 +98,18 @@ const Blocks = () => {
     <PageWrapper>
       <StyledContainer>
         <PageLabel>{t('BLOCKS')}</PageLabel>
+        <text
+          style={{
+            display: 'block',
+            color: 'white',
+            marginTop: '-20px',
+            marginBottom: '20px',
+            fontSize: '12px',
+            fontStyle: 'italic',
+          }}
+        >
+          {t('Biggest blocks in the last 1 hour')}
+        </text>
         {!isFetchingBigBlocksData && rows && (
           <>
             <Table
