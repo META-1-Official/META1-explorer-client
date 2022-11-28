@@ -158,7 +158,14 @@ const Asset = () => {
           `<a href='/accounts/${data.account_id}'>${data.name}</a>`,
           'html',
         ],
-        Amount: [localizeNumber(data.amount), 'plainText'],
+        Amount: [
+          localizeNumber(
+            (+data.amount / 10 ** getAssetFullData.precision).toFixed(
+              getAssetFullData.precision,
+            ),
+          ),
+          'plainText',
+        ],
       };
     });
 
