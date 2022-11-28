@@ -39,7 +39,7 @@ const Blocks = () => {
   const isFetchingBigBlocksData = useSelector(isFetchingBigBlocks);
 
   // vars
-  const headers = ['BLOCK NUMBER', 'DATA', 'Transactions', 'Operations']; // table headers
+  const headers = ['BLOCK NUMBER', 'DATE', 'Transactions', 'Operations']; // table headers
   const buildFetchBlockPromises = (getBigBlocksData) =>
     getBigBlocksData.map((block) => fetchBlock(block.key));
 
@@ -54,7 +54,7 @@ const Blocks = () => {
                   `<a href="/blocks/${block.key}">${block.key}</a>`,
                   'html',
                 ],
-                DATA: [blockPromise.data.timestamp, 'plainText'],
+                DATE: [blockPromise.data.timestamp, 'plainText'],
                 Transactions: [
                   blockPromise.data.transactions.length,
                   'plainText',
