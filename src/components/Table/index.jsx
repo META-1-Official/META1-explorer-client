@@ -48,7 +48,11 @@ const TableCell = ({ cell }) => {
         </styled.Text>
       );
     case 'plainText':
-      return <styled.Text type="plain">{t(content)}</styled.Text>;
+      return (
+        <styled.Text type="plain">
+          {!isNaN(Date.parse(content)) ? content : t(content)}
+        </styled.Text>
+      );
     case 'urlLink':
       return (
         <styled.LinkWrapper onClick={() => handleUrlLinkClick(content)}>
