@@ -20,11 +20,11 @@ const EXPLORER_URL = BASE_URL + '/explorer';
 export const fetchLastOperations = ({ search_after }) => {
   const params = {
     size: 1000,
-    from_date: 'now-1d',
+    from_date: '2022-12-06',
     sort_by: '-operation_id_num',
     type: 'data',
     from: 0,
-    to_date: 'now',
+    to_date: '2022-12-07',
   };
   if (search_after !== undefined) {
     params.search_after = search_after;
@@ -1416,7 +1416,7 @@ export const getAccountHistory = async (
 export const topOperationsChart = async () => {
   const response = await axios.get(
     BASE_URL +
-      '/es/account_history?from_date=now-1d&to_date=now&type=aggs&agg_field=operation_type&size=10',
+      '/es/account_history?from_date=2022-12-06&to_date=2022-12-07&type=aggs&agg_field=operation_type&size=10',
   );
   const data = [];
   let c = 0;
