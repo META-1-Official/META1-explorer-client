@@ -134,15 +134,17 @@ const Account = () => {
   const headers = ['Operation', 'ID', 'Date and Time', 'Block', 'Type'];
 
   useEffect(() => {
-    (async () => {
-      api
-        .getFullAccount(id)
-        .then((account) => {
-          setAccount(account);
-        })
-        .finally(() => setLoadingAccount(false));
-    })();
-  }, []);
+    if (id) {
+      (async () => {
+        api
+          .getFullAccount(id)
+          .then((account) => {
+            setAccount(account);
+          })
+          .finally(() => setLoadingAccount(false));
+      })();
+    }
+  }, [id]);
 
   useEffect(() => {
     if (account) {
@@ -153,14 +155,20 @@ const Account = () => {
   }, [account]);
 
   useEffect(() => {
-    if (pageNumber >= totalPages && pageNumber * rowsPerPage < historyCount) {
-      setTotalPages(totalPages + 1);
-    }
-
-    if (history?.length && !v) {
-      setV(true);
-      accountHistoryRowsBuilder(history).then((rws) => setRows(rws));
-    }
+    (async () => {
+      if (pageNumber >= totalPages && pageNumber * rowsPerPage < historyCount) {
+        setTotalPages(totalPages + 1);
+      }
+      if (history && history.length > 0) {
+        const rws = await accountHistoryRowsBuilder(history);
+        setRows(rws);
+      }
+      /*if (history?.length && !v) {
+        const rws = await accountHistoryRowsBuilder(history);
+        setRows(rws);
+        setV(true);
+      }*/
+    })();
   }, [history]);
 
   const operationIdsBuilder = (entryArray) => {
@@ -247,6 +255,7 @@ const Account = () => {
     fetchAccountHistoryData(id, 0, undefined);
     setV(false);
   };
+
   if (account && !loadingAccount) {
     return (
       <PageWrapper>
