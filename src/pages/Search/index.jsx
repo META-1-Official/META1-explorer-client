@@ -121,10 +121,10 @@ const Search = React.memo(() => {
         <SearchCard
           title="Search Account"
           withSelect
-          description="Looking for an account? Start typing the first letters of it's name and let the auto complete feature help you find the exact account name string."
+          description="Looking for an account? Start typing the first letters of it's name and let the auto complete feature help you find the exact wallet name string."
           searchInputSample="meta1"
-          searchInputLabel="Account name or ID"
-          searchInputPlaceholder="Enter account name or id number"
+          searchInputLabel="Wallet name or ID"
+          searchInputPlaceholder="Enter wallet name or id number"
           onChange={(e) => handleChange(e, 'account')}
           isLoading={isFetchingLookupAccountsData}
           options={[...new Set(getLookupAccountsData)]}
