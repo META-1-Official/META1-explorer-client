@@ -100,7 +100,7 @@ const EmptyBlock = styled.div`
 
 const Account = () => {
   const dispatch = useDispatch();
-  const [v, setV] = useState(false);
+  // const [v, setV] = useState(false);
   const [rows, setRows] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [tabValue, setTabValue] = useState(0);
@@ -157,8 +157,9 @@ const Account = () => {
       setTotalPages(totalPages + 1);
     }
 
-    if (history?.length && !v) {
-      setV(true);
+    // if (history?.length && !v) {
+    if (history?.length) {
+      // setV(true);
       accountHistoryRowsBuilder(history).then((rws) => setRows(rws));
     }
   }, [history]);
@@ -173,7 +174,7 @@ const Account = () => {
   // handlers
   const onPageChange = (_, newPageNumber) => {
     setPageNumber(newPageNumber);
-    setV(false);
+    // setV(false);
     if (
       (newPageNumber === totalPages && newPageNumber <= rowsPerPage) ||
       newPageNumber !== totalPages
@@ -221,7 +222,7 @@ const Account = () => {
     setTotalPages(1);
     fetchAccountHistoryData(id, 0, undefined, ids);
     setPageNumber(1);
-    setV(false);
+    // setV(false);
   };
 
   const onSearch = (event) => {
@@ -238,14 +239,14 @@ const Account = () => {
     setPageNumber(1);
     setRows([]);
     fetchAccountHistoryData(id, 0, undefined, undefined, value);
-    setV(false);
+    // setV(false);
   };
 
   const clearFilters = () => {
     setSelectedSearchValues([]);
     setRows([]);
     fetchAccountHistoryData(id, 0, undefined);
-    setV(false);
+    // setV(false);
   };
   if (account && !loadingAccount) {
     return (
