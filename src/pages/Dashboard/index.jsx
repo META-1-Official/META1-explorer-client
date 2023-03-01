@@ -35,9 +35,14 @@ import i18n, { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import PaginationSelect from '../../components/AppPagination/PaginationSelect';
 
-const { fetchLastOperations, fetchHeader } = actions;
-const { getOperations, isFetchingLastOperations, getHeader, isFetchingHeader } =
-  selectors;
+const { fetchLastOperations, fetchHeader, fetchDexVolume } = actions;
+const {
+  getOperations,
+  isFetchingLastOperations,
+  getHeader,
+  getDexVolume,
+  isFetchingHeader,
+} = selectors;
 
 // styled components
 const PageWrapper = styled.div`
@@ -194,10 +199,11 @@ const Dashboard = React.memo(() => {
   const fetchLastOps = (search_after) =>
     dispatch(fetchLastOperations(search_after));
   const fetchHeaderData = (isLoading) => dispatch(fetchHeader(isLoading));
-
+  const fetchDexVolumeData = () => dispatch(fetchDexVolume());
   const setPieDataAction = (data) => dispatch(setPieData(data));
   // selectors
   const getHeadData = useSelector(getHeader);
+  const getDexVolumeData = useSelector(getDexVolume);
   const isFetchingHead = useSelector(isFetchingHeader);
   const getOpsData = useSelector(getOperations);
   const isFetchingOps = useSelector(isFetchingLastOperations);
@@ -233,6 +239,7 @@ const Dashboard = React.memo(() => {
 
   useEffect(() => {
     (async () => {
+      fetchDexVolumeData();
       fetchHeaderData(true); // fetch header
       fetchLastOps(undefined); // first fetch with no search_after
       await loadPieData();
@@ -317,7 +324,7 @@ const Dashboard = React.memo(() => {
           />
           <LineChartCard
             title={'META1 Market Cap'}
-            number={getHeadData?.bts_market_cap}
+            number={getDexVolumeData?.market_cap_bts?.toString().slice(0, -12)}
             chartData={getHeadData?.market_cap_24h_history}
             icon={marketCapImg}
             isLoading={isFetchingHead}
