@@ -59,7 +59,7 @@ export const StyledMuiTableContainer = styled(MuiTableContainer)`
           padding-bottom: ${(props) => props.cellHeight ?? '5px'};
 
           div {
-            ${ellipsis('350px')}
+            display: block;
             margin-left: ${(props) =>
               props.lastcellaligned === false ? '0' : 'auto'};
             a {
