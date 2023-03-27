@@ -13,6 +13,7 @@ export const StyledContainer = styled.div`
   background: ${(props) => props.theme.palette.background.nearBlack};
   display: flex;
   flex-direction: column;
+  padding: 0 20px;
 `;
 
 export const PageDescription = styled.div`
