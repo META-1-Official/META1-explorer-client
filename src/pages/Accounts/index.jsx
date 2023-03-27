@@ -25,6 +25,7 @@ const PageWrapper = styled.div`
 const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 0 20px;
 `;
 
 const StyledPaginationContainer = styled.div`

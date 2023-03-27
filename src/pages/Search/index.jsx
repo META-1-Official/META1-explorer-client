@@ -40,7 +40,8 @@ const StyledContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 25px;
-  justify-content: flex-start;
+  justify-content: normal;
+  padding: 0 20px;
 
   @media ${(props) => props.theme.bkps.device.mobile} {
     padding: 0 16px;
