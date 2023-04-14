@@ -19,11 +19,12 @@ import actions from '../../store/actions';
 import selectors from '../../store/selectors';
 
 // import helper
-import { localizeNumber } from '../../helpers/utility';
-import images from '../../helpers/images';
 import PageLabel from '../../components/PageLabel.jsx';
 import { useTranslation } from 'react-i18next';
 import { assetRowsBuilder } from '../../helpers/rowBuilders';
+import { getMeta1Volumes } from '../../store/explorer/selectors';
+import btcVolumeImg from '../../assets/images/btc-volume.png';
+import { fetchHeader } from '../../store/explorer/actions';
 
 const { fetchActiveAssets, fetchDexVolume, fetchDailyDexChart } = actions;
 const {
@@ -65,10 +66,13 @@ const LineChartsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 17px;
-  justify-content: center;
 
   @media only screen and (max-width: 1315px) {
     max-width: 600px;
+  }
+
+  @media screen and (max-width: 768px) {
+    justify-content: center;
   }
 `;
 
@@ -127,6 +131,11 @@ const Assets = React.memo(() => {
   const isFetchingAssets = useSelector(isFetchingActiveAssets);
   const isFetchingVolume = useSelector(isFetchingDexVolume);
   const isFetchingChart = useSelector(isFetchingDailyDexChart);
+  const getMeta1Volume = (period) =>
+    useSelector((state) => getMeta1Volumes(state, period));
+  const USDTAsset = getActiveAssetsData?.find(
+    (data) => data.asset_name === 'USDT',
+  );
 
   // vars
   const filteredData = getActiveAssetsData?.filter((data) =>
@@ -159,6 +168,7 @@ const Assets = React.memo(() => {
     fetchDexVolumeData();
     fetchDailyDexChartData();
     fetchActiveAssetsData();
+    dispatch(fetchHeader({ isFromAssets: true }));
   }, []);
 
   // handlers
@@ -208,6 +218,38 @@ const Assets = React.memo(() => {
             title="24h MARKET CAP IN BTC"
             number={getDexVolumeData?.market_cap_cny?.toString().slice(0, -12)}
             icon={coinBtcImg}
+            isLoading={isFetchingVolume}
+          />
+          <LineChartCard
+            title={'7D VOLUME IN META1'}
+            number={getMeta1Volume('week').total}
+            icon={coinMeta1Img}
+            isLoading={isFetchingVolume}
+          />
+          <LineChartCard
+            title={'30D VOLUME IN META1'}
+            number={getMeta1Volume('month').total}
+            icon={coinMeta1Img}
+            isLoading={isFetchingVolume}
+          />
+          <LineChartCard
+            title={'7D VOLUME IN USDT'}
+            number={
+              +(
+                getMeta1Volume('week').total / USDTAsset?.latest_price
+              ).toFixed()
+            }
+            icon={coinUsdtImg}
+            isLoading={isFetchingVolume}
+          />
+          <LineChartCard
+            title={'30D VOLUME IN USDT'}
+            number={
+              +(
+                getMeta1Volume('month').total / USDTAsset?.latest_price
+              ).toFixed()
+            }
+            icon={coinUsdtImg}
             isLoading={isFetchingVolume}
           />
         </LineChartsWrapper>

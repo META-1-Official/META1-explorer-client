@@ -38,11 +38,12 @@ export const fetchLastOperations = ({ search_after }) => {
   });
 };
 
-export const fetchHeader = () => {
+export const fetchHeader = ({ isFromAssets }) => {
   return axios.get(`${EXPLORER_URL}/header`, {
     headers: {
       'Content-Type': 'application/json-patch+json',
     },
+    params: { is_from_assets: isFromAssets },
   });
 };
 

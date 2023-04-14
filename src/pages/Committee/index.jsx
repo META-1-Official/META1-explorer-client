@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
 
 // import components
 import { Table } from '../../components/Table';
 import Loader from '../../components/Loader/Loader';
-import { SearchBox } from '../../components/SearchBox';
 
 // import redux
 import actions from '../../store/actions';
@@ -15,25 +13,11 @@ import selectors from '../../store/selectors';
 import { localizeNumber } from '../../helpers/utility';
 import PageLabel from '../../components/PageLabel.jsx';
 import { useTranslation } from 'react-i18next';
+import { PageWrapper, StyledContainer } from './Commitee.styles';
 
 const { fetchCommittee, fetchHeader } = actions;
 const { getCommittee, isFetchingCommittee, getHeader, isFetchingHeader } =
   selectors;
-
-const PageWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  max-width: 1315px;
-  padding-top: 80px;
-  padding-bottom: 40px;
-  flex-direction: column;
-`;
-
-const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 0 20px;
-`;
 
 const Committee = () => {
   const [queryForActive, setQueryForActive] = useState('');
