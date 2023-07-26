@@ -15,7 +15,10 @@ export const generateFetchWorker = (type, fetch) =>
       yield put({ type: `${type}_SUCCESS`, payload: response.data });
       return response.data;
     } catch (error) {
-      const errorData = { ...error.toJSON(), response: error.response };
+      const errorData = {
+        ...(error?.toJSON ? error.toJSON() : error),
+        response: error.response,
+      };
       yield put({ type: `${type}_FAILURE`, error: errorData });
       return error;
     }
