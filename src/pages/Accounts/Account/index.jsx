@@ -104,7 +104,6 @@ const Account = () => {
   const [rows, setRows] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [tabValue, setTabValue] = useState(0);
-  const [accountId, setAccountId] = useState();
   const [account, setAccount] = useState();
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedSearchValues, setSelectedSearchValues] = useState([]);
@@ -136,23 +135,22 @@ const Account = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = await api.fetchLookupAccounts({ start: id });
-      const accountId = /^1\.2\./.test(data[1]) ? data[1] : data[0];
-      setAccountId(accountId);
-
-      const account = await api.getFullAccount(accountId);
-      setAccount(account);
-      setLoadingAccount(false);
+      api
+        .getFullAccount(id)
+        .then((account) => {
+          setAccount(account);
+        })
+        .finally(() => setLoadingAccount(false));
     })();
   }, []);
 
   useEffect(() => {
     if (account) {
       (async () => {
-        fetchAccountHistoryData(accountId, undefined);
+        fetchAccountHistoryData(id, undefined);
       })();
     }
-  }, [account, accountId]);
+  }, [account]);
 
   useEffect(() => {
     if (pageNumber >= totalPages && pageNumber * rowsPerPage < historyCount) {
@@ -185,7 +183,7 @@ const Account = () => {
       const ids = operationIdsBuilder(selectedSearchValues);
       window.stop();
       fetchAccountHistoryData(
-        accountId,
+        id,
         (newPageNumber - 1) * rowsPerPage,
         undefined,
         ids,
@@ -195,7 +193,7 @@ const Account = () => {
       setRows([]);
       window.stop();
       fetchAccountHistoryData(
-        accountId,
+        id,
         0,
         history[history.length - 1].operation_id_num,
         selectedSearchValues,
@@ -222,7 +220,7 @@ const Account = () => {
       ? operationIdsBuilder(tags)
       : operationIdsBuilder(selectedSearchValues);
     setTotalPages(1);
-    fetchAccountHistoryData(accountId, 0, undefined, ids);
+    fetchAccountHistoryData(id, 0, undefined, ids);
     setPageNumber(1);
     // setV(false);
   };
@@ -240,14 +238,14 @@ const Account = () => {
     setRowsPerPage(value);
     setPageNumber(1);
     setRows([]);
-    fetchAccountHistoryData(accountId, 0, undefined, undefined, value);
+    fetchAccountHistoryData(id, 0, undefined, undefined, value);
     // setV(false);
   };
 
   const clearFilters = () => {
     setSelectedSearchValues([]);
     setRows([]);
-    fetchAccountHistoryData(accountId, 0, undefined);
+    fetchAccountHistoryData(id, 0, undefined);
     // setV(false);
   };
   if (account && !loadingAccount) {
