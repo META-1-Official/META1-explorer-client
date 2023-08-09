@@ -135,19 +135,26 @@ const Account = () => {
 
   useEffect(() => {
     (async () => {
-      api
-        .getFullAccount(id)
-        .then((account) => {
-          setAccount(account);
-        })
-        .finally(() => setLoadingAccount(false));
+      let account = (await api.getFullAccount(id)).data;
+      let index = 0;
+      if (!account.account) {
+        const accounts = (await api.fetchLookupAccounts({ start: id })).data;
+        if (accounts.length > 2) {
+          index = accounts.findIndex((el) => el === id);
+        }
+        if (/^1\.2\./.test(accounts[index + 1])) {
+          account = (await api.getFullAccount(accounts[index + 1])).data;
+        }
+      }
+      setAccount(account);
+      setLoadingAccount(false);
     })();
   }, []);
 
   useEffect(() => {
     if (account) {
       (async () => {
-        fetchAccountHistoryData(id, undefined);
+        fetchAccountHistoryData(account?.account?.id, undefined);
       })();
     }
   }, [account]);
@@ -183,7 +190,7 @@ const Account = () => {
       const ids = operationIdsBuilder(selectedSearchValues);
       window.stop();
       fetchAccountHistoryData(
-        id,
+        account?.account?.id,
         (newPageNumber - 1) * rowsPerPage,
         undefined,
         ids,
@@ -193,7 +200,7 @@ const Account = () => {
       setRows([]);
       window.stop();
       fetchAccountHistoryData(
-        id,
+        account?.account?.id,
         0,
         history[history.length - 1].operation_id_num,
         selectedSearchValues,
@@ -220,7 +227,7 @@ const Account = () => {
       ? operationIdsBuilder(tags)
       : operationIdsBuilder(selectedSearchValues);
     setTotalPages(1);
-    fetchAccountHistoryData(id, 0, undefined, ids);
+    fetchAccountHistoryData(account?.account?.id, 0, undefined, ids);
     setPageNumber(1);
     // setV(false);
   };
@@ -238,16 +245,23 @@ const Account = () => {
     setRowsPerPage(value);
     setPageNumber(1);
     setRows([]);
-    fetchAccountHistoryData(id, 0, undefined, undefined, value);
+    fetchAccountHistoryData(
+      account?.account?.id,
+      0,
+      undefined,
+      undefined,
+      value,
+    );
     // setV(false);
   };
 
   const clearFilters = () => {
     setSelectedSearchValues([]);
     setRows([]);
-    fetchAccountHistoryData(id, 0, undefined);
+    fetchAccountHistoryData(account?.account?.id, 0, undefined);
     // setV(false);
   };
+
   if (account && !loadingAccount) {
     return (
       <PageWrapper>
@@ -265,16 +279,16 @@ const Account = () => {
             {/*<Tab label={t('Votes')} {...a11yProps(3)} />*/}
           </Tabs>
           <TabPanel value={tabValue} index={0}>
-            {account && <General accountFullData={account?.data} />}
+            {account && <General accountFullData={account} />}
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
-            {account && <Balances accountFullData={account?.data} />}
+            {account && <Balances accountFullData={account} />}
           </TabPanel>
           <TabPanel value={tabValue} index={2}>
-            {account && <Authorities accountFullData={account?.data} />}
+            {account && <Authorities accountFullData={account} />}
           </TabPanel>
           {/*<TabPanel value={tabValue} index={3}>*/}
-          {/*  {account && <Votes accountFullData={account?.data} />}*/}
+          {/*  {account && <Votes accountFullData={account} />}*/}
           {/*</TabPanel>*/}
         </StyledContainer>
         <StyledHsContainer>
