@@ -361,7 +361,7 @@ export const buildCustomKVTableDto = (data, headerM) => {
         let val_data = tmp.length !== 1 ? data[tmp[0]][tmp[1]] : data[tmp[0]];
         let divider = Math.pow(10, data.precision);
         let formattedVal = isInteger(val_data)
-          ? localizeNumber(parseInt(val_data / divider))
+          ? localizeNumber(parseInt(divider ? val_data / divider : val_data))
           : val_data;
         return {
           Key: [key + ':', 'plainText'],
