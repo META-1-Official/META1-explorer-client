@@ -359,8 +359,9 @@ export const buildCustomKVTableDto = (data, headerM) => {
         let key = Object.keys(item)[0];
         let tmp = item[key].split('.');
         let val_data = tmp.length !== 1 ? data[tmp[0]][tmp[1]] : data[tmp[0]];
+        let divider = Math.pow(10, data.precision);
         let formattedVal = isInteger(val_data)
-          ? localizeNumber(parseInt(val_data))
+          ? localizeNumber(parseInt(val_data / divider))
           : val_data;
         return {
           Key: [key + ':', 'plainText'],
@@ -373,7 +374,6 @@ export const buildCustomKVTableDto = (data, headerM) => {
         };
       })
     : [];
-
   return rows;
 };
 
