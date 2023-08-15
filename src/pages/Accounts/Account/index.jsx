@@ -165,7 +165,7 @@ const Account = () => {
     }
 
     // if (history?.length && !v) {
-    if (history?.length) {
+    if (history?.length && history.length > 0) {
       // setV(true);
       accountHistoryRowsBuilder(history).then((rws) => setRows(rws));
     }

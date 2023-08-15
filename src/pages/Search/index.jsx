@@ -71,7 +71,7 @@ const Search = React.memo(() => {
   const handleChange = (e, param) => {
     if (e && param === 'asset' && e?.type !== 'click') {
       fetchLookupAssetsData(e.target.value);
-    } else if (e && param === 'account') {
+    } else if (e && param === 'wallet') {
       fetchLookupAccountsData(e.target.value);
     } else if (e && param === 'transaction') {
       fetchLookupTransactionsData(e.target.value);
@@ -93,7 +93,7 @@ const Search = React.memo(() => {
       case 'asset':
         navigate(`/assets/${ele.value}`);
         break;
-      case 'account':
+      case 'wallet':
         navigate(`/accounts/${ele.value}`);
         break;
       case 'Transaction Hash':
@@ -119,16 +119,16 @@ const Search = React.memo(() => {
           onClick={() => handleClick('block')}
         />
         <SearchCard
-          title="Search Account"
+          title="Search Wallet"
           withSelect
           description="Looking for an account? Start typing the first letters of it's name and let the auto complete feature help you find the exact account name string."
           searchInputSample="meta1"
           searchInputLabel="Account name or ID"
           searchInputPlaceholder="Enter account name or id number"
-          onChange={(e) => handleChange(e, 'account')}
+          onChange={(e) => handleChange(e, 'wallet')}
           isLoading={isFetchingLookupAccountsData}
           options={[...new Set(getLookupAccountsData)]}
-          onClick={() => handleClick('account')}
+          onClick={() => handleClick('wallet')}
         />
         {/*<SearchCard*/}
         {/*  title="Search Object"*/}
