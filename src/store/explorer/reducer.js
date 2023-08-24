@@ -594,6 +594,25 @@ const explorerReducer = (state = initialState, action) => {
         },
       };
     }
+    case types.FETCH_SYSTEM_ACCOUNT_BALANCES: {
+      return {
+        ...state,
+        isFetchingSystemAccountsBalance: true,
+      };
+    }
+    case types.FETCH_SYSTEM_ACCOUNT_BALANCES_SUCCESS: {
+      return {
+        ...state,
+        systemAccountsBalance: action.payload.balance,
+        isFetchingSystemAccountBalance: false,
+      };
+    }
+    case types.FETCH_SYSTEM_ACCOUNT_BALANCES_FAILURE: {
+      return {
+        ...state,
+        isFetchingSystemAccountsBalance: false,
+      };
+    }
 
     case types.UNSET:
       return null;

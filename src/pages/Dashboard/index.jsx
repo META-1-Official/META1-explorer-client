@@ -28,11 +28,16 @@ import api from '../../store/apis';
 // import constants
 import { OPS_TYPE_LABELS, PIE_COLORS } from '../../constants';
 import { dashboardRowsBuilder } from '../../helpers/rowBuilders';
-import { fetchDexVolume, setPieData } from '../../store/explorer/actions';
+import {
+  fetchDexVolume,
+  fetchSystemAccountBalance,
+  setPieData,
+} from '../../store/explorer/actions';
 import {
   getDexVolume,
   getMeta1Volumes,
   getPieData,
+  getSystemAccountsBalance,
 } from '../../store/explorer/selectors';
 import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
@@ -198,6 +203,9 @@ const Dashboard = React.memo(() => {
   const getHeadData = useSelector(getHeader);
   const getMeta1Volume = (period) =>
     useSelector((state) => getMeta1Volumes(state, period));
+  const systemAccountsBalance = useSelector((state) =>
+    getSystemAccountsBalance(state),
+  );
 
   const isFetchingHead = useSelector(isFetchingHeader);
   const getOpsData = useSelector(getOperations);
@@ -236,6 +244,10 @@ const Dashboard = React.memo(() => {
     }
     return color;
   };
+
+  useEffect(() => {
+    dispatch(fetchSystemAccountBalance());
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -324,9 +336,8 @@ const Dashboard = React.memo(() => {
           <LineChartCard
             title={'META1 Market Cap USD'}
             number={Math.round(
-              (getActiveAssetsData?.[0]?.market_cap *
-                getActiveAssetsData?.[1]?.latest_price) /
-                100000,
+              (getActiveAssetsData?.[0]?.market_cap - systemAccountsBalance) /
+                Math.pow(10, getActiveAssetsData?.[0]?.precision),
             )}
             chartData={getHeadData?.market_cap_24h_history}
             icon={marketCapImg}

@@ -150,6 +150,13 @@ export default function* watcherSaga() {
         api.fetchWitnesses,
       ),
     ),
+    takeLatest(
+      ...takeAllBundler(
+        types.FETCH_SYSTEM_ACCOUNT_BALANCES,
+        generateFetchWorker,
+        api.getBalanceOfSystemAccounts,
+      ),
+    ),
     takeLatest(types.ACCOUNT_HISTORY_FETCH, getHistory),
     takeLatest(types.LOOKUP_TRANSACTIONS_FETCH, getLookupTransactions),
   ]);

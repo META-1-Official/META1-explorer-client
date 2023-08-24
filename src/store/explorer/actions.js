@@ -157,3 +157,8 @@ export const setPieData = (data) => ({
     data,
   },
 });
+
+export const fetchSystemAccountBalance = () => ({
+  type: types.FETCH_SYSTEM_ACCOUNT_BALANCES,
+  payload: {},
+});

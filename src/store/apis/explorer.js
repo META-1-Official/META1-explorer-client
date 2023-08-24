@@ -1507,3 +1507,7 @@ export const getLookupTransactions = async (start) => {
   });
   return response;
 };
+
+export const getBalanceOfSystemAccounts = async () => {
+  return await axios.get(`${EXPLORER_URL}/get_meta1_amount_of_system_accounts`);
+};

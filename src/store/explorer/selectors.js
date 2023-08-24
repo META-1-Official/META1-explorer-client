@@ -153,3 +153,6 @@ export const getMeta1Volumes = (state, period) => {
 
   return { total, chart };
 };
+
+export const getSystemAccountsBalance = (state) =>
+  get(state, ['explorer', 'systemAccountsBalance']);
