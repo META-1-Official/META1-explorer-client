@@ -4,6 +4,10 @@ export const localizeNumber = (number, locale = 'en') => {
   return Number(number).toLocaleString(locale);
 };
 
+export const fixNumberOnPrecision = (value, precision) => {
+  return (value / Math.pow(10, precision)).toFixed(precision + 1);
+};
+
 export const formatNumber = (x) => {
   try {
     var parts = x.toString().split('.');

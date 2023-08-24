@@ -15,12 +15,13 @@ import selectors from '../../store/selectors';
 
 // import helper
 import PageLabel from '../../components/PageLabel.jsx';
+import { fixNumberOnPrecision } from '../../helpers/utility';
 import { useTranslation } from 'react-i18next';
 import { feesRowsBuilder } from '../../helpers/rowBuilders';
 import { PageDescription } from './Fees.styles';
 
-const { fetchFees } = actions;
-const { getFees, isFetchingFees } = selectors;
+const { fetchFees, fetchAssetFull } = actions;
+const { getFees, isFetchingFees, getAssetFull } = selectors;
 
 const Fees = () => {
   const [page, setPage] = useState(1);
@@ -30,11 +31,10 @@ const Fees = () => {
   // dispatch
   const dispatch = useDispatch();
 
-  const fetchFeesData = () => dispatch(fetchFees());
-
   // selectors
   const getFeesData = useSelector(getFees);
   const isFetchingFeesData = useSelector(isFetchingFees);
+  const meta1 = useSelector(getAssetFull);
 
   // const functions
 
@@ -50,13 +50,27 @@ const Fees = () => {
     return {
       ID: [fee.identifier, 'plainText'],
       Operation: [fee.type, 'label'],
-      'Standard Fee': [fee.basic_fee, 'plainText'],
-      'Lifetime Member Fee': [fee.price_per_kbyte, 'plainText'],
+      'Standard Fee': [
+        fee.basic_fee
+          ? fixNumberOnPrecision(fee.basic_fee, meta1?.precision || 9)
+          : fee.basic_fee,
+        'plainText',
+      ],
+      'Lifetime Member Fee': [
+        fee.price_per_kbyte
+          ? fixNumberOnPrecision(fee.price_per_kbyte, meta1?.precision || 9)
+          : fee.price_per_kbyte,
+        'plainText',
+      ],
     };
   });
 
   useEffect(() => {
-    fetchFeesData(); // fetch data
+    const fetchFeesData = () => dispatch(fetchFees());
+    const fetchAssetData = () => dispatch(fetchAssetFull('1.3.0'));
+
+    fetchFeesData();
+    fetchAssetData();
   }, []);
 
   // handlers
