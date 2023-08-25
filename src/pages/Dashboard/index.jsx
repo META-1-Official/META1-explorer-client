@@ -315,6 +315,11 @@ const Dashboard = React.memo(() => {
     };
   };
 
+  const meta1 = getActiveAssetsData.find((asset) => asset.asset_id === '1.3.0');
+  const usdt = getActiveAssetsData.find((asset) => asset.asset_id === '1.3.1');
+  const meta1MarketCap = meta1?.market_cap - systemAccountsBalance;
+  const meta1MarketCapInUSD = meta1MarketCap * usdt?.latest_price;
+
   return (
     <PageWrapper>
       <StyledChartContainer>
@@ -335,10 +340,7 @@ const Dashboard = React.memo(() => {
           />
           <LineChartCard
             title={'META1 Market Cap USD'}
-            number={Math.round(
-              (getActiveAssetsData?.[0]?.market_cap - systemAccountsBalance) /
-                Math.pow(10, getActiveAssetsData?.[0]?.precision),
-            )}
+            number={Math.round(meta1MarketCapInUSD)}
             chartData={getHeadData?.market_cap_24h_history}
             icon={marketCapImg}
             isLoading={isFetchingHead}
