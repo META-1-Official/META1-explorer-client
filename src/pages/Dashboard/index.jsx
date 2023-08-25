@@ -340,7 +340,9 @@ const Dashboard = React.memo(() => {
           />
           <LineChartCard
             title={'META1 Market Cap USD'}
-            number={Math.round(meta1MarketCapInUSD)}
+            number={Math.round(
+              meta1MarketCapInUSD / Math.pow(10, usdt.precision),
+            )}
             chartData={getHeadData?.market_cap_24h_history}
             icon={marketCapImg}
             isLoading={isFetchingHead}
