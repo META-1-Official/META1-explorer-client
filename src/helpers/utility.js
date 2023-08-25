@@ -4,10 +4,6 @@ export const localizeNumber = (number, locale = 'en') => {
   return Number(number).toLocaleString(locale);
 };
 
-export const fixNumberOnPrecision = (value, precision) => {
-  return (value / Math.pow(10, precision)).toFixed(precision + 1);
-};
-
 export const formatNumber = (x) => {
   try {
     var parts = x.toString().split('.');
@@ -34,7 +30,7 @@ export const formatNumber = (x) => {
 };
 
 export const formatBalance = (number, presicion) => {
-  var divideby = Math.pow(10, presicion);
+  const divideby = Math.pow(10, presicion);
   return Number(number / divideby);
 };
 
