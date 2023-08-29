@@ -315,10 +315,16 @@ const Dashboard = React.memo(() => {
     };
   };
 
-  const meta1 = getActiveAssetsData.find((asset) => asset.asset_id === '1.3.0');
-  const usdt = getActiveAssetsData.find((asset) => asset.asset_id === '1.3.1');
+  const meta1 =
+    getActiveAssetsData &&
+    getActiveAssetsData.find((asset) => asset.asset_id === '1.3.0');
+  const usdt =
+    getActiveAssetsData &&
+    getActiveAssetsData.find((asset) => asset.asset_id === '1.3.1');
   const meta1MarketCap = meta1?.market_cap - systemAccountsBalance;
-  const meta1MarketCapInUSD = meta1MarketCap * usdt?.latest_price;
+  const meta1MarketCapInUSD = Math.round(
+    (meta1MarketCap * usdt?.latest_price) / Math.pow(10, usdt?.precision || 0),
+  );
 
   return (
     <PageWrapper>
@@ -340,12 +346,10 @@ const Dashboard = React.memo(() => {
           />
           <LineChartCard
             title={'META1 Market Cap USD'}
-            number={Math.round(
-              meta1MarketCapInUSD / Math.pow(10, usdt.precision),
-            )}
+            number={meta1MarketCapInUSD}
             chartData={getHeadData?.market_cap_24h_history}
             icon={marketCapImg}
-            isLoading={isFetchingHead}
+            isLoading={isFetchingHead || !meta1MarketCapInUSD}
           />
           <LineChartCard
             title={'META1/BTC Volume'}
