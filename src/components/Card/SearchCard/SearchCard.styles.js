@@ -3,7 +3,8 @@ import { Popper, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 
 export const CardWrapper = styled.div`
-  width: 100%;
+  width: 30%;
+  min-width: 300px;
   max-width: 410px;
   height: 420px;
   border: 1px solid ${(props) => props.theme.palette.border.darkGrey};
@@ -84,6 +85,8 @@ export const LoaderWrapper = styled.div`
 
 export const StyledTextField = styled(TextField)`
   .MuiInputBase-root {
+    width: auto !important;
+    min-width: 200px;
     height: 51px !important;
   }
 `;

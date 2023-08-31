@@ -207,8 +207,7 @@ const Market = React.memo(() => {
   };
 
   const setAssetsData = async () => {
-    const base = await fetchAsset(m1);
-    const quote = await fetchAsset(m2);
+    const [base, quote] = await Promise.all([fetchAsset(m1), fetchAsset(m2)]);
     base &&
       quote &&
       setPrecision({

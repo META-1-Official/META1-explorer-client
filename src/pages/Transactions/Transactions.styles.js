@@ -17,6 +17,7 @@ export const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 0 20px;
 `;
 
 export const PaginationWrapper = styled.div`

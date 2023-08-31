@@ -57,7 +57,7 @@ const CustomPieChart = ({ data, tabValue }) => {
     return (
       <g>
         <text
-          style={{ fontSize: '24px' }}
+          style={{ fontSize: '10px' }}
           x={cx}
           y={cy}
           dy={8}

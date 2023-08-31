@@ -19,8 +19,8 @@ import { useTranslation } from 'react-i18next';
 import { feesRowsBuilder } from '../../helpers/rowBuilders';
 import { PageDescription } from './Fees.styles';
 
-const { fetchFees } = actions;
-const { getFees, isFetchingFees } = selectors;
+const { fetchFees, fetchAssetFull } = actions;
+const { getFees, isFetchingFees, getAssetFull } = selectors;
 
 const Fees = () => {
   const [page, setPage] = useState(1);
@@ -30,18 +30,21 @@ const Fees = () => {
   // dispatch
   const dispatch = useDispatch();
 
-  const fetchFeesData = () => dispatch(fetchFees());
-
   // selectors
   const getFeesData = useSelector(getFees);
   const isFetchingFeesData = useSelector(isFetchingFees);
+  const meta1 = useSelector(getAssetFull);
+
+  const fetchFeesData = () => dispatch(fetchFees());
+  const fetchAssetData = () => dispatch(fetchAssetFull('1.3.0'));
 
   // const functions
 
   // vars
-  const filteredData = feesRowsBuilder(getFeesData)?.filter((data) =>
-    data.operation.includes(query.toUpperCase()),
-  );
+  const filteredData = feesRowsBuilder(
+    getFeesData,
+    meta1?.precision || 9,
+  )?.filter((data) => data.operation.includes(query.toUpperCase()));
 
   const curPageOps = filteredData; // current page markets - 20 markets per page
 
@@ -56,7 +59,8 @@ const Fees = () => {
   });
 
   useEffect(() => {
-    fetchFeesData(); // fetch data
+    fetchFeesData();
+    fetchAssetData();
   }, []);
 
   // handlers

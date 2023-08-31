@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Pagination from '@mui/material/Pagination';
-import Button from '@mui/material/Button';
-import { Tabs, Tab, Select, MenuItem } from '@mui/material';
+import { Tabs, Tab } from '@mui/material';
 import CustomPieChart from '../../components/Chart/CustomPieChart';
 
 // import components
@@ -29,15 +28,31 @@ import api from '../../store/apis';
 // import constants
 import { OPS_TYPE_LABELS, PIE_COLORS } from '../../constants';
 import { dashboardRowsBuilder } from '../../helpers/rowBuilders';
-import { setPieData } from '../../store/explorer/actions';
-import { getPieData } from '../../store/explorer/selectors';
-import i18n, { t } from 'i18next';
+import {
+  fetchDexVolume,
+  fetchSystemAccountBalance,
+  setPieData,
+} from '../../store/explorer/actions';
+import {
+  getDexVolume,
+  getMeta1Volumes,
+  getPieData,
+  getSystemAccountsBalance,
+} from '../../store/explorer/selectors';
+import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import PaginationSelect from '../../components/AppPagination/PaginationSelect';
+import coinUsdtImg from '../../assets/images/coin-usdt.png';
+import { is } from 'date-fns/locale';
 
 const { fetchLastOperations, fetchHeader } = actions;
-const { getOperations, isFetchingLastOperations, getHeader, isFetchingHeader } =
-  selectors;
+const {
+  getActiveAssets,
+  getOperations,
+  isFetchingLastOperations,
+  getHeader,
+  isFetchingHeader,
+} = selectors;
 
 // styled components
 const PageWrapper = styled.div`
@@ -69,10 +84,13 @@ const LineChartsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 17px;
-  justify-content: center;
 
   @media only screen and (max-width: 1315px) {
     max-width: 600px;
+  }
+
+  @media screen and (max-width: 768px) {
+    justify-content: center;
   }
 `;
 
@@ -96,22 +114,6 @@ const PieChartWrapper = styled.div`
     max-width: unset;
     width: unset;
     margin-left: 0;
-  }
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  gap: 10px;
-`;
-
-const StyledButton = styled(Button)`
-  color: white;
-  &:hover,
-  &.on {
-    background: ${(props) => props.theme.palette.primary.main};
-    color: black;
   }
 `;
 
@@ -185,6 +187,7 @@ const Dashboard = React.memo(() => {
   const [rows, setRows] = useState([]);
   const [tabValue, setTabValue] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [v, setV] = useState(false); // the flag var for fethcing for only change
 
   const { t } = useTranslation();
 
@@ -193,15 +196,23 @@ const Dashboard = React.memo(() => {
 
   const fetchLastOps = (search_after) =>
     dispatch(fetchLastOperations(search_after));
-  const fetchHeaderData = (isLoading) => dispatch(fetchHeader(isLoading));
+  const fetchHeaderData = (options) => dispatch(fetchHeader(options));
 
   const setPieDataAction = (data) => dispatch(setPieData(data));
   // selectors
   const getHeadData = useSelector(getHeader);
+  const getMeta1Volume = (period) =>
+    useSelector((state) => getMeta1Volumes(state, period));
+  const systemAccountsBalance = useSelector((state) =>
+    getSystemAccountsBalance(state),
+  );
+
   const isFetchingHead = useSelector(isFetchingHeader);
   const getOpsData = useSelector(getOperations);
   const isFetchingOps = useSelector(isFetchingLastOperations);
   const pie = useSelector(getPieData);
+  const getActiveAssetsData = useSelector(getActiveAssets);
+  const getDexVolumeData = useSelector(getDexVolume);
 
   // vars
   const TabLabels = ['Operations', 'Markets', 'Holders'];
@@ -214,10 +225,13 @@ const Dashboard = React.memo(() => {
       ? 1
       : +(getOpsData?.length / rowsPerPage).toFixed(); // total number of pages = all ops / opsPerPage (=20)
   const headers = ['Operation', 'ID', 'Date and Time', 'Block', 'Type']; // table headers
+  const USDTAsset = getActiveAssetsData?.find(
+    (data) => data.asset_name === 'USDT',
+  );
 
   const getColor = (name) => {
-    var color = 'white';
-    var v;
+    let color = 'white';
+    let v;
     if (tabValue === 0) {
       color = OPS_TYPE_LABELS.filter(
         (label) => label.text.toUpperCase() === name,
@@ -232,15 +246,20 @@ const Dashboard = React.memo(() => {
   };
 
   useEffect(() => {
+    dispatch(fetchSystemAccountBalance());
+  }, []);
+
+  useEffect(() => {
     (async () => {
-      fetchHeaderData(true); // fetch header
+      fetchHeaderData({ isLoading: true }); // fetch header
       fetchLastOps(undefined); // first fetch with no search_after
+      dispatch(fetchDexVolume());
       await loadPieData();
     })();
   }, []);
 
   useEffect(() => {
-    setInterval(() => fetchHeaderData(false), 2000 * 60);
+    setInterval(() => fetchHeaderData({ isLoading: false }), 2000 * 60);
   }, []);
 
   const loadPieData = async () => {
@@ -263,7 +282,6 @@ const Dashboard = React.memo(() => {
     ]);
   };
 
-  const [v, setV] = useState(false); // the flag var for fethcing for only change
   useEffect(() => {
     if (curPageOps && !v) {
       setV(true);
@@ -297,6 +315,17 @@ const Dashboard = React.memo(() => {
     };
   };
 
+  const meta1 =
+    getActiveAssetsData &&
+    getActiveAssetsData.find((asset) => asset.asset_id === '1.3.0');
+  const usdt =
+    getActiveAssetsData &&
+    getActiveAssetsData.find((asset) => asset.asset_id === '1.3.1');
+  const meta1MarketCap = meta1?.market_cap - systemAccountsBalance;
+  const meta1MarketCapInUSD = Math.round(
+    (meta1MarketCap * usdt?.latest_price) / Math.pow(10, usdt?.precision || 0),
+  );
+
   return (
     <PageWrapper>
       <StyledChartContainer>
@@ -316,16 +345,16 @@ const Dashboard = React.memo(() => {
             isLoading={isFetchingHead}
           />
           <LineChartCard
-            title={'META1 Market Cap'}
-            number={getHeadData?.bts_market_cap}
+            title={'META1 Market Cap USD'}
+            number={meta1MarketCapInUSD}
             chartData={getHeadData?.market_cap_24h_history}
             icon={marketCapImg}
-            isLoading={isFetchingHead}
+            isLoading={isFetchingHead || !meta1MarketCapInUSD}
           />
           <LineChartCard
             title={'META1/BTC Volume'}
             number={getHeadData?.quote_volume}
-            chartData={getHeadData?.meta1_volume_24h_history}
+            chartData={getHeadData?.meta1_to_btc_ratio_24h_history}
             icon={btcVolumeImg}
             isLoading={isFetchingHead}
           />
@@ -341,6 +370,56 @@ const Dashboard = React.memo(() => {
             number={getHeadData?.committee_count}
             chartData={getHeadData?.committee_24h_history}
             icon={committeeImg}
+            isLoading={isFetchingHead}
+          />
+          <LineChartCard
+            title={'META1 24H Volume'}
+            number={+getActiveAssetsData?.[0]?.['24h_volume'].toFixed()}
+            chartData={getMeta1Volume('day').chart}
+            icon={btcVolumeImg}
+            isLoading={isFetchingHead}
+          />
+          <LineChartCard
+            title={'7D VOLUME IN META1'}
+            number={getMeta1Volume('week').total}
+            chartData={getMeta1Volume('week').chart}
+            icon={btcVolumeImg}
+            isLoading={isFetchingHead}
+          />
+          <LineChartCard
+            title={'30D VOLUME IN META1'}
+            number={getMeta1Volume('month').total}
+            chartData={getMeta1Volume('month').chart}
+            icon={btcVolumeImg}
+            isLoading={isFetchingHead}
+          />
+          <LineChartCard
+            title="24h VOLUME IN USDT"
+            number={getDexVolumeData?.volume_usd}
+            chartData={getMeta1Volume('day').chart}
+            icon={btcVolumeImg}
+            isLoading={isFetchingHead}
+          />
+          <LineChartCard
+            title={'7D VOLUME IN USDT'}
+            number={
+              +(
+                getMeta1Volume('week').total / USDTAsset?.latest_price
+              ).toFixed()
+            }
+            chartData={getMeta1Volume('week').chart}
+            icon={btcVolumeImg}
+            isLoading={isFetchingHead}
+          />
+          <LineChartCard
+            title={'30D VOLUME IN USDT'}
+            number={
+              +(
+                getMeta1Volume('month').total / USDTAsset?.latest_price
+              ).toFixed()
+            }
+            chartData={getMeta1Volume('month').chart}
+            icon={btcVolumeImg}
             isLoading={isFetchingHead}
           />
         </LineChartsWrapper>

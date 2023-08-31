@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 
 // import components
@@ -18,59 +17,13 @@ import useWidth from '../../../helpers/getWidth';
 import api from '../../../store/apis';
 import { useTranslation } from 'react-i18next';
 import BlockWrapper from '../../../components/BlockWrapper';
-
-const PageWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    margin-top: 50px;
-  }
-`;
-
-const StyledContainer = styled.div`
-  display: flex;
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const Label = styled.div`
-  font-style: normal;
-  font-weight: 500;
-  line-height: 30px;
-  font-size: 20px;
-  color: white;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    text-align: center;
-    flex-direction: column;
-  }
-`;
-
-const JsonInputWrapper = styled.div`
-  display: flex;
-  width: ${(props) => props.width ?? '100%'};
-  flex-direction: column;
-  padding-bottom: 50px;
-
-  #trd-outer-box {
-    @media ${(props) => props.theme.bkps.device.mobile} {
-      padding-left: 16px;
-    }
-    #trd-container {
-      border: 1px solid rgba(194, 213, 225, 0.08);
-      border-radius: 5px;
-      #trd-body {
-        background: transparent !important;
-        font-size: 13px !important;
-      }
-    }
-  }
-`;
+import {
+  ButtonGroup,
+  JsonInputWrapper,
+  Label,
+  PageWrapper,
+  StyledContainer,
+} from './Block.styles';
 
 const Votes = () => {
   const [block, setBlock] = useState('');

@@ -133,3 +133,26 @@ export const getLookupTransactions = (state) =>
 
 // pie data
 export const getPieData = (state) => get(state, ['explorer', 'pie', 'data']);
+
+export const getMeta1Volumes = (state, period) => {
+  const total = state.explorer.header?.header_data?.[
+    `meta1_volume_${period}_history`
+  ]?.length
+    ? state.explorer.header?.header_data?.[
+        `meta1_volume_${period}_history`
+      ]?.reduce((sum, acc) => {
+        return (acc += sum);
+      }, 0)
+    : 0;
+
+  const chart = state.explorer.header?.header_data?.[
+    `meta1_volume_${period}_history`
+  ]?.length
+    ? state.explorer.header?.header_data?.[`meta1_volume_${period}_history`]
+    : [];
+
+  return { total, chart };
+};
+
+export const getSystemAccountsBalance = (state) =>
+  get(state, ['explorer', 'systemAccountsBalance']);

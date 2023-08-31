@@ -38,11 +38,12 @@ export const fetchLastOperations = ({ search_after }) => {
   });
 };
 
-export const fetchHeader = () => {
+export const fetchHeader = ({ isFromAssets }) => {
   return axios.get(`${EXPLORER_URL}/header`, {
     headers: {
       'Content-Type': 'application/json-patch+json',
     },
+    params: { is_from_assets: isFromAssets },
   });
 };
 
@@ -71,7 +72,7 @@ export const getOperation = async (operation_id) => {
   return { data: operation };
 };
 
-export const opText = (operation_type, operation) => {
+export const opText = (operation_type, operation, accountId) => {
   var operation_account = 0;
   var operation_text;
   var fee_paying_account;
@@ -97,24 +98,43 @@ export const opText = (operation_type, operation) => {
 
             var divideby = Math.pow(10, asset_precision);
             var amount = Number(amount_amount / divideby);
-
-            operation_text =
-              "<a href='/#/accounts/" + from + "'>" + response_name + '</a>';
-            operation_text =
-              operation_text +
-              i18n.t('sent') +
-              formatNumber(amount) +
-              " <a href='/#/assets/" +
-              amount_asset_id +
-              "'>" +
-              asset_name +
-              '</a>' +
-              i18n.t('to') +
-              "<a href='/#/accounts/" +
-              to_name +
-              "'>" +
-              to_name +
-              '</a>';
+            if (from === accountId) {
+              operation_text =
+                "<a href='/#/accounts/" + from + "'>" + response_name + '</a>';
+              operation_text =
+                operation_text +
+                i18n.t('sent') +
+                formatNumber(amount) +
+                " <a href='/#/assets/" +
+                amount_asset_id +
+                "'>" +
+                asset_name +
+                '</a>' +
+                i18n.t('to') +
+                "<a href='/#/accounts/" +
+                to_name +
+                "'>" +
+                to_name +
+                '</a>';
+            } else {
+              operation_text =
+                "<a href='/#/accounts/" + to + "'>" + to_name + '</a>';
+              operation_text =
+                operation_text +
+                i18n.t('received') +
+                formatNumber(amount) +
+                " <a href='/#/assets/" +
+                amount_asset_id +
+                "'>" +
+                asset_name +
+                '</a>' +
+                i18n.t('from') +
+                "<a href='/#/accounts/" +
+                from +
+                "'>" +
+                response_name +
+                '</a>';
+            }
 
             return operation_text;
           });
@@ -790,7 +810,8 @@ export const opText = (operation_type, operation) => {
             i18n.t('published price');
           operation_text =
             operation_text +
-            usd_amount / symbol_amount +
+            // usd_amount / symbol_amount +
+            operation.usd_price.numerator / operation.usd_price.denominator +
             ' ' +
             'USD' +
             '/' +
@@ -1485,4 +1506,8 @@ export const getLookupTransactions = async (start) => {
     params: { start },
   });
   return response;
+};
+
+export const getBalanceOfSystemAccounts = async () => {
+  return await axios.get(`${EXPLORER_URL}/get_meta1_amount_of_system_accounts`);
 };

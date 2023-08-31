@@ -43,7 +43,7 @@ const explorerReducer = (state = initialState, action) => {
         ...state,
         header: {
           ...state.header,
-          isFetchingHeader: action.payload,
+          isFetchingHeader: action.payload?.isLoading,
         },
       };
     case types.HEADER_FETCH_SUCCESS:
@@ -592,6 +592,25 @@ const explorerReducer = (state = initialState, action) => {
           ...state.pie,
           ...action.payload,
         },
+      };
+    }
+    case types.FETCH_SYSTEM_ACCOUNT_BALANCES: {
+      return {
+        ...state,
+        isFetchingSystemAccountsBalance: true,
+      };
+    }
+    case types.FETCH_SYSTEM_ACCOUNT_BALANCES_SUCCESS: {
+      return {
+        ...state,
+        systemAccountsBalance: action.payload.balance,
+        isFetchingSystemAccountBalance: false,
+      };
+    }
+    case types.FETCH_SYSTEM_ACCOUNT_BALANCES_FAILURE: {
+      return {
+        ...state,
+        isFetchingSystemAccountsBalance: false,
       };
     }
 

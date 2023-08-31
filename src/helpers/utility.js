@@ -30,7 +30,7 @@ export const formatNumber = (x) => {
 };
 
 export const formatBalance = (number, presicion) => {
-  var divideby = Math.pow(10, presicion);
+  const divideby = Math.pow(10, presicion);
   return Number(number / divideby);
 };
 
@@ -96,8 +96,8 @@ export const objectType = (id) => {
 
 export const opMapping = {
   0: 'TRANSFER',
-  1: 'LIMIT ORDER CREATE',
-  2: 'LIMIT ORDER CANCEL',
+  1: 'ORDER CREATE',
+  2: 'ORDER CANCEL',
   3: 'CALL ORDER UPDATE',
   4: 'FILL ORDER',
   5: 'ACCOUNT CREATE',
@@ -361,7 +361,7 @@ export const buildCustomKVTableDto = (data, headerM) => {
         let val_data = tmp.length !== 1 ? data[tmp[0]][tmp[1]] : data[tmp[0]];
         let divider = Math.pow(10, data.precision);
         let formattedVal = isInteger(val_data)
-          ? localizeNumber(parseInt(val_data / divider))
+          ? localizeNumber(parseInt(divider ? val_data / divider : val_data))
           : val_data;
         return {
           Key: [key + ':', 'plainText'],
@@ -449,5 +449,5 @@ export const dateTimeZoneOffsetCorrect = (date) => {
     )}, ${currentDate.toLocaleDateString()}`;
     return orderDate;
   }
-  return date.split(',').reverse().join(', ');
+  return date?.split(',').reverse().join(', ');
 };

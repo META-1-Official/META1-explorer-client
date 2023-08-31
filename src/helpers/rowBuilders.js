@@ -53,7 +53,13 @@ export const accountHistoryRowsBuilder = async (rows) => {
 };
 
 const buildOpTextPromises = (rows) =>
-  rows.map((op) => opText(op.operation_type, op.operation_history.op_object));
+  rows.map((op) =>
+    opText(
+      op.operation_type,
+      op.operation_history.op_object,
+      op.account_history.account,
+    ),
+  );
 
 export const dashboardRowsBuilder = async (rows) => {
   return rows
@@ -78,7 +84,7 @@ export const dashboardRowsBuilder = async (rows) => {
     : Promise.resolve([]);
 };
 
-export const feesRowsBuilder = (o_data) => {
+export const feesRowsBuilder = (o_data, precision) => {
   if (o_data) {
     let basic_fee = 0;
     let fees = [];
@@ -95,17 +101,19 @@ export const feesRowsBuilder = (o_data) => {
         identifier: fee_params[i][0],
         operation: op_type[0],
         type: fee_params[i][0],
-        basic_fee: isNaN(formatBalance(basic_fee, 5))
+        basic_fee: isNaN(formatBalance(basic_fee, precision))
           ? ''
-          : formatBalance(basic_fee, 5),
-        premium_fee: isNaN(formatBalance(fee_params[i][1].premium_fee, 5))
-          ? ''
-          : formatBalance(fee_params[i][1].premium_fee, 5),
-        price_per_kbyte: isNaN(
-          formatBalance(fee_params[i][1].price_per_kbyte, 5),
+          : formatBalance(basic_fee, precision),
+        premium_fee: isNaN(
+          formatBalance(fee_params[i][1].premium_fee, precision),
         )
           ? ''
-          : formatBalance(fee_params[i][1].price_per_kbyte, 5),
+          : formatBalance(fee_params[i][1].premium_fee, precision),
+        price_per_kbyte: isNaN(
+          formatBalance(fee_params[i][1].price_per_kbyte, precision),
+        )
+          ? ''
+          : formatBalance(fee_params[i][1].price_per_kbyte, precision),
       };
       fees.push(fee);
     }

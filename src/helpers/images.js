@@ -7,6 +7,13 @@ import coinLtcImg from '../assets/images/coin-ltc.png';
 import coinMeta1Img from '../assets/images/coin-meta1.png';
 import coinXlmImg from '../assets/images/coin-xlm.png';
 import coinUsdtImg from '../assets/images/coin-usdt.png';
+import coinAdaImg from '../assets/images/coin-ada.png';
+import coinBusdImg from '../assets/images/coin-busd.png';
+import coinDogeImg from '../assets/images/coin-doge.png';
+import coinSolImg from '../assets/images/coin-sol.png';
+import coinXmrImg from '../assets/images/coin-xmr.png';
+import coinXrpImg from '../assets/images/coin-xrp.png';
+import coinTrxImg from '../assets/images/coin-trx.png';
 
 // others
 import lastAskImg from '../assets/images/last-ask.png';
@@ -32,6 +39,13 @@ const images = {
   'coin-meta1': coinMeta1Img,
   'coin-xlm': coinXlmImg,
   'coin-usdt': coinUsdtImg,
+  'coin-ada': coinAdaImg,
+  'coin-busd': coinBusdImg,
+  'coin-doge': coinDogeImg,
+  'coin-sol': coinSolImg,
+  'coin-xmr': coinXmrImg,
+  'coin-xrp': coinXrpImg,
+  'coin-trx': coinTrxImg,
 
   'last-ask': lastAskImg,
   'last-bid': lastBidImg,

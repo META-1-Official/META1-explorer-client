@@ -14,9 +14,9 @@ export const clearOperations = () => ({
 });
 
 // operation header
-export const fetchHeader = (isLoading) => ({
+export const fetchHeader = (payload) => ({
   type: types.HEADER_FETCH,
-  payload: isLoading,
+  payload,
 });
 
 // last bolck number
@@ -156,4 +156,9 @@ export const setPieData = (data) => ({
   payload: {
     data,
   },
+});
+
+export const fetchSystemAccountBalance = () => ({
+  type: types.FETCH_SYSTEM_ACCOUNT_BALANCES,
+  payload: {},
 });

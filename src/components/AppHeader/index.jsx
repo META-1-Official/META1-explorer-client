@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { changeLanguage } from 'i18next';
 import ReactTooltip from 'react-tooltip';
+import inIframe from '../../helpers/inIframe';
 import * as styled from './AppHeader.styles';
 
 // import UI packs
@@ -265,11 +266,13 @@ const AppHeader = () => {
     return (
       <>
         <styled.MobileHeader>
-          <styled.Img
-            alt="logo"
-            src={images['logo']}
-            style={{ width: '80px', height: '30px' }}
-          />
+          {!inIframe() && (
+            <styled.Img
+              alt="logo"
+              src={images['logo']}
+              style={{ width: '80px', height: '30px' }}
+            />
+          )}
           <styled.SettingWrapper>
             {renderSettings()}
             <IconButton

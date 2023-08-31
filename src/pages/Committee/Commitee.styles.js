@@ -10,14 +10,7 @@ export const PageWrapper = styled.div`
 `;
 
 export const StyledContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
   display: flex;
   flex-direction: column;
   padding: 0 20px;
-`;
-
-export const PageDescription = styled.div`
-  color: white;
-  font-size: 1rem;
-  margin-bottom: 1rem;
 `;
