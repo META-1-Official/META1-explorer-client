@@ -48,12 +48,11 @@ const Witnesses = () => {
 
   // selectors
   const getWitnessesData = useSelector(getWitnesses);
-  const getHeadData = useSelector(getHeader);
   const isFetchingWitnessesData = useSelector(isFetchingWitnesses);
   const isFetchingHead = useSelector(isFetchingHeader);
 
   // vars
-  const witness_count = getHeadData?.witness_count;
+  const witness_count = getWitnessesData?.length;
   const filteredActiveWitnessesData =
     witness_count &&
     getWitnessesData

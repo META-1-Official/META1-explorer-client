@@ -32,12 +32,11 @@ const Committee = () => {
 
   // selectors
   const getCommitteeData = useSelector(getCommittee);
-  const getHeadData = useSelector(getHeader);
   const isFetchingCommitteeData = useSelector(isFetchingCommittee);
   const isFetchingHead = useSelector(isFetchingHeader);
 
   // vars
-  const committee_count = getHeadData?.committee_count;
+  const committee_count = getCommitteeData?.length;
   const filteredActiveCommitteeData =
     committee_count &&
     getCommitteeData

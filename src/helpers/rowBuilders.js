@@ -1,6 +1,21 @@
-import { formatBalance, localizeNumber, operationType } from './utility';
+import { localizeNumber, operationType } from './utility';
 import { opText } from '../store/apis/explorer';
 import images from './images';
+
+const NAME_MAPPING = {
+  fee: 'Regular Transaction Fee',
+  symbol3: 'Symbols with 3 Characters',
+  symbol4: 'Symbols with 4 Characters',
+  long_symbol: 'Longer Symbol',
+  basic_fee: 'Basic Fee',
+  premium_fee: 'Fee for Premium Names',
+  membership_lifetime_fee: 'Lifetime Membership',
+  membership_annual_fee: 'Lifetime Membership Annual Fee',
+  price_per_output: 'Price per recipient',
+  price_per_kbyte: 'Price per KByte Transaction Size',
+};
+
+const lifetimeFeeRate = 2.5;
 
 const coloredLinksHistoryRows = (arg, type) => {
   return (
@@ -84,40 +99,27 @@ export const dashboardRowsBuilder = async (rows) => {
     : Promise.resolve([]);
 };
 
-export const feesRowsBuilder = (o_data, precision) => {
-  if (o_data) {
-    let basic_fee = 0;
-    let fees = [];
-    let fee_params = o_data.parameters.current_fees.parameters;
-    for (var i = 0; i < fee_params.length; i++) {
-      if (fee_params[i][1].fee) {
-        basic_fee = fee_params[i][1].fee;
-      } else {
-        basic_fee = fee_params[i][1].basic_fee;
-      }
-      var op_type = operationType(fee_params[i][0]);
-
-      const fee = {
-        identifier: fee_params[i][0],
-        operation: op_type[0],
-        type: fee_params[i][0],
-        basic_fee: isNaN(formatBalance(basic_fee, precision))
-          ? ''
-          : formatBalance(basic_fee, precision),
-        premium_fee: isNaN(
-          formatBalance(fee_params[i][1].premium_fee, precision),
-        )
-          ? ''
-          : formatBalance(fee_params[i][1].premium_fee, precision),
-        price_per_kbyte: isNaN(
-          formatBalance(fee_params[i][1].price_per_kbyte, precision),
-        )
-          ? ''
-          : formatBalance(fee_params[i][1].price_per_kbyte, precision),
-      };
-      fees.push(fee);
-    }
-    return fees;
+export const feesRowsBuilder = (feesData, precision) => {
+  if (feesData) {
+    return feesData.flatMap((fee) => {
+      return Object.entries(fee[1])
+        .reverse()
+        .map(([key, value], count) => {
+          return {
+            typesCount: ++count,
+            type: fee[0],
+            operation: operationType(fee[0])[0],
+            name: NAME_MAPPING[key] || key,
+            baseFee: value / 10 ** precision,
+            lifetimeMemberFee:
+              key !== 'membership_annual_fee' &&
+              key !== 'membership_lifetime_fee'
+                ? value / lifetimeFeeRate / 10 ** precision
+                : 0,
+          };
+        })
+        .reverse();
+    });
   } else {
     return [];
   }

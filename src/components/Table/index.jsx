@@ -92,6 +92,7 @@ export const Table = ({
   searchText,
   onSearch,
   searchFullWidth,
+  withHeader,
   withSearch,
   withSelect,
   selectMultiple,
@@ -119,6 +120,11 @@ export const Table = ({
                 fullWidth={searchFullWidth}
               />
             </div>
+          </styled.StyledSearchCell>
+        )}
+        {withHeader && (
+          <styled.StyledSearchCell>
+            <div style={{ padding: '14px' }}>{t(headerText)}</div>
           </styled.StyledSearchCell>
         )}
         {withSelect && (
@@ -158,7 +164,6 @@ export const Table = ({
               </MuiTableRow>
             </MuiTableHead>
           ) : null}
-
           <MuiTableBody>
             {withSearch || withSelect ? (
               <MuiTableRow>
@@ -173,17 +178,54 @@ export const Table = ({
               </MuiTableRow>
             ) : null}
 
-            {rows.map((row, rawIndex) => (
-              <MuiTableRow key={`raw-${rawIndex}`}>
-                {headers.map((header) => (
-                  <styled.StyledMuiTableCell key={`row-${header}`} align="left">
-                    {isFees ? (
-                      <FeesTableCell cell={row[header]} />
-                    ) : (
+            {rows.map((row, rawIndex, rows) => (
+              <MuiTableRow
+                key={`raw-${rawIndex}`}
+                className={rawIndex % 2 && 'highlighted-row'}
+              >
+                {isFees && row.operation !== rows[rawIndex - 1]?.operation && (
+                  <styled.FeesOperationNameMuiTableCell
+                    rowSpan={row.typesCount}
+                  >
+                    {row.operation}
+                  </styled.FeesOperationNameMuiTableCell>
+                )}
+                {isFees ? (
+                  <>
+                    <styled.StyledMuiTableCell>
+                      {row.name}
+                    </styled.StyledMuiTableCell>
+                    <styled.StyledMuiTableCell>
+                      {row.baseFee !== 0 ? (
+                        <>
+                          ${row.baseFee}
+                          <styled.Meta1Span> META1</styled.Meta1Span>
+                        </>
+                      ) : (
+                        'Free of Charge'
+                      )}
+                    </styled.StyledMuiTableCell>
+                    <styled.StyledMuiTableCell>
+                      {row.lifetimeMemberFee !== 0 ? (
+                        <>
+                          ${row.lifetimeMemberFee}
+                          <styled.Meta1Span> META1</styled.Meta1Span>
+                        </>
+                      ) : (
+                        'Free of Charge'
+                      )}
+                    </styled.StyledMuiTableCell>
+                  </>
+                ) : (
+                  headers.map((header) => (
+                    <styled.StyledMuiTableCell
+                      key={`row-${header}`}
+                      align="left"
+                    >
                       <TableCell cell={row[header]} />
-                    )}
-                  </styled.StyledMuiTableCell>
-                ))}
+                    </styled.StyledMuiTableCell>
+                  ))
+                )}
               </MuiTableRow>
             ))}
           </MuiTableBody>
