@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import MuiTableContainer from '@mui/material/TableContainer';
-import { ellipsis } from 'polished';
 import MuiTableCell from '@mui/material/TableCell';
 
 export const TableContainerWrapper = styled.div`
   display: flex;
+  padding-bottom: 20px;
 
   @media ${(props) => props.theme.bkps.device.mobile} {
     padding: 0 16px;
@@ -30,7 +30,7 @@ export const StyledMuiTableContainer = styled(MuiTableContainer)`
       background: #15171b;
 
       th.MuiTableCell-root {
-        background: #15171b;
+        background: black;
         &:last-child {
           text-align: ${(props) =>
             props.lastcellaligned === false ? 'left' : 'right'};
@@ -69,8 +69,15 @@ export const StyledMuiTableContainer = styled(MuiTableContainer)`
           }
         }
       }
+      .highlighted-row {
+        background-color: rgba(233, 233, 233, 0.1);
+      }
     }
   }
+`;
+
+export const Meta1Span = styled.span`
+  color: #f1c40f;
 `;
 
 export const StyledMuiTableCell = styled(MuiTableCell)`
@@ -78,6 +85,11 @@ export const StyledMuiTableCell = styled(MuiTableCell)`
   font-weight: 500;
   font-size: 14px;
   line-height: 21px;
+`;
+
+export const FeesOperationNameMuiTableCell = styled(StyledMuiTableCell)`
+  width: 40%;
+  background: black;
 `;
 
 export const StyledSearchCell = styled.div`
