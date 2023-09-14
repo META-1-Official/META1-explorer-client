@@ -370,7 +370,7 @@ export const buildCustomKVTableDto = (data, headerM) => {
         let key = Object.keys(item)[0];
         let tmp = item[key].split('.');
         let val_data = tmp.length !== 1 ? data[tmp[0]][tmp[1]] : data[tmp[0]];
-        let dividermeta1 = data.options.core_exchange_rate.base.amount;
+        let dividermeta1 = data?.options?.core_exchange_rate?.base?.amount || 1;
         let divider = Math.pow(10, data.precision);
         let formattedVal = isInteger(val_data)
           ? key === 'Fee pool'
