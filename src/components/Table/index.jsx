@@ -11,10 +11,7 @@ import MuiTableRow from '@mui/material/TableRow';
 import { toast } from 'react-toastify';
 
 import urlLinkImg from '../../assets/images/url-icon.png';
-import {
-  dateTimeZoneOffsetCorrect,
-  operationType,
-} from '../../helpers/utility';
+import { operationType } from '../../helpers/utility';
 import { SearchBox } from '../SearchBox';
 import { useTranslation } from 'react-i18next';
 import CustomSelect from '../Select';
@@ -42,11 +39,7 @@ const TableCell = ({ cell }) => {
         </styled.Label>
       );
     case 'date':
-      return (
-        <styled.Text type="plain">
-          {dateTimeZoneOffsetCorrect(content)}
-        </styled.Text>
-      );
+      return <styled.Text type="plain">{content}</styled.Text>;
     case 'plainText':
       return <styled.Text type="plain">{t(content)}</styled.Text>;
     case 'urlLink':
