@@ -353,15 +353,18 @@ const isInteger = (value) => {
   return /^\d+$/.test(value);
 };
 
-export const buildCustomKVTableDto = (data, headerM) => {
+export const buildCustomKVTableDto = (data, headerM, meta1?) => {
   let rows = data
     ? headerM.map((item) => {
         let key = Object.keys(item)[0];
         let tmp = item[key].split('.');
         let val_data = tmp.length !== 1 ? data[tmp[0]][tmp[1]] : data[tmp[0]];
+        let dividermeta1 = data.options.core_exchange_rate.base.amount;
         let divider = Math.pow(10, data.precision);
         let formattedVal = isInteger(val_data)
-          ? localizeNumber(parseInt(divider ? val_data / divider : val_data))
+          ? key === 'Fee pool'
+            ? (val_data / dividermeta1).toFixed(6)
+            : localizeNumber(parseInt(divider ? val_data / divider : val_data))
           : val_data;
         return {
           Key: [key + ':', 'plainText'],
