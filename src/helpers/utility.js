@@ -353,7 +353,18 @@ const isInteger = (value) => {
   return /^\d+$/.test(value);
 };
 
-export const buildCustomKVTableDto = (data, headerM, meta1?) => {
+export function filterDuplicatesByProperty(array, property) {
+  const existed = new Set();
+  return array.filter((item) => {
+    const value = item[property];
+    if (!existed.has(value)) {
+      existed.add(value);
+      return item;
+    }
+  });
+}
+
+export const buildCustomKVTableDto = (data, headerM) => {
   let rows = data
     ? headerM.map((item) => {
         let key = Object.keys(item)[0];
