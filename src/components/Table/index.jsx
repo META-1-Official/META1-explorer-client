@@ -191,7 +191,7 @@ export const Table = ({
                     <styled.StyledMuiTableCell>
                       {row.baseFee !== 0 ? (
                         <>
-                          ${row.baseFee}
+                          {row.baseFee}
                           <styled.Meta1Span> META1</styled.Meta1Span>
                         </>
                       ) : (
@@ -201,7 +201,7 @@ export const Table = ({
                     <styled.StyledMuiTableCell>
                       {row.lifetimeMemberFee !== 0 ? (
                         <>
-                          ${row.lifetimeMemberFee}
+                          {row.lifetimeMemberFee}
                           <styled.Meta1Span> META1</styled.Meta1Span>
                         </>
                       ) : (
