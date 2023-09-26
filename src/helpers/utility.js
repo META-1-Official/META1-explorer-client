@@ -380,9 +380,9 @@ export const buildCustomKVTableDto = (data, headerM) => {
 
     switch (key) {
       case 'Fee pool':
-        return localizeNumber(
+        return `${localizeNumber(
           toFixedFloatNumber(value / (isMeta1 ? divider : 1)),
-        );
+        )} META1`;
       case 'Max supply':
       case 'Current supply':
         return localizeNumber(parseInt(value / divider));
