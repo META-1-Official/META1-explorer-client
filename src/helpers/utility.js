@@ -161,6 +161,7 @@ export const operationType = (_opType) => {
   var color;
   var results = [];
   var opType = Number(_opType);
+  var textColor = 'ffffff';
   if (opType === 0) {
     name = opMapping[0];
     color = '81CA80';
@@ -179,6 +180,7 @@ export const operationType = (_opType) => {
   } else if (opType === 5) {
     name = opMapping[5];
     color = 'CCCCCC';
+    textColor = '000000';
   } else if (opType === 6) {
     name = opMapping[6];
     color = 'FF007F';
@@ -343,10 +345,7 @@ export const operationType = (_opType) => {
     color = '369694';
   }
 
-  results[0] = name;
-  results[1] = color;
-
-  return results;
+  return [name, color, textColor];
 };
 
 const isInteger = (value) => {

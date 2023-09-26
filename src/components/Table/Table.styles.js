@@ -141,7 +141,7 @@ export const Text = styled.div`
 `;
 
 export const Label = styled.div`
-  background: ${(props) => `#${props.color}`};
+  background: ${(props) => `#${props.background}`};
   padding: 0px 5px;
   border-radius: 5px;
   width: fit-content;
@@ -154,6 +154,7 @@ export const Label = styled.div`
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
+  color: ${(props) => `#${props.color}`};
 `;
 
 export const LinkWrapper = styled.div`
