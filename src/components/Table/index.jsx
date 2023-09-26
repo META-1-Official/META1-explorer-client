@@ -34,7 +34,10 @@ const TableCell = ({ cell }) => {
       return <styled.Text type="colored">{content}</styled.Text>;
     case 'label':
       return (
-        <styled.Label color={operationType(content)[1]}>
+        <styled.Label
+          background={operationType(content)[1]}
+          color={operationType(content)[2]}
+        >
           {t(operationType(content)[0])}
         </styled.Label>
       );
