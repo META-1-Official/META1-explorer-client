@@ -353,6 +353,10 @@ const isInteger = (value) => {
   return /^\d+$/.test(value);
 };
 
+const toFixedFloatNumber = (digit) => {
+  return digit.toFixed(6).replace(/\.?0+$/, '');
+};
+
 export function filterDuplicatesByProperty(array, property) {
   const existed = new Set();
   return array.filter((item) => {
@@ -365,30 +369,53 @@ export function filterDuplicatesByProperty(array, property) {
 }
 
 export const buildCustomKVTableDto = (data, headerM) => {
-  let rows = data
-    ? headerM.map((item) => {
-        let key = Object.keys(item)[0];
-        let tmp = item[key].split('.');
-        let val_data = tmp.length !== 1 ? data[tmp[0]][tmp[1]] : data[tmp[0]];
-        let dividermeta1 = data?.options?.core_exchange_rate?.base?.amount || 1;
-        let divider = Math.pow(10, data.precision);
-        let formattedVal = isInteger(val_data)
-          ? key === 'Fee pool'
-            ? (val_data / dividermeta1).toFixed(6)
-            : localizeNumber(parseInt(divider ? val_data / divider : val_data))
-          : val_data;
-        return {
-          Key: [key + ':', 'plainText'],
-          Value: [
-            item.type === 'html'
-              ? `<a href='${item.link}'>${formattedVal}</a>`
-              : formattedVal, // in case of html, build <a> tag html code
-            item.type,
-          ],
-        };
-      })
-    : [];
-  return rows;
+  if (!data) return [];
+
+  const formatValue = (key, value, precision, symbol) => {
+    const divider = Math.pow(10, precision);
+    const isMeta1 = symbol === 'META1';
+
+    if (!isInteger(value)) {
+      return value;
+    }
+
+    switch (key) {
+      case 'Fee pool':
+        return localizeNumber(
+          toFixedFloatNumber(value / (isMeta1 ? divider : 1)),
+        );
+      case 'Max supply':
+      case 'Current supply':
+        return localizeNumber(parseInt(value / divider));
+      case 'Accumulated fees':
+        return localizeNumber(toFixedFloatNumber(value / divider));
+      default:
+        return localizeNumber(parseInt(value));
+    }
+  };
+
+  return headerM.map((item) => {
+    const key = Object.keys(item)[0];
+    const valuePath = item[key].split('.');
+    const value =
+      valuePath.length === 1
+        ? data[valuePath[0]]
+        : data[valuePath[0]][valuePath[1]];
+
+    const formattedValue = formatValue(key, value, data.precision, data.symbol);
+
+    const formattedKey = [key + ':', 'plainText'];
+    const formattedType = item.type;
+    const formattedLink =
+      item.type === 'html'
+        ? `<a href='${item.link}'>${formattedValue}</a>`
+        : formattedValue;
+
+    return {
+      Key: formattedKey,
+      Value: [formattedLink, formattedType],
+    };
+  });
 };
 
 // added total field as last feild (total = sum of first value in each element)
