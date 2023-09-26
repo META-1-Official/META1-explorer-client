@@ -367,35 +367,6 @@ export function filterDuplicatesByProperty(array, property) {
   });
 }
 
-const getCustomKVTableIntFieldValues = ({
-  key,
-  val_data,
-  dividermeta1,
-  divider,
-}) => {
-  switch (key) {
-    case 'Fee pool':
-      return (val_data / dividermeta1).toFixed(6);
-    case 'Holders table_key':
-      return parseInt(val_data);
-    case 'Accumulated fees':
-      return parseInt(val_data);
-    default:
-      return localizeNumber(parseInt(divider ? val_data / divider : val_data));
-  }
-};
-
-const getCustomKVTableStrFieldValues = (key, val_data) => {
-  switch (key) {
-    case '24 HS META1 Volume':
-      return `${Math.round(+val_data)} META1`;
-    case 'Circulating supply':
-      return `${Math.round(+val_data)}`;
-    default:
-      return val_data;
-  }
-};
-
 export const buildCustomKVTableDto = (data, headerM) => {
   if (!data) return [];
 
