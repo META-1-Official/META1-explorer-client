@@ -106,6 +106,11 @@ export const getTicker = (state) =>
 export const isFetchingTicker = (state) =>
   get(state, ['explorer', 'markets', 'isFetchingTicker']);
 
+export const getWalletsAccount = (state) =>
+  get(state, ['explorer', 'walletUsersAccount', 'accounts']);
+export const isFetchingWalletAccounts = (state) =>
+  get(state, ['explorer', 'walletUsersAccount', 'isFetchingWalletAccounts']);
+
 // fees
 export const getFees = (state) => get(state, ['explorer', 'fees', 'fees']);
 export const isFetchingFees = (state) =>

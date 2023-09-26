@@ -85,6 +85,11 @@ export const fetchAssetFull = (asset_id) => ({
   payload: { asset_id },
 });
 
+export const fetchWalletsAccounts = (asset_id) => ({
+  type: types.WALLET_USERS_ACCOUNT_FETCH,
+  payload: { asset_id },
+});
+
 // asset holders
 export const fetchAssetHolders = (asset_id) => ({
   type: types.ASSET_HOLDERS_FETCH,

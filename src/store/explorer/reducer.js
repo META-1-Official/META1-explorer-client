@@ -614,6 +614,36 @@ const explorerReducer = (state = initialState, action) => {
       };
     }
 
+    case types.WALLET_USERS_ACCOUNT_FETCH: {
+      return {
+        ...state,
+        walletUsersAccount: {
+          ...state.walletsAccount,
+          isFetchingWalletAccounts: true,
+        },
+      };
+    }
+    case types.WALLET_USERS_ACCOUNT_FETCH_SUCCESS: {
+      return {
+        ...state,
+        walletUsersAccount: {
+          ...state.walletsAccount,
+          accounts: action.payload,
+          isFetchingWalletAccounts: false,
+        },
+      };
+    }
+    case types.WALLET_USERS_ACCOUNT_FETCH_FAILURE: {
+      return {
+        ...state,
+        walletUsersAccount: {
+          ...state.walletsAccount,
+          message: 'FETCHING ERROR',
+          isFetchingWalletAccounts: false,
+        },
+      };
+    }
+
     case types.UNSET:
       return null;
     case types.INITIALIZE:

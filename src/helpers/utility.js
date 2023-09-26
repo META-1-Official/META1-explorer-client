@@ -364,6 +364,35 @@ export function filterDuplicatesByProperty(array, property) {
   });
 }
 
+const getCustomKVTableIntFieldValues = ({
+  key,
+  val_data,
+  dividermeta1,
+  divider,
+}) => {
+  switch (key) {
+    case 'Fee pool':
+      return (val_data / dividermeta1).toFixed(6);
+    case 'Holders table_key':
+      return parseInt(val_data);
+    case 'Accumulated fees':
+      return parseInt(val_data);
+    default:
+      return localizeNumber(parseInt(divider ? val_data / divider : val_data));
+  }
+};
+
+const getCustomKVTableStrFieldValues = (key, val_data) => {
+  switch (key) {
+    case '24 HS META1 Volume':
+      return `${Math.round(+val_data)} META1`;
+    case 'Circulating supply':
+      return `${Math.round(+val_data)}`;
+    default:
+      return val_data;
+  }
+};
+
 export const buildCustomKVTableDto = (data, headerM) => {
   let rows = data
     ? headerM.map((item) => {
@@ -373,10 +402,13 @@ export const buildCustomKVTableDto = (data, headerM) => {
         let dividermeta1 = data?.options?.core_exchange_rate?.base?.amount || 1;
         let divider = Math.pow(10, data.precision);
         let formattedVal = isInteger(val_data)
-          ? key === 'Fee pool'
-            ? (val_data / dividermeta1).toFixed(6)
-            : localizeNumber(parseInt(divider ? val_data / divider : val_data))
-          : val_data;
+          ? getCustomKVTableIntFieldValues({
+              key,
+              val_data,
+              dividermeta1,
+              divider,
+            })
+          : getCustomKVTableStrFieldValues(key, val_data);
         return {
           Key: [key + ':', 'plainText'],
           Value: [
