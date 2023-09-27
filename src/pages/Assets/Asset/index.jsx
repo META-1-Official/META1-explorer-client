@@ -31,6 +31,7 @@ const {
   fetchAssetHolders,
   fetchAssetHoldersCount,
   fetchAssetMarkets,
+  fetchWalletsAccounts,
 } = actions;
 const {
   getAssetFull,
@@ -40,12 +41,15 @@ const {
   getAssetHoldersCount,
   isFetchingAssetHoldersCount,
   getAssetMarkets,
+  getWalletsAccount,
   isFetchingAssetMarkets,
 } = selectors;
 
 const Asset = () => {
   const [queryMarkets, setQueryMarkets] = useState('');
   const [queryHolders, setQueryHolders] = useState('');
+  const [statsRows, setStatsRows] = useState([]);
+  const [infoRows, setInfoRows] = useState([]);
 
   // dispatch
   const dispatch = useDispatch();
@@ -58,6 +62,7 @@ const Asset = () => {
   const fetchAssetHoldersCountData = (id) =>
     dispatch(fetchAssetHoldersCount(id));
   const fetchAssetMarketsData = (id) => dispatch(fetchAssetMarkets(id));
+  const fetchWalletsAccountsData = () => dispatch(fetchWalletsAccounts());
 
   // selectors
   const getAssetFullData = useSelector(getAssetFull);
@@ -65,6 +70,7 @@ const Asset = () => {
   const getAssetHoldersData = useSelector(getAssetHolders);
   const isFetchingAssetHoldersData = useSelector(isFetchingAssetHolders);
   const getAssetHoldersCountData = useSelector(getAssetHoldersCount);
+  const getWalletsAccountData = useSelector(getWalletsAccount);
   const isFetchingAssetHoldersCountData = useSelector(
     isFetchingAssetHoldersCount,
   );
@@ -95,12 +101,11 @@ const Asset = () => {
     { 'Precision table_key': 'precision', type: 'plainText' },
     { 'Fee pool': 'fee_pool', type: 'plainText' },
     { 'Current supply': 'current_supply', type: 'plainText' },
+    { 'Circulating supply': 'circulating_supply', type: 'plainText' },
     { 'Confidential supply': 'confidential_supply', type: 'plainText' },
   ];
   const id = location.pathname.split('/')[2];
   const imgUrl = images[`coin-${getAssetFullData?.symbol.toLowerCase()}`];
-  const statsRows = buildCustomKVTableDto(getAssetFullData, headerStatsM);
-  const infoRows = buildCustomKVTableDto(getAssetFullData, headerInfoM);
   const marketRows = getAssetMarketsData
     ?.filter((data) => data.pair.includes(queryMarkets.toUpperCase()))
     .map((data) => {
@@ -127,15 +132,42 @@ const Asset = () => {
     fetchAssetHoldersData(id);
     fetchAssetHoldersCountData(id);
     fetchAssetMarketsData(id);
+    fetchWalletsAccountsData();
   }, []);
 
+  const getCirculatingSupply = (data) => {
+    let totalAmount = null;
+    if (data) {
+      totalAmount = data?.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue?.amount;
+      }, 0);
+    }
+    return totalAmount;
+  };
   useEffect(() => {
-    if (getAssetFullData) getAssetFullData.holders = getAssetHoldersCountData;
+    if (getAssetFullData) {
+      const assetWithHolders = {
+        ...getAssetFullData,
+        holders: getAssetHoldersCountData,
+      };
+      setStatsRows(buildCustomKVTableDto(assetWithHolders, headerStatsM));
+      // getAssetFullData.holders = getAssetHoldersCountData;
+    }
+    if (getAssetFullData) {
+      const assetWithCirculatingSupply = {
+        ...getAssetFullData,
+        circulating_supply: getCirculatingSupply(getWalletsAccountData),
+      };
+      setInfoRows(
+        buildCustomKVTableDto(assetWithCirculatingSupply, headerInfoM),
+      );
+    }
   }, [
     getAssetFullData,
     getAssetHoldersData,
     getAssetHoldersCountData,
     getAssetMarketsData,
+    getWalletsAccountData,
   ]);
 
   const onSearchForActiveMarkets = (query) => {

@@ -170,7 +170,7 @@ export const assetRowsBuilder = (rows) => {
             'plainText',
           ],
           'Market Cap': [
-            `${localizeNumber(Math.round(value.market_cap / 100000))} META1`,
+            `${localizeNumber(Math.round(value.market_cap / precision))} META1`,
             'plainText',
           ],
           Supply: [
