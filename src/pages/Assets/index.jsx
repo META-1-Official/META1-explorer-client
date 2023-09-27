@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
 import Pagination from '@mui/material/Pagination';
 
 // import components
@@ -25,6 +24,14 @@ import { assetRowsBuilder } from '../../helpers/rowBuilders';
 import { getMeta1Volumes } from '../../store/explorer/selectors';
 import btcVolumeImg from '../../assets/images/btc-volume.png';
 import { fetchHeader } from '../../store/explorer/actions';
+import {
+  FilledLineChartWrapper,
+  LineChartsWrapper,
+  PageWrapper,
+  StyledChartContainer,
+  StyledPaginationContainer,
+  StyledTableContainer,
+} from './Assets.styles';
 
 const { fetchActiveAssets, fetchDexVolume, fetchDailyDexChart } = actions;
 const {
@@ -35,81 +42,6 @@ const {
   isFetchingDexVolume,
   isFetchingDailyDexChart,
 } = selectors;
-
-// styled components
-const PageWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  max-width: 1315px;
-  padding-top: 80px;
-  padding-bottom: 40px;
-  flex-direction: column;
-`;
-
-const StyledChartContainer = styled.div`
-  display: flex;
-  justify-content: center;
-
-  @media only screen and (max-width: 1020px) {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-`;
-
-const LineChartsWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 17px;
-
-  @media only screen and (max-width: 1315px) {
-    max-width: 600px;
-  }
-
-  @media screen and (max-width: 768px) {
-    justify-content: center;
-  }
-`;
-
-const FilledLineChartWrapper = styled.div`
-  margin-left: 17px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 408px;
-
-  @media only screen and (max-width: 1020px) {
-    margin-top: 30px;
-  }
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    max-width: unset;
-    margin-left: 0;
-  }
-`;
-
-const StyledTableContainer = styled.div`
-  padding-top: 38px;
-  display: flex;
-  flex-direction: column;
-`;
-
-const StyledPaginationContainer = styled.div`
-  background: ${(props) => props.theme.palette.background.nearBlack};
-  padding-top: 38px;
-  display: flex;
-  justify-content: flex-end;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    justify-content: center;
-  }
-`;
 
 const Assets = React.memo(() => {
   // state vars

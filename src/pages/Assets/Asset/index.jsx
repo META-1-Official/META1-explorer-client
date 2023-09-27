@@ -17,6 +17,14 @@ import {
 } from '../../../helpers/utility';
 import { useTranslation } from 'react-i18next';
 import BlockWrapper from '../../../components/BlockWrapper';
+import {
+  AssetInfoWrapper,
+  Img,
+  Label,
+  PageWrapper,
+  StyledColumnContainer,
+  StyledContainer,
+} from './Asset.styles';
 
 const {
   fetchAssetFull,
@@ -34,69 +42,6 @@ const {
   getAssetMarkets,
   isFetchingAssetMarkets,
 } = selectors;
-
-const PageWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  padding-top: 20px;
-  padding-bottom: 40px;
-  flex-direction: column;
-`;
-
-const StyledContainer = styled.div`
-  display: flex;
-  margin-bottom: 1rem;
-
-  @media only screen and (max-width: 600px) {
-    flex-direction: column;
-  }
-`;
-
-const StyledColumnContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-
-  &.active_markets {
-    @media only screen and (max-width: 600px) {
-      margin-top: 30px;
-    }
-  }
-
-  @media only screen and (max-width: 600px) {
-    padding: 0;
-  }
-`;
-
-const Img = styled.img`
-  width: 100%;
-`;
-
-const Label = styled.div`
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 30px;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  @media ${(props) => props.theme.bkps.device.mobile} {
-    text-align: center;
-    flex-direction: column;
-  }
-`;
-
-const AssetInfoWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  background: #15171b;
-  border: 1px solid #1c1f27;
-  border-radius: 10px;
-  padding: 20px;
-  margin-top: 17px;
-`;
 
 const Asset = () => {
   const [queryMarkets, setQueryMarkets] = useState('');
@@ -217,7 +162,7 @@ const Asset = () => {
               cellHeight="10px"
             ></Table>
           </div>
-          {isFetchingAssetFullData && isFetchingAssetHoldersCountData && (
+          {(isFetchingAssetFullData || isFetchingAssetHoldersCountData) && (
             <Loader />
           )}
           <AssetInfoWrapper>

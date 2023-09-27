@@ -352,8 +352,8 @@ const isInteger = (value) => {
   return /^\d+$/.test(value);
 };
 
-const toFixedFloatNumber = (digit) => {
-  return digit.toFixed(6).replace(/\.?0+$/, '');
+const toFixedFloatNumber = (digit, precision) => {
+  return digit.toFixed(precision).replace(/\.?0+$/, '');
 };
 
 export function filterDuplicatesByProperty(array, property) {
@@ -379,15 +379,29 @@ export const buildCustomKVTableDto = (data, headerM) => {
     }
 
     switch (key) {
+      case 'Accumulated fees':
+        return localizeNumber(
+          toFixedFloatNumber(
+            value /
+              (isMeta1
+                ? divider
+                : data?.options?.core_exchange_rate?.base?.amount),
+            precision,
+          ),
+        );
       case 'Fee pool':
         return `${localizeNumber(
-          toFixedFloatNumber(value / (isMeta1 ? divider : 1)),
+          toFixedFloatNumber(
+            value /
+              (isMeta1
+                ? divider
+                : data?.options?.core_exchange_rate?.base?.amount),
+            precision,
+          ),
         )} META1`;
       case 'Max supply':
       case 'Current supply':
         return localizeNumber(parseInt(value / divider));
-      case 'Accumulated fees':
-        return localizeNumber(toFixedFloatNumber(value / divider));
       default:
         return localizeNumber(parseInt(value));
     }
