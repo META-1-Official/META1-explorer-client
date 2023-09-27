@@ -136,7 +136,7 @@ const Asset = () => {
   }, []);
 
   const getCirculatingSupply = (data) => {
-    let totalAmount = 0;
+    let totalAmount = null;
     if (data) {
       totalAmount = data?.reduce((accumulator, currentValue) => {
         return accumulator + currentValue?.amount;
@@ -154,11 +154,13 @@ const Asset = () => {
       // getAssetFullData.holders = getAssetHoldersCountData;
     }
     if (getAssetFullData) {
-      const fullAsset = {
+      const assetWithCirculatingSupply = {
         ...getAssetFullData,
         circulating_supply: getCirculatingSupply(getWalletsAccountData),
       };
-      setInfoRows(buildCustomKVTableDto(fullAsset, headerInfoM));
+      setInfoRows(
+        buildCustomKVTableDto(assetWithCirculatingSupply, headerInfoM),
+      );
     }
   }, [
     getAssetFullData,
