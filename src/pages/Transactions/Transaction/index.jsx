@@ -98,14 +98,22 @@ const Transaction = () => {
   const getRows = () => {
     return getTrx
       ? Promise.all(buildOpTextPromises(getTrx)).then((opTxts) => {
-          return opTxts.map((opTxt, index) => {
-            const op = getTrx[index];
-            return {
-              'Operations In Transaction': [opTxt, 'html'],
-              ID: [op.account_history.operation_id, 'coloredText'],
-              Type: [op.operation_type, 'label'],
-            };
-          });
+          const uniqueValues = new Set();
+          return opTxts
+            .map((opTxt, index) => {
+              const op = getTrx[index];
+              const operationId = op.account_history.operation_id;
+              if (!uniqueValues.has(operationId)) {
+                uniqueValues.add(operationId);
+                return {
+                  'Operations In Transaction': [opTxt, 'html'],
+                  ID: [operationId, 'coloredText'],
+                  Type: [op.operation_type, 'label'],
+                };
+              }
+              return null;
+            })
+            .filter(Boolean);
         })
       : Promise.resolve([]);
   };
