@@ -1,8 +1,12 @@
 import get from 'lodash/get';
+import { filterDuplicatesByProperty } from '../../helpers/utility';
 
 // last operations
-export const getOperations = (state) =>
-  get(state, ['explorer', 'operations', 'op_data']);
+export const getOperations = (state) => {
+  const opData = get(state, ['explorer', 'operations', 'op_data']);
+  return opData && filterDuplicatesByProperty(opData, 'operation_id_num');
+};
+
 export const isFetchingLastOperations = (state) =>
   get(state, ['explorer', 'operations', 'isFetchingLastOperations']);
 

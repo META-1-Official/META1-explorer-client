@@ -11,10 +11,7 @@ import MuiTableRow from '@mui/material/TableRow';
 import { toast } from 'react-toastify';
 
 import urlLinkImg from '../../assets/images/url-icon.png';
-import {
-  dateTimeZoneOffsetCorrect,
-  operationType,
-} from '../../helpers/utility';
+import { operationType } from '../../helpers/utility';
 import { SearchBox } from '../SearchBox';
 import { useTranslation } from 'react-i18next';
 import CustomSelect from '../Select';
@@ -37,16 +34,15 @@ const TableCell = ({ cell }) => {
       return <styled.Text type="colored">{content}</styled.Text>;
     case 'label':
       return (
-        <styled.Label color={operationType(content)[1]}>
+        <styled.Label
+          background={operationType(content)[1]}
+          color={operationType(content)[2]}
+        >
           {t(operationType(content)[0])}
         </styled.Label>
       );
     case 'date':
-      return (
-        <styled.Text type="plain">
-          {dateTimeZoneOffsetCorrect(content)}
-        </styled.Text>
-      );
+      return <styled.Text type="plain">{content}</styled.Text>;
     case 'plainText':
       return <styled.Text type="plain">{t(content)}</styled.Text>;
     case 'urlLink':
@@ -198,7 +194,7 @@ export const Table = ({
                     <styled.StyledMuiTableCell>
                       {row.baseFee !== 0 ? (
                         <>
-                          ${row.baseFee}
+                          {row.baseFee}
                           <styled.Meta1Span> META1</styled.Meta1Span>
                         </>
                       ) : (
@@ -208,7 +204,7 @@ export const Table = ({
                     <styled.StyledMuiTableCell>
                       {row.lifetimeMemberFee !== 0 ? (
                         <>
-                          ${row.lifetimeMemberFee}
+                          {row.lifetimeMemberFee}
                           <styled.Meta1Span> META1</styled.Meta1Span>
                         </>
                       ) : (

@@ -35,7 +35,7 @@ export const accountHistoryRowsBuilder = async (rows) => {
     const op = operationType(value.operation_type);
     const op_type = op[0];
     const op_color = op[1];
-    const time = new Date(value.block_data.block_time);
+    const time = new Date(value.block_data.block_time + 'Z');
     timestamp = time.toLocaleString();
     witness = value.witness;
     const parsed_op = value.operation_history.op_object;
@@ -87,7 +87,10 @@ export const dashboardRowsBuilder = async (rows) => {
               coloredLinksHistoryRows(op.account_history.operation_id, 'ID'),
               'coloredText',
             ],
-            'Date and Time': [op.block_data.block_time, 'date'],
+            'Date and Time': [
+              new Date(op.block_data.block_time + 'Z').toLocaleString(),
+              'date',
+            ],
             Block: [
               coloredLinksHistoryRows(op.block_data.block_num, 'BLOCK'),
               'coloredText',
