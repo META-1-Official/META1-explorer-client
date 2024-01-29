@@ -259,6 +259,16 @@ const Dashboard = React.memo(() => {
   }, []);
 
   useEffect(() => {
+    const interval = setInterval(async () => {
+      fetchHeaderData({ isLoading: true }); // fetch header
+      fetchLastOps(undefined); // first fetch with no search_after
+      dispatch(fetchDexVolume());
+      await loadPieData();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
     setInterval(() => fetchHeaderData({ isLoading: false }), 2000 * 60);
   }, []);
 
