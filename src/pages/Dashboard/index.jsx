@@ -230,19 +230,17 @@ const Dashboard = React.memo(() => {
   );
 
   const getColor = (name) => {
-    let color = 'white';
-    let v;
     if (tabValue === 0) {
-      color = OPS_TYPE_LABELS.filter(
+      const matchingLabel = OPS_TYPE_LABELS.find(
         (label) => label.text.toUpperCase() === name,
-      )[0].color;
+      );
+      return matchingLabel?.color || 'white';
     } else {
-      pie[tabValue]?.data.data.map((data, index) => {
-        if (data.name === name) v = index;
-      });
-      color = PIE_COLORS[v];
+      const dataIndex = pie[tabValue]?.data.data.findIndex(
+        (data) => data.name === name,
+      );
+      return dataIndex !== -1 ? PIE_COLORS[dataIndex] : 'white';
     }
-    return color;
   };
 
   useEffect(() => {
@@ -303,8 +301,11 @@ const Dashboard = React.memo(() => {
   const onPageChange = (_, newPageNumber) => {
     setPage(newPageNumber);
     setV(false);
-    newPageNumber === totalPages &&
-      fetchLastOps(getOpsData[getOpsData.length - 1].operation_id_num); // fetch with search_after whenever current page reach out the maximum ES fetch count
+    if (newPageNumber === totalPages) {
+      const lastOperationId =
+        getOpsData[getOpsData.length - 1]?.operation_id_num;
+      lastOperationId && fetchLastOps(lastOperationId);
+    }
   };
 
   const onRowsPerPageChange = ({ target }) => {
@@ -333,7 +334,7 @@ const Dashboard = React.memo(() => {
     getActiveAssetsData.find((asset) => asset.asset_id === '1.3.1');
   const meta1MarketCap = meta1?.market_cap - systemAccountsBalance;
   const meta1MarketCapInUSD = Math.round(
-    (meta1MarketCap * usdt?.latest_price) / Math.pow(10, usdt?.precision || 0),
+    (meta1MarketCap * (usdt?.latest_price || 0)) / 10 ** (usdt?.precision ?? 0),
   );
 
   return (
@@ -391,14 +392,14 @@ const Dashboard = React.memo(() => {
           />
           <LineChartCard
             title={'7D VOLUME IN META1'}
-            number={getMeta1Volume('week').total}
+            number={getMeta1Volume('week').average}
             chartData={getMeta1Volume('week').chart}
             icon={btcVolumeImg}
             isLoading={isFetchingHead}
           />
           <LineChartCard
             title={'30D VOLUME IN META1'}
-            number={getMeta1Volume('month').total}
+            number={getMeta1Volume('month').average}
             chartData={getMeta1Volume('month').chart}
             icon={btcVolumeImg}
             isLoading={isFetchingHead}
@@ -414,7 +415,7 @@ const Dashboard = React.memo(() => {
             title={'7D VOLUME IN USDT'}
             number={
               +(
-                getMeta1Volume('week').total / USDTAsset?.latest_price
+                getMeta1Volume('week').average / USDTAsset?.latest_price
               ).toFixed()
             }
             chartData={getMeta1Volume('week').chart}
@@ -425,7 +426,7 @@ const Dashboard = React.memo(() => {
             title={'30D VOLUME IN USDT'}
             number={
               +(
-                getMeta1Volume('month').total / USDTAsset?.latest_price
+                getMeta1Volume('month').average / USDTAsset?.latest_price
               ).toFixed()
             }
             chartData={getMeta1Volume('month').chart}
