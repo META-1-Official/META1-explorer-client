@@ -98,42 +98,22 @@ export const opText = (operation_type, operation, accountId) => {
 
             var divideby = Math.pow(10, asset_precision);
             var amount = Number(amount_amount / divideby);
+            let operation_text;
+
             if (from === accountId) {
-              operation_text =
-                "<a href='/#/accounts/" + from + "'>" + response_name + '</a>';
-              operation_text =
-                operation_text +
-                i18n.t('sent') +
-                formatNumber(amount) +
-                " <a href='/#/assets/" +
-                amount_asset_id +
-                "'>" +
-                asset_name +
-                '</a>' +
-                i18n.t('to') +
-                "<a href='/#/accounts/" +
-                to_name +
-                "'>" +
-                to_name +
-                '</a>';
+              operation_text = `
+    <a href='/#/accounts/${from}'>${response_name}</a>
+    ${i18n.t('sent')} ${formatNumber(amount)}
+    <a href='/#/assets/${amount_asset_id}'>${asset_name}</a>
+    ${i18n.t('to')}
+    <a href='/#/accounts/${to_name}'>${to_name}</a>`;
             } else {
-              operation_text =
-                "<a href='/#/accounts/" + to + "'>" + to_name + '</a>';
-              operation_text =
-                operation_text +
-                i18n.t('received') +
-                formatNumber(amount) +
-                " <a href='/#/assets/" +
-                amount_asset_id +
-                "'>" +
-                asset_name +
-                '</a>' +
-                i18n.t('from') +
-                "<a href='/#/accounts/" +
-                from +
-                "'>" +
-                response_name +
-                '</a>';
+              operation_text = `
+    <a href='/#/accounts/${to}'>${to_name}</a>
+    ${i18n.t('received')} ${formatNumber(amount)}
+    <a href='/#/assets/${amount_asset_id}'>${asset_name}</a>
+    ${i18n.t('from')}
+    <a href='/#/accounts/${from}'>${response_name}</a>`;
             }
 
             return operation_text;
@@ -1243,25 +1223,24 @@ export const getTotalAccountOps = async (account_id) => {
 };
 
 export const parseAuth = async (auth, type) => {
-  const results = [];
-  await auth.map(async (value) => {
-    let authline = {};
-    if (type === 'key') {
-      authline = {
-        key: value[0],
-        threshold: value[1],
-      };
-      results.push(authline);
-    } else if (type === 'account') {
-      const response = await useAccount(value[0]);
-      authline = {
-        account: value[0],
-        threshold: value[1],
-        account_name: response,
-      };
-      results.push(authline);
-    }
-  });
+  const results = await Promise.all(
+    auth.map(async (value) => {
+      if (type === 'key') {
+        return {
+          key: value[0],
+          threshold: value[1],
+        };
+      } else if (type === 'account') {
+        const account_name = await useAccount(value[0]);
+        return {
+          account: value[0],
+          threshold: value[1],
+          account_name: account_name,
+        };
+      }
+    }),
+  );
+
   return { data: results };
 };
 
