@@ -259,7 +259,6 @@ const Dashboard = React.memo(() => {
   useEffect(() => {
     const interval = setInterval(async () => {
       fetchHeaderData({ isLoading: true }); // fetch header
-      fetchLastOps(undefined); // first fetch with no search_after
       dispatch(fetchDexVolume());
       await loadPieData();
     }, 5000);
@@ -337,102 +336,111 @@ const Dashboard = React.memo(() => {
     (meta1MarketCap * (usdt?.latest_price || 0)) / 10 ** (usdt?.precision ?? 0),
   );
 
+  const lineChartCardsData = [
+    {
+      title: 'Block Number',
+      number: getHeadData?.head_block_number,
+      chartData: getHeadData?.blocks_24h_history,
+      icon: blockNumImg,
+      isLoading: isFetchingHead,
+    },
+    {
+      title: 'New Users',
+      number: getHeadData?.accounts_registered_this_interval,
+      chartData: getHeadData?.users_24h_history,
+      icon: newUserImg,
+      isLoading: isFetchingHead,
+    },
+    {
+      title: 'META1 Market Cap USD',
+      number: meta1MarketCapInUSD,
+      chartData: getHeadData?.market_cap_24h_history,
+      icon: marketCapImg,
+      isLoading: isFetchingHead || !meta1MarketCapInUSD,
+    },
+    {
+      title: 'META1/BTC Volume',
+      number: getHeadData?.quote_volume,
+      chartData: getHeadData?.meta1_to_btc_ratio_24h_history,
+      icon: btcVolumeImg,
+      isLoading: isFetchingHead,
+    },
+    {
+      title: 'Witnesses',
+      number: getHeadData?.witness_count,
+      chartData: getHeadData?.witness_24h_history,
+      icon: witnessImg,
+      isLoading: isFetchingHead,
+    },
+    {
+      title: 'Committee',
+      number: getHeadData?.committee_count,
+      chartData: getHeadData?.committee_24h_history,
+      icon: committeeImg,
+      isLoading: isFetchingHead,
+    },
+    {
+      title: 'META1 24H Volume',
+      number: +getActiveAssetsData?.[0]?.['24h_volume']?.toFixed(),
+      chartData: getMeta1Volume('day').chart,
+      icon: btcVolumeImg,
+      isLoading: isFetchingHead,
+    },
+    {
+      title: '7D VOLUME IN META1',
+      number: getMeta1Volume('week').average,
+      chartData: getMeta1Volume('week').chart,
+      icon: btcVolumeImg,
+      isLoading: isFetchingHead,
+    },
+    {
+      title: '30D VOLUME IN META1',
+      number: getMeta1Volume('month').average,
+      chartData: getMeta1Volume('month').chart,
+      icon: btcVolumeImg,
+      isLoading: isFetchingHead,
+    },
+    {
+      title: '24h VOLUME IN USDT',
+      number: getDexVolumeData?.volume_usd,
+      chartData: getMeta1Volume('day').chart,
+      icon: btcVolumeImg,
+      isLoading: isFetchingHead,
+    },
+    {
+      title: '7D VOLUME IN USDT',
+      number: +(
+        getMeta1Volume('week').average / (USDTAsset?.latest_price || 1)
+      ).toFixed(),
+      chartData: getMeta1Volume('week').chart,
+      icon: btcVolumeImg,
+      isLoading: isFetchingHead,
+    },
+    {
+      title: '30D VOLUME IN USDT',
+      number: +(
+        getMeta1Volume('month').average / (USDTAsset?.latest_price || 1)
+      ).toFixed(),
+      chartData: getMeta1Volume('month').chart,
+      icon: btcVolumeImg,
+      isLoading: isFetchingHead,
+    },
+  ];
+
   return (
     <PageWrapper>
       <StyledChartContainer>
         <LineChartsWrapper>
-          <LineChartCard
-            title={'Block Number'}
-            number={getHeadData?.head_block_number}
-            chartData={getHeadData?.blocks_24h_history}
-            icon={blockNumImg}
-            isLoading={isFetchingHead}
-          />
-          <LineChartCard
-            title={'New Users'}
-            number={getHeadData?.accounts_registered_this_interval}
-            chartData={getHeadData?.users_24h_history}
-            icon={newUserImg}
-            isLoading={isFetchingHead}
-          />
-          <LineChartCard
-            title={'META1 Market Cap USD'}
-            number={meta1MarketCapInUSD}
-            chartData={getHeadData?.market_cap_24h_history}
-            icon={marketCapImg}
-            isLoading={isFetchingHead || !meta1MarketCapInUSD}
-          />
-          <LineChartCard
-            title={'META1/BTC Volume'}
-            number={getHeadData?.quote_volume}
-            chartData={getHeadData?.meta1_to_btc_ratio_24h_history}
-            icon={btcVolumeImg}
-            isLoading={isFetchingHead}
-          />
-          <LineChartCard
-            title={'Witnesses'}
-            number={getHeadData?.witness_count}
-            chartData={getHeadData?.witness_24h_history}
-            icon={witnessImg}
-            isLoading={isFetchingHead}
-          />
-          <LineChartCard
-            title={'Committee'}
-            number={getHeadData?.committee_count}
-            chartData={getHeadData?.committee_24h_history}
-            icon={committeeImg}
-            isLoading={isFetchingHead}
-          />
-          <LineChartCard
-            title={'META1 24H Volume'}
-            number={+getActiveAssetsData?.[0]?.['24h_volume'].toFixed()}
-            chartData={getMeta1Volume('day').chart}
-            icon={btcVolumeImg}
-            isLoading={isFetchingHead}
-          />
-          <LineChartCard
-            title={'7D VOLUME IN META1'}
-            number={getMeta1Volume('week').average}
-            chartData={getMeta1Volume('week').chart}
-            icon={btcVolumeImg}
-            isLoading={isFetchingHead}
-          />
-          <LineChartCard
-            title={'30D VOLUME IN META1'}
-            number={getMeta1Volume('month').average}
-            chartData={getMeta1Volume('month').chart}
-            icon={btcVolumeImg}
-            isLoading={isFetchingHead}
-          />
-          <LineChartCard
-            title="24h VOLUME IN USDT"
-            number={getDexVolumeData?.volume_usd}
-            chartData={getMeta1Volume('day').chart}
-            icon={btcVolumeImg}
-            isLoading={isFetchingHead}
-          />
-          <LineChartCard
-            title={'7D VOLUME IN USDT'}
-            number={
-              +(
-                getMeta1Volume('week').average / USDTAsset?.latest_price
-              ).toFixed()
-            }
-            chartData={getMeta1Volume('week').chart}
-            icon={btcVolumeImg}
-            isLoading={isFetchingHead}
-          />
-          <LineChartCard
-            title={'30D VOLUME IN USDT'}
-            number={
-              +(
-                getMeta1Volume('month').average / USDTAsset?.latest_price
-              ).toFixed()
-            }
-            chartData={getMeta1Volume('month').chart}
-            icon={btcVolumeImg}
-            isLoading={isFetchingHead}
-          />
+          {lineChartCardsData.map((data, index) => (
+            <LineChartCard
+              key={index}
+              title={data.title}
+              number={data.number}
+              chartData={data.chartData}
+              icon={data.icon}
+              isLoading={data.isLoading}
+            />
+          ))}
         </LineChartsWrapper>
         <PieChartWrapper>
           <Tabs

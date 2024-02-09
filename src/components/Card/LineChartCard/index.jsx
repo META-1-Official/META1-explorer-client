@@ -1,11 +1,10 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { LineChart, Line } from 'recharts';
-
-import { localizeNumber } from '../../../helpers/utility';
-import Loader from '../../../components/Loader/Loader';
 import { useTranslation } from 'react-i18next';
+import Loader from '../../../components/Loader/Loader';
+import { localizeNumber } from '../../../helpers/utility';
 
-const mock_chart_data = [
+const mockChartData = [
   { uv: 100 },
   { uv: 400 },
   { uv: 200 },
@@ -22,14 +21,9 @@ export const LineChartCard = ({
   isLoading,
 }) => {
   const { t } = useTranslation();
+
   const memoizedChartData = useMemo(() => {
-    if (chartData) {
-      return chartData.reduce((acc, curr) => {
-        acc.push({ uv: curr });
-        return acc;
-      }, []);
-    }
-    return mock_chart_data;
+    return chartData ? chartData.map((curr) => ({ uv: curr })) : mockChartData;
   }, [chartData]);
 
   return (
