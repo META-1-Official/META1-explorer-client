@@ -1,3 +1,4 @@
+import React from 'react';
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from 'recharts';
 import { useTranslation } from 'react-i18next';
 
@@ -11,7 +12,6 @@ export const FilledLineChartCard = ({ data }) => {
       <div className="card-action">
         <ResponsiveContainer width="100%" height={262}>
           <AreaChart width={408} height={262} data={data} syncId="anyId">
-            {/* <XAxis dataKey="date" /> */}
             <Tooltip />
             <Area
               type="monotone"
