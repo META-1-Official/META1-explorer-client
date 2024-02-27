@@ -29,52 +29,60 @@ const coloredLinksHistoryRows = (arg, type) => {
 };
 
 export const accountHistoryRowsBuilder = async (rows) => {
-  const history = rows.map(async (value) => {
-    let timestamp;
-    let witness;
-    const op = operationType(value.operation_type);
-    const op_type = op[0];
-    const op_color = op[1];
-    const time = new Date(value.block_data.block_time + 'Z');
-    timestamp = time.toLocaleString();
-    witness = value.witness;
+  if (!rows || !rows.length) return [];
+
+  const promises = rows.map(async (value) => {
+    const {
+      operation_type,
+      block_data,
+      account_history,
+      operation_id_num,
+      witness,
+    } = value;
+    const op = operationType(operation_type);
+    const [op_color] = op;
+    const time = new Date(block_data.block_time + 'Z').toLocaleString();
     const parsed_op = value.operation_history.op_object;
-    const operation = {
-      operation_id: value.account_history.operation_id,
-      block_num: value.block_data.block_num,
-      operation_id_num: value.operation_id_num,
-      time: timestamp,
-      witness: witness,
-      op_type: value.operation_type,
-      op_color: op_color,
+    const operation_text = await opText(operation_type, parsed_op);
+
+    return {
+      Operation: [operation_text, 'html'],
+      ID: [
+        coloredLinksHistoryRows(account_history.operation_id, 'ID'),
+        'coloredText',
+      ],
+      'Date and Time': [time, 'date'],
+      Block: [
+        coloredLinksHistoryRows(block_data.block_num, 'BLOCK'),
+        'coloredText',
+      ],
+      Type: [operation_type, 'label'],
+      operation_id: account_history.operation_id,
+      block_num: block_data.block_num,
+      operation_id_num,
+      time,
+      witness,
+      op_type: operation_type,
+      op_color,
     };
-    const op_text = await opText(value.operation_type, parsed_op);
-    operation.operation_text = op_text;
-    return operation;
   });
-  const promises = await Promise.all(history);
-  if (promises.length) {
-    return promises.map((op) => {
-      return {
-        Operation: [op.operation_text, 'html'],
-        ID: [coloredLinksHistoryRows(op.operation_id, 'ID'), 'coloredText'],
-        'Date and Time': [op.time, 'date'],
-        Block: [coloredLinksHistoryRows(op.block_num, 'BLOCK'), 'coloredText'],
-        Type: [op.op_type, 'label'],
-      };
-    });
-  }
-  return [];
+
+  const results = await Promise.all(promises);
+  return results.filter(Boolean); // Filter out any falsy values
 };
 
-const buildOpTextPromises = (rows) =>
-  rows.map((op) =>
-    opText(
-      op.operation_type,
-      op.operation_history.op_object,
-      op.account_history.account,
-    ),
-  );
+const buildOpTextPromises = async (rows) => {
+  const promises = rows.map(async (op) => {
+    const { operation_type, operation_history, account_history } = op;
+    return opText(
+      operation_type,
+      operation_history.op_object,
+      account_history.account,
+    );
+  });
+
+  return await Promise.all(promises);
+};
 
 export const dashboardRowsBuilder = async (rows) => {
   return rows
@@ -166,7 +174,7 @@ export const assetRowsBuilder = (rows) => {
           ],
           Price: [`${value.latest_price} META1`, 'plainText'],
           '24H Volume': [
-            `${Math.round(value['24h_volume'])} META1`,
+            `${Number(value['24h_volume']).toFixed(3)} META1`,
             'plainText',
           ],
           'Market Cap': [

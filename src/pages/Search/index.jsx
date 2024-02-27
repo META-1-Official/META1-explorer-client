@@ -20,7 +20,7 @@ import {
   getLookupTransactions,
 } from '../../store/explorer/selectors';
 
-const { fetchLookupAccounts, fetchLookupAssets } = actions;
+const { fetchLookupAccounts, fetchLookupAssets, fetchTransaction } = actions;
 const {
   getLookupAccounts,
   getLookupAssets,
@@ -61,6 +61,7 @@ const Search = React.memo(() => {
   const fetchLookupAssetsData = (start) => dispatch(fetchLookupAssets(start));
   const fetchLookupTransactionsData = (start) =>
     dispatch(fetchLookupTransactions(start));
+  const fetchTransactionData = (start) => dispatch(fetchTransaction(start));
 
   // selectors
   const getLookupAccountsData = useSelector(getLookupAccounts);
@@ -76,6 +77,7 @@ const Search = React.memo(() => {
       fetchLookupAccountsData(e.target.value);
     } else if (e && param === 'transaction') {
       fetchLookupTransactionsData(e.target.value);
+      fetchTransactionData(e.target.value);
     }
   };
 

@@ -20,7 +20,9 @@ const getAccountFullData = async (fullAccount) => {
 
   let vesting_balances = await api.parseVesting(fullAccount.vesting_balances);
   const lifetime_fees_paid = fullAccount.statistics.lifetime_fees_paid;
-  const bts_balance = fullAccount.balances[0]?.balance;
+  const mt1_balance = fullAccount.balances[0]?.balance ?? 0;
+  const mt1_precision = (await api.getAssetNameAndPrecision('META1'))?.data
+    .precision;
   const total_ops = await api.getTotalAccountOps(fullAccount.account.id);
   const vote_acc_name = await useAccount(
     fullAccount.account.options.voting_account,
@@ -33,11 +35,14 @@ const getAccountFullData = async (fullAccount) => {
     registrar: fullAccount.registrar_name,
     statistics: fullAccount.account.statistics,
     cashback: cashback_balance_id,
-    cashback_balance: formatBalance(cashback_balance_balance, 5),
+    cashback_balance: formatBalance(cashback_balance_balance, mt1_precision),
     lifetime: lifetime,
     total_ops: total_ops?.data,
-    lifetime_fees_paid: parseInt(formatBalance(lifetime_fees_paid, 5)),
-    bts_balance: parseInt(formatBalance(bts_balance, 5)),
+    lifetime_fees_paid: formatBalance(
+      lifetime_fees_paid,
+      mt1_precision,
+    ).toFixed(6),
+    mt1_balance: formatBalance(mt1_balance, mt1_precision).toFixed(6),
     vesting: vesting_balances?.data,
     memo_key: fullAccount.account.options.memo_key,
     voting_account_id: fullAccount.account.options.voting_account,

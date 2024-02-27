@@ -95,64 +95,62 @@ const Transaction = () => {
       opText(op.operation_type, op.operation_history.op_object),
     );
 
-  const getRows = () => {
-    return getTrx
-      ? Promise.all(buildOpTextPromises(getTrx)).then((opTxts) => {
-          const uniqueValues = new Set();
-          return opTxts
-            .map((opTxt, index) => {
-              const op = getTrx[index];
-              const operationId = op.account_history.operation_id;
-              if (!uniqueValues.has(operationId)) {
-                uniqueValues.add(operationId);
-                return {
-                  'Operations In Transaction': [opTxt, 'html'],
-                  ID: [operationId, 'coloredText'],
-                  Type: [op.operation_type, 'label'],
-                };
-              }
-              return null;
-            })
-            .filter(Boolean);
-        })
-      : Promise.resolve([]);
+  const getRows = async () => {
+    if (!getTrx) return [];
+
+    const opTxts = await Promise.all(buildOpTextPromises(getTrx));
+    const uniqueIds = new Set();
+    const filteredRows = opTxts.map((opTxt, index) => {
+      const op = getTrx[index];
+      const operationId = op.account_history.operation_id;
+
+      if (!uniqueIds.has(operationId)) {
+        uniqueIds.add(operationId);
+        return {
+          'Operations In Transaction': [opTxt, 'html'],
+          ID: [operationId, 'coloredText'],
+          Type: [op.operation_type, 'label'],
+        };
+      }
+
+      return null;
+    });
+
+    return filteredRows.filter(Boolean);
   };
 
   const getMetadataRows = () => {
-    let headerM = [
+    const headers = [
       { 'Hash table_key': 'trx_id', type: 'plainText' },
       { 'Block table_key': 'block_num', type: 'coloredText' },
-      { 'Date table_key': 'block_time', type: 'date' },
+      { 'Date table_key': 'block_time', type: 'timeStamp' },
     ];
 
-    let rows = buildCustomKVTableDto(metadata, headerM);
-
-    rows.push({
+    const kvTable = buildCustomKVTableDto(metadata, headers) || [];
+    kvTable.push({
       Key: ['Operations table_key:', 'plainText'],
-      Value: [getTrx ? getTrx.length : 0, 'plainText'],
+      Value: [rows ? rows.length : 0, 'plainText'],
     });
 
-    return rows;
+    return kvTable;
   };
 
   useEffect(() => {
     fetchTrx(addr);
   }, []);
 
-  const [v, setV] = useState(false); // the flag var for fethcing for only change
   useEffect(() => {
-    if (getTrx && !v) {
-      setV(true);
+    if (getTrx && !rows.length) {
       getRows().then((rws) => setRows(rws));
     }
-  }, [getTrx]);
+  }, [getTrx, rows]);
 
   return (
     <PageWrapper>
       <StyledTableContainer>
         <Label>{t('Operations In Transaction')}</Label>
-        <Table headers={headers} rows={rows} lastcellaligned={true}></Table>
-        {(isFetchingTrx || rows.length === 0) && <Loader />}
+        <Table headers={headers} rows={rows} lastcellaligned={true} />
+        {isFetchingTrx || (!rows.length && <Loader />)}
       </StyledTableContainer>
       <StyledMetaDataContainer>
         <Label>{t('Transaction Data')}</Label>
@@ -160,7 +158,7 @@ const Transaction = () => {
           headers={['Key', 'Value']}
           rows={getMetadataRows()}
           lastcellaligned={false}
-        ></Table>
+        />
         {isFetchingTrx && <Loader />}
       </StyledMetaDataContainer>
     </PageWrapper>
