@@ -17,6 +17,8 @@ import { useTranslation } from 'react-i18next';
 import CustomSelect from '../Select';
 import CancelIcon from '@mui/icons-material/Cancel';
 
+import { calculateAge, getUTCOffset } from '../../helpers/utility';
+
 const TableCell = ({ cell }) => {
   const [content, contentType] = cell;
   const { t } = useTranslation();
@@ -43,6 +45,13 @@ const TableCell = ({ cell }) => {
       );
     case 'date':
       return <styled.Text type="plain">{content}</styled.Text>;
+    case 'timeStamp':
+      return (
+        <styled.Text type="plain">
+          {calculateAge(content)} ({content.replace('T', ' ').replace('Z', ' ')}{' '}
+          {getUTCOffset(content)})
+        </styled.Text>
+      );
     case 'plainText':
       return <styled.Text type="plain">{t(content)}</styled.Text>;
     case 'urlLink':
