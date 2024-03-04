@@ -16,8 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { PageWrapper, StyledContainer } from './Commitee.styles';
 
 const { fetchCommittee, fetchHeader } = actions;
-const { getCommittee, isFetchingCommittee, getHeader, isFetchingHeader } =
-  selectors;
+const { getCommittee, isFetchingCommittee, isFetchingHeader } = selectors;
 
 const Committee = () => {
   const [queryForActive, setQueryForActive] = useState('');
@@ -49,7 +48,8 @@ const Committee = () => {
           index < committee_count &&
           data[0].committee_member_account_name.includes(
             queryForActive.toLowerCase(),
-          ), // first (committee_count)th = active
+          ) &&
+          data[0].total_votes !== 0, // first (committee_count)th = active, total_votes shoud be bigger than 0
       );
 
   const filteredStandByCommitteeData =

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Pagination from '@mui/material/Pagination';
@@ -42,8 +42,6 @@ import {
 import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import PaginationSelect from '../../components/AppPagination/PaginationSelect';
-import coinUsdtImg from '../../assets/images/coin-usdt.png';
-import { is } from 'date-fns/locale';
 
 const { fetchLastOperations, fetchHeader } = actions;
 const {
@@ -186,6 +184,7 @@ const Dashboard = React.memo(() => {
   const [page, setPage] = useState(1);
   const [rows, setRows] = useState([]);
   const [tabValue, setTabValue] = useState(0);
+  const [ltBlockNum, setLTBlockNumb] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [v, setV] = useState(false); // the flag var for fethcing for only change
 
@@ -248,6 +247,10 @@ const Dashboard = React.memo(() => {
   }, []);
 
   useEffect(() => {
+    getOpsData && setLTBlockNumb(getOpsData[0].block_data.block_num);
+  }, [getOpsData]);
+
+  useEffect(() => {
     (async () => {
       fetchHeaderData({ isLoading: true }); // fetch header
       fetchLastOps(undefined); // first fetch with no search_after
@@ -259,6 +262,7 @@ const Dashboard = React.memo(() => {
   useEffect(() => {
     const interval = setInterval(async () => {
       fetchHeaderData({ isLoading: true }); // fetch header
+      fetchLastOps(undefined);
       dispatch(fetchDexVolume());
       await loadPieData();
     }, 5000);
@@ -339,10 +343,10 @@ const Dashboard = React.memo(() => {
   const lineChartCardsData = [
     {
       title: 'Block Number',
-      number: getHeadData?.head_block_number,
+      number: ltBlockNum,
       chartData: getHeadData?.blocks_24h_history,
       icon: blockNumImg,
-      isLoading: isFetchingHead,
+      isLoading: isFetchingHead && isFetchingOps,
     },
     {
       title: 'New Users',
