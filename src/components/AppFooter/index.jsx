@@ -6,21 +6,23 @@ const StyledFooter = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => props.theme.palette.background.nearBlack};
-  border: 1px solid ${(props) => props.theme.palette.border.darkGrey};
+  background-color: ${({ theme }) => theme.palette.background.nearBlack};
+  border: 1px solid ${({ theme }) => theme.palette.border.darkGrey};
   box-sizing: border-box;
 
   span {
     font-size: 1rem;
     font-weight: 400;
-    color: ${(props) => props.theme.palette.text.secondary};
+    color: ${({ theme }) => theme.palette.text.secondary};
   }
 `;
 
 const AppFooter = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
     <StyledFooter>
-      <span>META 1 &#169; 2022</span>
+      <span>META 1 &copy; {currentYear}</span>
     </StyledFooter>
   );
 };

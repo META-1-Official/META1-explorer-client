@@ -45,57 +45,61 @@ const General = ({ accountFullData }) => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (accountFullData) {
-      (async () => {
+    const fetchAccountData = async () => {
+      if (accountFullData) {
         const parsed = await accountsService.getAccountFullData(
           accountFullData,
         );
         setParsedAccount(parsed);
-      })();
-    }
+      }
+    };
+
+    fetchAccountData();
   }, [accountFullData]);
 
-  // vars
-  const headerInfoM = [
-    {
-      'ID table_key': 'id',
-      type: 'html',
-      link: `/accounts/${parsedAccount?.id}/`,
-    },
-    { 'Name table_key': 'name', type: 'plainText' },
+  const generateHeaderInfoRows = () => {
+    const headerInfoM = [
+      {
+        'ID table_key': 'id',
+        type: 'html',
+        link: `/accounts/${parsedAccount?.id}/`,
+      },
+      { 'Name table_key': 'name', type: 'plainText' },
+      {
+        'Referer table_key': 'referer',
+        type: 'html',
+        link: `/accounts/${parsedAccount?.referer}/`,
+      },
+      {
+        'Registrar table_key': 'registrar',
+        type: 'html',
+        link: `/accounts/${parsedAccount?.registrar}/`,
+      },
+      {
+        'Voting as': 'voting_account_name',
+        type: 'html',
+        link: `/accounts/${parsedAccount?.voting_account_name}`,
+      },
+    ];
+    return buildCustomKVTableDto(parsedAccount, headerInfoM);
+  };
 
-    {
-      'Referer table_key': 'referer',
-      type: 'html',
-      link: `/accounts/${parsedAccount?.referer}/`,
-    },
-    {
-      'Registrar table_key': 'registrar',
-      type: 'html',
-      link: `/accounts/${parsedAccount?.registrar}/`,
-    },
-    {
-      'Voting as': 'voting_account_name',
-      type: 'html',
-      link: `/accounts/${parsedAccount?.voting_account_name}`,
-    },
-  ];
+  const generateHeaderStatsRows = () => {
+    const headerStatsM = [
+      { 'META1 Balance': 'mt1_balance', type: 'plainText' },
+      { 'Lifetime fees paid': 'lifetime_fees_paid', type: 'plainText' },
+      { 'Total operations': 'total_ops', type: 'plainText' },
+      {
+        'Statistics table_key': 'statistics',
+        type: 'html',
+        link: `/objects/${parsedAccount?.statistics}`,
+      },
+    ];
+    return buildCustomKVTableDto(parsedAccount, headerStatsM);
+  };
 
-  const headerStatsM = [
-    { 'META1 Balance': 'bts_balance', type: 'plainText' },
-    { 'Lifetime fees paid': 'lifetime_fees_paid', type: 'plainText' },
-    {
-      'Total operations': 'total_ops',
-      type: 'plainText',
-    },
-    {
-      'Statistics table_key': 'statistics',
-      type: 'html',
-      link: `/objects/${parsedAccount?.statistics}`,
-    },
-  ];
-  const statsRows = buildCustomKVTableDto(parsedAccount, headerStatsM);
-  const infoRows = buildCustomKVTableDto(parsedAccount, headerInfoM);
+  const infoRows = generateHeaderInfoRows();
+  const statsRows = generateHeaderStatsRows();
 
   return (
     <PageWrapper>
@@ -116,14 +120,14 @@ const General = ({ accountFullData }) => {
                 rows={infoRows}
                 lastcellaligned={false}
                 cellHeight="10px"
-              ></Table>
+              />
             ) : (
               <Loader />
             )}
           </div>
         </BlockWrapper>
         <BlockWrapper className="stat">
-          <Label>{t('Account statistics')}</Label>
+          <Label>{t('Account Statistics')}</Label>
           <div style={{ width: '100%' }}>
             {parsedAccount && statsRows ? (
               <Table
@@ -131,24 +135,7 @@ const General = ({ accountFullData }) => {
                 rows={statsRows}
                 lastcellaligned={false}
                 cellHeight="10px"
-              ></Table>
-            ) : (
-              <Loader />
-            )}
-          </div>
-        </BlockWrapper>
-      </StyledContainer>
-      <StyledContainer>
-        <BlockWrapper className="stat_d">
-          <Label>{t('Account statistics')}</Label>
-          <div style={{ width: '100%' }}>
-            {parsedAccount && statsRows ? (
-              <Table
-                headers={['Key', 'Value']}
-                rows={statsRows}
-                lastcellaligned={false}
-                cellHeight="10px"
-              ></Table>
+              />
             ) : (
               <Loader />
             )}

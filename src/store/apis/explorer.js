@@ -1076,9 +1076,12 @@ export const fetchWitnesses = () => {
 // fetch accounts list
 export const getRichList = async () => {
   const response = await axios.get(EXPLORER_URL + '/accounts');
+  const mt1_precision = (await getAssetNameAndPrecision('META1'))?.data
+    .precision;
+
   const richs = [];
   for (let i = 0; i < response.data.length; i++) {
-    const amount = formatBalance(response.data[i].amount, 5);
+    const amount = formatBalance(response.data[i].amount, mt1_precision);
     const account = {
       name: response.data[i].name,
       id: response.data[i].account_id,

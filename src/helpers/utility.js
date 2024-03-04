@@ -491,3 +491,32 @@ export const parseGroupOrdersBook = (data, quote_precision, base_precision) => {
     };
   });
 };
+
+export const calculateAge = (birthdate) => {
+  const today = new Date();
+  const birthDateObj = new Date(birthdate);
+  const aIM = today - birthDateObj; // age in milliseconds
+
+  // Convert milliseconds to days, hours, minutes, and seconds
+  const days = Math.floor(aIM / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((aIM % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((aIM % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((aIM % (1000 * 60)) / 1000);
+
+  // Format the age
+  const fp = []; // formatted parts
+  if (days > 0) fp.push(`${days} days`);
+  if (hours > 0 || days > 0) fp.push(`${hours} hrs`);
+  if (hours === 0 && (minutes > 0 || days === 0)) fp.push(`${minutes} mins`);
+  if (hours === 0 && minutes === 0 && (seconds > 0 || days === 0))
+    fp.push(`${seconds} secs`);
+
+  return fp.length > 0 ? fp.join(' ') + ' ago' : '0 secs ago';
+};
+
+export const getUTCOffset = () => {
+  const now = new Date(); // local date
+  const utcOffset = -now.getTimezoneOffset() / 60;
+
+  return 'UTC' + (utcOffset > 0 ? '+' : '-') + utcOffset;
+};
