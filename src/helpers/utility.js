@@ -157,189 +157,42 @@ export const opMapping = {
 };
 
 export const operationType = (_opType) => {
-  var name;
-  var color;
-  var results = [];
-  var opType = Number(_opType);
-  var textColor = 'ffffff';
-  if (opType === 0) {
-    name = opMapping[0];
-    color = '81CA80';
-  } else if (opType === 1) {
-    name = opMapping[1];
-    color = '6BBCD7';
-  } else if (opType === 2) {
-    name = opMapping[2];
-    color = 'E9C842';
-  } else if (opType === 3) {
-    name = opMapping[3];
-    color = 'E96562';
-  } else if (opType === 4) {
-    name = opMapping[4];
-    color = '008000';
-  } else if (opType === 5) {
-    name = opMapping[5];
-    color = 'CCCCCC';
-    textColor = '000000';
-  } else if (opType === 6) {
-    name = opMapping[6];
-    color = 'FF007F';
-  } else if (opType === 7) {
-    name = opMapping[7];
-    color = 'FB8817';
-  } else if (opType === 8) {
-    name = opMapping[8];
-    color = '552AFF';
-  } else if (opType === 9) {
-    name = opMapping[9];
-    color = 'AA2AFF';
-  } else if (opType === 10) {
-    name = opMapping[10];
-    color = 'D400FF';
-  } else if (opType === 11) {
-    name = opMapping[11];
-    color = '0000FF';
-  } else if (opType === 12) {
-    name = opMapping[12];
-    color = 'AA7FFF';
-  } else if (opType === 13) {
-    name = opMapping[13];
-    color = '2A7FFF';
-  } else if (opType === 14) {
-    name = opMapping[14];
-    color = '7FAAFF';
-  } else if (opType === 15) {
-    name = opMapping[15];
-    color = '55FF7F';
-  } else if (opType === 16) {
-    name = opMapping[16];
-    color = '55FF7F';
-  } else if (opType === 17) {
-    name = opMapping[17];
-    color = 'F1CFBB';
-  } else if (opType === 18) {
-    name = opMapping[18];
-    color = 'F1DFCC';
-  } else if (opType === 19) {
-    name = opMapping[19];
-    color = 'FF2A55';
-  } else if (opType === 20) {
-    name = opMapping[20];
-    color = 'FFAA7F';
-  } else if (opType === 21) {
-    name = opMapping[21];
-    color = 'F1AA2A';
-  } else if (opType === 22) {
-    name = opMapping[22];
-    color = 'FFAA55';
-  } else if (opType === 23) {
-    name = opMapping[23];
-    color = 'FF7F55';
-  } else if (opType === 24) {
-    name = opMapping[24];
-    color = 'FF552A';
-  } else if (opType === 25) {
-    name = opMapping[25];
-    color = 'FF00AA';
-  } else if (opType === 26) {
-    name = opMapping[26];
-    color = 'FF00FF';
-  } else if (opType === 27) {
-    name = opMapping[27];
-    color = 'FF0055';
-  } else if (opType === 28) {
-    name = opMapping[28];
-    color = '37B68C';
-  } else if (opType === 29) {
-    name = opMapping[29];
-    color = '37B68C';
-  } else if (opType === 30) {
-    name = opMapping[30];
-    color = '6712E7';
-  } else if (opType === 31) {
-    name = opMapping[31];
-    color = 'B637B6';
-  } else if (opType === 32) {
-    name = opMapping[32];
-    color = 'A5A5A5';
-  } else if (opType === 33) {
-    name = opMapping[33];
-    color = '696969';
-  } else if (opType === 34) {
-    name = opMapping[34];
-    color = '0F0F0F';
-  } else if (opType === 35) {
-    name = opMapping[35];
-    color = '0DB762';
-  } else if (opType === 36) {
-    name = opMapping[36];
-    color = 'D1EEFF';
-  } else if (opType === 37) {
-    name = opMapping[37];
-    color = '939314';
-  } else if (opType === 38) {
-    name = opMapping[38];
-    color = '8D0DB7';
-  } else if (opType === 39) {
-    name = opMapping[39];
-    color = 'C4EFC4';
-  } else if (opType === 40) {
-    name = opMapping[40];
-    color = 'F29DF2';
-  } else if (opType === 41) {
-    name = opMapping[41];
-    color = '9D9DF2';
-  } else if (opType === 42) {
-    name = opMapping[42];
-    color = '4ECEF8';
-  } else if (opType === 43) {
-    name = opMapping[43];
-    color = 'F8794E';
-  } else if (opType === 44) {
-    name = opMapping[44];
-    color = '8808B2';
-  } else if (opType === 45) {
-    name = opMapping[45];
-    color = '6012B1';
-  } else if (opType === 46) {
-    name = opMapping[46];
-    color = '1D04BB';
-  } else if (opType === 47) {
-    name = opMapping[47];
-    color = 'AAF654';
-  } else if (opType === 48) {
-    name = opMapping[48];
-    color = 'AB7781';
-  } else if (opType === 49) {
-    name = opMapping[49];
-    color = '11e0dc';
-  } else if (opType === 50) {
-    name = opMapping[50];
-    color = '085957';
-  } else if (opType === 51) {
-    name = opMapping[51];
-    color = 'AB7781';
-  } else if (opType === 52) {
-    name = opMapping[52];
-    color = '093f3e';
-  } else if (opType === 53) {
-    name = opMapping[53];
-    color = '369694';
-  } else if (opType === 54) {
-    name = opMapping[54];
-    color = '169524';
-  } else if (opType === 55) {
-    name = opMapping[55];
-    color = '169524';
-  } else if (opType === 56) {
-    name = opMapping[56];
-    color = '169524';
-  } else if (opType === 57) {
-    name = opMapping[57];
-    color = '169524';
-  } else if (opType === 58) {
-    name = opMapping[58];
-    color = 'FF2A55';
+  const opType = Number(_opType);
+  let name;
+  let color;
+  let textColor = 'ffffff';
+
+  if (opType >= 0 && opType <= 58) {
+    const colors1 = ['81CA80', '6BBCD7', 'E9C842', 'E96562', '008000']; // 0, 1, 2, 3, 4
+    const colors2 = ['CCCCCC', 'FF007F', 'FB8817', '552AFF', 'AA2AFF']; // 5, 6, 7, 8, 9
+    const colors3 = ['D400FF', '0000FF', 'AA7FFF', '2A7FFF', '7FAAFF']; // 10, 11, 12, 13, 14
+    const colors4 = ['55FF7F', '55FF7F', 'F1CFBB', 'F1DFCC', 'FF2A55']; // 15, 16, 17, 18, 19
+    const colors5 = ['FFAA7F', 'F1AA2A', 'FFAA55', 'FF7F55', 'FF552A']; // 20, 21, 22, 23, 24
+    const colors6 = ['FF00AA', 'FF00FF', 'FF0055', '37B68C', '37B68C']; // 25, 26, 27, 28, 29
+    const colors7 = ['6712E7', 'B637B6', 'A5A5A5', '696969', '0F0F0F']; // 30, 31, 32, 33, 34
+    const colors8 = ['0DB762', 'D1EEFF', '939314', '8D0DB7', 'C4EFC4']; // 35, 36, 37, 38, 39
+    const colors9 = ['F29DF2', '9D9DF2', '4ECEF8', 'F8794E', '8808B2']; // 40, 41, 42, 43, 44
+    const colors10 = ['6012B1', '1D04BB', 'AAF654', 'AB7781', '11e0dc']; // 45, 46, 47, 48, 49
+    const colors11 = ['085957', 'AB7781', '093f3e', '369694', '169524']; // 50, 51, 52, 53, 54
+    const colors12 = ['169524', '169524', '169524', 'FF2A55']; // 55, 56, 57, 58
+
+    const colors = [
+      ...colors1,
+      ...colors2,
+      ...colors3,
+      ...colors4,
+      ...colors5,
+      ...colors6,
+      ...colors7,
+      ...colors8,
+      ...colors9,
+      ...colors10,
+      ...colors11,
+      ...colors12,
+    ];
+
+    name = opMapping[opType];
+    color = colors[opType];
   } else {
     name = 'UNKNOWN (' + opType + ')';
     color = '369694';

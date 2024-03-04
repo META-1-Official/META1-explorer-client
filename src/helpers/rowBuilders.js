@@ -71,18 +71,14 @@ export const accountHistoryRowsBuilder = async (rows) => {
   return results.filter(Boolean); // Filter out any falsy values
 };
 
-const buildOpTextPromises = async (rows) => {
-  const promises = rows.map(async (op) => {
-    const { operation_type, operation_history, account_history } = op;
-    return opText(
-      operation_type,
-      operation_history.op_object,
-      account_history.account,
-    );
-  });
-
-  return await Promise.all(promises);
-};
+const buildOpTextPromises = (rows) =>
+  rows.map((op) =>
+    opText(
+      op.operation_type,
+      op.operation_history.op_object,
+      op.account_history.account,
+    ),
+  );
 
 export const dashboardRowsBuilder = async (rows) => {
   return rows
