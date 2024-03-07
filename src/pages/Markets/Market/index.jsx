@@ -10,10 +10,7 @@ import Loader from '../../../components/Loader/Loader';
 
 // import helpers
 import images from '../../../helpers/images';
-import {
-  addTotalFieldToJsonArray,
-  parseGroupOrdersBook,
-} from '../../../helpers/utility';
+import { addTotalFieldToJsonArray, getGOB } from '../../../helpers/utility';
 
 // import api
 import {
@@ -180,7 +177,7 @@ const Market = React.memo(() => {
   const getGroupOrderRows = (type) => {
     const orders = type === 'sell' ? sellGroupedOrderBook : buyGroupedOrderBook;
     if (orders) {
-      return parseGroupOrdersBook(orders, precision?.quote, precision?.base)
+      return getGOB(orders, precision?.quote, precision?.base)
         .map((order) => {
           return {
             Min: [
