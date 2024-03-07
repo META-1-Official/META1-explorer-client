@@ -29,6 +29,40 @@ export const formatNumber = (x) => {
   }
 };
 
+export const getGOB = (data, quote_precision, base_precision) => {
+  return data.map((value) => {
+    const total_for_sale = value.total_for_sale;
+    const maxBaseAmount = parseInt(value.max_price.base.amount);
+    const maxQuoteAmount = parseInt(value.max_price.quote.amount);
+    const minBaseAmount = parseInt(value.min_price.base.amount);
+    const minQuoteAmount = parseInt(value.min_price.quote.amount);
+
+    const base_id = value.max_price.base.asset_id;
+    const quote_id = value.max_price.quote.asset_id;
+
+    const divide =
+      parseInt(base_id.split('.')[2]) > parseInt(quote_id.split('.')[2]);
+    const qp = Math.pow(10, parseInt(quote_precision));
+    const bp = Math.pow(10, parseInt(base_precision));
+
+    const maxBase = maxBaseAmount / bp;
+    const maxQuote = maxQuoteAmount / qp;
+    const minBase = minBaseAmount / bp;
+    const minQuote = minQuoteAmount / qp;
+
+    const max_price = divide ? 1 / (maxQuote / maxBase) : maxBase / maxQuote;
+    const min_price = divide ? 1 / (minQuote / minBase) : minBase / minQuote;
+
+    return {
+      max_price,
+      min_price,
+      total_for_sale: total_for_sale / bp,
+      base_precision,
+      quote_precision,
+    };
+  });
+};
+
 export const formatBalance = (number, presicion) => {
   const divideby = Math.pow(10, presicion);
   return Number(number / divideby);
@@ -164,7 +198,7 @@ export const operationType = (_opType) => {
 
   if (opType >= 0 && opType <= 58) {
     const colors1 = ['81CA80', '6BBCD7', 'E9C842', 'E96562', '008000']; // 0, 1, 2, 3, 4
-    const colors2 = ['CCCCCC', 'FF007F', 'FB8817', '552AFF', 'AA2AFF']; // 5, 6, 7, 8, 9
+    const colors2 = ['9932CC', 'FF007F', 'FB8817', '552AFF', 'AA2AFF']; // 5, 6, 7, 8, 9
     const colors3 = ['D400FF', '0000FF', 'AA7FFF', '2A7FFF', '7FAAFF']; // 10, 11, 12, 13, 14
     const colors4 = ['55FF7F', '55FF7F', 'F1CFBB', 'F1DFCC', 'FF2A55']; // 15, 16, 17, 18, 19
     const colors5 = ['FFAA7F', 'F1AA2A', 'FFAA55', 'FF7F55', 'FF552A']; // 20, 21, 22, 23, 24
@@ -293,55 +327,6 @@ export const addTotalFieldToJsonArray = (arry) => {
     total += Number(ele[keys[0]]);
     ele['total'] = total;
     return ele;
-  });
-};
-
-//
-export const parseGroupOrdersBook = (data, quote_precision, base_precision) => {
-  return data.map((value) => {
-    let total_for_sale = value.total_for_sale;
-    const max_base_amount = parseInt(value.max_price.base.amount);
-    const max_quote_amount = parseInt(value.max_price.quote.amount);
-    const min_base_amount = parseInt(value.min_price.base.amount);
-    const min_quote_amount = parseInt(value.min_price.quote.amount);
-
-    const base_id = value.max_price.base.asset_id;
-    const quote_id = value.max_price.quote.asset_id;
-
-    const base_array = base_id.split('.');
-    const quote_array = quote_id.split('.');
-    let divide = 0;
-
-    if (base_array[2] > quote_array[2]) {
-      divide = 1;
-    }
-    const qp = Math.pow(10, parseInt(quote_precision));
-    const bp = Math.pow(10, parseInt(base_precision));
-
-    let max_price;
-    let min_price;
-    let min;
-    let max;
-    if (divide) {
-      max = max_quote_amount / qp / (max_base_amount / bp);
-      max_price = 1 / max;
-      min = min_quote_amount / qp / (min_base_amount / bp);
-      min_price = 1 / min;
-    } else {
-      max_price =
-        parseFloat(max_base_amount / bp) / parseFloat(max_quote_amount / qp);
-      min_price =
-        parseFloat(min_base_amount / bp) / parseFloat(min_quote_amount / qp);
-    }
-    total_for_sale = Number(total_for_sale / bp);
-
-    return {
-      max_price: max_price,
-      min_price: min_price,
-      total_for_sale: total_for_sale,
-      base_precision: base_precision,
-      quote_precision: quote_precision,
-    };
   });
 };
 
